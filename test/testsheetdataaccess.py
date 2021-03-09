@@ -19,3 +19,15 @@ class TestSheetDataAccess(unittest.TestCase):
 
 		configMgr = ConfigManager(configPath)
 		self.sheetDataAccess = SheetDataAccess(configMgr)
+
+	def testLoadSBEarningSheet(self):
+		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
+
+		if os.name == 'posix':
+			sbAccountSheetFilePathName = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/' + sbAccountSheetFileName
+		else:
+			sbAccountSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + sbAccountSheetFileName
+
+		sbEarningsDf = self.sheetDataAccess.loadSBEarningSheet(sbAccountSheetFilePathName)
+		print(sbEarningsDf.info())
+		print(sbEarningsDf)
