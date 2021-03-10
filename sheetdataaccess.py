@@ -26,7 +26,8 @@ class SheetDataAccess:
 		self.configMgr = configMgr
 		
 	def loadSBEarningSheet(self, sbAccountSheetFilePathName):
-		xls = pd.ExcelFile(sbAccountSheetFilePathName)
+		xls = pd.ExcelFile(sbAccountSheetFilePathName,
+						   engine='openpyxl') # this parm is required on Android !
 		
 		sbEarningsDf = xls.parse(SB_ACCOUNT_SHEET_NAME,
 		                         skiprows=SB_ACCOUNT_SHEET_SKIP_ROWS,

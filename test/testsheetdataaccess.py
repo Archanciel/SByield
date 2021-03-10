@@ -30,5 +30,7 @@ class TestSheetDataAccess(unittest.TestCase):
 
 		sbEarningsDf = self.sheetDataAccess.loadSBEarningSheet(sbAccountSheetFilePathName)
 		self.assertEqual((3, 6), sbEarningsDf.shape)
-		# print(sbEarningsDf.info())
-		# print(sbEarningsDf)
+		#print(sbEarningsDf.info())
+		#print(sbEarningsDf)
+if __name__ == '__main__':
+    unittest.main()
