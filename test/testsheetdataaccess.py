@@ -29,5 +29,6 @@ class TestSheetDataAccess(unittest.TestCase):
 			sbAccountSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + sbAccountSheetFileName
 
 		sbEarningsDf = self.sheetDataAccess.loadSBEarningSheet(sbAccountSheetFilePathName)
-		print(sbEarningsDf.info())
-		print(sbEarningsDf)
+		self.assertEqual((3, 6), sbEarningsDf.shape)
+		# print(sbEarningsDf.info())
+		# print(sbEarningsDf)
