@@ -71,10 +71,24 @@ class TestSheetDataAccess(unittest.TestCase):
 		print(mergedEarningDeposit.info())
 		print(self.sheetDataAccess.getDataframeStrWithFormattedColumns(mergedEarningDeposit, {MERGED_SHEET_HEADER_YIELD_RATE: '.8f'}))
 
+	def testGetDailyYieldRatesDataframe(self):
+		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
+		depositSheetFileName = 'testDepositUsdc.csv'
+
+		if os.name == 'posix':
+			sbAccountSheetFilePathName = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/' + sbAccountSheetFileName
+			depositSheetFilePathName = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/' + depositSheetFileName
+		else:
+			sbAccountSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + sbAccountSheetFileName
+			depositSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + depositSheetFileName
+
+		yieldRatesDataframe = self.sheetDataAccess.getDailyYieldRatesDataframe(sbAccountSheetFilePathName,depositSheetFilePathName)
+		self.assertEqual((9, 1), yieldRatesDataframe.shape)
+
+		print(self.sheetDataAccess.getDataframeStrWithFormattedColumns(yieldRatesDataframe, {MERGED_SHEET_HEADER_YIELD_RATE: '.8f'}))
+
 if __name__ == '__main__':
-    unittest.main()
-	#tst = TestSheetDataAccess()
-	#tst.setUp()
-	#tst.testLoadSBEarningSheet()
-	#tst.setUp()
-	#tst.testMergeEarningAndDeposit()
+	#unittest.main()
+	tst = TestSheetDataAccess()
+	tst.setUp()
+	tst.testGetDailyYieldRatesDataframe()
