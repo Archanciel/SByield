@@ -30,6 +30,8 @@ class TestSheetDataAccess(unittest.TestCase):
 
 		sbEarningsDf = self.sheetDataAccess.loadSBEarningSheet(sbAccountSheetFilePathName)
 		self.assertEqual((9, 5), sbEarningsDf.shape)
+		
+		print('\nsbEarningsDf')
 		print(sbEarningsDf.info())
 		print(sbEarningsDf)
 
@@ -43,6 +45,8 @@ class TestSheetDataAccess(unittest.TestCase):
 
 		depositDf = self.sheetDataAccess.loadDepositSheet(depositSheetFilePathName)
 		self.assertEqual((3, 1), depositDf.shape)
+		
+		print('\ndepositDf')
 		print(depositDf.info())
 		print(depositDf)
 		
@@ -63,13 +67,14 @@ class TestSheetDataAccess(unittest.TestCase):
 		mergedEarningDeposit = self.sheetDataAccess.mergeEarningAndDeposit(sbEarningsDf, depositDf)
 		self.assertEqual((12, 5), mergedEarningDeposit.shape)
 
+		print('\nmergedEarningDeposit')
 		print(mergedEarningDeposit.info())
 		print(mergedEarningDeposit)
 
 if __name__ == '__main__':
-#    unittest.main()
-	tst = TestSheetDataAccess()
-	tst.setUp()
-#	tst.testLoadSBEarningSheet()
-	tst.setUp()
-	tst.testMergeEarningAndDeposit()
+    unittest.main()
+	#tst = TestSheetDataAccess()
+	#tst.setUp()
+	#tst.testLoadSBEarningSheet()
+	#tst.setUp()
+	#tst.testMergeEarningAndDeposit()
