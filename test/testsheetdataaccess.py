@@ -8,7 +8,7 @@ sys.path.insert(0,currentdir) # this instruction is necessary for successful imp
 							  # the test is executed standalone
 
 from configmanager import ConfigManager
-from sheetdataaccess import SheetDataAccess
+from sheetdataaccess import *
 
 class TestSheetDataAccess(unittest.TestCase):
 	def setUp(self):
@@ -44,7 +44,7 @@ class TestSheetDataAccess(unittest.TestCase):
 			depositSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + depositSheetFileName
 
 		depositDf = self.sheetDataAccess.loadDepositSheet(depositSheetFilePathName)
-		self.assertEqual((3, 1), depositDf.shape)
+		self.assertEqual((5, 1), depositDf.shape)
 		
 		print('\ndepositDf')
 		print(depositDf.info())
@@ -65,11 +65,11 @@ class TestSheetDataAccess(unittest.TestCase):
 		depositDf = self.sheetDataAccess.loadDepositSheet(depositSheetFilePathName)
 		
 		mergedEarningDeposit = self.sheetDataAccess.mergeEarningAndDeposit(sbEarningsDf, depositDf)
-		self.assertEqual((12, 5), mergedEarningDeposit.shape)
+		self.assertEqual((14, 5), mergedEarningDeposit.shape)
 
 		print('\nmergedEarningDeposit')
 		print(mergedEarningDeposit.info())
-		print(mergedEarningDeposit)
+		print(self.sheetDataAccess.getDataframeStrWithFormattedColumns(mergedEarningDeposit, {MERGED_SHEET_HEADER_YIELD_RATE: '.8f'}))
 
 if __name__ == '__main__':
     unittest.main()

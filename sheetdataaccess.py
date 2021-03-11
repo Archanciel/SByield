@@ -39,8 +39,8 @@ MERGED_SHEET_HEADER_EARNING_CAPITAL = SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL
 MERGED_SHEET_HEADER_DEPOSIT_WITHDRAW = DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW
 MERGED_SHEET_HEADER_EARNING = SB_ACCOUNT_SHEET_HEADER_EARNING
 MERGED_SHEET_HEADER_DATE_NEW_NAME = 'DATE'
-MERGED_SHEET_HEADER_EARNING_NEW_NAME = 'EARNING'
-MERGED_SHEET_HEADER_YIELD_RATE = 'YIELD RATE'
+MERGED_SHEET_HEADER_EARNING_NEW_NAME = 'EARNINGS'
+MERGED_SHEET_HEADER_YIELD_RATE = 'DAILY YIELD RATE'
 
 # columns which can be removed from the merged data frame
 MERGED_SHEET_UNUSED_COLUMNS_LIST = [SB_ACCOUNT_SHEET_HEADER_TYPE,
@@ -108,7 +108,7 @@ class SheetDataAccess:
 	def mergeEarningAndDeposit(self, earningDf, depositDf):
 		"""
 		Merges Deposit/Withdrawal dataframe into the Swissborg account statement dataframe.
-		Then computes the earning capital values aswell as the daily yield rates.
+		Then computes the earning capital values as well as the daily yield rates.
 		
 		:param earningDf:
 		:param depositDf:
@@ -153,3 +153,24 @@ class SheetDataAccess:
 		mergedDf = mergedDf.rename(columns={MERGED_SHEET_HEADER_DATE: MERGED_SHEET_HEADER_DATE_NEW_NAME, MERGED_SHEET_HEADER_EARNING: MERGED_SHEET_HEADER_EARNING_NEW_NAME})
 		
 		return mergedDf
+	
+	def getDataframeStrWithFormattedColumns(self, dataFrame, colFormatDic):
+		"""
+		Returns a string representation of the passed dataFrame enabling to define a
+		specific format for any column since Pandas by default format all float
+		columns with a same format.
+		
+		This method is useful if we want to set a specific precision to float64
+		columns.
+		
+		:param dataFrame:
+		:param colFormatDic: Example: {MERGED_SHEET_HEADER_YIELD_RATE: '.8f'}
+		:return:
+		"""
+		formatDic = {}
+		
+		for colHeader, formatStr in colFormatDic.items():
+			pandasFormatter = '{:,' + formatStr + '}'
+			formatDic[colHeader] = pandasFormatter.format
+			
+		return dataFrame.to_string(formatters=formatDic)
