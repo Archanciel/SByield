@@ -208,7 +208,9 @@ class SBYieldRateComputer:
 		mergedEarningDeposit = self._mergeEarningAndDeposit(sbEarningsDf, depositDf)
 
 		# extract only MERGED_SHEET_HEADER_DATE_NEW_NAME and MERGED_SHEET_HEADER_YIELD_RATE columns
-		yieldRatesDataframe = mergedEarningDeposit[mergedEarningDeposit.columns[[0, 4]]]
+		colDateIdx = mergedEarningDeposit.columns.get_loc(MERGED_SHEET_HEADER_DATE_NEW_NAME)
+		colYieldRateIdx = mergedEarningDeposit.columns.get_loc(MERGED_SHEET_HEADER_YIELD_RATE)
+		yieldRatesDataframe = mergedEarningDeposit[mergedEarningDeposit.columns[[colDateIdx, colYieldRateIdx]]]
 		
 		# keep only non 0 MERGED_SHEET_HEADER_YIELD_RATE rows
 		isYieldRateNonZero = yieldRatesDataframe[MERGED_SHEET_HEADER_YIELD_RATE] != 0
