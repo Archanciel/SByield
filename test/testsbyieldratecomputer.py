@@ -20,7 +20,7 @@ class TestSByieldRateComputer(unittest.TestCase):
 		configMgr = ConfigManager(configPath)
 		self.sheetDataAccess = SByieldRateComputer(configMgr)
 
-	def testLoadSBEarningSheetUSDC(self):
+	def test_loadSBEarningSheetUSDC(self):
 		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
@@ -29,14 +29,14 @@ class TestSByieldRateComputer(unittest.TestCase):
 		else:
 			sbAccountSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + sbAccountSheetFileName
 
-		sbEarningsDf = self.sheetDataAccess.loadSBEarningSheet(sbAccountSheetFilePathName, yieldCrypto)
+		sbEarningsDf = self.sheetDataAccess._loadSBEarningSheet(sbAccountSheetFilePathName, yieldCrypto)
 		self.assertEqual((9, 5), sbEarningsDf.shape)
 		
 		print('\nsbEarningsDf')
 		print(sbEarningsDf.info())
 		print(sbEarningsDf)
 	
-	def testLoadSBEarningSheetCHSB(self):
+	def test_loadSBEarningSheetCHSB(self):
 		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
 		
@@ -45,14 +45,14 @@ class TestSByieldRateComputer(unittest.TestCase):
 		else:
 			sbAccountSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + sbAccountSheetFileName
 		
-		sbEarningsDf = self.sheetDataAccess.loadSBEarningSheet(sbAccountSheetFilePathName, yieldCrypto)
+		sbEarningsDf = self.sheetDataAccess._loadSBEarningSheet(sbAccountSheetFilePathName, yieldCrypto)
 		self.assertEqual((1, 5), sbEarningsDf.shape)
 		
 		print('\nsbEarningsDf')
 		print(sbEarningsDf.info())
 		print(sbEarningsDf)
 	
-	def testLoadDepositSheet(self):
+	def test_loadDepositSheet(self):
 		depositSheetFileName = 'testDepositUsdc.csv'
 
 		if os.name == 'posix':
@@ -60,14 +60,14 @@ class TestSByieldRateComputer(unittest.TestCase):
 		else:
 			depositSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + depositSheetFileName
 
-		depositDf = self.sheetDataAccess.loadDepositSheet(depositSheetFilePathName)
-		self.assertEqual((5, 1), depositDf.shape)
+		depositDf = self.sheetDataAccess._loadDepositSheet(depositSheetFilePathName)
+		self.assertEqual((5, 2), depositDf.shape)
 		
 		print('\ndepositDf')
 		print(depositDf.info())
 		print(depositDf)
 		
-	def testMergeEarningAndDeposit(self):
+	def test_mergeEarningAndDeposit(self):
 		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
 		depositSheetFileName = 'testDepositUsdc.csv'
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
@@ -79,17 +79,17 @@ class TestSByieldRateComputer(unittest.TestCase):
 			sbAccountSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + sbAccountSheetFileName
 			depositSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + depositSheetFileName
 
-		sbEarningsDf = self.sheetDataAccess.loadSBEarningSheet(sbAccountSheetFilePathName, yieldCrypto)
-		depositDf = self.sheetDataAccess.loadDepositSheet(depositSheetFilePathName)
+		sbEarningsDf = self.sheetDataAccess._loadSBEarningSheet(sbAccountSheetFilePathName, yieldCrypto)
+		depositDf = self.sheetDataAccess._loadDepositSheet(depositSheetFilePathName)
 		
-		mergedEarningDeposit = self.sheetDataAccess.mergeEarningAndDeposit(sbEarningsDf, depositDf)
+		mergedEarningDeposit = self.sheetDataAccess._mergeEarningAndDeposit(sbEarningsDf, depositDf)
 		self.assertEqual((14, 5), mergedEarningDeposit.shape)
 
 		print('\nmergedEarningDeposit')
 		print(mergedEarningDeposit.info())
 		print(self.sheetDataAccess.getDataframeStrWithFormattedColumns(mergedEarningDeposit, {MERGED_SHEET_HEADER_YIELD_RATE: '.8f'}))
 
-	def testGetDailyYieldRatesDataframe(self):
+	def testGetDepositsAndDailyYieldRatesDataframes(self):
 		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
 		depositSheetFileName = 'testDepositUsdc.csv'
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
@@ -101,15 +101,17 @@ class TestSByieldRateComputer(unittest.TestCase):
 			sbAccountSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + sbAccountSheetFileName
 			depositSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + depositSheetFileName
 
-		yieldRatesDataframe = self.sheetDataAccess.getDailyYieldRatesDataframe(sbAccountSheetFilePathName,
-		                                                                       depositSheetFilePathName,
-		                                                                       yieldCrypto)
+		depositDataFrame, yieldRatesDataframe = self.sheetDataAccess.getDepositsAndDailyYieldRatesDataframes(sbAccountSheetFilePathName,
+		                                                                                   depositSheetFilePathName,
+		                                                                                   yieldCrypto)
+		self.assertEqual((5, 2), depositDataFrame.shape)
 		self.assertEqual((9, 1), yieldRatesDataframe.shape)
 
+		print(self.sheetDataAccess.getDataframeStrWithFormattedColumns(depositDataFrame, {DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f'}))
 		print(self.sheetDataAccess.getDataframeStrWithFormattedColumns(yieldRatesDataframe, {MERGED_SHEET_HEADER_YIELD_RATE: '.8f'}))
 
 if __name__ == '__main__':
 	#unittest.main()
 	tst = TestSByieldRateComputer()
 	tst.setUp()
-	tst.testGetDailyYieldRatesDataframe()
+	tst.testGetDepositsAndDailyYieldRatesDataframes()

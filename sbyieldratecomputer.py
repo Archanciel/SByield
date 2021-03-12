@@ -31,6 +31,7 @@ SB_ACCOUNT_SHEET_CURRENCY_CHSB = 'CHSB'     # used to filter rows. currently USD
 
 # Deposit/Withdrawal sheet parameters
 DEPOSIT_SHEET_HEADER_DATE = SB_ACCOUNT_SHEET_HEADER_DATE
+DEPOSIT_SHEET_HEADER_OWNER = 'OWNER'
 DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW = SB_ACCOUNT_SHEET_HEADER_DEPOSIT_WITHDRAW
 
 # Swissborg account statement merged with deposit/withdrawal sheet parameters
@@ -50,10 +51,11 @@ MERGED_SHEET_UNUSED_COLUMNS_LIST = [SB_ACCOUNT_SHEET_HEADER_TYPE,
 class SByieldRateComputer:
 	"""
 	This class loads the Swissborg account statement xlsl sheet and the Deposit/Withdrawal
-	csv files.
+	csv files. Its purpose is to compute and return a daily yield rate data frame indexed
+	by the yield rate date.
 	
-	It merges the two files, creating a Pandas data frame containing computed data used
-	later to distribute the earnings according to the deposits/withdrawals.
+	The daily yield rates will be used to distribute the Swissborg daily earnings according
+	to the deposits/withdrawals amounts invested by the different capital owners.
 	"""
 	def __init__(self, configMgr):
 		"""
@@ -63,11 +65,12 @@ class SByieldRateComputer:
 		"""
 		self.configMgr = configMgr
 		
-	def loadSBEarningSheet(self, sbAccountSheetFilePathName, yieldCrypto):
+	def _loadSBEarningSheet(self, sbAccountSheetFilePathName, yieldCrypto):
 		"""
 		Creates a Pandas data frame from the Swissborg account statement sheet, removing
-		unused columns. It then selects only the earning type rows. Finally, it adds
-		two new columns for later usage.
+		unused columns. It then selects only the 'Earnings' type rows for the passed
+		yieldCrypto (currently USDC or CHSB). Finally, it adds two new columns for later
+		usage.
 		
 		:param sbAccountSheetFilePathName:
 		:param yieldCrypto: used to filter SB sheet rows. currently USDC or CHSB
@@ -95,7 +98,7 @@ class SByieldRateComputer:
 		
 		return sbEarningsDf
 	
-	def loadDepositSheet(self, sbDepositSheetFilePathName):
+	def _loadDepositSheet(self, sbDepositSheetFilePathName):
 		"""
 		Creates a Pandas data frame from the Deposit/Withdrawal sheet.
 		
@@ -107,7 +110,7 @@ class SByieldRateComputer:
 		
 		return depositsDf
 
-	def mergeEarningAndDeposit(self, earningDf, depositDf):
+	def _mergeEarningAndDeposit(self, earningDf, depositDf):
 		"""
 		Merges Deposit/Withdrawal dataframe into the Swissborg account statement dataframe.
 		Then computes the earning capital values as well as the daily yield rates.
@@ -116,6 +119,9 @@ class SByieldRateComputer:
 		:param depositDf:
 		:return:
 		"""
+		# removing unused owner column
+		depositDf = depositDf.drop(columns=DEPOSIT_SHEET_HEADER_OWNER)
+
 		# appending depositDf to earningDf, then sorting and converting NaN to zero
 		mergedDf = earningDf.append(depositDf).sort_index().fillna(0)
 
@@ -177,14 +183,14 @@ class SByieldRateComputer:
 			
 		return dataFrame.to_string(formatters=formatDic)
 	
-	def getDailyYieldRatesDataframe(self,
-	                                sbAccountSheetFilePathName,
-	                                depositSheetFilePathName,
-	                                yieldCrypto):
-		sbEarningsDf = self.loadSBEarningSheet(sbAccountSheetFilePathName, yieldCrypto)
-		depositDf = self.loadDepositSheet(depositSheetFilePathName)
+	def getDepositsAndDailyYieldRatesDataframes(self,
+	                                            sbAccountSheetFilePathName,
+	                                            depositSheetFilePathName,
+	                                            yieldCrypto):
+		sbEarningsDf = self._loadSBEarningSheet(sbAccountSheetFilePathName, yieldCrypto)
+		depositDf = self._loadDepositSheet(depositSheetFilePathName)
 		
-		mergedEarningDeposit = self.mergeEarningAndDeposit(sbEarningsDf, depositDf)
+		mergedEarningDeposit = self._mergeEarningAndDeposit(sbEarningsDf, depositDf)
 
 		# extract only MERGED_SHEET_HEADER_DATE_NEW_NAME and MERGED_SHEET_HEADER_YIELD_RATE columns
 		yieldRatesDataframe = mergedEarningDeposit[mergedEarningDeposit.columns[[0, 4]]]
@@ -199,4 +205,4 @@ class SByieldRateComputer:
 		# set MERGED_SHEET_HEADER_DATE_NEW_NAME column as index
 		yieldRatesDataframe = yieldRatesDataframe.set_index(MERGED_SHEET_HEADER_DATE_NEW_NAME)
 
-		return yieldRatesDataframe
+		return depositDf, yieldRatesDataframe
