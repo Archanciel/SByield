@@ -20,21 +20,38 @@ class TestSByieldRateComputer(unittest.TestCase):
 		configMgr = ConfigManager(configPath)
 		self.sheetDataAccess = SByieldRateComputer(configMgr)
 
-	def testLoadSBEarningSheet(self):
+	def testLoadSBEarningSheetUSDC(self):
 		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
+		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
 		if os.name == 'posix':
 			sbAccountSheetFilePathName = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/' + sbAccountSheetFileName
 		else:
 			sbAccountSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + sbAccountSheetFileName
 
-		sbEarningsDf = self.sheetDataAccess.loadSBEarningSheet(sbAccountSheetFilePathName)
+		sbEarningsDf = self.sheetDataAccess.loadSBEarningSheet(sbAccountSheetFilePathName, yieldCrypto)
 		self.assertEqual((9, 5), sbEarningsDf.shape)
 		
 		print('\nsbEarningsDf')
 		print(sbEarningsDf.info())
 		print(sbEarningsDf)
-
+	
+	def testLoadSBEarningSheetCHSB(self):
+		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
+		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
+		
+		if os.name == 'posix':
+			sbAccountSheetFilePathName = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/' + sbAccountSheetFileName
+		else:
+			sbAccountSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + sbAccountSheetFileName
+		
+		sbEarningsDf = self.sheetDataAccess.loadSBEarningSheet(sbAccountSheetFilePathName, yieldCrypto)
+		self.assertEqual((1, 5), sbEarningsDf.shape)
+		
+		print('\nsbEarningsDf')
+		print(sbEarningsDf.info())
+		print(sbEarningsDf)
+	
 	def testLoadDepositSheet(self):
 		depositSheetFileName = 'testDepositUsdc.csv'
 
@@ -53,6 +70,7 @@ class TestSByieldRateComputer(unittest.TestCase):
 	def testMergeEarningAndDeposit(self):
 		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
 		depositSheetFileName = 'testDepositUsdc.csv'
+		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
 		if os.name == 'posix':
 			sbAccountSheetFilePathName = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/' + sbAccountSheetFileName
@@ -61,7 +79,7 @@ class TestSByieldRateComputer(unittest.TestCase):
 			sbAccountSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + sbAccountSheetFileName
 			depositSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + depositSheetFileName
 
-		sbEarningsDf = self.sheetDataAccess.loadSBEarningSheet(sbAccountSheetFilePathName)
+		sbEarningsDf = self.sheetDataAccess.loadSBEarningSheet(sbAccountSheetFilePathName, yieldCrypto)
 		depositDf = self.sheetDataAccess.loadDepositSheet(depositSheetFilePathName)
 		
 		mergedEarningDeposit = self.sheetDataAccess.mergeEarningAndDeposit(sbEarningsDf, depositDf)
@@ -74,6 +92,7 @@ class TestSByieldRateComputer(unittest.TestCase):
 	def testGetDailyYieldRatesDataframe(self):
 		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
 		depositSheetFileName = 'testDepositUsdc.csv'
+		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
 		if os.name == 'posix':
 			sbAccountSheetFilePathName = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/' + sbAccountSheetFileName
@@ -82,7 +101,9 @@ class TestSByieldRateComputer(unittest.TestCase):
 			sbAccountSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + sbAccountSheetFileName
 			depositSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + depositSheetFileName
 
-		yieldRatesDataframe = self.sheetDataAccess.getDailyYieldRatesDataframe(sbAccountSheetFilePathName,depositSheetFilePathName)
+		yieldRatesDataframe = self.sheetDataAccess.getDailyYieldRatesDataframe(sbAccountSheetFilePathName,
+		                                                                       depositSheetFilePathName,
+		                                                                       yieldCrypto)
 		self.assertEqual((9, 1), yieldRatesDataframe.shape)
 
 		print(self.sheetDataAccess.getDataframeStrWithFormattedColumns(yieldRatesDataframe, {MERGED_SHEET_HEADER_YIELD_RATE: '.8f'}))

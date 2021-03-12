@@ -26,7 +26,8 @@ SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL = 'EARNING CAP'
 SB_ACCOUNT_SHEET_HEADER_DEPOSIT_WITHDRAW = 'DEP/WITHDR'
 
 SB_ACCOUNT_SHEET_TYPE_EARNING = 'Earnings'  # used to filter rows
-SB_ACCOUNT_SHEET_CURRENCY = 'USDC'          # used to filter rows. USDC or CHSB
+SB_ACCOUNT_SHEET_CURRENCY_USDC = 'USDC'     # used to filter rows. currently USDC or CHSB
+SB_ACCOUNT_SHEET_CURRENCY_CHSB = 'CHSB'     # used to filter rows. currently USDC or CHSB
 
 # Deposit/Withdrawal sheet parameters
 DEPOSIT_SHEET_HEADER_DATE = SB_ACCOUNT_SHEET_HEADER_DATE
@@ -62,13 +63,14 @@ class SByieldRateComputer:
 		"""
 		self.configMgr = configMgr
 		
-	def loadSBEarningSheet(self, sbAccountSheetFilePathName):
+	def loadSBEarningSheet(self, sbAccountSheetFilePathName, yieldCrypto):
 		"""
 		Creates a Pandas data frame from the Swissborg account statement sheet, removing
 		unused columns. It then selects only the earning type rows. Finally, it adds
 		two new columns for later usage.
 		
 		:param sbAccountSheetFilePathName:
+		:param yieldCrypto: used to filter SB sheet rows. currently USDC or CHSB
 		:return:
 		"""
 		xls = pd.ExcelFile(sbAccountSheetFilePathName,
@@ -84,7 +86,7 @@ class SByieldRateComputer:
 		
 		# filter useful rows
 		isTypeEarning = sbEarningsDf[SB_ACCOUNT_SHEET_HEADER_TYPE] == SB_ACCOUNT_SHEET_TYPE_EARNING
-		isTargetCurrency = sbEarningsDf[SB_ACCOUNT_SHEET_HEADER_CURRENCY] == SB_ACCOUNT_SHEET_CURRENCY
+		isTargetCurrency = sbEarningsDf[SB_ACCOUNT_SHEET_HEADER_CURRENCY] == yieldCrypto
 		sbEarningsDf = sbEarningsDf[isTypeEarning & isTargetCurrency]
 		
 		# inserting two empty columns
@@ -175,8 +177,11 @@ class SByieldRateComputer:
 			
 		return dataFrame.to_string(formatters=formatDic)
 	
-	def getDailyYieldRatesDataframe(self, sbAccountSheetFilePathName, depositSheetFilePathName):
-		sbEarningsDf = self.loadSBEarningSheet(sbAccountSheetFilePathName)
+	def getDailyYieldRatesDataframe(self,
+	                                sbAccountSheetFilePathName,
+	                                depositSheetFilePathName,
+	                                yieldCrypto):
+		sbEarningsDf = self.loadSBEarningSheet(sbAccountSheetFilePathName, yieldCrypto)
 		depositDf = self.loadDepositSheet(depositSheetFilePathName)
 		
 		mergedEarningDeposit = self.mergeEarningAndDeposit(sbEarningsDf, depositDf)
