@@ -14,12 +14,12 @@ SB_ACCOUNT_SHEET_HEADER_CURRENCY = 'Currency'   # USDC or CHSB for example
 
 # Swissborg account statement sheet columns to remove
 SB_ACCOUNT_SHEET_UNUSED_COLUMNS_LIST = ['Time in UTC',
-                                        'Fee',
-                                        'Fee ({})'.format(SB_ACCOUNT_SHEET_FIAT),
-                                        'Gross amount ({})'.format(SB_ACCOUNT_SHEET_FIAT),
-                                        'Gross amount',
-                                        'Net amount ({})'.format(SB_ACCOUNT_SHEET_FIAT),
-                                        'Note']
+										'Fee',
+										'Fee ({})'.format(SB_ACCOUNT_SHEET_FIAT),
+										'Gross amount ({})'.format(SB_ACCOUNT_SHEET_FIAT),
+										'Gross amount',
+										'Net amount ({})'.format(SB_ACCOUNT_SHEET_FIAT),
+										'Note']
 
 # two new columns to add to the Swissborg account statement sheet
 SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL = 'EARNING CAP'
@@ -46,7 +46,7 @@ MERGED_SHEET_HEADER_YIELD_RATE = 'DAILY YIELD RATE'
 
 # columns which can be removed from the merged data frame
 MERGED_SHEET_UNUSED_COLUMNS_LIST = [SB_ACCOUNT_SHEET_HEADER_TYPE,
-                                    SB_ACCOUNT_SHEET_HEADER_CURRENCY]
+									SB_ACCOUNT_SHEET_HEADER_CURRENCY]
 
 class SByieldRateComputer:
 	"""
@@ -57,15 +57,20 @@ class SByieldRateComputer:
 	The daily yield rates will be used to distribute the Swissborg daily earnings according
 	to the deposits/withdrawals amounts invested by the different capital owners.
 	"""
-	def __init__(self, configMgr):
+	def __init__(self,
+				 configMgr,
+				 sbAccountSheetFilePathName,
+				 depositSheetFilePathName):
 		"""
 		Currently, the configMgr is not used. Constants are used in place.
 		
 		:param configMgr:
 		"""
 		self.configMgr = configMgr
-		
-	def _loadSBEarningSheet(self, sbAccountSheetFilePathName, yieldCrypto):
+		self.sbAccountSheetFilePathName = sbAccountSheetFilePathName
+		self.depositSheetFilePathName = depositSheetFilePathName
+	
+	def _loadSBEarningSheet(self, yieldCrypto):
 		"""
 		Creates a Pandas data frame from the Swissborg account statement sheet, removing
 		unused columns. It then selects only the 'Earnings' type rows for the passed
@@ -76,12 +81,12 @@ class SByieldRateComputer:
 		:param yieldCrypto: used to filter SB sheet rows. currently USDC or CHSB
 		:return:
 		"""
-		xls = pd.ExcelFile(sbAccountSheetFilePathName,
+		xls = pd.ExcelFile(self.sbAccountSheetFilePathName,
 						   engine='openpyxl') # this parm is required on Android !
 		
 		sbEarningsDf = xls.parse(SB_ACCOUNT_SHEET_NAME,
-		                         skiprows=SB_ACCOUNT_SHEET_SKIP_ROWS,
-		                         parse_dates=[SB_ACCOUNT_SHEET_HEADER_DATE])
+								 skiprows=SB_ACCOUNT_SHEET_SKIP_ROWS,
+								 parse_dates=[SB_ACCOUNT_SHEET_HEADER_DATE])
 		sbEarningsDf = sbEarningsDf.set_index([SB_ACCOUNT_SHEET_HEADER_DATE])
 
 		# drop unused columns
@@ -98,14 +103,14 @@ class SByieldRateComputer:
 		
 		return sbEarningsDf
 	
-	def _loadDepositSheet(self, sbDepositSheetFilePathName):
+	def _loadDepositSheet(self):
 		"""
 		Creates a Pandas data frame from the Deposit/Withdrawal sheet.
 		
 		:param sbDepositSheetFilePathName:
 		:return:
 		"""
-		depositsDf = pd.read_csv(sbDepositSheetFilePathName, parse_dates=[DEPOSIT_SHEET_HEADER_DATE], dtype={DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: np.float64})
+		depositsDf = pd.read_csv(self.depositSheetFilePathName, parse_dates=[DEPOSIT_SHEET_HEADER_DATE], dtype={DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: np.float64})
 		depositsDf = depositsDf.set_index([DEPOSIT_SHEET_HEADER_DATE])
 		
 		return depositsDf
@@ -148,15 +153,15 @@ class SByieldRateComputer:
 		# computing the earning capital value as well as the daily yield rate
 		for i in range(2, len(mergedDf) + 1):
 			mergedDf.loc[i, MERGED_SHEET_HEADER_EARNING_CAPITAL] = mergedDf.loc[i - 1, MERGED_SHEET_HEADER_EARNING_CAPITAL] + \
-			                                                       mergedDf.loc[i - 1, MERGED_SHEET_HEADER_DEPOSIT_WITHDRAW] + \
-			                                                       mergedDf.loc[i - 1, MERGED_SHEET_HEADER_EARNING]
+																   mergedDf.loc[i - 1, MERGED_SHEET_HEADER_DEPOSIT_WITHDRAW] + \
+																   mergedDf.loc[i - 1, MERGED_SHEET_HEADER_EARNING]
 			earningCapital = mergedDf.loc[i, MERGED_SHEET_HEADER_EARNING_CAPITAL]
 			earning = mergedDf.loc[i, MERGED_SHEET_HEADER_EARNING]
 			
 			if earningCapital > 0 and earning > 0:
 				mergedDf.loc[i, MERGED_SHEET_HEADER_YIELD_RATE] = 1 + \
-				                                                  earning / \
-				                                                  earningCapital
+																  earning / \
+																  earningCapital
 				
 		mergedDf = mergedDf.rename(columns={MERGED_SHEET_HEADER_DATE: MERGED_SHEET_HEADER_DATE_NEW_NAME, MERGED_SHEET_HEADER_EARNING: MERGED_SHEET_HEADER_EARNING_NEW_NAME})
 		
@@ -184,11 +189,21 @@ class SByieldRateComputer:
 		return dataFrame.to_string(formatters=formatDic)
 	
 	def getDepositsAndDailyYieldRatesDataframes(self,
-	                                            sbAccountSheetFilePathName,
-	                                            depositSheetFilePathName,
-	                                            yieldCrypto):
-		sbEarningsDf = self._loadSBEarningSheet(sbAccountSheetFilePathName, yieldCrypto)
-		depositDf = self._loadDepositSheet(depositSheetFilePathName)
+												yieldCrypto):
+		"""
+		Loads the Swissborg account statement sheet and  the Deposit/Withdrawal sheet
+		in order to compute the daily yield rates which will be used compute the daily
+		earnings to be distributed in proportion of the deposits/withdrawals amounts
+		invested by the different deposit owners.
+		
+		:param sbAccountSheetFilePathName:
+		:param depositSheetFilePathName:
+		:param yieldCrypto:
+		
+		:return: loaded deposit data frame and computed yield rates data frame
+		"""
+		sbEarningsDf = self._loadSBEarningSheet(yieldCrypto)
+		depositDf = self._loadDepositSheet()
 		
 		mergedEarningDeposit = self._mergeEarningAndDeposit(sbEarningsDf, depositDf)
 

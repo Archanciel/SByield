@@ -12,24 +12,27 @@ from sbyieldratecomputer import *
 
 class TestSByieldRateComputer(unittest.TestCase):
 	def setUp(self):
+		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
+		depositSheetFileName = 'testDepositUsdc.csv'
+
 		if os.name == 'posix':
 			configPath = '/sdcard/sbyield.ini'
+			sbAccountSheetFilePathName = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/' + sbAccountSheetFileName
+			depositSheetFilePathName = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/' + depositSheetFileName
 		else:
 			configPath = 'c:\\temp\\sbyield.ini'
+			sbAccountSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + sbAccountSheetFileName
+			depositSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + depositSheetFileName
 
 		configMgr = ConfigManager(configPath)
-		self.sheetDataAccess = SByieldRateComputer(configMgr)
+		self.sheetDataAccess = SByieldRateComputer(configMgr,
+												   sbAccountSheetFilePathName,
+												   depositSheetFilePathName)
 
 	def test_loadSBEarningSheetUSDC(self):
-		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
-		if os.name == 'posix':
-			sbAccountSheetFilePathName = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/' + sbAccountSheetFileName
-		else:
-			sbAccountSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + sbAccountSheetFileName
-
-		sbEarningsDf = self.sheetDataAccess._loadSBEarningSheet(sbAccountSheetFilePathName, yieldCrypto)
+		sbEarningsDf = self.sheetDataAccess._loadSBEarningSheet(yieldCrypto)
 		self.assertEqual((9, 5), sbEarningsDf.shape)
 		
 		print('\nsbEarningsDf')
@@ -37,15 +40,9 @@ class TestSByieldRateComputer(unittest.TestCase):
 		print(sbEarningsDf)
 	
 	def test_loadSBEarningSheetCHSB(self):
-		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
 		
-		if os.name == 'posix':
-			sbAccountSheetFilePathName = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/' + sbAccountSheetFileName
-		else:
-			sbAccountSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + sbAccountSheetFileName
-		
-		sbEarningsDf = self.sheetDataAccess._loadSBEarningSheet(sbAccountSheetFilePathName, yieldCrypto)
+		sbEarningsDf = self.sheetDataAccess._loadSBEarningSheet(yieldCrypto)
 		self.assertEqual((1, 5), sbEarningsDf.shape)
 		
 		print('\nsbEarningsDf')
@@ -53,14 +50,7 @@ class TestSByieldRateComputer(unittest.TestCase):
 		print(sbEarningsDf)
 	
 	def test_loadDepositSheet(self):
-		depositSheetFileName = 'testDepositUsdc.csv'
-
-		if os.name == 'posix':
-			depositSheetFilePathName = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/' + depositSheetFileName
-		else:
-			depositSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + depositSheetFileName
-
-		depositDf = self.sheetDataAccess._loadDepositSheet(depositSheetFilePathName)
+		depositDf = self.sheetDataAccess._loadDepositSheet()
 		self.assertEqual((5, 2), depositDf.shape)
 		
 		print('\ndepositDf')
@@ -68,19 +58,10 @@ class TestSByieldRateComputer(unittest.TestCase):
 		print(depositDf)
 		
 	def test_mergeEarningAndDeposit(self):
-		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
-		depositSheetFileName = 'testDepositUsdc.csv'
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
-		if os.name == 'posix':
-			sbAccountSheetFilePathName = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/' + sbAccountSheetFileName
-			depositSheetFilePathName = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/' + depositSheetFileName
-		else:
-			sbAccountSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + sbAccountSheetFileName
-			depositSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + depositSheetFileName
-
-		sbEarningsDf = self.sheetDataAccess._loadSBEarningSheet(sbAccountSheetFilePathName, yieldCrypto)
-		depositDf = self.sheetDataAccess._loadDepositSheet(depositSheetFilePathName)
+		sbEarningsDf = self.sheetDataAccess._loadSBEarningSheet(yieldCrypto)
+		depositDf = self.sheetDataAccess._loadDepositSheet()
 		
 		mergedEarningDeposit = self.sheetDataAccess._mergeEarningAndDeposit(sbEarningsDf, depositDf)
 		self.assertEqual((14, 5), mergedEarningDeposit.shape)
@@ -90,20 +71,9 @@ class TestSByieldRateComputer(unittest.TestCase):
 		print(self.sheetDataAccess.getDataframeStrWithFormattedColumns(mergedEarningDeposit, {MERGED_SHEET_HEADER_YIELD_RATE: '.8f'}))
 
 	def testGetDepositsAndDailyYieldRatesDataframes(self):
-		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
-		depositSheetFileName = 'testDepositUsdc.csv'
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
-		if os.name == 'posix':
-			sbAccountSheetFilePathName = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/' + sbAccountSheetFileName
-			depositSheetFilePathName = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/' + depositSheetFileName
-		else:
-			sbAccountSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + sbAccountSheetFileName
-			depositSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + depositSheetFileName
-
-		depositDataFrame, yieldRatesDataframe = self.sheetDataAccess.getDepositsAndDailyYieldRatesDataframes(sbAccountSheetFilePathName,
-		                                                                                   depositSheetFilePathName,
-		                                                                                   yieldCrypto)
+		depositDataFrame, yieldRatesDataframe = self.sheetDataAccess.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
 		self.assertEqual((5, 2), depositDataFrame.shape)
 		self.assertEqual((9, 1), yieldRatesDataframe.shape)
 
