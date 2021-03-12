@@ -48,7 +48,7 @@ MERGED_SHEET_HEADER_YIELD_RATE = 'DAILY YIELD RATE'
 MERGED_SHEET_UNUSED_COLUMNS_LIST = [SB_ACCOUNT_SHEET_HEADER_TYPE,
 									SB_ACCOUNT_SHEET_HEADER_CURRENCY]
 
-class SByieldRateComputer:
+class SBYieldRateComputer:
 	"""
 	This class loads the Swissborg account statement xlsl sheet and the Deposit/Withdrawal
 	csv files. Its purpose is to compute and return a daily yield rate data frame indexed
