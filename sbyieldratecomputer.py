@@ -189,11 +189,14 @@ class SByieldRateComputer:
 		# extract only MERGED_SHEET_HEADER_DATE_NEW_NAME and MERGED_SHEET_HEADER_YIELD_RATE columns
 		yieldRatesDataframe = mergedEarningDeposit[mergedEarningDeposit.columns[[0, 4]]]
 		
-		# set MERGED_SHEET_HEADER_DATE_NEW_NAME column as index
-		yieldRatesDataframe = yieldRatesDataframe.set_index(MERGED_SHEET_HEADER_DATE_NEW_NAME)
-		
 		# keep only non 0 MERGED_SHEET_HEADER_YIELD_RATE rows
 		isYieldRateNonZero = yieldRatesDataframe[MERGED_SHEET_HEADER_YIELD_RATE] != 0
 		yieldRatesDataframe = yieldRatesDataframe[isYieldRateNonZero]
+
+		# remove time component from date index
+		yieldRatesDataframe[MERGED_SHEET_HEADER_DATE_NEW_NAME] = pd.to_datetime(yieldRatesDataframe[MERGED_SHEET_HEADER_DATE_NEW_NAME].dt.date)
+		
+		# set MERGED_SHEET_HEADER_DATE_NEW_NAME column as index
+		yieldRatesDataframe = yieldRatesDataframe.set_index(MERGED_SHEET_HEADER_DATE_NEW_NAME)
 
 		return yieldRatesDataframe
