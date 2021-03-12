@@ -8,9 +8,9 @@ sys.path.insert(0,currentdir) # this instruction is necessary for successful imp
 							  # the test is executed standalone
 
 from configmanager import ConfigManager
-from sheetdataaccess import *
+from sbyieldratecomputer import *
 
-class TestSheetDataAccess(unittest.TestCase):
+class TestSByieldRateComputer(unittest.TestCase):
 	def setUp(self):
 		if os.name == 'posix':
 			configPath = '/sdcard/sbyield.ini'
@@ -18,7 +18,7 @@ class TestSheetDataAccess(unittest.TestCase):
 			configPath = 'c:\\temp\\sbyield.ini'
 
 		configMgr = ConfigManager(configPath)
-		self.sheetDataAccess = SheetDataAccess(configMgr)
+		self.sheetDataAccess = SByieldRateComputer(configMgr)
 
 	def testLoadSBEarningSheet(self):
 		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
@@ -89,6 +89,6 @@ class TestSheetDataAccess(unittest.TestCase):
 
 if __name__ == '__main__':
 	#unittest.main()
-	tst = TestSheetDataAccess()
+	tst = TestSByieldRateComputer()
 	tst.setUp()
 	tst.testGetDailyYieldRatesDataframe()

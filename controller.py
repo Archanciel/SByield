@@ -2,7 +2,7 @@ import os,sys,inspect
 
 from configmanager import ConfigManager
 from processor import Processor
-from sheetdataaccess import SheetDataAccess
+from sbyieldratecomputer import SByieldRateComputer
 
 class Controller:
 	def __init__(self):
@@ -12,6 +12,6 @@ class Controller:
 			configPath = 'c:\\temp\\sbyield.ini'
 
 		configMgr = ConfigManager(configPath)
-		self.sheetDataAccess = SheetDataAccess(configMgr)
+		self.sheetDataAccess = SByieldRateComputer(configMgr)
 		
 		self.processor = Processor(configMgr)
