@@ -147,7 +147,7 @@ class SBYieldRateComputer:
 		cols = cols[-1:] + cols[:-1]
 		mergedDf = mergedDf[cols]
 		
-		# set integer index
+			# set integer index
 		mergedDf[MERGED_SHEET_HEADER_INDEX] = range(1, len(mergedDf) + 1)
 		mergedDf = mergedDf.set_index(MERGED_SHEET_HEADER_INDEX)
 
