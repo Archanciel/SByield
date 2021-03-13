@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 
 # Swissborg account statement sheet parameters
+from pandasdatacomputer import PandasDataComputer
+
 SB_ACCOUNT_SHEET_FIAT = 'USD'           # earning fiat: USD or CHF as defined when downloading the account statement Excel sheet
 SB_ACCOUNT_SHEET_NAME = 'Transactions'  # name of the spreadsheet
 SB_ACCOUNT_SHEET_SKIP_ROWS = 8          # number of lines above the column headers to skip
@@ -49,7 +51,8 @@ MERGED_SHEET_HEADER_YIELD_RATE = 'DAILY YIELD RATE'
 MERGED_SHEET_UNUSED_COLUMNS_LIST = [SB_ACCOUNT_SHEET_HEADER_TYPE,
 									SB_ACCOUNT_SHEET_HEADER_CURRENCY]
 
-class SBYieldRateComputer:
+
+class SBYieldRateComputer(PandasDataComputer):
 	"""
 	This class loads the Swissborg account statement xlsl sheet and the Deposit/Withdrawal
 	csv files. Its purpose is to compute and return a daily yield rate data frame indexed
@@ -58,16 +61,13 @@ class SBYieldRateComputer:
 	The daily yield rates will be used to distribute the Swissborg daily earnings according
 	to the deposits/withdrawals amounts invested by the different capital owners.
 	"""
-	def __init__(self,
-				 configMgr,
-				 sbAccountSheetFilePathName,
-				 depositSheetFilePathName):
+	def __init__(self, configMgr, sbAccountSheetFilePathName, depositSheetFilePathName):
 		"""
 		Currently, the configMgr is not used. Constants are used in place.
 		
 		:param configMgr:
 		"""
-		self.configMgr = configMgr
+		super().__init__(configMgr)
 		self.sbAccountSheetFilePathName = sbAccountSheetFilePathName
 		self.depositSheetFilePathName = depositSheetFilePathName
 	
@@ -139,14 +139,9 @@ class SBYieldRateComputer:
 
 		# replace DATE index with integer index
 		
-			# save old DATE index Column
-		mergedDf[MERGED_SHEET_HEADER_DATE] = mergedDf.index
-		
-			# set integer index
-		mergedDf[MERGED_SHEET_HEADER_INDEX] = range(1, len(mergedDf) + 1)
-		mergedDf = mergedDf.set_index(MERGED_SHEET_HEADER_INDEX)
+		mergedDf = self._replaceDateIndexByIntIndex(mergedDf, MERGED_SHEET_HEADER_DATE, MERGED_SHEET_HEADER_INDEX)
 
-			# reposition the DATE column to the left of the data frame
+		# reposition the DATE column to the left of the data frame
 		cols = mergedDf.columns.to_list()
 		cols = cols[-1:] + cols[:-1]
 		mergedDf = mergedDf[cols]

@@ -2,8 +2,9 @@ import numpy as np
 import pandas as pd
 
 from sbyieldratecomputer import *
+from pandasdatacomputer import PandasDataComputer
 
-class SBDepositYieldComputer:
+class SBDepositYieldComputer(PandasDataComputer):
 	"""
 	This class loads the Swissborg account statement xlsl sheet and the Deposit/Withdrawal
 	csv files.
@@ -17,7 +18,7 @@ class SBDepositYieldComputer:
 		
 		:param configMgr:
 		"""
-		self.configMgr = configMgr
+		super().__init__(configMgr)
 		self.sbYieldRateComputer = sbYieldRateComputer
 
 	def computeDepositsYields(self, yieldCrypto):
@@ -25,6 +26,6 @@ class SBDepositYieldComputer:
 
 		# sorting deposits by owner and by deposit date
 		sortedDepositDF = depositDf.sort_values([DEPOSIT_SHEET_HEADER_OWNER, DEPOSIT_SHEET_HEADER_DATE], axis=0)
-
+		print(sortedDepositDF)
 		#
 		return sortedDepositDF
