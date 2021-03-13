@@ -146,8 +146,8 @@ class TestSBYieldRateComputer(unittest.TestCase):
 		#print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositDataFrame, {DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f'}))
 		#print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRatesDataframe, {MERGED_SHEET_HEADER_YIELD_RATE: '.8f'}))
 	
-	if __name__ == '__main__':
-		#unittest.main()
-		tst = TestSBYieldRateComputer()
-		tst.setUp()
-		tst.test_loadSBEarningSheetCHSB()
+if __name__ == '__main__':
+	#unittest.main()
+	tst = TestSBYieldRateComputer()
+	tst.setUp()
+	tst.test_mergeEarningAndDeposit()
