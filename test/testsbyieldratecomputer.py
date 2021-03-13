@@ -150,4 +150,4 @@ if __name__ == '__main__':
 	#unittest.main()
 	tst = TestSBYieldRateComputer()
 	tst.setUp()
-	tst.test_mergeEarningAndDeposit()
+	tst.test_loadSBEarningSheetUSDC()

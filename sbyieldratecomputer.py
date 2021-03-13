@@ -51,7 +51,6 @@ MERGED_SHEET_HEADER_YIELD_RATE = 'DAILY YIELD RATE'
 MERGED_SHEET_UNUSED_COLUMNS_LIST = [SB_ACCOUNT_SHEET_HEADER_TYPE,
 									SB_ACCOUNT_SHEET_HEADER_CURRENCY]
 
-
 class SBYieldRateComputer(PandasDataComputer):
 	"""
 	This class loads the Swissborg account statement xlsl sheet and the Deposit/Withdrawal
@@ -99,8 +98,9 @@ class SBYieldRateComputer(PandasDataComputer):
 		sbEarningsDf = sbEarningsDf[isTypeEarning & isTargetCurrency]
 		
 		# inserting two empty columns
-		sbEarningsDf.insert(loc=0, column=SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL, value=[0.0 for i in range(sbEarningsDf.shape[0])])
-		sbEarningsDf.insert(loc=0, column=SB_ACCOUNT_SHEET_HEADER_DEPOSIT_WITHDRAW, value=[0.0 for i in range(sbEarningsDf.shape[0])])
+		self._insertEmptyFloatColumns(sbEarningsDf,
+		                              0,
+		                              [SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL, SB_ACCOUNT_SHEET_HEADER_DEPOSIT_WITHDRAW])
 		
 		return sbEarningsDf
 	
@@ -138,7 +138,6 @@ class SBYieldRateComputer(PandasDataComputer):
 		mergedDf = mergedDf.drop(columns=MERGED_SHEET_UNUSED_COLUMNS_LIST)
 
 		# replace DATE index with integer index
-		
 		mergedDf = self._replaceDateIndexByIntIndex(mergedDf, MERGED_SHEET_HEADER_DATE, MERGED_SHEET_HEADER_INDEX)
 
 		# reposition the DATE column to the left of the data frame
