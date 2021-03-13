@@ -30,6 +30,7 @@ SB_ACCOUNT_SHEET_CURRENCY_USDC = 'USDC'     # used to filter rows. currently USD
 SB_ACCOUNT_SHEET_CURRENCY_CHSB = 'CHSB'     # used to filter rows. currently USDC or CHSB
 
 # Deposit/Withdrawal sheet parameters
+DEPOSIT_SHEET_SKIP_ROWS = 2         # number of comment lines above the column headers to skip
 DEPOSIT_SHEET_HEADER_DATE = SB_ACCOUNT_SHEET_HEADER_DATE
 DEPOSIT_SHEET_HEADER_OWNER = 'OWNER'
 DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW = SB_ACCOUNT_SHEET_HEADER_DEPOSIT_WITHDRAW
@@ -110,7 +111,10 @@ class SBYieldRateComputer:
 		:param sbDepositSheetFilePathName:
 		:return:
 		"""
-		depositsDf = pd.read_csv(self.depositSheetFilePathName, parse_dates=[DEPOSIT_SHEET_HEADER_DATE], dtype={DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: np.float64})
+		depositsDf = pd.read_csv(self.depositSheetFilePathName,
+		                         skiprows=DEPOSIT_SHEET_SKIP_ROWS,
+		                         parse_dates=[DEPOSIT_SHEET_HEADER_DATE],
+		                         dtype={DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: np.float64})
 		depositsDf = depositsDf.set_index([DEPOSIT_SHEET_HEADER_DATE])
 		
 		return depositsDf

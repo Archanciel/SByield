@@ -22,7 +22,7 @@ class SBDepositYieldComputer:
 
 	def computeDepositsYields(self, yieldCrypto):
 		depositDf, yieldRatesDataframe = self.sbYieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
-		
+		print(depositDf)
 		# sorting deposits by owner and by deposit date
 		sortedDepositDF = depositDf.sort_values([DEPOSIT_SHEET_HEADER_OWNER, DEPOSIT_SHEET_HEADER_DATE], axis=0)
 

@@ -1,3 +1,5 @@
+comment: if an owner makes several deposits for the yield farm crypto on the same
+date, add only one row for this owner with a value equal to the sum of those deposits
 OWNER,Local time,DEP/WITHDR
 JPS,2020/12/21 10:00:00,2000
 Papa,2020/12/25 10:00:00,4000
