@@ -142,14 +142,14 @@ class SBYieldRateComputer:
 			# save old DATE index Column
 		mergedDf[MERGED_SHEET_HEADER_DATE] = mergedDf.index
 		
+			# set integer index
+		mergedDf[MERGED_SHEET_HEADER_INDEX] = range(1, len(mergedDf) + 1)
+		mergedDf = mergedDf.set_index(MERGED_SHEET_HEADER_INDEX)
+
 			# reposition the DATE column to the left of the data frame
 		cols = mergedDf.columns.to_list()
 		cols = cols[-1:] + cols[:-1]
 		mergedDf = mergedDf[cols]
-		
-			# set integer index
-		mergedDf[MERGED_SHEET_HEADER_INDEX] = range(1, len(mergedDf) + 1)
-		mergedDf = mergedDf.set_index(MERGED_SHEET_HEADER_INDEX)
 
 		# adding yield column
 		mergedDf.insert(loc=mergedDf.shape[1], column=MERGED_SHEET_HEADER_YIELD_RATE, value=[0.0 for i in range(mergedDf.shape[0])])
