@@ -3,6 +3,7 @@ from pandasdatacomputer import PandasDataComputer
 
 DEPOSIT_YIELD_HEADER_INDEX = 'IDX'
 DEPOSIT_YIELD_HEADER_CAPITAL = 'CAPITAL'
+DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW = MERGED_SHEET_HEADER_DEPOSIT_WITHDRAW
 DEPOSIT_YIELD_HEADER_DATE_FROM = 'FROM'
 DEPOSIT_YIELD_HEADER_DATE_TO = 'TO'
 DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER = 'YIELD DAY NB'
@@ -52,4 +53,51 @@ class SBDepositYieldComputer(PandasDataComputer):
 
 		self._insertEmptyFloatColumns(modifiedDepositDf, None, [DEPOSIT_YIELD_HEADER_YIELD_AMOUNT])
 
+		currentOwner = None
+		lastYieldTimeStamp = yieldRatesDataframe.index[-1]
+		lastYieldDate = lastYieldTimeStamp.date()
+		maxIdxValue = len(modifiedDepositDf)
+		for i in range(1, maxIdxValue + 1):
+			if modifiedDepositDf.loc[i, DEPOSIT_SHEET_HEADER_OWNER]	!= currentOwner:
+				currentOwner = modifiedDepositDf.loc[i, DEPOSIT_SHEET_HEADER_OWNER]
+				currentCapital = modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW]
+				modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_CAPITAL] = currentCapital
+
+				if i > 1:
+					if i == maxIdxValue:
+						# setting yield date to as well as yield day number
+						modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] = lastYieldDate
+						dateToMinusDateFromTimeDelta = modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] - \
+						                               modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM]
+						yieldDayNumber = dateToMinusDateFromTimeDelta.days
+						modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
+					else:
+						# here, the owner has changed. This means that the previous owner capital
+						# remains the same till the end of SB yield earnings
+						
+						# setting yield date to as well as yield day number
+						modifiedDepositDf.loc[i -1, DEPOSIT_YIELD_HEADER_DATE_TO] = lastYieldDate
+						dateToMinusDateFromTimeDelta = modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] - \
+						                               modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM]
+						yieldDayNumber = dateToMinusDateFromTimeDelta.days
+						modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
+			else:
+				currentCapital = currentCapital + modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW]
+				modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_CAPITAL] = currentCapital
+				
+				# setting yield date to as well as yield day number
+				modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] = modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM]
+				dateToMinusDateFromTimeDelta = modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] - \
+				                               modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM]
+				yieldDayNumber = dateToMinusDateFromTimeDelta.days
+				modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
+
+				# setting yield date to as well as yield day number
+				modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] = lastYieldDate
+				dateToMinusDateFromTimeDelta = modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] - \
+				                               modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM]
+				yieldDayNumber = dateToMinusDateFromTimeDelta.days
+				modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
+
+		
 		return modifiedDepositDf

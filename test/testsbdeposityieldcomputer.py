@@ -12,10 +12,7 @@ from sbyieldratecomputer import *
 from sbdeposityieldcomputer import SBDepositYieldComputer
 
 class TestSBDepositYieldComputer(unittest.TestCase):
-	def setUp(self):
-		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
-		depositSheetFileName = 'testDepositUsdc.csv'
-
+	def initializeComputers(self, sbAccountSheetFileName, depositSheetFileName):
 		if os.name == 'posix':
 			configPath = '/sdcard/sbyield.ini'
 			sbAccountSheetFilePathName = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/' + sbAccountSheetFileName
@@ -24,23 +21,45 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 			configPath = 'c:\\temp\\sbyield.ini'
 			sbAccountSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + sbAccountSheetFileName
 			depositSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + depositSheetFileName
-
 		configMgr = ConfigManager(configPath)
 		self.yieldRateComputer = SBYieldRateComputer(configMgr,
 		                                             sbAccountSheetFilePathName,
 		                                             depositSheetFilePathName)
 		self.depositYieldComputer = SBDepositYieldComputer(configMgr, self.yieldRateComputer)
+	
+	def testComputeDepositsYieldsFirstDepositRowUnique(self):
+		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
+		depositSheetFileName = 'testDepositUsdc.csv'
+		
+		self.initializeComputers(sbAccountSheetFileName, depositSheetFileName)
 
-	def testComputeDepositsYields(self):
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
 		depositsYieldsDataFrame = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
 #		self.assertEqual((5, 2), depositsYieldsDataFrame.shape)
 
+		print(depositSheetFileName)
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame, {DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f'}))
+	
+	def testComputeDepositsYieldsLastDepositRowUnique(self):
+		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
+		depositSheetFileName = 'testDepositUsdc_2.csv'
+		
+		self.initializeComputers(sbAccountSheetFileName, depositSheetFileName)
+		
+		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+		
+		depositsYieldsDataFrame = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
+		#		self.assertEqual((5, 2), depositsYieldsDataFrame.shape)
+		
+		print(depositSheetFileName)
+		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame, {
+			DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f'}))
+
 
 if __name__ == '__main__':
 	#unittest.main()
 	tst = TestSBDepositYieldComputer()
 	tst.setUp()
-	tst.testComputeDepositsYields()
+	tst.testComputeDepositsYieldsFirstDepositRowUnique()
+	tst.testComputeDepositsYieldsLastDepositRowUnique()
