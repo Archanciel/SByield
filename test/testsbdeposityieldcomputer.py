@@ -55,6 +55,21 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		print(depositSheetFileName)
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame, {
 			DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f'}))
+	
+	def testComputeDepositsYieldsMiddleDepositRowUnique(self):
+		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
+		depositSheetFileName = 'testDepositUsdc_3.csv'
+		
+		self.initializeComputers(sbAccountSheetFileName, depositSheetFileName)
+		
+		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+		
+		depositsYieldsDataFrame = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
+		#		self.assertEqual((5, 2), depositsYieldsDataFrame.shape)
+		
+		print(depositSheetFileName)
+		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame, {
+			DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f'}))
 
 
 if __name__ == '__main__':
@@ -63,3 +78,4 @@ if __name__ == '__main__':
 	tst.setUp()
 	tst.testComputeDepositsYieldsFirstDepositRowUnique()
 	tst.testComputeDepositsYieldsLastDepositRowUnique()
+	tst.testComputeDepositsYieldsMiddleDepositRowUnique()
