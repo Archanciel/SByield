@@ -85,19 +85,18 @@ class SBDepositYieldComputer(PandasDataComputer):
 				currentCapital = currentCapital + modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW]
 				modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_CAPITAL] = currentCapital
 				
-				# setting yield date to as well as yield day number
+				# setting yield date to as well as yield day number for previous line
 				modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] = modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM]
 				dateToMinusDateFromTimeDelta = modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] - \
 				                               modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM]
 				yieldDayNumber = dateToMinusDateFromTimeDelta.days
 				modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 
-				# setting yield date to as well as yield day number
+				# setting yield date to as well as yield day number for current line
 				modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] = lastYieldDate
-				dateToMinusDateFromTimeDelta = modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] - \
-				                               modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM]
+				dateToMinusDateFromTimeDelta = modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] - \
+				                               modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM]
 				yieldDayNumber = dateToMinusDateFromTimeDelta.days
 				modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
-
 		
 		return modifiedDepositDf
