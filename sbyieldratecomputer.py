@@ -32,7 +32,7 @@ SB_ACCOUNT_SHEET_CURRENCY_USDC = 'USDC'     # used to filter rows. currently USD
 SB_ACCOUNT_SHEET_CURRENCY_CHSB = 'CHSB'     # used to filter rows. currently USDC or CHSB
 
 # Deposit/Withdrawal sheet parameters
-DEPOSIT_SHEET_SKIP_ROWS = 2         # number of comment lines above the column headers to skip
+DEPOSIT_SHEET_SKIP_ROWS = 4         # number of comment lines above the column headers to skip
 DEPOSIT_SHEET_HEADER_DATE = SB_ACCOUNT_SHEET_HEADER_DATE
 DEPOSIT_SHEET_HEADER_OWNER = 'OWNER'
 DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW = SB_ACCOUNT_SHEET_HEADER_DEPOSIT_WITHDRAW
@@ -194,8 +194,6 @@ class SBYieldRateComputer(PandasDataComputer):
 		earnings to be distributed in proportion of the deposits/withdrawals amounts
 		invested by the different deposit owners.
 		
-		:param sbAccountSheetFilePathName:
-		:param depositSheetFilePathName:
 		:param yieldCrypto:
 		
 		:return: loaded deposit data frame and computed yield rates data frame

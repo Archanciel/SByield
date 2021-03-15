@@ -4,7 +4,9 @@ If more than one deposit for different owners are added on the same date, each d
 date must be unique, i.e. with a time component with a different second component !
 OWNER,Local time,DEP/WITHDR
 JPS,2020/12/21 10:00:00,2000
+JPS,2020/12/22 10:00:00,100
 Papa,2020/12/25 10:00:00,4000
-Béa,2020/12/25 10:00:01,1000
-Papa,2020/12/27 10:00:01,-500
+Zoé,2020/12/30 10:00:00,1000
+Papa,2020/12/26 10:00:00,-500
 JPS,2020/12/28 10:00:00,3000
+Papa,2020/12/29 10:00:00,300

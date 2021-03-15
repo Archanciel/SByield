@@ -1,5 +1,6 @@
 from sbyieldratecomputer import *
 from pandasdatacomputer import PandasDataComputer
+from toolatedepositdateerror import TooLateDepositDateError
 
 DEPOSIT_YIELD_HEADER_INDEX = 'IDX'
 DEPOSIT_YIELD_HEADER_CAPITAL = 'CAPITAL'
@@ -70,16 +71,28 @@ class SBDepositYieldComputer(PandasDataComputer):
 						dateToMinusDateFromTimeDelta = modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] - \
 						                               modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM]
 						yieldDayNumber = dateToMinusDateFromTimeDelta.days
+						if yieldDayNumber < 0:
+							raise TooLateDepositDateError(self.sbYieldRateComputer.depositSheetFilePathName,
+							                              currentOwner,
+							                              modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM],
+							                              modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW],
+							                              lastYieldDate)
 						modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 					else:
 						# here, the owner has changed. This means that the previous owner capital
 						# remains the same till the end of SB yield earnings
 						
 						# setting yield date to as well as yield day number
-						modifiedDepositDf.loc[i -1, DEPOSIT_YIELD_HEADER_DATE_TO] = lastYieldDate
+						modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] = lastYieldDate
 						dateToMinusDateFromTimeDelta = modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] - \
 						                               modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM]
 						yieldDayNumber = dateToMinusDateFromTimeDelta.days
+						if yieldDayNumber < 0:
+							raise TooLateDepositDateError(self.sbYieldRateComputer.depositSheetFilePathName,
+							                              modifiedDepositDf.loc[i - 1, DEPOSIT_SHEET_HEADER_OWNER],
+							                              modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM],
+							                              modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW],
+							                              lastYieldDate)
 						modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 			else:
 				currentCapital = currentCapital + modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW]
@@ -90,6 +103,12 @@ class SBDepositYieldComputer(PandasDataComputer):
 				dateToMinusDateFromTimeDelta = modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] - \
 				                               modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM]
 				yieldDayNumber = dateToMinusDateFromTimeDelta.days
+				if yieldDayNumber < 0:
+					raise TooLateDepositDateError(self.sbYieldRateComputer.depositSheetFilePathName,
+					                              currentOwner,
+					                              modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM],
+					                              modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW],
+					                              lastYieldDate)
 				modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 
 				# setting yield date to as well as yield day number for current line
@@ -97,6 +116,12 @@ class SBDepositYieldComputer(PandasDataComputer):
 				dateToMinusDateFromTimeDelta = modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] - \
 				                               modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM]
 				yieldDayNumber = dateToMinusDateFromTimeDelta.days
+				if yieldDayNumber < 0:
+					raise TooLateDepositDateError(self.sbYieldRateComputer.depositSheetFilePathName,
+					                              currentOwner,
+					                              modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM],
+					                              modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW],
+					                              lastYieldDate)
 				modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 		
 		return modifiedDepositDf
