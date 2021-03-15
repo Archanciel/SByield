@@ -102,13 +102,12 @@ class SBDepositYieldComputer(PandasDataComputer):
 				modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] = modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM]
 				dateToMinusDateFromTimeDelta = modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] - \
 				                               modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM]
+				
+				# here, yieldDayNumber can not be negative since the deposits/withdrawals are sorted by owner
+				# and then by deposit date ! So, for the same owner, previous deposit date to is set to current
+				# deposit date from which is greater than previous deposit date from (see deposit csv file
+				# comment for justification)
 				yieldDayNumber = dateToMinusDateFromTimeDelta.days
-				if yieldDayNumber < 0:
-					raise TooLateDepositDateError(self.sbYieldRateComputer.depositSheetFilePathName,
-					                              currentOwner,
-					                              modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM],
-					                              modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW],
-					                              lastYieldDate)
 				modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 
 				# setting yield date to as well as yield day number for current line
