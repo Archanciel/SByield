@@ -454,6 +454,30 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		self.assertEqual(
 			'CSV file {}testDepositUsdc_18.csv contains a deposit of 1000.0 for owner Zoé with a deposit date 2020-12-31 after the last payment date 2020-12-30'.format(
 				self.testDataPath), e.exception.message)
+	
+	def testComputeDepositsYieldsLastDepositRowUniqueOwnerTwoDepositsOnFirstDepositDate(self):
+		"""
+		The deposit csv file causes the deposits sorted by owner and then by deposit date
+		to end with an owner having only one deposit. The other owners have each one two
+		deposits.
+		"""
+		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
+		depositSheetFileName = 'testDepositUsdc_19.csv'
+		
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
+		
+		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+		
+		depositsYieldsDataFrame = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
+		#		self.assertEqual((5, 2), depositsYieldsDataFrame.shape)
+		
+		print(depositSheetFileName)
+		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
+		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
+		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
+		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame,
+		                                                                 {DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f',
+		                                                                  DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'}))
 
 
 if __name__ == '__main__':
@@ -477,4 +501,4 @@ if __name__ == '__main__':
 	# tst.testComputeDepositsYieldsMiddleDepositDateFromIsAfterMaxRowUniqueOwnerThreeDepositsDepositDateFromAfterMax_4()
 	# tst.testComputeDepositsYieldsMiddleDepositDateFromIsAfterMaxRowUniqueOwnerThreeDepositsDepositDateFromAfterMax_5()
 	# tst.testComputeDepositsYieldsMiddleDepositDateFromIsAfterMaxRowUniqueOwnerThreeDepositsDepositDateFromAfterMax_6()
-	tst.testComputeDepositsYieldsFirstDepositDateFromIsMaxRowUniqueOwnerThreeDeposits()
+	tst.testComputeDepositsYieldsLastDepositRowUniqueOwnerTwoDepositsOnFirstDepositDate()

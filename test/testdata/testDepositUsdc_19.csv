@@ -1,0 +1,12 @@
+Comment: The very first deposit must be defined with a date which is one day before the first Swissborg yield payment. The other deposits are defined with a date equal to their first Swissborg yield payment. if an owner makes several deposits for the yield farm crypto on the same
+date, add only one row for this owner with a value equal to the sum of those deposits.
+If more than one deposit for different owners are added on the same date, each deposit
+date must be unique, i.e. with a second component augmented by 1 (10:00:00, 10:00:01, ...) !
+OWNER,Local time,DEP/WITHDR
+JPS,2020/12/21 10:00:00,2000
+JPS,2020/12/22 10:00:00,100
+Papa,2020/12/21 10:00:01,4000
+Béa,2020/12/30 10:00:00,1000
+Papa,2020/12/22 10:00:01,-500
+JPS,2020/12/28 10:00:00,3000
+Papa,2020/12/29 10:00:00,300
