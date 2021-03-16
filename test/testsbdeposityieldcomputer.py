@@ -488,8 +488,8 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		print(depositsYieldsDataFrame.groupby(['OWNER']).sum()[['DEP/WITHDR',"YIELD AMOUNT"]])
 		
 		print('Yield total 4')
-		depositsYieldsDataFrame.loc['Total'] = depositsYieldsDataFrame.sum(numeric_only=True, axis=0)[['DEP/WITHDR',"YIELD AMOUNT"]]
-		print(depositsYieldsDataFrame.fillna(''))
+		depositsYieldsDataFrame.loc['TOTAL'] = depositsYieldsDataFrame.sum(numeric_only=True, axis=0)[['DEP/WITHDR',"YIELD AMOUNT"]]
+		print(depositsYieldsDataFrame.fillna('').to_string(index=False))
 		
 		print('\n\nYield total GOOD\n')
 		yieldOwnerTotals = depositsYieldsDataFrame.groupby(['OWNER']).sum()[['DEP/WITHDR',"YIELD AMOUNT"]]
