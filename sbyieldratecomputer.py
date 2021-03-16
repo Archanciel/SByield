@@ -71,8 +71,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		"""
 		Creates a Pandas data frame from the Swissborg account statement sheet, removing
 		unused columns. It then selects only the 'Earnings' type rows for the passed
-		yieldCrypto (currently USDC or CHSB). Finally, it adds two new columns for later
-		usage.
+		yieldCrypto (currently USDC or CHSB).
 		
 		:param sbAccountSheetFilePathName:
 		:param yieldCrypto: used to filter SB sheet rows. currently USDC or CHSB
