@@ -1,6 +1,6 @@
 from sbyieldratecomputer import *
 from pandasdatacomputer import PandasDataComputer
-from toolatedepositdateerror import TooLateDepositDateError
+from invaliddepositdateerror import InvalidDepositDateError
 
 DEPOSIT_YIELD_HEADER_INDEX = 'IDX'
 DEPOSIT_YIELD_HEADER_CAPITAL = 'CAPITAL'
@@ -29,6 +29,11 @@ class SBDepositYieldComputer(PandasDataComputer):
 		self.sbYieldRateComputer = sbYieldRateComputer
 
 	def computeDepositsYields(self, yieldCrypto):
+		"""
+		
+		Can raise InvalidDepositDateError in case the deposit csv file contains a deposi or withdrawal
+		whose date is after the last Swissborg yield payment date.
+		"""
 		depositDf, yieldRatesDataframe = self.sbYieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
 
 		# sorting deposits by owner and by deposit date
@@ -55,15 +60,27 @@ class SBDepositYieldComputer(PandasDataComputer):
 		self._insertEmptyFloatColumns(modifiedDepositDf, None, [DEPOSIT_YIELD_HEADER_YIELD_AMOUNT])
 
 		currentOwner = None
+		currentCapital = 0
+		firstYieldTimeStamp = yieldRatesDataframe.index[0]
+		firstYieldDate = firstYieldTimeStamp.date()
 		lastYieldTimeStamp = yieldRatesDataframe.index[-1]
 		lastYieldDate = lastYieldTimeStamp.date()
 		maxIdxValue = len(modifiedDepositDf)
+		
+		# compute date to and yield day number
 		for i in range(1, maxIdxValue + 1):
 			if modifiedDepositDf.loc[i, DEPOSIT_SHEET_HEADER_OWNER]	!= currentOwner:
 				currentOwner = modifiedDepositDf.loc[i, DEPOSIT_SHEET_HEADER_OWNER]
 				currentCapital = modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW]
 				modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_CAPITAL] = currentCapital
-
+				dateFrom = modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM]
+				if dateFrom < firstYieldDate:
+					raise InvalidDepositDateError(self.sbYieldRateComputer.depositSheetFilePathName,
+					                              currentOwner,
+					                              dateFrom,
+					                              currentCapital,
+					                              firstYieldDate,
+					                              isTooLate=False)
 				if i > 1:
 					if i == maxIdxValue:
 						# setting yield date to as well as yield day number
@@ -72,11 +89,12 @@ class SBDepositYieldComputer(PandasDataComputer):
 						                               modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM]
 						yieldDayNumber = dateToMinusDateFromTimeDelta.days
 						if yieldDayNumber < 0:
-							raise TooLateDepositDateError(self.sbYieldRateComputer.depositSheetFilePathName,
+							raise InvalidDepositDateError(self.sbYieldRateComputer.depositSheetFilePathName,
 							                              currentOwner,
 							                              modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM],
 							                              modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW],
-							                              lastYieldDate)
+							                              lastYieldDate,
+							                              isTooLate=True)
 						modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 					else:
 						# here, the owner has changed. This means that the previous owner capital
@@ -88,11 +106,12 @@ class SBDepositYieldComputer(PandasDataComputer):
 						                               modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM]
 						yieldDayNumber = dateToMinusDateFromTimeDelta.days
 						if yieldDayNumber < 0:
-							raise TooLateDepositDateError(self.sbYieldRateComputer.depositSheetFilePathName,
+							raise InvalidDepositDateError(self.sbYieldRateComputer.depositSheetFilePathName,
 							                              modifiedDepositDf.loc[i - 1, DEPOSIT_SHEET_HEADER_OWNER],
 							                              modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM],
 							                              modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW],
-							                              lastYieldDate)
+							                              lastYieldDate,
+							                              isTooLate=True)
 						modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 			else:
 				currentCapital = currentCapital + modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW]
@@ -116,11 +135,30 @@ class SBDepositYieldComputer(PandasDataComputer):
 				                               modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM]
 				yieldDayNumber = dateToMinusDateFromTimeDelta.days
 				if yieldDayNumber < 0:
-					raise TooLateDepositDateError(self.sbYieldRateComputer.depositSheetFilePathName,
+					raise InvalidDepositDateError(self.sbYieldRateComputer.depositSheetFilePathName,
 					                              currentOwner,
 					                              modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM],
 					                              modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW],
-					                              lastYieldDate)
+					                              lastYieldDate,
+					                              isTooLate=True)
 				modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 		
+		# finally, compute the yield amount
+		for i in range(1, maxIdxValue + 1):
+			dateFrom = modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM]
+			dateTo = modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO]
+			capital = modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_CAPITAL]
+			yieldAmount = self._computeYieldAmount(yieldRatesDataframe, capital, dateFrom, dateTo)
+			modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT] = yieldAmount
+			
 		return modifiedDepositDf
+	
+	def _computeYieldAmount(self, yieldRatesDataframe, capital, dateFrom, dateTo):
+		yieldRatesDataframeSubSet = yieldRatesDataframe.loc[dateFrom:dateTo]
+		capitalPlusYield = capital
+		
+		for index, values in yieldRatesDataframeSubSet.iterrows():
+			yieldRate = values[0]
+			capitalPlusYield = capitalPlusYield * yieldRate
+		
+		return capitalPlusYield - capital
