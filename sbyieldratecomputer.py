@@ -185,7 +185,7 @@ class SBYieldRateComputer(PandasDataComputer):
 	def getDepositsAndDailyYieldRatesDataframes(self,
 												yieldCrypto):
 		"""
-		Loads the Swissborg account statement sheet and  the Deposit/Withdrawal sheet
+		Loads the Swissborg account statement sheet and the Deposit/Withdrawal sheet
 		in order to compute the daily yield rates which will be used compute the daily
 		earnings to be distributed in proportion of the deposits/withdrawals amounts
 		invested by the different deposit owners.
@@ -215,3 +215,15 @@ class SBYieldRateComputer(PandasDataComputer):
 		yieldRatesDataframe = yieldRatesDataframe.set_index(MERGED_SHEET_HEADER_DATE_NEW_NAME)
 
 		return depositDf, yieldRatesDataframe
+
+	def getSBEarningSheetTotalDf(self, yieldCrypto):
+		"""
+		Returns the Swissborg account statement sheet dataframe after adding a total
+		earning row to it.
+		"""
+		sbEarningsDf = self._loadSBEarningSheet(yieldCrypto)
+
+		# adding total row
+		sbEarningsDf.loc[DATAFRAME_HEADER_TOTAL] = sbEarningsDf.sum(numeric_only=True)
+
+		return sbEarningsDf.fillna('')

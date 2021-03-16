@@ -62,7 +62,41 @@ class TestSBYieldRateComputer(unittest.TestCase):
 '''
 2020-12-24 09:00:00  Earnings     CHSB         2.1'''
 		self.assertEqual(expectedStrDataframe, sbEarningsDf.to_string())
+
+	def testGetSBEarningSheetTotalDfUSDC(self):
+		sbEarningsTotals = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
 		
+		self.assertEqual((10, 3), sbEarningsTotals.shape)
+		# expectedStrDataframe = sbEarningsTotals.to_string()
+		expectedStrDataframe = \
+'                         Type Currency  Net amount\n' + \
+'Local time                                        ' + \
+'''
+2020-12-22 09:00:00  Earnings     USDC        0.80
+2020-12-23 09:00:00  Earnings     USDC        0.81
+2020-12-24 09:00:00  Earnings     USDC        0.82
+2020-12-25 09:00:00  Earnings     USDC        0.78
+2020-12-26 09:00:00  Earnings     USDC        2.80
+2020-12-27 09:00:00  Earnings     USDC        2.70
+2020-12-28 09:00:00  Earnings     USDC        2.75
+2020-12-29 09:00:00  Earnings     USDC        4.00
+2020-12-30 09:00:00  Earnings     USDC        4.10
+TOTAL                                        19.56'''
+		self.assertEqual(expectedStrDataframe, sbEarningsTotals.to_string())
+		
+	def testGetSBEarningSheetTotalDfCHSB(self):
+		sbEarningsTotals = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_CHSB)
+		
+		self.assertEqual((2, 3), sbEarningsTotals.shape)
+		# expectedStrDataframe = sbEarningsTotals.to_string()
+		expectedStrDataframe = \
+'                         Type Currency  Net amount\n' + \
+'Local time                                        ' + \
+'''
+2020-12-24 09:00:00  Earnings     CHSB         2.1
+TOTAL                                          2.1'''
+		self.assertEqual(expectedStrDataframe, sbEarningsTotals.to_string())
+
 	def test_loadDepositSheet(self):
 		depositDf = self.yieldRateComputer._loadDepositSheet()
 		self.assertEqual((5, 2), depositDf.shape)
@@ -116,19 +150,19 @@ class TestSBYieldRateComputer(unittest.TestCase):
 		self.assertEqual((9, 1), yieldRatesDataframe.shape)
 		
 		# expectedStrDataframe = depositDataFrame.to_string()
-		expectedStrDataframe = \
-			'                    OWNER  DEP/WITHDR\n' + \
-			'Local time                           ' + \
+		expectedDepositStrDataframe = \
+'                    OWNER  DEP/WITHDR\n' + \
+'Local time                           ' + \
 '''
 2020-12-21 10:00:00   JPS      2000.0
 2020-12-25 10:00:00  Papa      4000.0
 2020-12-25 10:00:01   Béa      1000.0
 2020-12-27 10:00:01  Papa      -500.0
 2020-12-28 10:00:00   JPS      3000.0'''
-		self.assertEqual(expectedStrDataframe, depositDataFrame.to_string())
+		self.assertEqual(expectedDepositStrDataframe, depositDataFrame.to_string())
 		
 		#expectedStrDataframe = yieldRatesDataframe.to_string()
-		expectedStrDataframe = \
+		expectedYieldRatesStrDataframe = \
 			'            DAILY YIELD RATE\n' + \
 			'DATE                        ' + \
 '''
@@ -141,7 +175,7 @@ class TestSBYieldRateComputer(unittest.TestCase):
 2020-12-28          1.000423
 2020-12-29          1.000421
 2020-12-30          1.000431'''
-		self.assertEqual(expectedStrDataframe, yieldRatesDataframe.to_string())
+		self.assertEqual(expectedYieldRatesStrDataframe, yieldRatesDataframe.to_string())
 		
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositDataFrame, {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f'}))
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRatesDataframe, {MERGED_SHEET_HEADER_YIELD_RATE: '.8f'}))
@@ -150,4 +184,4 @@ if __name__ == '__main__':
 	#unittest.main()
 	tst = TestSBYieldRateComputer()
 	tst.setUp()
-	tst.testGetDepositsAndDailyYieldRatesDataframes()
+	tst.testGetSBEarningSheetDf()
