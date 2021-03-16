@@ -1,3 +1,9 @@
+# generic headers
+DATAFRAME_HEADER_TOTAL = 'TOTAL'
+DATAFRAME_HEADER_DEPOSIT_WITHDRAW = 'DEP/WITHDR'
+DATAFRAME_HEADER_INDEX = 'IDX'
+
+
 class PandasDataComputer:
 	"""
 	This class contains code used by its subclasses.

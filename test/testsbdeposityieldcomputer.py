@@ -8,7 +8,7 @@ sys.path.insert(0,currentdir) # this instruction is necessary for successful imp
 							  # the test is executed standalone
 
 from configmanager import ConfigManager
-from sbyieldratecomputer import *
+from pandasdatacomputer import *
 from sbdeposityieldcomputer import *
 from invaliddepositdateerror import InvalidDepositDateError
 
@@ -52,7 +52,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
 		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame,
-		                                                                 {DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f',
+		                                                                 {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 		                                                                  DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'}))
 	
 	def testComputeDepositsYieldsLastDepositRowUniqueOwnerTwoDeposits(self):
@@ -76,7 +76,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
 		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame,
-		                                                                 {DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f',
+		                                                                 {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 		                                                                  DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'}))
 	
 	def testComputeDepositsYieldsMiddleDepositRowUniqueOwnerTwoDeposits(self):
@@ -100,7 +100,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
 		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame,
-		                                                                 {DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f',
+		                                                                 {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 		                                                                  DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'}))
 	
 	def testComputeDepositsYieldsFirstDepositRowUniqueOwnerThreeDeposits(self):
@@ -124,7 +124,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
 		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame,
-		                                                                 {DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f',
+		                                                                 {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 		                                                                  DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'}))
 	
 	def testComputeDepositsYieldsLastDepositRowUniqueOwnerThreeDeposits(self):
@@ -148,7 +148,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
 		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame,
-		                                                                 {DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f',
+		                                                                 {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 		                                                                  DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'}))
 	
 	def testComputeDepositsYieldsMiddleDepositRowUniqueOwnerThreeDeposits(self):
@@ -172,7 +172,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
 		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame,
-		                                                                 {DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f',
+		                                                                 {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 		                                                                  DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'}))
 	
 	def testComputeDepositsYieldsFirstDepositDateFromIsMaxRowUniqueOwnerThreeDeposits(self):
@@ -197,7 +197,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
 		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame,
-	                                                                 {DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f',
+	                                                                 {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 	                                                                  DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'}))
 	
 	def testComputeDepositsYieldsLastDepositDateFromIsMaxRowUniqueOwnerThreeDeposits(self):
@@ -223,7 +223,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
 		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame,
-		                                                                 {DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f',
+		                                                                 {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 		                                                                  DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'}))
 	
 	def testComputeDepositsYieldsMiddleDepositDateFromIsMaxRowUniqueOwnerThreeDeposits(self):
@@ -248,7 +248,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
 		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame,
-		                                                                 {DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f',
+		                                                                 {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 		                                                                  DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'}))
 	
 	def testComputeDepositsYieldsFirstDepositDateFromIsMaxRowUniqueOwnerThreeDepositsDepositDateFromIsMax(self):
@@ -274,7 +274,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
 		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame,
-		                                                                 {DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f',
+		                                                                 {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 		                                                                  DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'}))
 	
 	def testComputeDepositsYieldsLastDepositDateFromIsMaxRowUniqueOwnerThreeDepositsDepositDateFromIsMax(self):
@@ -300,7 +300,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
 		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame,
-		                                                                 {DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f',
+		                                                                 {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 		                                                                  DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'}))
 	
 	def testComputeDepositsYieldsMiddleDepositDateFromIsMaxRowUniqueOwnerThreeDepositsDepositDateFromIsMax(self):
@@ -326,7 +326,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
 		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame,
-		                                                                 {DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f',
+		                                                                 {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 		                                                                  DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'}))
 	
 	def testComputeDepositsYieldsMiddleDepositDateFromIsAfterMaxRowUniqueOwnerThreeDepositsDepositDateFromAfterMax_1(self):
@@ -476,7 +476,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
 		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame,
-		                                                                 {DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f',
+		                                                                 {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 		                                                                  DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'}))
 		print('Yield total 1')
 		print(depositsYieldsDataFrame.sum(axis=0)["YIELD AMOUNT"])

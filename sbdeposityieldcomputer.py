@@ -3,9 +3,7 @@ from sbyieldratecomputer import *
 from pandasdatacomputer import PandasDataComputer
 from invaliddepositdateerror import InvalidDepositDateError
 
-DEPOSIT_YIELD_HEADER_INDEX = 'IDX'
 DEPOSIT_YIELD_HEADER_CAPITAL = 'CAPITAL'
-DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW = MERGED_SHEET_HEADER_DEPOSIT_WITHDRAW
 DEPOSIT_YIELD_HEADER_DATE_FROM = 'FROM'
 DEPOSIT_YIELD_HEADER_DATE_TO = 'TO'
 DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER = 'YIELD DAYS'
@@ -41,7 +39,7 @@ class SBDepositYieldComputer(PandasDataComputer):
 		modifiedDepositDf = depositDf.sort_values([DEPOSIT_SHEET_HEADER_OWNER, DEPOSIT_SHEET_HEADER_DATE], axis=0)
 		
 		# replace DATE index with integer index
-		modifiedDepositDf = self._replaceDateIndexByIntIndex(modifiedDepositDf, DEPOSIT_SHEET_HEADER_DATE, DEPOSIT_YIELD_HEADER_INDEX)
+		modifiedDepositDf = self._replaceDateIndexByIntIndex(modifiedDepositDf, DEPOSIT_SHEET_HEADER_DATE, DATAFRAME_HEADER_INDEX)
 
 		# insert CAPITAL column
 		self._insertEmptyFloatColumns(modifiedDepositDf,
@@ -72,7 +70,7 @@ class SBDepositYieldComputer(PandasDataComputer):
 		for i in range(1, maxIdxValue + 1):
 			if modifiedDepositDf.loc[i, DEPOSIT_SHEET_HEADER_OWNER]	!= currentOwner:
 				currentOwner = modifiedDepositDf.loc[i, DEPOSIT_SHEET_HEADER_OWNER]
-				currentCapital = modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW]
+				currentCapital = modifiedDepositDf.loc[i, DATAFRAME_HEADER_DEPOSIT_WITHDRAW]
 				modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_CAPITAL] = currentCapital
 				dateFrom = modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM]
 				dateFromMinusFirstYieldDateTimeDelta = dateFrom - firstYieldDate
@@ -91,7 +89,7 @@ class SBDepositYieldComputer(PandasDataComputer):
 							raise InvalidDepositDateError(self.sbYieldRateComputer.depositSheetFilePathName,
 							                              currentOwner,
 							                              modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM],
-							                              modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW],
+							                              modifiedDepositDf.loc[i, DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
 							                              lastYieldDate)
 						modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 					else:
@@ -107,11 +105,11 @@ class SBDepositYieldComputer(PandasDataComputer):
 							raise InvalidDepositDateError(self.sbYieldRateComputer.depositSheetFilePathName,
 							                              modifiedDepositDf.loc[i - 1, DEPOSIT_SHEET_HEADER_OWNER],
 							                              modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM],
-							                              modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW],
+							                              modifiedDepositDf.loc[i - 1, DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
 							                              lastYieldDate)
 						modifiedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 			else:
-				currentCapital = currentCapital + modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW]
+				currentCapital = currentCapital + modifiedDepositDf.loc[i, DATAFRAME_HEADER_DEPOSIT_WITHDRAW]
 				modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_CAPITAL] = currentCapital
 				
 				# setting yield date to as well as yield day number for previous line
@@ -135,7 +133,7 @@ class SBDepositYieldComputer(PandasDataComputer):
 					raise InvalidDepositDateError(self.sbYieldRateComputer.depositSheetFilePathName,
 					                              currentOwner,
 					                              modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM],
-					                              modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW],
+					                              modifiedDepositDf.loc[i, DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
 					                              lastYieldDate)
 				modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 
@@ -162,7 +160,7 @@ class SBDepositYieldComputer(PandasDataComputer):
 		return capitalPlusYield - capital
 	
 	def _computeYieldOwnerTotals(self, depositsYieldsDataFrame):
-		yieldOwnerTotals = depositsYieldsDataFrame.groupby([DEPOSIT_SHEET_HEADER_OWNER]).sum()[[MERGED_SHEET_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
-		yieldOwnerTotals.loc[DATAFRAME_HEADER_TOTAL] = yieldOwnerTotals.sum(numeric_only=True, axis=0)[[MERGED_SHEET_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
+		yieldOwnerTotals = depositsYieldsDataFrame.groupby([DEPOSIT_SHEET_HEADER_OWNER]).sum()[[DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
+		yieldOwnerTotals.loc[DATAFRAME_HEADER_TOTAL] = yieldOwnerTotals.sum(numeric_only=True, axis=0)[[DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
 
 		return yieldOwnerTotals

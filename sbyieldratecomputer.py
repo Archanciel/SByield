@@ -2,9 +2,8 @@ import numpy as np
 import pandas as pd
 
 # Swissborg account statement sheet parameters
-from pandasdatacomputer import PandasDataComputer
+from pandasdatacomputer import *
 
-DATAFRAME_HEADER_TOTAL = 'TOTAL'
 
 SB_ACCOUNT_SHEET_FIAT = 'USD'           # earning fiat: USD or CHF as defined when downloading the account statement Excel sheet
 SB_ACCOUNT_SHEET_NAME = 'Transactions'  # name of the spreadsheet
@@ -27,7 +26,6 @@ SB_ACCOUNT_SHEET_UNUSED_COLUMNS_LIST = ['Time in UTC',
 
 # two new columns to add to the Swissborg account statement sheet
 SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL = 'EARNING CAP'
-SB_ACCOUNT_SHEET_HEADER_DEPOSIT_WITHDRAW = 'DEP/WITHDR'
 
 SB_ACCOUNT_SHEET_TYPE_EARNING = 'Earnings'  # used to filter rows
 SB_ACCOUNT_SHEET_CURRENCY_USDC = 'USDC'     # used to filter rows. currently USDC or CHSB
@@ -37,13 +35,10 @@ SB_ACCOUNT_SHEET_CURRENCY_CHSB = 'CHSB'     # used to filter rows. currently USD
 DEPOSIT_SHEET_SKIP_ROWS = 4         # number of comment lines above the column headers to skip
 DEPOSIT_SHEET_HEADER_DATE = SB_ACCOUNT_SHEET_HEADER_DATE
 DEPOSIT_SHEET_HEADER_OWNER = 'OWNER'
-DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW = SB_ACCOUNT_SHEET_HEADER_DEPOSIT_WITHDRAW
 
 # Swissborg account statement merged with deposit/withdrawal sheet parameters
 MERGED_SHEET_HEADER_DATE = SB_ACCOUNT_SHEET_HEADER_DATE
-MERGED_SHEET_HEADER_INDEX = 'IDX'
 MERGED_SHEET_HEADER_EARNING_CAPITAL = SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL
-MERGED_SHEET_HEADER_DEPOSIT_WITHDRAW = DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW
 MERGED_SHEET_HEADER_EARNING = SB_ACCOUNT_SHEET_HEADER_EARNING
 MERGED_SHEET_HEADER_DATE_NEW_NAME = 'DATE'
 MERGED_SHEET_HEADER_EARNING_NEW_NAME = 'EARNINGS'
@@ -102,7 +97,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		# inserting two empty columns
 		self._insertEmptyFloatColumns(sbEarningsDf,
 		                              0,
-		                              [SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL, SB_ACCOUNT_SHEET_HEADER_DEPOSIT_WITHDRAW])
+		                              [SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL, DATAFRAME_HEADER_DEPOSIT_WITHDRAW])
 		
 		return sbEarningsDf
 	
@@ -116,7 +111,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		depositsDf = pd.read_csv(self.depositSheetFilePathName,
 		                         skiprows=DEPOSIT_SHEET_SKIP_ROWS,
 		                         parse_dates=[DEPOSIT_SHEET_HEADER_DATE],
-		                         dtype={DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: np.float64})
+		                         dtype={DATAFRAME_HEADER_DEPOSIT_WITHDRAW: np.float64})
 		depositsDf = depositsDf.set_index([DEPOSIT_SHEET_HEADER_DATE])
 		
 		return depositsDf
@@ -140,7 +135,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		mergedDf = mergedDf.drop(columns=MERGED_SHEET_UNUSED_COLUMNS_LIST)
 
 		# replace DATE index with integer index
-		mergedDf = self._replaceDateIndexByIntIndex(mergedDf, MERGED_SHEET_HEADER_DATE, MERGED_SHEET_HEADER_INDEX)
+		mergedDf = self._replaceDateIndexByIntIndex(mergedDf, MERGED_SHEET_HEADER_DATE, DATAFRAME_HEADER_INDEX)
 
 		# reposition the DATE column to the left of the data frame
 		cols = mergedDf.columns.to_list()
@@ -153,8 +148,8 @@ class SBYieldRateComputer(PandasDataComputer):
 		# computing the earning capital value as well as the daily yield rate
 		for i in range(2, len(mergedDf) + 1):
 			mergedDf.loc[i, MERGED_SHEET_HEADER_EARNING_CAPITAL] = mergedDf.loc[i - 1, MERGED_SHEET_HEADER_EARNING_CAPITAL] + \
-																   mergedDf.loc[i - 1, MERGED_SHEET_HEADER_DEPOSIT_WITHDRAW] + \
-																   mergedDf.loc[i - 1, MERGED_SHEET_HEADER_EARNING]
+			                                                       mergedDf.loc[i - 1, DATAFRAME_HEADER_DEPOSIT_WITHDRAW] + \
+			                                                       mergedDf.loc[i - 1, MERGED_SHEET_HEADER_EARNING]
 			earningCapital = mergedDf.loc[i, MERGED_SHEET_HEADER_EARNING_CAPITAL]
 			earning = mergedDf.loc[i, MERGED_SHEET_HEADER_EARNING]
 			
