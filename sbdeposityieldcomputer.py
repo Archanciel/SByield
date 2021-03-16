@@ -74,7 +74,9 @@ class SBDepositYieldComputer(PandasDataComputer):
 				currentCapital = modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DEPOSIT_WITHDRAW]
 				modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_CAPITAL] = currentCapital
 				dateFrom = modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM]
-				if dateFrom < firstYieldDate:
+				dateFromMinusFirstYieldDateTimeDelta = dateFrom - firstYieldDate
+				dayNumber = dateFromMinusFirstYieldDateTimeDelta.days
+				if (dayNumber) < -1:
 					raise InvalidDepositDateError(self.sbYieldRateComputer.depositSheetFilePathName,
 					                              currentOwner,
 					                              dateFrom,

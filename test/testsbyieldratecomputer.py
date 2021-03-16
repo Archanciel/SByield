@@ -143,11 +143,11 @@ class TestSBYieldRateComputer(unittest.TestCase):
 2020-12-30          1.000431'''
 		self.assertEqual(expectedStrDataframe, yieldRatesDataframe.to_string())
 		
-		#print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositDataFrame, {DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f'}))
-		#print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRatesDataframe, {MERGED_SHEET_HEADER_YIELD_RATE: '.8f'}))
+		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositDataFrame, {DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f'}))
+		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRatesDataframe, {MERGED_SHEET_HEADER_YIELD_RATE: '.8f'}))
 	
 if __name__ == '__main__':
 	#unittest.main()
 	tst = TestSBYieldRateComputer()
 	tst.setUp()
-	tst.test_loadSBEarningSheetUSDC()
+	tst.testGetDepositsAndDailyYieldRatesDataframes()

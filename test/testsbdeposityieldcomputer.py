@@ -10,7 +10,7 @@ sys.path.insert(0,currentdir) # this instruction is necessary for successful imp
 from configmanager import ConfigManager
 from sbyieldratecomputer import *
 from sbdeposityieldcomputer import SBDepositYieldComputer
-from toolatedepositdateerror import TooLateDepositDateError
+from invaliddepositdateerror import InvalidDepositDateError
 
 
 class TestSBDepositYieldComputer(unittest.TestCase):
@@ -294,7 +294,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		with self.assertRaises(TooLateDepositDateError) as e:
+		with self.assertRaises(InvalidDepositDateError) as e:
 			self.depositYieldComputer.computeDepositsYields(yieldCrypto)
 			
 		self.assertEqual('CSV file {}testDepositUsdc_13.csv contains a deposit of 100.0 for owner JPS with a deposit date 2020-12-31 after the last payment date 2020-12-30'.format(self.testDataPath), e.exception.message)
@@ -314,7 +314,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		with self.assertRaises(TooLateDepositDateError) as e:
+		with self.assertRaises(InvalidDepositDateError) as e:
 			self.depositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		self.assertEqual(
@@ -336,7 +336,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		with self.assertRaises(TooLateDepositDateError) as e:
+		with self.assertRaises(InvalidDepositDateError) as e:
 			self.depositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		self.assertEqual(
@@ -357,7 +357,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		with self.assertRaises(TooLateDepositDateError) as e:
+		with self.assertRaises(InvalidDepositDateError) as e:
 			self.depositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		self.assertEqual(
@@ -378,7 +378,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		with self.assertRaises(TooLateDepositDateError) as e:
+		with self.assertRaises(InvalidDepositDateError) as e:
 			self.depositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		self.assertEqual(
@@ -399,7 +399,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		with self.assertRaises(TooLateDepositDateError) as e:
+		with self.assertRaises(InvalidDepositDateError) as e:
 			self.depositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		self.assertEqual(
