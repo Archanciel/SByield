@@ -146,8 +146,10 @@ class SBDepositYieldComputer(PandasDataComputer):
 			capital = modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_CAPITAL]
 			yieldAmount = self._computeYieldAmount(yieldRatesDataframe, capital, dateFrom, dateTo)
 			modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT] = yieldAmount
-			
-		return modifiedDepositDf
+		
+		yieldOwnerTotals = self._computeYieldOwnerTotals(modifiedDepositDf)
+		
+		return modifiedDepositDf, yieldOwnerTotals
 	
 	def _computeYieldAmount(self, yieldRatesDataframe, capital, dateFrom, dateTo):
 		yieldRatesDataframeSubSet = yieldRatesDataframe.loc[dateFrom:dateTo]
@@ -158,3 +160,9 @@ class SBDepositYieldComputer(PandasDataComputer):
 			capitalPlusYield = capitalPlusYield * yieldRate
 		
 		return capitalPlusYield - capital
+	
+	def _computeYieldOwnerTotals(self, depositsYieldsDataFrame):
+		yieldOwnerTotals = depositsYieldsDataFrame.groupby([DEPOSIT_SHEET_HEADER_OWNER]).sum()[[MERGED_SHEET_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
+		yieldOwnerTotals.loc[DATAFRAME_HEADER_TOTAL] = yieldOwnerTotals.sum(numeric_only=True, axis=0)[[MERGED_SHEET_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
+
+		return yieldOwnerTotals

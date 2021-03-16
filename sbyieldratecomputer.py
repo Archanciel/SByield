@@ -4,6 +4,8 @@ import pandas as pd
 # Swissborg account statement sheet parameters
 from pandasdatacomputer import PandasDataComputer
 
+DATAFRAME_HEADER_TOTAL = 'TOTAL'
+
 SB_ACCOUNT_SHEET_FIAT = 'USD'           # earning fiat: USD or CHF as defined when downloading the account statement Excel sheet
 SB_ACCOUNT_SHEET_NAME = 'Transactions'  # name of the spreadsheet
 SB_ACCOUNT_SHEET_SKIP_ROWS = 8          # number of lines above the column headers to skip

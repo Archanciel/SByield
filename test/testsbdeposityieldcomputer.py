@@ -44,7 +44,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
-		depositsYieldsDataFrame = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
+		depositsYieldsDataFrame, yieldOwnerTotals = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
 #		self.assertEqual((5, 2), depositsYieldsDataFrame.shape)
 
 		print(depositSheetFileName)
@@ -68,7 +68,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		depositsYieldsDataFrame = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
+		depositsYieldsDataFrame, yieldOwnerTotals = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
 		#		self.assertEqual((5, 2), depositsYieldsDataFrame.shape)
 		
 		print(depositSheetFileName)
@@ -92,7 +92,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		depositsYieldsDataFrame = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
+		depositsYieldsDataFrame, yieldOwnerTotals = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
 		#		self.assertEqual((5, 2), depositsYieldsDataFrame.shape)
 		
 		print(depositSheetFileName)
@@ -116,7 +116,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		depositsYieldsDataFrame = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
+		depositsYieldsDataFrame, yieldOwnerTotals = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
 		#		self.assertEqual((5, 2), depositsYieldsDataFrame.shape)
 		
 		print(depositSheetFileName)
@@ -140,7 +140,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		depositsYieldsDataFrame = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
+		depositsYieldsDataFrame, yieldOwnerTotals = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
 		#		self.assertEqual((5, 2), depositsYieldsDataFrame.shape)
 		
 		print(depositSheetFileName)
@@ -164,7 +164,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		depositsYieldsDataFrame = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
+		depositsYieldsDataFrame, yieldOwnerTotals = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
 		#		self.assertEqual((5, 2), depositsYieldsDataFrame.shape)
 		
 		print(depositSheetFileName)
@@ -189,7 +189,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		depositsYieldsDataFrame = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
+		depositsYieldsDataFrame, yieldOwnerTotals = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
 		#		self.assertEqual((5, 2), depositsYieldsDataFrame.shape)
 		
 		print(depositSheetFileName)
@@ -215,7 +215,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		depositsYieldsDataFrame = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
+		depositsYieldsDataFrame, yieldOwnerTotals = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
 		#		self.assertEqual((5, 2), depositsYieldsDataFrame.shape)
 		
 		print(depositSheetFileName)
@@ -240,7 +240,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		depositsYieldsDataFrame = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
+		depositsYieldsDataFrame, yieldOwnerTotals = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
 		#		self.assertEqual((5, 2), depositsYieldsDataFrame.shape)
 		
 		print(depositSheetFileName)
@@ -266,7 +266,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		depositsYieldsDataFrame = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
+		depositsYieldsDataFrame, yieldOwnerTotals = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
 		#		self.assertEqual((5, 2), depositsYieldsDataFrame.shape)
 		
 		print(depositSheetFileName)
@@ -292,7 +292,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		depositsYieldsDataFrame = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
+		depositsYieldsDataFrame, yieldOwnerTotals = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
 		#		self.assertEqual((5, 2), depositsYieldsDataFrame.shape)
 		
 		print(depositSheetFileName)
@@ -318,7 +318,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		depositsYieldsDataFrame = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
+		depositsYieldsDataFrame, yieldOwnerTotals = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
 		#		self.assertEqual((5, 2), depositsYieldsDataFrame.shape)
 		
 		print(depositSheetFileName)
@@ -468,7 +468,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		depositsYieldsDataFrame = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
+		depositsYieldsDataFrame, yieldOwnerTotals = self.depositYieldComputer.computeDepositsYields(yieldCrypto)
 		#		self.assertEqual((5, 2), depositsYieldsDataFrame.shape)
 		
 		print(depositSheetFileName)
@@ -492,8 +492,6 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		print(depositsYieldsDataFrame.fillna('').to_string(index=False))
 		
 		print('\n\nYield total GOOD\n')
-		yieldOwnerTotals = depositsYieldsDataFrame.groupby(['OWNER']).sum()[['DEP/WITHDR',"YIELD AMOUNT"]]
-		yieldOwnerTotals.loc['TOTAL'] = yieldOwnerTotals.sum(numeric_only=True, axis=0)[['DEP/WITHDR',"YIELD AMOUNT"]]
 		print(yieldOwnerTotals)
 
 
