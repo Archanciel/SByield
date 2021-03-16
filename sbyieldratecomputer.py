@@ -94,11 +94,6 @@ class SBYieldRateComputer(PandasDataComputer):
 		isTargetCurrency = sbEarningsDf[SB_ACCOUNT_SHEET_HEADER_CURRENCY] == yieldCrypto
 		sbEarningsDf = sbEarningsDf[isTypeEarning & isTargetCurrency]
 		
-		# inserting two empty columns
-		self._insertEmptyFloatColumns(sbEarningsDf,
-		                              0,
-		                              [SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL, DATAFRAME_HEADER_DEPOSIT_WITHDRAW])
-		
 		return sbEarningsDf
 	
 	def _loadDepositSheet(self):
@@ -125,6 +120,11 @@ class SBYieldRateComputer(PandasDataComputer):
 		:param depositDf:
 		:return:
 		"""
+		# inserting two empty columns to the loaded Swissborg earning sheet
+		self._insertEmptyFloatColumns(earningDf,
+		                              0,
+		                              [SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL, DATAFRAME_HEADER_DEPOSIT_WITHDRAW])
+		
 		# removing unused owner column
 		depositDf = depositDf.drop(columns=DEPOSIT_SHEET_HEADER_OWNER)
 

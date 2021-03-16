@@ -33,34 +33,34 @@ class TestSBYieldRateComputer(unittest.TestCase):
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
 		sbEarningsDf = self.yieldRateComputer._loadSBEarningSheet(yieldCrypto)
-		self.assertEqual((9, 5), sbEarningsDf.shape)
+		self.assertEqual((9, 3), sbEarningsDf.shape)
 		#expectedStrDataframe = sbEarningsDf.to_string()
 		expectedStrDataframe = \
-'                     DEP/WITHDR  EARNING CAP      Type Currency  Net amount\n' + \
-'Local time                                                                 ' + \
+'                         Type Currency  Net amount\n' + \
+'Local time                                        ' + \
 '''
-2020-12-22 09:00:00         0.0          0.0  Earnings     USDC        0.80
-2020-12-23 09:00:00         0.0          0.0  Earnings     USDC        0.81
-2020-12-24 09:00:00         0.0          0.0  Earnings     USDC        0.82
-2020-12-25 09:00:00         0.0          0.0  Earnings     USDC        0.78
-2020-12-26 09:00:00         0.0          0.0  Earnings     USDC        2.80
-2020-12-27 09:00:00         0.0          0.0  Earnings     USDC        2.70
-2020-12-28 09:00:00         0.0          0.0  Earnings     USDC        2.75
-2020-12-29 09:00:00         0.0          0.0  Earnings     USDC        4.00
-2020-12-30 09:00:00         0.0          0.0  Earnings     USDC        4.10'''
+2020-12-22 09:00:00  Earnings     USDC        0.80
+2020-12-23 09:00:00  Earnings     USDC        0.81
+2020-12-24 09:00:00  Earnings     USDC        0.82
+2020-12-25 09:00:00  Earnings     USDC        0.78
+2020-12-26 09:00:00  Earnings     USDC        2.80
+2020-12-27 09:00:00  Earnings     USDC        2.70
+2020-12-28 09:00:00  Earnings     USDC        2.75
+2020-12-29 09:00:00  Earnings     USDC        4.00
+2020-12-30 09:00:00  Earnings     USDC        4.10'''
 		self.assertEqual(expectedStrDataframe, sbEarningsDf.to_string())
 	
 	def test_loadSBEarningSheetCHSB(self):
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
 		
 		sbEarningsDf = self.yieldRateComputer._loadSBEarningSheet(yieldCrypto)
-		self.assertEqual((1, 5), sbEarningsDf.shape)
+		self.assertEqual((1, 3), sbEarningsDf.shape)
 		#expectedStrDataframe = sbEarningsDf.to_string()
 		expectedStrDataframe = \
-'                     DEP/WITHDR  EARNING CAP      Type Currency  Net amount\n' + \
-'Local time                                                                 ' + \
+'                         Type Currency  Net amount\n' + \
+'Local time                                        ' + \
 '''
-2020-12-24 09:00:00         0.0          0.0  Earnings     CHSB         2.1'''
+2020-12-24 09:00:00  Earnings     CHSB         2.1'''
 		self.assertEqual(expectedStrDataframe, sbEarningsDf.to_string())
 		
 	def test_loadDepositSheet(self):
