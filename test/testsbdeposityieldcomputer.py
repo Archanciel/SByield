@@ -478,6 +478,23 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame,
 		                                                                 {DEPOSIT_SHEET_HEADER_DEPOSIT_WITHDRAW: '.2f',
 		                                                                  DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'}))
+		print('Yield total 1')
+		print(depositsYieldsDataFrame.sum(axis=0)["YIELD AMOUNT"])
+		
+		print('Yield total 2')
+		print(depositsYieldsDataFrame.groupby(['OWNER']).sum()["YIELD AMOUNT"])
+		
+		print('Yield total 3')
+		print(depositsYieldsDataFrame.groupby(['OWNER']).sum()[['DEP/WITHDR',"YIELD AMOUNT"]])
+		
+		print('Yield total 4')
+		depositsYieldsDataFrame.loc['Total'] = depositsYieldsDataFrame.sum(numeric_only=True, axis=0)[['DEP/WITHDR',"YIELD AMOUNT"]]
+		print(depositsYieldsDataFrame.fillna(''))
+		
+		print('\n\nYield total GOOD\n')
+		yieldOwnerTotals = depositsYieldsDataFrame.groupby(['OWNER']).sum()[['DEP/WITHDR',"YIELD AMOUNT"]]
+		yieldOwnerTotals.loc['TOTAL'] = yieldOwnerTotals.sum(numeric_only=True, axis=0)[['DEP/WITHDR',"YIELD AMOUNT"]]
+		print(yieldOwnerTotals)
 
 
 if __name__ == '__main__':
