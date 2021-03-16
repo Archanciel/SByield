@@ -7,7 +7,13 @@ class InvalidDepositDateError(SBYieldException):
     last yield payment date. Handkling this case in the SBDepositYieldComputer class
     would unusefully complexify its code.
     """
-    def __init__(self, depositCsvFilePathName, owner, depositDate, depositAmount, yieldPaymentDate, isTooLate):
+    def __init__(self,
+                 depositCsvFilePathName,
+                 owner,
+                 depositDate,
+                 depositAmount,
+                 yieldPaymentDate,
+                 isTooLate=True):
         if isTooLate:
             errorMsg = "CSV file {} contains a deposit of {} for owner {} with a deposit \
 date {} after the last payment date {}".format(depositCsvFilePathName,
@@ -16,10 +22,12 @@ date {} after the last payment date {}".format(depositCsvFilePathName,
                                                    depositDate,
                                                    yieldPaymentDate)
         else:
+            # in fact never happens !
             errorMsg = "CSV file {} contains a deposit of {} for owner {} with a deposit \
 date {} before the first payment date {}".format(depositCsvFilePathName,
                                                  depositAmount,
                                                  owner,
                                                  depositDate,
                                                  yieldPaymentDate)
+
         super(InvalidDepositDateError, self).__init__(msg=errorMsg)
