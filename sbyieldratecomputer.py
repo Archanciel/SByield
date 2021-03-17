@@ -24,6 +24,10 @@ SB_ACCOUNT_SHEET_UNUSED_COLUMNS_LIST = ['Time in UTC',
 										'Net amount ({})'.format(SB_ACCOUNT_SHEET_FIAT),
 										'Note']
 
+# columns which can be later removed from the Swissborg account statement data frame
+SB_ACCOUNT_SHEET_NO_LONGER_USED_COLUMNS_LIST = [SB_ACCOUNT_SHEET_HEADER_TYPE,
+                                                SB_ACCOUNT_SHEET_HEADER_CURRENCY]
+
 # two new columns to add to the Swissborg account statement sheet
 SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL = 'EARNING CAP'
 
@@ -43,10 +47,6 @@ MERGED_SHEET_HEADER_EARNING = SB_ACCOUNT_SHEET_HEADER_EARNING
 MERGED_SHEET_HEADER_DATE_NEW_NAME = 'DATE'
 MERGED_SHEET_HEADER_EARNING_NEW_NAME = 'EARNINGS'
 MERGED_SHEET_HEADER_YIELD_RATE = 'DAILY YIELD RATE'
-
-# columns which can be removed from the merged data frame
-MERGED_SHEET_UNUSED_COLUMNS_LIST = [SB_ACCOUNT_SHEET_HEADER_TYPE,
-									SB_ACCOUNT_SHEET_HEADER_CURRENCY]
 
 class SBYieldRateComputer(PandasDataComputer):
 	"""
@@ -124,14 +124,14 @@ class SBYieldRateComputer(PandasDataComputer):
 		                              0,
 		                              [SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL, DATAFRAME_HEADER_DEPOSIT_WITHDRAW])
 		
-		# removing unused owner column
+		# drop no longer unusefull type and  currency columns from the SB earning data frame
+		earningDf = earningDf.drop(columns=SB_ACCOUNT_SHEET_NO_LONGER_USED_COLUMNS_LIST)
+		
+		# removing unusefull owner column from the deposit data frame
 		depositDf = depositDf.drop(columns=DEPOSIT_SHEET_HEADER_OWNER)
-
-		# appending depositDf to earningDf, then sorting and converting NaN to zero
+		
+		# appending depositDf to earningDf, then sorting on datetime index and converting NaN to zero
 		mergedDf = earningDf.append(depositDf).sort_index().fillna(0)
-
-		# drop unused columns
-		mergedDf = mergedDf.drop(columns=MERGED_SHEET_UNUSED_COLUMNS_LIST)
 
 		# replace DATE index with integer index
 		mergedDf = self._replaceDateIndexByIntIndex(mergedDf, MERGED_SHEET_HEADER_DATE, DATAFRAME_HEADER_INDEX)
@@ -141,52 +141,37 @@ class SBYieldRateComputer(PandasDataComputer):
 		cols = cols[-1:] + cols[:-1]
 		mergedDf = mergedDf[cols]
 
-		# adding yield column
+		# adding daily yield rate column
 		mergedDf.insert(loc=mergedDf.shape[1], column=MERGED_SHEET_HEADER_YIELD_RATE, value=[0.0 for i in range(mergedDf.shape[0])])
 
 		# computing the earning capital value as well as the daily yield rate
-		for i in range(2, len(mergedDf) + 1):
-			mergedDf.loc[i, MERGED_SHEET_HEADER_EARNING_CAPITAL] = mergedDf.loc[i - 1, MERGED_SHEET_HEADER_EARNING_CAPITAL] + \
-			                                                       mergedDf.loc[i - 1, DATAFRAME_HEADER_DEPOSIT_WITHDRAW] + \
-			                                                       mergedDf.loc[i - 1, MERGED_SHEET_HEADER_EARNING]
-			earningCapital = mergedDf.loc[i, MERGED_SHEET_HEADER_EARNING_CAPITAL]
+		currentCapital = 0
+		previousEarning = 0
+		
+		for i in range(1, len(mergedDf) + 1):
+			if i > 1:
+				previousEarning = mergedDf.loc[i - 1, MERGED_SHEET_HEADER_EARNING]
+			currentCapital = currentCapital + \
+			                 mergedDf.loc[i, DATAFRAME_HEADER_DEPOSIT_WITHDRAW] + \
+			                 previousEarning
+			mergedDf.loc[i, MERGED_SHEET_HEADER_EARNING_CAPITAL] = currentCapital
 			earning = mergedDf.loc[i, MERGED_SHEET_HEADER_EARNING]
 			
-			if earningCapital > 0 and earning > 0:
+			if currentCapital > 0 and earning > 0:
 				mergedDf.loc[i, MERGED_SHEET_HEADER_YIELD_RATE] = 1 + \
 																  earning / \
-																  earningCapital
-				
+																  currentCapital
+		
+		#print(self.getDataframeStrWithFormattedColumns(mergedDf, {MERGED_SHEET_HEADER_YIELD_RATE: '.8f'}))
 		mergedDf = mergedDf.rename(columns={MERGED_SHEET_HEADER_DATE: MERGED_SHEET_HEADER_DATE_NEW_NAME, MERGED_SHEET_HEADER_EARNING: MERGED_SHEET_HEADER_EARNING_NEW_NAME})
 		
 		return mergedDf
-	
-	def getDataframeStrWithFormattedColumns(self, dataFrame, colFormatDic):
-		"""
-		Returns a string representation of the passed dataFrame enabling to define a
-		specific format for any column since Pandas by default format all float
-		columns with a same format.
-		
-		This method is useful if we want to set a specific precision to float64
-		columns.
-		
-		:param dataFrame:
-		:param colFormatDic: Example: {MERGED_SHEET_HEADER_YIELD_RATE: '.8f'}
-		:return:
-		"""
-		formatDic = {}
-		
-		for colHeader, formatStr in colFormatDic.items():
-			pandasFormatter = '{:,' + formatStr + '}'
-			formatDic[colHeader] = pandasFormatter.format
-			
-		return dataFrame.to_string(formatters=formatDic)
 	
 	def getDepositsAndDailyYieldRatesDataframes(self,
 												yieldCrypto):
 		"""
 		Loads the Swissborg account statement sheet and the Deposit/Withdrawal sheet
-		in order to compute the daily yield rates which will be used compute the daily
+		in order to compute the daily yield rates which will be used to compute the daily
 		earnings to be distributed in proportion of the deposits/withdrawals amounts
 		invested by the different deposit owners.
 		

@@ -64,3 +64,24 @@ class PandasDataComputer:
 		"""
 		for colName in newColNameLst:
 			dataFrame[colName] = ''
+	
+	def getDataframeStrWithFormattedColumns(self, dataFrame, colFormatDic):
+		"""
+		Returns a string representation of the passed dataFrame enabling to define a
+		specific format for any column since Pandas by default format all float
+		columns with a same format.
+		
+		This method is useful if we want to set a specific precision to float64
+		columns.
+		
+		:param dataFrame:
+		:param colFormatDic: Example: {MERGED_SHEET_HEADER_YIELD_RATE: '.8f'}
+		:return:
+		"""
+		formatDic = {}
+		
+		for colHeader, formatStr in colFormatDic.items():
+			pandasFormatter = '{:,' + formatStr + '}'
+			formatDic[colHeader] = pandasFormatter.format
+			
+		return dataFrame.to_string(formatters=formatDic)

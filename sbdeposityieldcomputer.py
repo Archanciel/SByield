@@ -145,9 +145,10 @@ class SBDepositYieldComputer(PandasDataComputer):
 			yieldAmount = self._computeYieldAmount(yieldRatesDataframe, capital, dateFrom, dateTo)
 			modifiedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT] = yieldAmount
 		
-		yieldOwnerTotals = self._computeYieldOwnerTotals(modifiedDepositDf)
+		yieldOwnerSummaryTotals = self._computeYieldOwnerSummaryTotals(modifiedDepositDf)
+		yieldOwnerDetailTotals = self._computeYieldOwnerDetailTotals(modifiedDepositDf)
 		
-		return modifiedDepositDf, yieldOwnerTotals
+		return modifiedDepositDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals
 	
 	def _computeYieldAmount(self, yieldRatesDataframe, capital, dateFrom, dateTo):
 		yieldRatesDataframeSubSet = yieldRatesDataframe.loc[dateFrom:dateTo]
@@ -159,8 +160,15 @@ class SBDepositYieldComputer(PandasDataComputer):
 		
 		return capitalPlusYield - capital
 	
-	def _computeYieldOwnerTotals(self, depositsYieldsDataFrame):
-		yieldOwnerTotals = depositsYieldsDataFrame.groupby([DEPOSIT_SHEET_HEADER_OWNER]).sum()[[DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
-		yieldOwnerTotals.loc[DATAFRAME_HEADER_TOTAL] = yieldOwnerTotals.sum(numeric_only=True, axis=0)[[DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
+	def _computeYieldOwnerSummaryTotals(self, depositsYieldsDataFrame):
+		yieldOwnerSummaryTotals = depositsYieldsDataFrame.groupby([DEPOSIT_SHEET_HEADER_OWNER]).sum()[[DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
+		yieldOwnerSummaryTotals.loc[DATAFRAME_HEADER_TOTAL] = yieldOwnerSummaryTotals.sum(numeric_only=True, axis=0)[[DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
 
-		return yieldOwnerTotals
+		return yieldOwnerSummaryTotals
+	
+	def _computeYieldOwnerDetailTotals(self, depositsYieldsDataFrame):
+		yieldOwnerDetailTotals = depositsYieldsDataFrame.copy()
+		yieldOwnerDetailTotals.loc[DATAFRAME_HEADER_TOTAL] = depositsYieldsDataFrame.sum(numeric_only=True, axis=0)[
+			[DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
+
+		return yieldOwnerDetailTotals.fillna('').to_string(index=False)

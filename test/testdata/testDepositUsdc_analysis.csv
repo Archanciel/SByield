@@ -1,0 +1,12 @@
+Comment: The deposits must be defined with a deposit date which is equal to the first SB earning date for this deposit with 00:00:00 for the time component, To describe it differently, the deposit date is equal to the yield subscription activation date + 1 day.
+If an owner makes several deposits for the same yield farm crypto on the same date, only one row for this owner with a value equal to the sum of those deposits must be added to the csv file.
+If more than one deposit for different owners are added on the same date, each deposit
+date must be unique, i.e. with a second component augmented by 1 for each addition (00:00:00, 00:00:01, ...) !
+OWNER,Local time,DEP/WITHDR
+JPS,2020/12/22 00:00:00,2000
+JPS,2020/12/23 00:00:00,100
+Papa,2020/12/22 00:00:01,4000
+Béa,2020/12/30 00:00:00,1000
+Papa,2020/12/23 00:00:01,-500
+JPS,2020/12/28 00:00:00,3000
+Papa,2020/12/29 00:00:00,300

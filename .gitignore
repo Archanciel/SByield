@@ -2,3 +2,5 @@
 *.xml
 *.pyc
 *.iml
+test/testdata/~$testSBEarningUsdc.xlsx
+test/testdata/~$testSBEarningUsdc_analysis.xlsx
