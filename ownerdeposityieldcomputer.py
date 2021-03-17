@@ -10,7 +10,7 @@ DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER = 'YIELD DAYS'
 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT = 'YIELD AMOUNT'
 
 
-class SBDepositYieldComputer(PandasDataComputer):
+class OwnerDepositYieldComputer(PandasDataComputer):
 	"""
 	This class loads the Swissborg account statement xlsl sheet and the Deposit/Withdrawal
 	csv files.
@@ -30,7 +30,7 @@ class SBDepositYieldComputer(PandasDataComputer):
 	def computeDepositsYields(self, yieldCrypto):
 		"""
 		
-		Can raise InvalidDepositDateError in case the deposit csv file contains a deposi or withdrawal
+		Can raise InvalidDepositDateError in case the deposit csv file contains a deposit or withdrawal
 		whose date is after the last Swissborg yield payment date.
 		"""
 		depositDf, yieldRatesDataframe = self.sbYieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)

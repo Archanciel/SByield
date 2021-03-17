@@ -141,6 +141,7 @@ TOTAL                                          2.1'''
 13  2020-12-29 09:00:00         0.0      9511.46      4.00          1.000421
 14  2020-12-30 09:00:00         0.0      9515.46      4.10          1.000431'''
 		#self.assertEqual(expectedStrDataframe, mergedEarningDeposit.to_string())
+		print(mergedEarningDeposit)
 		
 	def testGetDepositsAndDailyYieldRatesDataframes(self):
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC

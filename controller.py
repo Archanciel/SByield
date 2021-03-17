@@ -3,7 +3,7 @@ import os,sys,inspect
 from configmanager import ConfigManager
 from processor import Processor
 from sbyieldratecomputer import SBYieldRateComputer
-from sbdeposityieldcomputer import SBDepositYieldComputer
+from ownerdeposityieldcomputer import OwnerDepositYieldComputer
 
 class Controller:
 	def __init__(self):
@@ -14,6 +14,6 @@ class Controller:
 
 		configMgr = ConfigManager(configPath)
 		self.sbYieldRateComputer = SBYieldRateComputer(configMgr)
-		self.sbDepositYieldComputer = SBDepositYieldComputer(configMgr, self.sbYieldRateComputer)
+		self.sbDepositYieldComputer = OwnerDepositYieldComputer(configMgr, self.sbYieldRateComputer)
 
 		self.processor = Processor(configMgr)

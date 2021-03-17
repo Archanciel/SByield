@@ -51,11 +51,18 @@ MERGED_SHEET_HEADER_YIELD_RATE = 'DAILY YIELD RATE'
 class SBYieldRateComputer(PandasDataComputer):
 	"""
 	This class loads the Swissborg account statement xlsl sheet and the Deposit/Withdrawal
-	csv files. Its purpose is to compute and return a daily yield rate data frame indexed
-	by the yield rate date.
+	csv file. The Swissborg account statement xlsl sheet contains the yield earnings
+	payed daily by Swissborg. The Deposit/Withdrawal csv file contains the deposits and
+	withdrawals done for the different owners at the date when they start (for deposits) or
+	stop (for withdrawals) to earn Swissborg yield amounts.
 	
-	The daily yield rates will be used to distribute the Swissborg daily earnings according
-	to the deposits/withdrawals amounts invested by the different capital owners.
+	The class uses the deposit/withdrawal amount and date to compute the daily capital
+	amounts which generate earnings. It can then compute the daily yield rates which
+	are stored in the returned daily yield rates dataframe.
+	
+	The daily yield rates will be used by the OwnerDepositYieldComputer class to spread
+	out to the Swissborg daily earnings proportionally to the deposit/withdrawal amounts
+	invested by the different yield subscription amounts owners.
 	"""
 	def __init__(self, configMgr, sbAccountSheetFilePathName, depositSheetFilePathName):
 		"""
@@ -113,11 +120,19 @@ class SBYieldRateComputer(PandasDataComputer):
 	def _mergeEarningAndDeposit(self, earningDf, depositDf):
 		"""
 		Merges Deposit/Withdrawal dataframe into the Swissborg account statement dataframe.
-		Then computes the earning capital values as well as the daily yield rates.
+		Then computes the daily capital amounts which will be used tocompute the daily yield
+		rates.
 		
 		:param earningDf:
 		:param depositDf:
-		:return:
+		
+		:return example:
+		                   DATE  DEP/WITHDR  EARNING CAP  EARNINGS  DAILY YIELD RATE
+		IDX
+		1   2020-12-21 10:00:00      2000.0      2000.00      0.00          0.000000
+		2   2020-12-22 09:00:00         0.0      2000.00      0.80          1.000400
+		5   2020-12-23 09:00:00         0.0      2002.43      0.78          1.000390
+		6   2020-12-24 10:00:00      4000.0      6003.21      0.00          0.000000
 		"""
 		# inserting two empty columns to the loaded Swissborg earning sheet
 		self._insertEmptyFloatColumns(earningDf,
@@ -178,6 +193,22 @@ class SBYieldRateComputer(PandasDataComputer):
 		:param yieldCrypto:
 		
 		:return: loaded deposit data frame and computed yield rates data frame
+
+		Loaded deposit data frame example
+		
+		                    OWNER DEP/WITHDR
+		Local time
+		2020-12-21 10:00:00   JPS   2,000.00
+		2020-12-25 10:00:00  Papa   4,000.00
+		2020-12-27 10:00:01  Papa    -500.00
+
+		Computed yield rates data frame example
+		
+		           DAILY YIELD RATE
+		DATE
+		2020-12-22       1.00040000
+		2020-12-23       1.00040484
+		2020-12-24       1.00040967
 		"""
 		sbEarningsDf = self._loadSBEarningSheet(yieldCrypto)
 		depositDf = self._loadDepositSheet()
@@ -187,24 +218,36 @@ class SBYieldRateComputer(PandasDataComputer):
 		# extract only MERGED_SHEET_HEADER_DATE_NEW_NAME and MERGED_SHEET_HEADER_YIELD_RATE columns
 		colDateIdx = mergedEarningDeposit.columns.get_loc(MERGED_SHEET_HEADER_DATE_NEW_NAME)
 		colYieldRateIdx = mergedEarningDeposit.columns.get_loc(MERGED_SHEET_HEADER_YIELD_RATE)
-		yieldRatesDataframe = mergedEarningDeposit[mergedEarningDeposit.columns[[colDateIdx, colYieldRateIdx]]]
+		dailyYieldRatesDataframe = mergedEarningDeposit[mergedEarningDeposit.columns[[colDateIdx, colYieldRateIdx]]]
 
 		# keep only non 0 MERGED_SHEET_HEADER_YIELD_RATE rows
-		isYieldRateNonZero = yieldRatesDataframe[MERGED_SHEET_HEADER_YIELD_RATE] != 0
-		yieldRatesDataframe = yieldRatesDataframe[isYieldRateNonZero]
+		isYieldRateNonZero = dailyYieldRatesDataframe[MERGED_SHEET_HEADER_YIELD_RATE] != 0
+		dailyYieldRatesDataframe = dailyYieldRatesDataframe[isYieldRateNonZero]
 
 		# remove time component from date index
-		yieldRatesDataframe[MERGED_SHEET_HEADER_DATE_NEW_NAME] = pd.to_datetime(yieldRatesDataframe[MERGED_SHEET_HEADER_DATE_NEW_NAME].dt.date)
+		dailyYieldRatesDataframe[MERGED_SHEET_HEADER_DATE_NEW_NAME] = pd.to_datetime(dailyYieldRatesDataframe[MERGED_SHEET_HEADER_DATE_NEW_NAME].dt.date)
 		
 		# set MERGED_SHEET_HEADER_DATE_NEW_NAME column as index
-		yieldRatesDataframe = yieldRatesDataframe.set_index(MERGED_SHEET_HEADER_DATE_NEW_NAME)
+		dailyYieldRatesDataframe = dailyYieldRatesDataframe.set_index(MERGED_SHEET_HEADER_DATE_NEW_NAME)
 
-		return depositDf, yieldRatesDataframe
+		return depositDf, dailyYieldRatesDataframe
 
 	def getSBEarningSheetTotalDf(self, yieldCrypto):
 		"""
-		Returns the Swissborg account statement sheet dataframe after adding a total
-		earning row to it.
+		Returns the Swissborg account statement sheet dataframe earnings for the passed
+		yield crypto (USDC, CHSV, ...) with the addition of a total	earning row to it.
+
+		:param yieldCrypto: USDC, CHSV, ... used to filter loaded Swissborg account
+							statement sheet rows
+							
+		:return example:
+		
+				                         Type Currency  Net amount
+		Local time
+		2020-12-22 09:00:00  Earnings     USDC        2.40
+		2020-12-23 09:00:00  Earnings     USDC        2.30
+		2020-12-24 09:00:00  Earnings     USDC        2.25
+		TOTAL                                         6.95
 		"""
 		sbEarningsDf = self._loadSBEarningSheet(yieldCrypto)
 

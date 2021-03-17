@@ -9,6 +9,11 @@ class PandasDataComputer:
 	This class contains code used by its subclasses.
 	"""
 	def __init__(self, configMgr):
+		"""
+		Currently, the configMgr is not used. Constants are used in place.
+		
+		:param configMgr:
+		"""
 		self.configMgr = configMgr
 		
 	def _replaceDateIndexByIntIndex(self, dataFrame, savedDateColumnName, intIndexColumnName):

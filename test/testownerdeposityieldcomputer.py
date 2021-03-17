@@ -8,11 +8,11 @@ sys.path.insert(0,currentdir) # this instruction is necessary for successful imp
 							  # the test is executed standalone
 
 from configmanager import ConfigManager
-from sbdeposityieldcomputer import *
+from ownerdeposityieldcomputer import *
 from invaliddepositdateerror import InvalidDepositDateError
 
 
-class TestSBDepositYieldComputer(unittest.TestCase):
+class TestOwnerDepositYieldComputer(unittest.TestCase):
 	def initializeComputerClasses(self, sbAccountSheetFileName, depositSheetFileName):
 		if os.name == 'posix':
 			configPath = '/sdcard/sbyield.ini'
@@ -28,7 +28,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 		self.yieldRateComputer = SBYieldRateComputer(configMgr,
 		                                             sbAccountSheetFilePathName,
 		                                             depositSheetFilePathName)
-		self.depositYieldComputer = SBDepositYieldComputer(configMgr, self.yieldRateComputer)
+		self.depositYieldComputer = OwnerDepositYieldComputer(configMgr, self.yieldRateComputer)
 	
 	def testComputeDepositsYieldsFirstDepositRowUniqueOwnerTwoDeposits(self):
 		"""
@@ -514,7 +514,7 @@ class TestSBDepositYieldComputer(unittest.TestCase):
 
 if __name__ == '__main__':
 	#unittest.main()
-	tst = TestSBDepositYieldComputer()
+	tst = TestOwnerDepositYieldComputer()
 	# tst.testComputeDepositsYieldsFirstDepositRowUniqueOwnerTwoDeposits()
 	# tst.testComputeDepositsYieldsLastDepositRowUniqueOwnerTwoDeposits()
 	# tst.testComputeDepositsYieldsMiddleDepositRowUniqueOwnerTwoDeposits()
