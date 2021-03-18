@@ -499,11 +499,11 @@ class TestOwnerDepositYieldComputer(unittest.TestCase):
 		
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
-		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
-		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
-		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame,
-		                                                                 {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
-		                                                                  DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'}))
+		print(self.depositYieldComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
+		                                                                    {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
+		print(self.depositYieldComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame,
+		                                                                    {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+		                                                                     DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'}))
 		print(yieldOwnerDetailTotals)
 		print(yieldOwnerSummaryTotals)
 		

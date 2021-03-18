@@ -61,7 +61,7 @@ class SBYieldRateComputer(PandasDataComputer):
 	are stored in the returned daily yield rates dataframe.
 	
 	The daily yield rates will be used by the OwnerDepositYieldComputer class to spread
-	out to the Swissborg daily earnings proportionally to the deposit/withdrawal amounts
+	out the Swissborg daily earnings proportionally to the deposit/withdrawal amounts
 	invested by the different yield subscription amounts owners.
 	"""
 	def __init__(self, configMgr, sbAccountSheetFilePathName, depositSheetFilePathName):
