@@ -61,7 +61,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		firstYieldTimeStamp = yieldRatesDataframe.index[0]
 		firstYieldDate = firstYieldTimeStamp.date()
 		lastYieldTimeStamp = yieldRatesDataframe.index[-1]
-		lastYieldDate = lastYieldTimeStamp.date()
+		lastYieldPaymentDate = lastYieldTimeStamp.date()
 		maxIdxValue = len(ownerDateSortedDepositDf)
 
 		print(self.getDataframeStrWithFormattedColumns(yieldRatesDataframe,
@@ -76,16 +76,10 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 				currentOwner = ownerDateSortedDepositDf.loc[i, DEPOSIT_SHEET_HEADER_OWNER]
 				currentCapital = ownerDateSortedDepositDf.loc[i, DATAFRAME_HEADER_DEPOSIT_WITHDRAW]
 				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_CAPITAL] = currentCapital
-				dateFrom = ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM]
-				dateFromMinusFirstYieldDateTimeDelta = dateFrom - firstYieldDate
-				if dateFromMinusFirstYieldDateTimeDelta.days == -1:
-					# the case if the current deposit is the oldest or very first deposit deposit
-					dateFrom = dateFrom + timedelta(days=1)
-					ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM] = dateFrom
 				if i > 1:
 					if i == maxIdxValue:
 						# setting yield date to as well as yield day number
-						ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] = lastYieldDate
+						ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] = lastYieldPaymentDate
 						dateToMinusDateFromTimeDelta = ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] - \
 						                               ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM]
 						yieldDayNumber = dateToMinusDateFromTimeDelta.days
@@ -94,14 +88,14 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 							                              currentOwner,
 							                              ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM],
 							                              ownerDateSortedDepositDf.loc[i, DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
-							                              lastYieldDate)
+							                              lastYieldPaymentDate)
 						ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 					else:
 						# here, the owner has changed. This means that the previous owner capital
-						# remains the same till the end of SB yield earnings
+						# remains the same till the end of SB yield earning payments
 						
-						# setting yield date to as well as yield day number
-						ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] = lastYieldDate
+						# setting yield date to as well as yield day number for previous owner
+						ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] = lastYieldPaymentDate
 						dateToMinusDateFromTimeDelta = ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] - \
 						                               ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM]
 						yieldDayNumber = dateToMinusDateFromTimeDelta.days
@@ -110,9 +104,10 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 							                              ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_SHEET_HEADER_OWNER],
 							                              ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM],
 							                              ownerDateSortedDepositDf.loc[i - 1, DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
-							                              lastYieldDate)
+							                              lastYieldPaymentDate)
 						ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 			else:
+				# handling additional deposits for current owner
 				currentCapital = currentCapital + ownerDateSortedDepositDf.loc[i, DATAFRAME_HEADER_DEPOSIT_WITHDRAW]
 				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_CAPITAL] = currentCapital
 				
@@ -129,7 +124,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 				ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 
 				# setting yield date to as well as yield day number for current line
-				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] = lastYieldDate
+				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] = lastYieldPaymentDate
 				dateToMinusDateFromTimeDelta = ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] - \
 				                               ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM]
 				yieldDayNumber = dateToMinusDateFromTimeDelta.days
@@ -138,7 +133,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 					                              currentOwner,
 					                              ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM],
 					                              ownerDateSortedDepositDf.loc[i, DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
-					                              lastYieldDate)
+					                              lastYieldPaymentDate)
 				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 
 		# finally, compute the yield amount
