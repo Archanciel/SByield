@@ -495,26 +495,64 @@ class TestOwnerDepositYieldComputer(unittest.TestCase):
 		
 		depositsYieldsDataFrame, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(
 			yieldCrypto)
-		#		self.assertEqual((5, 2), depositsYieldsDataFrame.shape)
 		
 		print(depositSheetFileName)
-		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
-		print(self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
-		                                                                         {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
-		print(self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(depositsYieldsDataFrame,
-		                                                                         {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
-		                                                                     DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'}))
-		print(self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(yieldOwnerDetailTotals,
-		                                                                         {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
-		                                                                      DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'}))
-		print(self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(yieldOwnerSummaryTotals,
-		                                                                         {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
-		                                                                     DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'}))
 		
 		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
 		
-		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(sbEarningsTotalDf,
-		                                                                 {SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'}))
+		actualStrDataframe = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(sbEarningsTotalDf,
+		                                                                                        {
+			                                                                                        DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+		expectedStrDataframe = \
+'                         Type Currency  Net amount\n' + \
+'Local time                                        ' + \
+'''
+2020-12-22 09:00:00  Earnings     USDC        2.40
+2020-12-23 09:00:00  Earnings     USDC        2.30
+2020-12-24 09:00:00  Earnings     USDC        2.25
+2020-12-25 09:00:00  Earnings     USDC        2.50
+2020-12-26 09:00:00  Earnings     USDC        2.43
+2020-12-27 09:00:00  Earnings     USDC        2.43
+2020-12-28 09:00:00  Earnings     USDC        3.40
+2020-12-29 09:00:00  Earnings     USDC        3.50
+2020-12-30 09:00:00  Earnings     USDC        4.00
+TOTAL                                        25.21'''
+		
+		self.assertEqual(expectedStrDataframe, actualStrDataframe)
+		
+		actualStrDataframe = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(yieldOwnerSummaryTotals,
+		                                                                                        {
+			                                                                                        DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+			                                                                                        DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+		expectedStrDataframe = \
+'      DEP/WITHDR YIELD AMOUNT\n' + \
+'OWNER                        ' + \
+'''
+Béa     1,000.00   0.40317663
+JPS     5,100.00  11.33751104
+Papa    3,800.00  13.44900699
+TOTAL   9,900.00  25.18969467'''
+
+		self.assertEqual(expectedStrDataframe, actualStrDataframe)
+		
+		actualStrDataframe = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(yieldOwnerDetailTotals,
+		                                                                                        {
+			                                                                                        DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+			                                                                                        DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+		expectedStrDataframe = \
+'      OWNER DEP/WITHDR CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT\n' + \
+'IDX                                                                           ' + \
+'''
+1       Béa   1,000.00  1000.0  2020-12-30  2020-12-30          1   0.40317663
+2       JPS   2,000.00  2000.0  2020-12-22  2020-12-22          1   0.80000000
+3       JPS     100.00  2100.0  2020-12-23  2020-12-27          5   4.46433671
+4       JPS   3,000.00  5100.0  2020-12-28  2020-12-30          3   6.07317433
+5      Papa   4,000.00  4000.0  2020-12-22  2020-12-22          1   1.60000000
+6      Papa    -500.00  3500.0  2020-12-23  2020-12-28          6   8.82492023
+7      Papa     300.00  3800.0  2020-12-29  2020-12-30          2   3.02408677
+TOTAL         9,900.00                                             25.18969467'''
+
+		self.assertEqual(expectedStrDataframe, actualStrDataframe)
 
 
 if __name__ == '__main__':
