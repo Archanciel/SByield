@@ -534,24 +534,20 @@ Papa    3,800.00  13.44900699
 TOTAL   9,900.00  25.18969467'''
 
 		self.assertEqual(expectedStrDataframe, actualStrDataframe)
-		
-		actualStrDataframe = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(yieldOwnerDetailTotals,
-		                                                                                        {
-			                                                                                        DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
-			                                                                                        DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
-		expectedStrDataframe = \
-'      OWNER DEP/WITHDR CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT\n' + \
-'IDX                                                                           ' + \
-'''
-1       Béa   1,000.00  1000.0  2020-12-30  2020-12-30          1   0.40317663
-2       JPS   2,000.00  2000.0  2020-12-22  2020-12-22          1   0.80000000
-3       JPS     100.00  2100.0  2020-12-23  2020-12-27          5   4.46433671
-4       JPS   3,000.00  5100.0  2020-12-28  2020-12-30          3   6.07317433
-5      Papa   4,000.00  4000.0  2020-12-22  2020-12-22          1   1.60000000
-6      Papa    -500.00  3500.0  2020-12-23  2020-12-28          6   8.82492023
-7      Papa     300.00  3800.0  2020-12-29  2020-12-30          2   3.02408677
-TOTAL         9,900.00                                             25.18969467'''
 
+		actualStrDataframe = yieldOwnerDetailTotals.to_string()
+		expectedStrDataframe = \
+'      OWNER  DEP/WITHDR CAPITAL        FROM          TO YIELD DAYS  YIELD AMOUNT\n' + \
+'IDX                                                                             ' + \
+'''
+1       Béa      1000.0  1000.0  2020-12-30  2020-12-30          1      0.403177
+2       JPS      2000.0  2000.0  2020-12-22  2020-12-22          1      0.800000
+3       JPS       100.0  2100.0  2020-12-23  2020-12-27          5      4.464337
+4       JPS      3000.0  5100.0  2020-12-28  2020-12-30          3      6.073174
+5      Papa      4000.0  4000.0  2020-12-22  2020-12-22          1      1.600000
+6      Papa      -500.0  3500.0  2020-12-23  2020-12-28          6      8.824920
+7      Papa       300.0  3800.0  2020-12-29  2020-12-30          2      3.024087
+TOTAL            9900.0                                                25.189695'''
 		self.assertEqual(expectedStrDataframe, actualStrDataframe)
 
 

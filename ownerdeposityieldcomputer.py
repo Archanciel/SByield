@@ -54,7 +54,9 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		self._appendEmptyColumns(ownerDateSortedDepositDf,
 		                         [DEPOSIT_YIELD_HEADER_DATE_TO, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER])
 
-		self._insertEmptyFloatColumns(ownerDateSortedDepositDf, None, [DEPOSIT_YIELD_HEADER_YIELD_AMOUNT])
+		self._insertEmptyFloatColumns(ownerDateSortedDepositDf,
+		                              None,
+		                              [DEPOSIT_YIELD_HEADER_YIELD_AMOUNT])
 
 		# compute capital, date to and yield day number
 		previousRowOwner = None
