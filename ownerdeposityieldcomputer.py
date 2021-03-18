@@ -98,7 +98,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 						ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] = lastYieldPaymentDate
 						dateToMinusDateFromTimeDelta = ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] - \
 						                               ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM]
-						yieldDayNumber = dateToMinusDateFromTimeDelta.days
+						yieldDayNumber = dateToMinusDateFromTimeDelta.days + 1
 						if yieldDayNumber < 0:
 							raise InvalidDepositDateError(self.sbYieldRateComputer.depositSheetFilePathName,
 							                              ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_SHEET_HEADER_OWNER],
@@ -112,7 +112,9 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_CAPITAL] = currentCapital
 				
 				# setting yield date to as well as yield day number for previous line
-				ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] = ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM]
+				dateFrom = ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM]
+				dateFrom = dateFrom - timedelta(days=1)
+				ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] = dateFrom
 				dateToMinusDateFromTimeDelta = ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] - \
 				                               ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM]
 				
@@ -120,7 +122,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 				# and then by deposit date ! So, for the same owner, previous deposit date to is set to current
 				# deposit date from which is greater than previous deposit date from (see deposit csv file
 				# comment for justification)
-				yieldDayNumber = dateToMinusDateFromTimeDelta.days
+				yieldDayNumber = dateToMinusDateFromTimeDelta.days + 1
 				ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 
 				# setting yield date to as well as yield day number for current line
@@ -170,4 +172,4 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		yieldOwnerDetailTotals.loc[DATAFRAME_HEADER_TOTAL] = depositsYieldsDataFrame.sum(numeric_only=True, axis=0)[
 			[DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
 
-		return yieldOwnerDetailTotals.fillna('').to_string(index=False)
+		return yieldOwnerDetailTotals.fillna('')
