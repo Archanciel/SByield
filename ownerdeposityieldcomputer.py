@@ -94,7 +94,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 						# here, the owner has changed. This means that the previous owner capital
 						# remains the same till the end of SB yield earning payments
 						
-						# setting yield date to as well as yield day number for previous owner
+						# setting yield dateTo as well as yield day number for previous owner
 						ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] = lastYieldPaymentDate
 						dateToMinusDateFromTimeDelta = ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] - \
 						                               ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM]
