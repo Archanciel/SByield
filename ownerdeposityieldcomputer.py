@@ -61,6 +61,8 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		# compute capital, date to and yield day number
 		previousRowOwner = None
 		currentRowCapital = 0
+		firstYieldTimeStamp = yieldRatesDataframe.index[0]
+		firstYieldPaymentDate = firstYieldTimeStamp.date()
 		lastYieldTimeStamp = yieldRatesDataframe.index[-1]
 		lastYieldPaymentDate = lastYieldTimeStamp.date()
 		maxIdxValue = len(ownerDateSortedDepositDf)
@@ -76,6 +78,12 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 				                              currentRowDateFrom,
 				                              ownerDateSortedDepositDf.loc[i, DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
 				                              lastYieldPaymentDate)
+			if currentRowDateFrom < firstYieldPaymentDate:
+				# the case if the application is run on a Swissborg earning sheet which was downloaded
+				# with specifying a start date later than the first deposits dates. This does not cause
+				# any problem
+				currentRowDateFrom = firstYieldPaymentDate
+				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM] = currentRowDateFrom
 			if currentRowOwner != previousRowOwner:
 				previousRowOwner = currentRowOwner
 				currentRowCapital = ownerDateSortedDepositDf.loc[i, DATAFRAME_HEADER_DEPOSIT_WITHDRAW]
