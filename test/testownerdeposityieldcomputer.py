@@ -500,10 +500,10 @@ class TestOwnerDepositYieldComputer(unittest.TestCase):
 		
 		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
 		
-		actualStrDataframe = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(sbEarningsTotalDf,
+		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(sbEarningsTotalDf,
 		                                                                                        {
 			                                                                                        DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
-		expectedStrDataframe = \
+		sbEarningsTotalDfExpectedStr = \
 '                         Type Currency  Net amount\n' + \
 'Local time                                        ' + \
 '''
@@ -518,13 +518,13 @@ class TestOwnerDepositYieldComputer(unittest.TestCase):
 2020-12-30 09:00:00  Earnings     USDC        4.00
 TOTAL                                        25.21'''
 		
-		self.assertEqual(expectedStrDataframe, actualStrDataframe)
+		self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 		
-		actualStrDataframe = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(yieldOwnerSummaryTotals,
+		yieldOwnerSummaryTotalsActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(yieldOwnerSummaryTotals,
 		                                                                                        {
 			                                                                                        DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 			                                                                                        DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
-		expectedStrDataframe = \
+		yieldOwnerSummaryTotalsExpectedStr = \
 '      DEP/WITHDR YIELD AMOUNT\n' + \
 'OWNER                        ' + \
 '''
@@ -533,12 +533,12 @@ JPS     5,100.00  11.33751104
 Papa    3,800.00  13.44900699
 TOTAL   9,900.00  25.18969467'''
 
-		self.assertEqual(expectedStrDataframe, actualStrDataframe)
+		self.assertEqual(yieldOwnerSummaryTotalsExpectedStr, yieldOwnerSummaryTotalsActualStr)
 
-		actualStrDataframe = yieldOwnerDetailTotals.to_string()
+		yieldOwnerDetailTotalsActualStr = yieldOwnerDetailTotals.to_string()
 		
 		if os.name == 'posix':
-			expectedStrDataframe = \
+			yieldOwnerDetailTotalsExpectedStr = \
 '      OWNER  DEP/WITHDR CAPITAL        FROM          TO YIELD DAYS  YIELD AMOUNT\n' + \
 'IDX                                                                             ' + \
 '''
@@ -551,7 +551,7 @@ TOTAL   9,900.00  25.18969467'''
 7      Papa       300.0    3800  2020-12-29  2020-12-30          2      3.024087
 TOTAL            9900.0                                                25.189695'''
 		else:
-			expectedStrDataframe = \
+			yieldOwnerDetailTotalsExpectedStr = \
 '      OWNER  DEP/WITHDR CAPITAL        FROM          TO YIELD DAYS  YIELD AMOUNT\n' + \
 'IDX                                                                             ' + \
 '''
@@ -563,7 +563,7 @@ TOTAL            9900.0                                                25.189695
 6      Papa      -500.0  3500.0  2020-12-23  2020-12-28          6      8.824920
 7      Papa       300.0  3800.0  2020-12-29  2020-12-30          2      3.024087
 TOTAL            9900.0                                                25.189695'''
-		self.assertEqual(expectedStrDataframe, actualStrDataframe)
+		self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
 
 
 if __name__ == '__main__':
