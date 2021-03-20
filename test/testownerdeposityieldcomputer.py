@@ -707,9 +707,10 @@ TOTAL  19,571.69  86.31658827'''
 '      OWNER  DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS  YIELD AMOUNT\n' + \
 'IDX                                                                              ' + \
 '''
-1       JPS     4975.64  4975.64  2020-12-22  2020-12-31         10     22.217375
-2      Papa    14596.05    14596  2020-12-22  2020-12-31         10     65.174715
-TOTAL          19571.69                                                 87.392090'''
+1       JPS     2742.27  2742.27  2020-12-22  2020-12-22          1      1.314185
+2       JPS     2233.37  4975.64  2020-12-23  2020-12-31          9     19.824480
+3      Papa    14596.05    14596  2020-12-22  2020-12-31         10     65.177923
+TOTAL          19571.69                                                 86.316588'''
 		else:
 			yieldOwnerDetailTotalsActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 				yieldOwnerDetailTotals,
@@ -724,8 +725,9 @@ TOTAL          19571.69                                                 87.39209
 2       JPS   2,233.37   4975.64  2020-12-23  2020-12-31          9  19.82447997
 3      Papa  14,596.05  14596.05  2020-12-22  2020-12-31         10  65.17792340
 TOTAL        19,571.69                                               86.31658827'''
-		# print(yieldOwnerDetailTotalsActualStr)
-		# print(yieldOwnerDetailTotalsExpectedStr)
+		#print(yieldOwnerDetailTotalsActualStr)
+		#print(yieldOwnerDetailTotalsExpectedStr)
+		self.maxDiffr=None
 		self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
 	
 	def testAndAnalyseComputeDepositsYields(self):
@@ -817,7 +819,6 @@ TOTAL            9900.0                                                25.189695
 TOTAL            9900.0                                                25.189695'''
 		print(yieldOwnerDetailTotalsActualStr)
 		print(yieldOwnerDetailTotalsExpectedStr)
-		self.maxDiff=None
 		#self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
 
 if __name__ == '__main__':
