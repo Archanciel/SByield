@@ -557,7 +557,7 @@ TOTAL  19,571.69  87.39209000'''
 '      OWNER  DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS  YIELD AMOUNT\n' + \
 'IDX                                                                              ' + \
 '''
-1       JPS    19571.69  19571.7  2020-12-22  2020-12-31          10     87.39209
+1       JPS    19571.69  19571.7  2020-12-22  2020-12-31         10      87.39209
 TOTAL          19571.69                                                  87.39209'''
 		else:
 			yieldOwnerDetailTotalsExpectedStr = \
@@ -633,17 +633,19 @@ TOTAL  19,571.69  87.39209000'''
 '      OWNER  DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS  YIELD AMOUNT\n' + \
 'IDX                                                                              ' + \
 '''
-1       JPS     4975.64   4975.6  2020-12-22  2020-12-31          10     22.217375
-2      Papa    14596.05  14596.9  2020-12-22  2020-12-31          10     65.174715
-TOTAL          19571.69                                                  87.39209'''
+1       JPS     4975.64  4975.64  2020-12-22  2020-12-31         10     22.217375
+2      Papa    14596.05    14596  2020-12-22  2020-12-31         10     65.174715
+TOTAL          19571.69                                                 87.392090'''
 		else:
 			yieldOwnerDetailTotalsExpectedStr = \
 '      OWNER  DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS  YIELD AMOUNT\n' + \
 'IDX                                                                               ' + \
 '''
-1       JPS     4975.64   4975.64  2020-12-22  2020-12-31          10    22.217375
-2      Papa    14596.05  14596.05  2020-12-22  2020-12-31          10    65.174715
+1       JPS     4975.64   4975.64  2020-12-22  2020-12-31         10     22.217375
+2      Papa    14596.05  14596.05  2020-12-22  2020-12-31         10     65.174715
 TOTAL          19571.69                                                  87.392090'''
+		#print(yieldOwnerDetailTotalsActualStr)
+		#print(yieldOwnerDetailTotalsExpectedStr)
 		self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
 	
 	def testAndAnalyseComputeDepositsYields(self):
@@ -760,6 +762,6 @@ if __name__ == '__main__':
 	# tst.testComputeDepositsYieldsMiddleDepositDateFromIsAfterMaxRowUniqueOwnerThreeDepositsDepositDateFromAfterMax_5()
 	# tst.testComputeDepositsYieldsMiddleDepositDateFromIsAfterMaxRowUniqueOwnerThreeDepositsDepositDateFromAfterMax_6()
 	# tst.testAndAnalyseComputeDepositsYields()
-	# tst.testAndAnalyseComputeDepositsYields_dep_1()
+	tst.testAndAnalyseComputeDepositsYields_dep_1()
 	tst.testAndAnalyseComputeDepositsYields_dep_2()
 
