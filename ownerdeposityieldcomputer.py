@@ -62,9 +62,9 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		previousRowOwner = None
 		currentRowCapital = 0
 		firstYieldTimeStamp = yieldRatesDataframe.index[0]
-		firstYieldPaymentDate = firstYieldTimeStamp.date()
+		firstYieldPaymentDate = firstYieldTimeStamp.date() - timedelta(days=1)
 		lastYieldTimeStamp = yieldRatesDataframe.index[-1]
-		lastYieldPaymentDate = lastYieldTimeStamp.date()
+		lastYieldPaymentDate = lastYieldTimeStamp.date() - timedelta(days=1)
 		maxIdxValue = len(ownerDateSortedDepositDf)
 
 		for i in range(1, maxIdxValue + 1):
@@ -141,7 +141,9 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		return ownerDateSortedDepositDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals
 	
 	def _computeYieldAmount(self, yieldRatesDataframe, capital, dateFrom, dateTo):
-		yieldRatesDataframeSubSet = yieldRatesDataframe.loc[dateFrom:dateTo]
+		firstPaymentDate = dateFrom + timedelta(days=1)
+		lastPaymentDate = dateTo + timedelta(days=1)
+		yieldRatesDataframeSubSet = yieldRatesDataframe.loc[firstPaymentDate:lastPaymentDate]
 		capitalPlusYield = capital
 		
 		for index, values in yieldRatesDataframeSubSet.iterrows():
