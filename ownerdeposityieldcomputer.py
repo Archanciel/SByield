@@ -89,10 +89,13 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 				currentRowCapital = ownerDateSortedDepositDf.loc[i, DATAFRAME_HEADER_DEPOSIT_WITHDRAW]
 				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_CAPITAL] = currentRowCapital
 				
-				# initializing the dateTo value in the ownerDateSortedDepositDf. This is usefull if
+				# initializing the dateTo and day value in the ownerDateSortedDepositDf. This is usefull if
 				# only 1 deposit is defined in the deposit csv file ! Otherwise, this value will be
 				# overwritten ...
 				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] = lastYieldPaymentDate
+				dateToMinusDateFromTimeDelta = lastYieldPaymentDate - currentRowDateFrom
+				yieldDayNumber = dateToMinusDateFromTimeDelta.days + 1
+				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 				if i > 1:
 					if i == maxIdxValue:
 						# setting yield date to as well as yield day number
