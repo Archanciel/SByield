@@ -70,6 +70,26 @@ class PandasDataComputer:
 		for colName in newColNameLst:
 			dataFrame[colName] = ''
 	
+	def _determineDepositSheetSkipRows(self, csvSheetFilePathName, firstHeaderColumnName):
+		"""
+		Determines the number of comment lines above the column headers which must be
+		skipped.
+		
+		:param csvSheetFilePathName
+		:param firstHeaderColumnName
+		"""
+		with open(csvSheetFilePathName, 'r') as f:
+			fileLines = f.readlines()
+			commentLinesNb = 0
+			
+			for line in fileLines:
+				if firstHeaderColumnName in line:
+					return commentLinesNb
+				else:
+					commentLinesNb += 1
+					
+		return commentLinesNb
+	
 	def getDataframeStrWithFormattedColumns(self, dataFrame, colFormatDic):
 		"""
 		Returns a string representation of the passed dataFrame enabling to define a

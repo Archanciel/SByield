@@ -62,9 +62,9 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		previousRowOwner = None
 		currentRowCapital = 0
 		firstYieldTimeStamp = yieldRatesDataframe.index[0]
-		firstYieldPaymentDate = firstYieldTimeStamp.date() - timedelta(days=1)
+		firstYieldPaymentDate = firstYieldTimeStamp.date()
 		lastYieldTimeStamp = yieldRatesDataframe.index[-1]
-		lastYieldPaymentDate = lastYieldTimeStamp.date() - timedelta(days=1)
+		lastYieldPaymentDate = lastYieldTimeStamp.date()
 		maxIdxValue = len(ownerDateSortedDepositDf)
 
 		for i in range(1, maxIdxValue + 1):
@@ -88,6 +88,11 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 				previousRowOwner = currentRowOwner
 				currentRowCapital = ownerDateSortedDepositDf.loc[i, DATAFRAME_HEADER_DEPOSIT_WITHDRAW]
 				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_CAPITAL] = currentRowCapital
+				
+				# initializing the dateTo value in the ownerDateSortedDepositDf. This is usefull if
+				# only 1 deposit is defined in the deposit csv file ! Otherwise, this value will be
+				# overwritten ...
+				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] = lastYieldPaymentDate
 				if i > 1:
 					if i == maxIdxValue:
 						# setting yield date to as well as yield day number
@@ -138,11 +143,11 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		yieldOwnerSummaryTotals = self._computeYieldOwnerSummaryTotals(ownerDateSortedDepositDf)
 		yieldOwnerDetailTotals = self._computeYieldOwnerDetailTotals(ownerDateSortedDepositDf)
 		
-		return ownerDateSortedDepositDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals
+		return yieldOwnerSummaryTotals, yieldOwnerDetailTotals
 	
 	def _computeYieldAmount(self, yieldRatesDataframe, capital, dateFrom, dateTo):
-		firstPaymentDate = dateFrom + timedelta(days=1)
-		lastPaymentDate = dateTo + timedelta(days=1)
+		firstPaymentDate = dateFrom
+		lastPaymentDate = dateTo
 		yieldRatesDataframeSubSet = yieldRatesDataframe.loc[firstPaymentDate:lastPaymentDate]
 		capitalPlusYield = capital
 		
