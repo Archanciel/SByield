@@ -116,5 +116,7 @@ class PandasDataComputer:
 		# column values due to the fact that a '' string in the TOTAL row could not be
 		# formatted as a float ! If a value is NaN, the formatting of this value as float
 		# is mastered by Pandas !
+		
+		# The second replaqe is required on Android !
 
-		return dataFrame.to_string(formatters=formatDic).replace('NaN', '   ')
+		return dataFrame.to_string(formatters=formatDic).replace('NaN', '   ').replace('nan', '   ')
