@@ -103,7 +103,7 @@ TOTAL                                          2.1'''
 		#expectedStrDataframe = depositDf.to_string()
 		expectedStrDataframe = \
 '                    OWNER  DEP/WITHDR\n' + \
-'Local time                           ' + \
+'DATE                                 ' + \
 '''
 2020-11-21 10:00:00   JPS      2000.0
 2020-12-25 10:00:00  Papa      4000.0
@@ -153,7 +153,7 @@ TOTAL                                          2.1'''
 		# expectedStrDataframe = depositDataFrame.to_string()
 		expectedDepositStrDataframe = \
 '                    OWNER  DEP/WITHDR\n' + \
-'Local time                           ' + \
+'DATE                                 ' + \
 '''
 2020-11-21 10:00:00   JPS      2000.0
 2020-12-25 10:00:00  Papa      4000.0

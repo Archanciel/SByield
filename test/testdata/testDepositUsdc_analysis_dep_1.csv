@@ -17,5 +17,5 @@ Explanations:
    each addition (00:00:00, 00:00:01, etc) !
 
 Data:
-OWNER,Local time,DEP/WITHDR
+OWNER,DATE,DEP/WITHDR
 JPS,2020/12/22 00:00:00,19571.69
