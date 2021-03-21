@@ -644,6 +644,80 @@ TOTAL          19571.69                                                  87.3920
 		#print(yieldOwnerDetailTotalsExpectedStr)
 		self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
 		
+	def testAndAnalyseComputeDepositsYields_dep_2_bis(self):
+		"""
+		Two owners with one deposit each starting at same date.
+		"""
+		sbAccountSheetFileName = 'testSBEarningUsdc_analysis_dep_1_2.xlsx'
+		depositSheetFileName = 'testDepositUsdc_analysis_dep_2.csv'
+		
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
+		
+		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+		
+		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
+			self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+		
+		print(depositSheetFileName)
+		
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		
+		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			sbEarningsTotalDf,
+			{
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+		sbEarningsTotalDfExpectedStr = \
+'                         Type Currency  Net amount\n' + \
+'Local time                                        ' + \
+'''
+2020-12-22 09:00:00  Earnings     USDC    9.379352
+2020-12-23 09:00:00  Earnings     USDC    8.904065
+2020-12-24 09:00:00  Earnings     USDC    9.347525
+2020-12-25 09:00:00  Earnings     USDC    9.392593
+2020-12-26 09:00:00  Earnings     USDC    8.592407
+2020-12-27 09:00:00  Earnings     USDC    8.292884
+2020-12-28 09:00:00  Earnings     USDC    8.310218
+2020-12-29 09:00:00  Earnings     USDC    8.313737
+2020-12-30 09:00:00  Earnings     USDC    8.455467
+2020-12-31 09:00:00  Earnings     USDC    8.403842
+TOTAL                                    87.392090'''
+		
+		self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
+		# print(sbEarningsTotalDfActualStr)
+		
+		yieldOwnerSummaryTotalsActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			yieldOwnerSummaryTotals,
+			{
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+		yieldOwnerSummaryTotalsExpectedStr = \
+'      DEP/WITHDR YIELD AMOUNT\n' + \
+'OWNER                        ' + \
+'''
+JPS     4,975.64  22.21737513
+Papa   14,596.05  65.17471487
+TOTAL  19,571.69  87.39209000'''
+		
+		self.assertEqual(yieldOwnerSummaryTotalsExpectedStr, yieldOwnerSummaryTotalsActualStr)
+		
+		yieldOwnerDetailTotalsActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			yieldOwnerDetailTotals,
+			{
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+				DEPOSIT_YIELD_HEADER_CAPITAL: '.2f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+
+		yieldOwnerDetailTotalsExpectedStr = \
+'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT\n' + \
+'IDX                                                                             ' + \
+'''
+1       JPS   4,975.64  4,975.64  2020-12-22  2020-12-31         10  22.21737513
+2      Papa  14,596.05 14,596.05  2020-12-22  2020-12-31         10  65.17471487
+TOTAL        19,571.69 19,571.69                                     87.39209000'''
+		# print(yieldOwnerDetailTotalsActualStr)
+		# print(yieldOwnerDetailTotalsExpectedStr)
+		self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
+	
 	def testAndAnalyseComputeDepositsYields_dep_3(self):
 		"""
 		Two owners, the first with two deposits, the second with one deposit.
@@ -843,7 +917,8 @@ if __name__ == '__main__':
 	# tst.testComputeDepositsYieldsMiddleDepositDateFromIsAfterMaxRowUniqueOwnerThreeDepositsDepositDateFromAfterMax_5()
 	# tst.testComputeDepositsYieldsMiddleDepositDateFromIsAfterMaxRowUniqueOwnerThreeDepositsDepositDateFromAfterMax_6()
 	# tst.testAndAnalyseComputeDepositsYields()
-	tst.testAndAnalyseComputeDepositsYields_dep_1()
-	tst.testAndAnalyseComputeDepositsYields_dep_2()
-	tst.testAndAnalyseComputeDepositsYields_dep_3()
+	# tst.testAndAnalyseComputeDepositsYields_dep_1()
+	# tst.testAndAnalyseComputeDepositsYields_dep_2()
+	# tst.testAndAnalyseComputeDepositsYields_dep_3()
+	tst.testAndAnalyseComputeDepositsYields_dep_2_bis()
 
