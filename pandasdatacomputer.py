@@ -108,5 +108,13 @@ class PandasDataComputer:
 		for colHeader, formatStr in colFormatDic.items():
 			pandasFormatter = '{:,' + formatStr + '}'
 			formatDic[colHeader] = pandasFormatter.format
-			
-		return dataFrame.to_string(formatters=formatDic)
+		
+		# replacing NaN by identical empty size string. NaN is the values of the
+		# non float elements of the TOTAL row. Using fillna('') in
+		# OwnerDepositYieldComputer._computeYieldOwnerDetailTotals() was removed since
+		# it caused an error in the DataFrame.to_string() with formatting the CAPITAL
+		# column values due to the fact that a '' string in the TOTAL row could not be
+		# formatted as a float ! If a value is NaN, the formatting of this value as float
+		# is mastered by Pandas !
+
+		return dataFrame.to_string(formatters=formatDic).replace('NaN', '   ')

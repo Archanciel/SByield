@@ -99,15 +99,15 @@ TOTAL   9,500.00  22.57598231'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
-'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT\n' + \
-'IDX                                                                             ' + \
+'      OWNER DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT\n' + \
+'IDX                                                                            ' + \
 '''
-1       Béa   1,000.00  1,000.00  2020-12-25  2020-12-30          6   2.45115938
-2       JPS   2,000.00  2,000.00  2020-12-22  2020-12-27          6   4.78322928
-3       JPS   3,000.00  5,000.00  2020-12-28  2020-12-30          3   6.37237423
-4      Papa   4,000.00  4,000.00  2020-12-25  2020-12-26          2   3.15799648
-5      Papa    -500.00  3,500.00  2020-12-27  2020-12-30          4   5.81122295
-TOTAL         9,500.00 15,500.00                                     22.57598231'''
+1       Béa   1,000.00 1,000.00  2020-12-25  2020-12-30          6   2.45115938
+2       JPS   2,000.00 2,000.00  2020-12-22  2020-12-27          6   4.78322928
+3       JPS   3,000.00 5,000.00  2020-12-28  2020-12-30          3   6.37237423
+4      Papa   4,000.00 4,000.00  2020-12-25  2020-12-26          2   3.15799648
+5      Papa    -500.00 3,500.00  2020-12-27  2020-12-30          4   5.81122295
+TOTAL         9,500.00                                              22.57598231'''
 		self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
 	
 	def testComputeDepositsYieldsLastDepositRowUniqueOwnerTwoDeposits(self):
@@ -553,7 +553,7 @@ TOTAL  19,571.69  87.39209000'''
 'IDX                                                                             ' + \
 '''
 1       JPS  19,571.69 19,571.69  2020-12-22  2020-12-31         10  87.39209000
-TOTAL        19,571.69 19,571.69                                     87.39209000'''
+TOTAL        19,571.69                                               87.39209000'''
 		self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
 		
 	def testAndAnalyseComputeDepositsYields_dep_2(self):
@@ -625,7 +625,7 @@ TOTAL  19,571.69  87.39209000'''
 '''
 1       JPS   4,975.64  4,975.64  2020-12-22  2020-12-31         10  22.21737513
 2      Papa  14,596.05 14,596.05  2020-12-22  2020-12-31         10  65.17471487
-TOTAL        19,571.69 19,571.69                                     87.39209000'''
+TOTAL        19,571.69                                               87.39209000'''
 		# print(yieldOwnerDetailTotalsActualStr)
 		# print(yieldOwnerDetailTotalsExpectedStr)
 		self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
@@ -701,7 +701,7 @@ TOTAL  19,571.69  86.31658827'''
 1       JPS   2,742.27  2,742.27  2020-12-22  2020-12-22          1   1.31418490
 2       JPS   2,233.37  4,975.64  2020-12-23  2020-12-31          9  19.82447997
 3      Papa  14,596.05 14,596.05  2020-12-22  2020-12-31         10  65.17792340
-TOTAL        19,571.69 22,313.96                                     86.31658827'''
+TOTAL        19,571.69                                               86.31658827'''
 		#print(yieldOwnerDetailTotalsActualStr)
 		#print(yieldOwnerDetailTotalsExpectedStr)
 		self.maxDiffr=None

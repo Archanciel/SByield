@@ -169,11 +169,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 	def _computeYieldOwnerDetailTotals(self, depositsYieldsDataFrame):
 		yieldOwnerDetailTotals = depositsYieldsDataFrame.copy()
 		
-		# adding total to DEPOSIT_YIELD_HEADER_CAPITAL column is necessry, otherwise
-		# its value will be set to NA, and so replaced by empty string, and so cause
-		# an error when formatting the DEPOSIT_YIELD_HEADER_CAPITAL column values to
-		# '.2f' !
 		yieldOwnerDetailTotals.loc[DATAFRAME_HEADER_TOTAL] = depositsYieldsDataFrame.sum(numeric_only=True, axis=0)[
-			[DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_CAPITAL, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
+			[DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
 
-		return yieldOwnerDetailTotals.fillna('')
+		return yieldOwnerDetailTotals
