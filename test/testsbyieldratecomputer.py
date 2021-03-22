@@ -13,7 +13,7 @@ from sbyieldratecomputer import *
 class TestSBYieldRateComputer(unittest.TestCase):
 	def setUp(self):
 		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
-		depositSheetFileName = 'testDepositUsdc.csv'
+		depositSheetFileName = 'testDepositUsdc_1.csv'
 
 		if os.name == 'posix':
 			configPath = '/sdcard/sbyield.ini'

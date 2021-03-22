@@ -106,8 +106,8 @@ class PandasDataComputer:
 		formatDic = {}
 		
 		for colHeader, formatStr in colFormatDic.items():
-			pandasFormatter = '{:,' + formatStr + '}'
-			formatDic[colHeader] = pandasFormatter.format
+			pandasFormatStr = '{:,' + formatStr + '}' # example: '{:.8f}
+			formatDic[colHeader] = pandasFormatStr.format
 		
 		# replacing NaN by identical empty size string. NaN is the values of the
 		# non float elements of the TOTAL row. Using fillna('') in
