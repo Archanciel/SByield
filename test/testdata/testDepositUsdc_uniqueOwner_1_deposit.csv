@@ -11,11 +11,15 @@ Explanations:
 
    To describe it differently, the csv file deposit date is equal to the yield subscription
    activation date + 1 day. Once a yield subscription is active, it starts to generate
-   daily revenues. The first of those revenues is paid 1 day after the activation date.
+   daily revenues. The first of those revenues is paid 1 day AFTER the activation date.
+   This justifies the fact that the csv file deposit date is 1 day after the activation
+   day.
 
    For withdrawals, the csv file withdrawal date is equal to the yield redemption
    fulfilment date. Once a yield redemption is fulfilled, it stops generating
-   daily revenues the day after the fulfilment date.
+   daily revenues the day after the fulfilment date. So, since the withdrawal
+   amount still generates a revenue on the redemption fulfilment date, this date
+   IS the csv file withdrawal date.
 
    If an owner makes several deposits/withdrawals for the same yield farming currency on
    the same date, only one row for this owner with a value equal to the sum of those
