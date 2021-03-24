@@ -900,25 +900,20 @@ TOTAL            9900.0                                                25.189695
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
 			{
-				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
 		sbEarningsTotalDfExpectedStr = \
 '                         Type Currency  Net amount\n' + \
 'Local time                                        ' + \
 '''
-2020-12-22 09:00:00  Earnings     USDC    9.379352
-2020-12-23 09:00:00  Earnings     USDC    8.904065
-2020-12-24 09:00:00  Earnings     USDC    9.347525
-2020-12-25 09:00:00  Earnings     USDC    9.392593
-2020-12-26 09:00:00  Earnings     USDC    8.592407
-2020-12-27 09:00:00  Earnings     USDC    8.292884
-2020-12-28 09:00:00  Earnings     USDC    8.310218
-2020-12-29 09:00:00  Earnings     USDC    8.313737
-2020-12-30 09:00:00  Earnings     USDC    8.455467
-2020-12-31 09:00:00  Earnings     USDC    8.403842
-TOTAL                                    87.392090'''
+2021-01-01 09:00:00  Earnings     USDC  8.32237146
+2021-02-01 09:00:00  Earnings     USDC  9.03544811
+2021-03-01 09:00:00  Earnings     USDC  9.79285984
+2021-04-01 09:00:00  Earnings     USDC  7.78065008
+2021-05-01 09:00:00  Earnings     USDC 10.84835651
+TOTAL                                  45.77968601'''
 		
-		#self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
-		print(sbEarningsTotalDfActualStr)
+		self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
+		#print(sbEarningsTotalDfActualStr)
 		
 		yieldOwnerSummaryTotalsActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			yieldOwnerSummaryTotals,
@@ -929,11 +924,11 @@ TOTAL                                    87.392090'''
 '      DEP/WITHDR YIELD AMOUNT\n' + \
 'OWNER                        ' + \
 '''
-JPS    19,571.69  87.39209000
-TOTAL  19,571.69  87.39209000'''
+JPS    19,571.69  45.77968601
+TOTAL  19,571.69  45.77968601'''
 		
-		#self.assertEqual(yieldOwnerSummaryTotalsExpectedStr, yieldOwnerSummaryTotalsActualStr)
-		print(yieldOwnerSummaryTotalsActualStr)
+		self.assertEqual(yieldOwnerSummaryTotalsExpectedStr, yieldOwnerSummaryTotalsActualStr)
+		#print(yieldOwnerSummaryTotalsActualStr)
 		
 		yieldOwnerDetailTotalsActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			yieldOwnerDetailTotals,
@@ -946,10 +941,10 @@ TOTAL  19,571.69  87.39209000'''
 '      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT\n' + \
 'IDX                                                                             ' + \
 '''
-1       JPS  19,571.69 19,571.69  2020-12-22  2020-12-31         10  87.39209000
-TOTAL        19,571.69                                               87.39209000'''
-		#self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
-		print(yieldOwnerDetailTotalsActualStr)
+1       JPS  19,571.69 19,571.69  2021-01-01  2021-05-01        121  45.77968601
+TOTAL        19,571.69                                               45.77968601'''
+		self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
+		#print(yieldOwnerDetailTotalsActualStr)
 
 if __name__ == '__main__':
 	# unittest.main()
