@@ -10,7 +10,7 @@ depWithdrArray = [0.0] * dayNumber
 capitalArray = [0.0] * dayNumber
 
 depWithdrArray[0] = 19571.69
-depWithdrArray[2] = -19581.69
+depWithdrArray[1] = 5000
 
 zeroYieldArray = [0.0] * dayNumber
 
