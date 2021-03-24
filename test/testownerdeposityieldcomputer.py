@@ -1061,15 +1061,15 @@ TOTAL        19,571.69                                               45.77968601
 			{
 				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
 		sbEarningsTotalDfExpectedStr = \
-			'                         Type Currency  Net amount\n' + \
-			'Local time                                        ' + \
-			'''
-			2021-01-01 09:00:00  Earnings     USDC  8.32237146
-			2021-01-02 09:00:00  Earnings     USDC  9.03544811
-			2021-01-03 09:00:00  Earnings     USDC  9.79285984
-			2021-01-04 09:00:00  Earnings     USDC  7.78065008
-			2021-01-05 09:00:00  Earnings     USDC 10.84835651
-			TOTAL                                  45.77968601'''
+'                         Type Currency  Net amount\n' + \
+'Local time                                        ' + \
+'''
+2021-01-01 09:00:00  Earnings     USDC  8.32237146
+2021-01-02 09:00:00  Earnings     USDC  9.03544811
+2021-01-03 09:00:00  Earnings     USDC  9.79285984
+2021-01-04 09:00:00  Earnings     USDC  7.78065008
+2021-01-05 09:00:00  Earnings     USDC 10.84835651
+TOTAL                                  45.77968601'''
 		
 		if PRINT:
 			print(sbEarningsTotalDfActualStr)
@@ -1082,11 +1082,11 @@ TOTAL        19,571.69                                               45.77968601
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		yieldOwnerSummaryTotalsExpectedStr = \
-			'      DEP/WITHDR YIELD AMOUNT\n' + \
-			'OWNER                        ' + \
-			'''
-			JPS    19,571.69  45.77968601
-			TOTAL  19,571.69  45.77968601'''
+'      DEP/WITHDR YIELD AMOUNT\n' + \
+'OWNER                        ' + \
+'''
+JPS    19,571.69  45.77968601
+TOTAL  19,571.69  45.77968601'''
 		
 		if PRINT:
 			print(yieldOwnerSummaryTotalsActualStr)
@@ -1101,11 +1101,11 @@ TOTAL        19,571.69                                               45.77968601
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
-			'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT\n' + \
-			'IDX                                                                             ' + \
-			'''
-			1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-05          5  45.77968601
-			TOTAL        19,571.69                                               45.77968601'''
+'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT\n' + \
+'IDX                                                                             ' + \
+'''
+1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-05          5  45.77968601
+TOTAL        19,571.69                                               45.77968601'''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
