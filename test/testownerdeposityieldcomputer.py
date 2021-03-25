@@ -881,9 +881,9 @@ TOTAL            9900.0                                                25.189695
 	
 	def testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_before_first_yield(self):
 		"""
-		Only one owner with 1 deposit done on date before first paid yield. The case
+		Only one owner with 1 deposit done on date before the first paid yield. The case
 		when running the app on a Swissborg account statement spreadsheet required
-		with a date from after the first yield farming deposits.
+		with a date from after the first yield farming deposit(s).
 		"""
 		PRINT = False
 
@@ -952,84 +952,6 @@ TOTAL  19,571.69  45.77968601'''
 1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-05          5  45.77968601
 TOTAL        19,571.69                                               45.77968601'''
 
-		if PRINT:
-			print(yieldOwnerDetailTotalsActualStr)
-		else:
-			self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
-		
-	def testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_after_first_yield(self):
-		"""
-		Only one owner with 1 deposit done on date before first paid yield. The case
-		when running the app on a Swissborg account statement spreadsheet required
-		with a date from after the first yield farming deposits.
-		"""
-		PRINT = True
-		
-		sbAccountSheetFileName = 'testSBEarningUsdc_uniqueOwner_1_deposit.xlsx'
-		depositSheetFileName = 'testDepositUsdc_uniqueOwner_1_deposit_after_first_yield.csv'
-		
-		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
-		
-		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
-		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
-			self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
-		
-		print(depositSheetFileName)
-		
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
-		
-		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
-			sbEarningsTotalDf,
-			{
-				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
-		sbEarningsTotalDfExpectedStr = \
-'                         Type Currency  Net amount\n' + \
-'Local time                                        ' + \
-'''
-2021-01-01 09:00:00  Earnings     USDC  8.32237146
-2021-01-02 09:00:00  Earnings     USDC  9.03544811
-2021-01-03 09:00:00  Earnings     USDC  9.79285984
-2021-01-04 09:00:00  Earnings     USDC  7.78065008
-2021-01-05 09:00:00  Earnings     USDC 10.84835651
-TOTAL                                  45.77968601'''
-		
-		if PRINT:
-			print(sbEarningsTotalDfActualStr)
-		else:
-			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
-		
-		yieldOwnerSummaryTotalsActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
-			yieldOwnerSummaryTotals,
-			{
-				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
-				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
-		yieldOwnerSummaryTotalsExpectedStr = \
-'      DEP/WITHDR YIELD AMOUNT\n' + \
-'OWNER                        ' + \
-'''
-JPS    19,571.69  45.77968601
-TOTAL  19,571.69  45.77968601'''
-		
-		if PRINT:
-			print(yieldOwnerSummaryTotalsActualStr)
-		else:
-			self.assertEqual(yieldOwnerSummaryTotalsExpectedStr, yieldOwnerSummaryTotalsActualStr)
-		
-		yieldOwnerDetailTotalsActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
-			yieldOwnerDetailTotals,
-			{
-				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
-				DEPOSIT_YIELD_HEADER_CAPITAL: '.2f',
-				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
-		
-		yieldOwnerDetailTotalsExpectedStr = \
-'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT\n' + \
-'IDX                                                                             ' + \
-'''
-1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-05          5  45.77968601
-TOTAL        19,571.69                                               45.77968601'''
-		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
 		else:
@@ -1106,6 +1028,84 @@ TOTAL  19,571.69  45.77968601'''
 '''
 1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-05          5  45.77968601
 TOTAL        19,571.69                                               45.77968601'''
+		
+		if PRINT:
+			print(yieldOwnerDetailTotalsActualStr)
+		else:
+			self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
+		
+	def testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_after_first_yield(self):
+		"""
+		Only one owner with 1 deposit done on date after the first paid yield. The case
+		when running the app on a Swissborg account statement spreadsheet required
+		with a date from after the first yield farming deposits.
+		"""
+		PRINT = False
+		
+		sbAccountSheetFileName = 'testSBEarningUsdc_uniqueOwner_1_deposit_after_first_yield.xlsx'
+		depositSheetFileName = 'testDepositUsdc_uniqueOwner_1_deposit_after_first_yield.csv'
+		
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
+		
+		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+		
+		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
+			self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+		
+		print(depositSheetFileName)
+		
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		
+		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			sbEarningsTotalDf,
+			{
+				SB_ACCOUNT_SHEET_HEADER_EARNING: '.14f'})
+		sbEarningsTotalDfExpectedStr = \
+'                         Type Currency        Net amount\n' + \
+'Local time                                              ' + \
+'''
+2021-01-01 09:00:00  Earnings     USDC  0.00000000000000
+2021-01-02 09:00:00  Earnings     USDC  0.00000000000000
+2021-01-03 09:00:00  Earnings     USDC 11.72113358800560
+2021-01-04 09:00:00  Earnings     USDC  8.58611000467863
+2021-01-05 09:00:00  Earnings     USDC 11.58738852718670
+TOTAL                                  31.89463211987093'''
+		
+		if PRINT:
+			print(sbEarningsTotalDfActualStr)
+		else:
+			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
+		
+		yieldOwnerSummaryTotalsActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			yieldOwnerSummaryTotals,
+			{
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
+		yieldOwnerSummaryTotalsExpectedStr = \
+'      DEP/WITHDR      YIELD AMOUNT\n' + \
+'OWNER                             ' + \
+'''
+JPS    19,571.69 31.89463211987095
+TOTAL  19,571.69 31.89463211987095'''
+		
+		if PRINT:
+			print(yieldOwnerSummaryTotalsActualStr)
+		else:
+			self.assertEqual(yieldOwnerSummaryTotalsExpectedStr, yieldOwnerSummaryTotalsActualStr)
+		
+		yieldOwnerDetailTotalsActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			yieldOwnerDetailTotals,
+			{
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+				DEPOSIT_YIELD_HEADER_CAPITAL: '.2f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
+		
+		yieldOwnerDetailTotalsExpectedStr = \
+'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS      YIELD AMOUNT\n' + \
+'IDX                                                                                  ' + \
+'''
+1       JPS  19,571.69 19,571.69  2021-01-03  2021-01-05          3 31.89463211987095
+TOTAL        19,571.69                                              31.89463211987095'''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)

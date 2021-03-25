@@ -164,8 +164,8 @@ TOTAL                                          2.1'''
 		
 		#expectedStrDataframe = yieldRatesDataframe.to_string()
 		expectedYieldRatesStrDataframe = \
-			'            DAILY YIELD RATE\n' + \
-			'DATE                        ' + \
+'            DAILY YIELD RATE\n' + \
+'DATE                        ' + \
 '''
 2020-12-22          1.000400
 2020-12-23          1.000405
