@@ -1114,12 +1114,89 @@ TOTAL        19,571.69                                              31.894632119
 	
 	def testAndAnalyseComputeDepositsYields_uniqueOwner_2_deposit(self):
 		"""
-		Only one owner with 2 deposit.
+		Only one owner with 2 deposits.
 		"""
 		PRINT = False
 		
 		sbAccountSheetFileName = 'testSBEarningUsdc_uniqueOwner_2_deposit.xlsx'
 		depositSheetFileName = 'testDepositUsdc_uniqueOwner_2_deposit.csv'
+		
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
+		
+		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+		
+		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
+			self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+		
+		print(depositSheetFileName)
+		
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		
+		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			sbEarningsTotalDf,
+			{
+				SB_ACCOUNT_SHEET_HEADER_EARNING: '.14f'})
+		sbEarningsTotalDfExpectedStr = \
+'                         Type Currency        Net amount\n' + \
+'Local time                                              ' + \
+'''
+2021-01-01 09:00:00  Earnings     USDC 10.98076808766560
+2021-01-02 09:00:00  Earnings     USDC 14.96650972927810
+2021-01-03 09:00:00  Earnings     USDC 12.64753912157900
+2021-01-04 09:00:00  Earnings     USDC  9.83496631365051
+2021-01-05 09:00:00  Earnings     USDC 14.99462415730880
+TOTAL                                  63.42440740948201'''
+		
+		if PRINT:
+			print(sbEarningsTotalDfActualStr)
+		else:
+			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
+		
+		yieldOwnerSummaryTotalsActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			yieldOwnerSummaryTotals,
+			{
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
+		yieldOwnerSummaryTotalsExpectedStr = \
+'      DEP/WITHDR      YIELD AMOUNT\n' + \
+'OWNER                             ' + \
+'''
+JPS    24,571.69 63.42440740948223
+TOTAL  24,571.69 63.42440740948223'''
+		
+		if PRINT:
+			print(yieldOwnerSummaryTotalsActualStr)
+		else:
+			self.assertEqual(yieldOwnerSummaryTotalsExpectedStr, yieldOwnerSummaryTotalsActualStr)
+		
+		yieldOwnerDetailTotalsActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			yieldOwnerDetailTotals,
+			{
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+				DEPOSIT_YIELD_HEADER_CAPITAL: '.2f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
+		
+		yieldOwnerDetailTotalsExpectedStr = \
+'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS      YIELD AMOUNT\n' + \
+'IDX                                                                                  ' + \
+'''
+1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-01          1 10.98076808766564
+2       JPS   5,000.00 24,582.67  2021-01-02  2021-01-05          4 52.44363932181659
+TOTAL        24,571.69                                              63.42440740948223'''
+		
+		if PRINT:
+			print(yieldOwnerDetailTotalsActualStr)
+		else:
+			self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
+		
+	def testAndAnalyseComputeDepositsYields_uniqueOwner_3_deposit(self):
+		"""
+		Only one owner with 3 deposits.
+		"""
+		PRINT = True
+		
+		sbAccountSheetFileName = 'testSBEarningUsdc_uniqueOwner_3_deposit.xlsx'
+		depositSheetFileName = 'testDepositUsdc_uniqueOwner_3_deposit.csv'
 		
 		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
 		
@@ -1294,6 +1371,7 @@ if __name__ == '__main__':
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_before_first_yield()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_on_first_yield()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_after_first_yield()
-	tst.testAndAnalyseComputeDepositsYields_uniqueOwner_2_deposit()
+	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_2_deposit()
+	tst.testAndAnalyseComputeDepositsYields_uniqueOwner_3_deposit()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_withdr()
 
