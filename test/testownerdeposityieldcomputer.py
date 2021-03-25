@@ -630,11 +630,11 @@ TOTAL  19,571.69  87.39209000'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
-'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT\n' + \
-'IDX                                                                             ' + \
+'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT   YIELD %\n' + \
+'IDX                                                                                       ' + \
 '''
-1       JPS  19,571.69 19,571.69  2020-12-22  2020-12-31         10  87.39209000
-TOTAL        19,571.69                                               87.39209000'''
+1       JPS  19,571.69 19,571.69  2020-12-22  2020-12-31         10  87.39209000  0.446523
+TOTAL        19,571.69                                               87.39209000          '''
 		self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
 		
 	def testAndAnalyseComputeDepositsYields_dep_2(self):
@@ -715,7 +715,7 @@ TOTAL        19,571.69                                               87.39209000
 		"""
 		Two owners, the first with two deposits, the second with one deposit.
 		"""
-		PRINT = False
+		PRINT = True
 
 		sbAccountSheetFileName = 'testSBEarningUsdc_analysis_dep_3_a.xlsx'
 		depositSheetFileName = 'testDepositUsdc_analysis_dep_3.csv'
@@ -779,7 +779,8 @@ TOTAL  19,571.69  86.32182439'''
 			{
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 				DEPOSIT_YIELD_HEADER_CAPITAL: '.2f',
-				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f',
+				DEPOSIT_YIELD_HEADER_YIELD_PERCENT: '.2f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
 '      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT\n' + \
@@ -953,11 +954,11 @@ TOTAL  19,571.69  45.77968601'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
-'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT\n' + \
-'IDX                                                                             ' + \
+'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT   YIELD %\n' + \
+'IDX                                                                                       ' + \
 '''
-1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-05          5  45.77968601
-TOTAL        19,571.69                                               45.77968601'''
+1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-05          5  45.77968601  0.233908
+TOTAL        19,571.69                                               45.77968601          '''
 
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1030,11 +1031,11 @@ TOTAL  19,571.69  45.77968601'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
-'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT\n' + \
-'IDX                                                                             ' + \
+'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT   YIELD %\n' + \
+'IDX                                                                                       ' + \
 '''
-1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-05          5  45.77968601
-TOTAL        19,571.69                                               45.77968601'''
+1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-05          5  45.77968601  0.233908
+TOTAL        19,571.69                                               45.77968601          '''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1108,11 +1109,11 @@ TOTAL  19,571.69 31.89463211987095'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
-'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS      YIELD AMOUNT\n' + \
-'IDX                                                                                  ' + \
+'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS      YIELD AMOUNT   YIELD %\n' + \
+'IDX                                                                                            ' + \
 '''
-1       JPS  19,571.69 19,571.69  2021-01-03  2021-01-05          3 31.89463211987095
-TOTAL        19,571.69                                              31.89463211987095'''
+1       JPS  19,571.69 19,571.69  2021-01-03  2021-01-05          3 31.89463211987095  0.162963
+TOTAL        19,571.69                                              31.89463211987095          '''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1184,12 +1185,12 @@ TOTAL  24,571.69 63.42440740948223'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
-'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS      YIELD AMOUNT\n' + \
-'IDX                                                                                  ' + \
+'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS      YIELD AMOUNT   YIELD %\n' + \
+'IDX                                                                                            ' + \
 '''
-1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-01          1 10.98076808766564
-2       JPS   5,000.00 24,582.67  2021-01-02  2021-01-05          4 52.44363932181659
-TOTAL        24,571.69                                              63.42440740948223'''
+1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-01          1 10.98076808766564  0.056105
+2       JPS   5,000.00 24,582.67  2021-01-02  2021-01-05          4 52.44363932181659  0.213336
+TOTAL        24,571.69                                              63.42440740948223          '''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1261,13 +1262,13 @@ TOTAL  40,000.00 61.60570083155653'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
-'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS      YIELD AMOUNT\n' + \
-'IDX                                                                                  ' + \
+'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS      YIELD AMOUNT   YIELD %\n' + \
+'IDX                                                                                            ' + \
 '''
-1       JPS  10,000.00 10,000.00  2021-01-01  2021-01-01          1  4.36774838756355
-2       JPS   5,000.00 15,004.37  2021-01-02  2021-01-03          2 15.59129905444206
-3       JPS  25,000.00 40,019.96  2021-01-04  2021-01-05          2 41.64665338955092
-TOTAL        40,000.00                                              61.60570083155653'''
+1       JPS  10,000.00 10,000.00  2021-01-01  2021-01-01          1  4.36774838756355  0.043677
+2       JPS   5,000.00 15,004.37  2021-01-02  2021-01-03          2 15.59129905444206  0.103912
+3       JPS  25,000.00 40,019.96  2021-01-04  2021-01-05          2 41.64665338955092  0.104065
+TOTAL        40,000.00                                              61.60570083155653          '''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
