@@ -104,71 +104,82 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 						                               currentRowDateFrom
 						yieldDayNumber = dateToMinusDateFromTimeDelta.days + 1
 						ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
+						yieldAmount = self._computeCapitalYieldAmount(yieldRatesDataframe, currentRowCapital,
+						                                              currentRowDateFrom, lastYieldPaymentDate)
+						ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT] = yieldAmount
 					else:
 						# here, the owner has changed. This means that the previous owner capital
 						# remains the same till the end of SB yield earning payments
 						
 						# setting yield dateTo as well as yield day number for previous owner
 						ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] = lastYieldPaymentDate
+						previousOwnerDateFrom = ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM]
 						dateToMinusDateFromTimeDelta = lastYieldPaymentDate - \
-						                               ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM]
+						                               previousOwnerDateFrom
 						yieldDayNumber = dateToMinusDateFromTimeDelta.days + 1
 						ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
+						previousOwnerCapital = ownerDateSortedDepositDf.loc[i - 1, DATAFRAME_HEADER_DEPOSIT_WITHDRAW]
+						yieldAmount = self._computeCapitalYieldAmount(yieldRatesDataframe, previousOwnerCapital,
+						                                              previousOwnerDateFrom, lastYieldPaymentDate)
+						ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT] = yieldAmount
+				else:
+					if i == maxIdxValue:
+						# setting yield date to as well as yield day number
+						ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] = lastYieldPaymentDate
+						dateToMinusDateFromTimeDelta = ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] - \
+						                               currentRowDateFrom
+						yieldDayNumber = dateToMinusDateFromTimeDelta.days + 1
+						ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
+						yieldAmount = self._computeCapitalYieldAmount(yieldRatesDataframe, currentRowCapital,
+						                                              currentRowDateFrom, lastYieldPaymentDate)
+						ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT] = yieldAmount
 			else:
 				# handling additional deposits for current owner
 				currentRowCapital = currentRowCapital + ownerDateSortedDepositDf.loc[i, DATAFRAME_HEADER_DEPOSIT_WITHDRAW]
-				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_CAPITAL] = currentRowCapital
 				
 				# setting yield date to as well as yield day number for previous line
 				currentRowDateFromMinusOneDay = currentRowDateFrom - timedelta(days=1)
 				ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO] = currentRowDateFromMinusOneDay
+				previousRowDateFrom = ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM]
 				dateToMinusDateFromTimeDelta = currentRowDateFromMinusOneDay - \
-				                               ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM]
-				
-				# setting yield dateTo as well as yield day number for previous line
+				                               previousRowDateFrom
 				yieldDayNumber = dateToMinusDateFromTimeDelta.days + 1
 				ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
+				previousRowCapital = ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_CAPITAL]
+
+				yieldAmount = self._computeCapitalYieldAmount(yieldRatesDataframe, previousRowCapital,
+				                                              previousRowDateFrom, currentRowDateFromMinusOneDay)
+				ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT] = yieldAmount
+				currentRowCapital += yieldAmount
+				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_CAPITAL] = currentRowCapital
 
 				# setting yield dateTo as well as yield day number for current line
 				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] = lastYieldPaymentDate
 				dateToMinusDateFromTimeDelta = lastYieldPaymentDate - currentRowDateFrom
 				yieldDayNumber = dateToMinusDateFromTimeDelta.days + 1
 				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
-
-		# finally, compute the yield amount
-		for i in range(1, maxIdxValue + 1):
-			currentRowOwner = ownerDateSortedDepositDf.loc[i, DEPOSIT_SHEET_HEADER_OWNER]
-			currentRowDateFrom = ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM]
-			dateTo = ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO]
-			capital = ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_CAPITAL]
-			yieldAmount = self._computeYieldAmount(yieldRatesDataframe, capital, currentRowDateFrom, dateTo)
-			ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT] = yieldAmount
-			if i < maxIdxValue:
-				nextRowOwner = ownerDateSortedDepositDf.loc[i + 1, DEPOSIT_SHEET_HEADER_OWNER]
-				if currentRowOwner == nextRowOwner:
-					# the case if the owner did more than one deposit/withdrawal. In this
-					# case, his capital on the next line must be increased by the yield
-					# amount generated by his previous capital value.
-					nextRowCapital = ownerDateSortedDepositDf.loc[i + 1, DEPOSIT_YIELD_HEADER_CAPITAL]
-					ownerDateSortedDepositDf.loc[i + 1, DEPOSIT_YIELD_HEADER_CAPITAL] = nextRowCapital + yieldAmount
-
+				yieldAmount = self._computeCapitalYieldAmount(yieldRatesDataframe, currentRowCapital,
+				                                              currentRowDateFrom, lastYieldPaymentDate)
+				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT] = yieldAmount
 		
 		yieldOwnerSummaryTotals = self._computeYieldOwnerSummaryTotals(ownerDateSortedDepositDf)
 		yieldOwnerDetailTotals = self._computeYieldOwnerDetailTotals(ownerDateSortedDepositDf)
 		
 		return yieldOwnerSummaryTotals, yieldOwnerDetailTotals
 	
-	def _computeYieldAmount(self, yieldRatesDataframe, capital, dateFrom, dateTo):
+	def _computeCapitalYieldAmount(self, yieldRatesDataframe, capital, dateFrom, dateTo):
 		firstPaymentDate = dateFrom
 		lastPaymentDate = dateTo
 		yieldRatesDataframeSubSet = yieldRatesDataframe.loc[firstPaymentDate:lastPaymentDate]
 		capitalPlusYield = capital
-		
+
 		for index, values in yieldRatesDataframeSubSet.iterrows():
 			yieldRate = values[0]
 			capitalPlusYield = capitalPlusYield * yieldRate
-		
-		return capitalPlusYield - capital
+
+		yieldAmount = capitalPlusYield - capital
+
+		return yieldAmount
 	
 	def _computeYieldOwnerSummaryTotals(self, depositsYieldsDataFrame):
 		yieldOwnerSummaryTotals = depositsYieldsDataFrame.groupby([DEPOSIT_SHEET_HEADER_OWNER]).sum()[[DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
