@@ -1116,7 +1116,7 @@ TOTAL        19,571.69                                              31.894632119
 		"""
 		Only one owner with 2 deposit.
 		"""
-		PRINT = True
+		PRINT = False
 		
 		sbAccountSheetFileName = 'testSBEarningUsdc_uniqueOwner_2_deposit.xlsx'
 		depositSheetFileName = 'testDepositUsdc_uniqueOwner_2_deposit.csv'
@@ -1135,17 +1135,17 @@ TOTAL        19,571.69                                              31.894632119
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
 			{
-				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
+				SB_ACCOUNT_SHEET_HEADER_EARNING: '.14f'})
 		sbEarningsTotalDfExpectedStr = \
-'                         Type Currency  Net amount\n' + \
-'Local time                                        ' + \
+'                         Type Currency        Net amount\n' + \
+'Local time                                              ' + \
 '''
-2021-01-01 09:00:00  Earnings     USDC  8.32237146
-2021-01-02 09:00:00  Earnings     USDC  9.03544811
-2021-01-03 09:00:00  Earnings     USDC  9.79285984
-2021-01-04 09:00:00  Earnings     USDC  7.78065008
-2021-01-05 09:00:00  Earnings     USDC 10.84835651
-TOTAL                                  45.77968601'''
+2021-01-01 09:00:00  Earnings     USDC 10.98076808766560
+2021-01-02 09:00:00  Earnings     USDC 14.96650972927810
+2021-01-03 09:00:00  Earnings     USDC 12.64753912157900
+2021-01-04 09:00:00  Earnings     USDC  9.83496631365051
+2021-01-05 09:00:00  Earnings     USDC 14.99462415730880
+TOTAL                                  63.42440740948201'''
 		
 		if PRINT:
 			print(sbEarningsTotalDfActualStr)
@@ -1156,13 +1156,13 @@ TOTAL                                  45.77968601'''
 			yieldOwnerSummaryTotals,
 			{
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
-				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 		yieldOwnerSummaryTotalsExpectedStr = \
-'      DEP/WITHDR YIELD AMOUNT\n' + \
-'OWNER                        ' + \
+'      DEP/WITHDR      YIELD AMOUNT\n' + \
+'OWNER                             ' + \
 '''
-JPS    19,571.69  45.77968601
-TOTAL  19,571.69  45.77968601'''
+JPS    24,571.69 63.42440740948223
+TOTAL  24,571.69 63.42440740948223'''
 		
 		if PRINT:
 			print(yieldOwnerSummaryTotalsActualStr)
@@ -1174,14 +1174,15 @@ TOTAL  19,571.69  45.77968601'''
 			{
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 				DEPOSIT_YIELD_HEADER_CAPITAL: '.2f',
-				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
-'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT\n' + \
-'IDX                                                                             ' + \
+'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS      YIELD AMOUNT\n' + \
+'IDX                                                                                  ' + \
 '''
-1       JPS  19,571.69 19,571.69  2021-01-01  2021-05-01        121  45.77968601
-TOTAL        19,571.69                                               45.77968601'''
+1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-01          1 10.98076808766564
+2       JPS   5,000.00 24,582.67  2021-01-02  2021-01-05          4 52.44363932181659
+TOTAL        24,571.69                                              63.42440740948223'''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1292,7 +1293,7 @@ if __name__ == '__main__':
 	# tst.testAndAnalyseComputeDepositsYields_dep_2()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_before_first_yield()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_on_first_yield()
-	tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_after_first_yield()
-	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_2_deposit()
-	#tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_withdr()
+	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_after_first_yield()
+	tst.testAndAnalyseComputeDepositsYields_uniqueOwner_2_deposit()
+	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_withdr()
 
