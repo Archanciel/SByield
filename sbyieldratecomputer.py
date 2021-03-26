@@ -32,8 +32,9 @@ SB_ACCOUNT_SHEET_NO_LONGER_USED_COLUMNS_LIST = [SB_ACCOUNT_SHEET_HEADER_TYPE,
 SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL = 'EARNING CAP'
 
 SB_ACCOUNT_SHEET_TYPE_EARNING = 'Earnings'  # used to filter rows
-SB_ACCOUNT_SHEET_CURRENCY_USDC = 'USDC'     # used to filter rows. currently USDC or CHSB
-SB_ACCOUNT_SHEET_CURRENCY_CHSB = 'CHSB'     # used to filter rows. currently USDC or CHSB
+SB_ACCOUNT_SHEET_CURRENCY_USDC = 'USDC'     # used to filter rows
+SB_ACCOUNT_SHEET_CURRENCY_CHSB = 'CHSB'     # used to filter rows
+SB_ACCOUNT_SHEET_CURRENCY_ETH = 'ETH'       # used to filter rows
 
 # Deposit/Withdrawal sheet parameters
 DEPOSIT_SHEET_HEADER_DATE = 'DATE'
@@ -45,7 +46,8 @@ MERGED_SHEET_HEADER_EARNING_CAPITAL = SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL
 MERGED_SHEET_HEADER_EARNING = SB_ACCOUNT_SHEET_HEADER_EARNING
 MERGED_SHEET_HEADER_DATE_NEW_NAME = 'DATE'
 MERGED_SHEET_HEADER_EARNING_NEW_NAME = 'EARNINGS'
-MERGED_SHEET_HEADER_YIELD_RATE = 'DAILY YIELD RATE'
+MERGED_SHEET_HEADER_DAILY_YIELD_RATE = 'DAILY YIELD RATE'
+MERGED_SHEET_HEADER_YEARLY_YIELD_RATE = 'YEARLY YIELD RATE'
 
 class SBYieldRateComputer(PandasDataComputer):
 	"""
@@ -135,7 +137,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		5   2020-12-23 09:00:00         0.0      2002.43      0.78          1.000390
 		6   2020-12-24 10:00:00      4000.0      6003.21      0.00          0.000000
 		"""
-		# inserting two empty columns to the loaded Swissborg earning sheet
+		# inserting 2 empty columns to the loaded Swissborg earning sheet
 		self._insertEmptyFloatColumns(earningDf,
 		                              0,
 		                              [SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL, DATAFRAME_HEADER_DEPOSIT_WITHDRAW])
@@ -157,8 +159,10 @@ class SBYieldRateComputer(PandasDataComputer):
 		cols = cols[-1:] + cols[:-1]
 		mergedDf = mergedDf[cols]
 
-		# adding daily yield rate column
-		mergedDf.insert(loc=mergedDf.shape[1], column=MERGED_SHEET_HEADER_YIELD_RATE, value=[0.0 for i in range(mergedDf.shape[0])])
+		# adding daily yield rate and yearly yield rate column
+		self._insertEmptyFloatColumns(mergedDf,
+		                              None,
+		                              [MERGED_SHEET_HEADER_DAILY_YIELD_RATE, MERGED_SHEET_HEADER_YEARLY_YIELD_RATE])
 
 		# computing the earning capital value as well as the daily yield rate
 		currentCapital = 0
@@ -174,13 +178,13 @@ class SBYieldRateComputer(PandasDataComputer):
 			earning = mergedDf.loc[i, MERGED_SHEET_HEADER_EARNING]
 			
 			if currentCapital > 0 and earning > 0:
-				mergedDf.loc[i, MERGED_SHEET_HEADER_YIELD_RATE] = 1 + \
-																  earning / \
-																  currentCapital
-		
-		#print(self.getDataframeStrWithFormattedColumns(mergedDf, {MERGED_SHEET_HEADER_YIELD_RATE: '.8f'}))
+				dailyYieldRate = 1 + earning / currentCapital
+				mergedDf.loc[i, MERGED_SHEET_HEADER_DAILY_YIELD_RATE] = dailyYieldRate
+				mergedDf.loc[i, MERGED_SHEET_HEADER_YEARLY_YIELD_RATE] = np.power(dailyYieldRate, 365)
+
 		mergedDf = mergedDf.rename(columns={MERGED_SHEET_HEADER_DATE: MERGED_SHEET_HEADER_DATE_NEW_NAME, MERGED_SHEET_HEADER_EARNING: MERGED_SHEET_HEADER_EARNING_NEW_NAME})
-		
+		#print(self.getDataframeStrWithFormattedColumns(mergedDf, {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.8f', MERGED_SHEET_HEADER_YEARLY_YIELD_RATE: '.8f'}))
+
 		return mergedDf
 	
 	def getDepositsAndDailyYieldRatesDataframes(self,
@@ -216,13 +220,15 @@ class SBYieldRateComputer(PandasDataComputer):
 		
 		mergedEarningDeposit = self._mergeEarningAndDeposit(sbEarningsDf, depositDf)
 
-		# extract only MERGED_SHEET_HEADER_DATE_NEW_NAME and MERGED_SHEET_HEADER_YIELD_RATE columns
+		# extract only MERGED_SHEET_HEADER_DATE_NEW_NAME, MERGED_SHEET_HEADER_DAILY_YIELD_RATE and
+		# MERGED_SHEET_HEADER_YEARLY_YIELD_RATE columns
 		colDateIdx = mergedEarningDeposit.columns.get_loc(MERGED_SHEET_HEADER_DATE_NEW_NAME)
-		colYieldRateIdx = mergedEarningDeposit.columns.get_loc(MERGED_SHEET_HEADER_YIELD_RATE)
-		dailyYieldRatesDataframe = mergedEarningDeposit[mergedEarningDeposit.columns[[colDateIdx, colYieldRateIdx]]]
+		colDailyYieldRateIdx = mergedEarningDeposit.columns.get_loc(MERGED_SHEET_HEADER_DAILY_YIELD_RATE)
+		colYearlyYieldRateIdx = mergedEarningDeposit.columns.get_loc(MERGED_SHEET_HEADER_YEARLY_YIELD_RATE)
+		dailyYieldRatesDataframe = mergedEarningDeposit[mergedEarningDeposit.columns[[colDateIdx, colDailyYieldRateIdx, colYearlyYieldRateIdx]]]
 
-		# keep only non 0 MERGED_SHEET_HEADER_YIELD_RATE rows
-		isYieldRateNonZero = dailyYieldRatesDataframe[MERGED_SHEET_HEADER_YIELD_RATE] != 0
+		# keep only non 0 MERGED_SHEET_HEADER_DAILY_YIELD_RATE rows
+		isYieldRateNonZero = dailyYieldRatesDataframe[MERGED_SHEET_HEADER_DAILY_YIELD_RATE] != 0
 		dailyYieldRatesDataframe = dailyYieldRatesDataframe[isYieldRateNonZero]
 
 		# remove time component from date index

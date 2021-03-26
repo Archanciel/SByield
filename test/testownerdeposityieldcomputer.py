@@ -49,7 +49,7 @@ class TestOwnerDepositYieldComputer(unittest.TestCase):
 			print(depositSheetFileName)
 			_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
 			print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
-			                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
+			                                                                 {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.11f'}))
 			
 			print(depositSheetFileName)
 			
@@ -129,7 +129,7 @@ class TestOwnerDepositYieldComputer(unittest.TestCase):
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
-		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
+		                                                                 {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.11f'}))
 		
 		print(depositSheetFileName)
 		
@@ -162,13 +162,13 @@ TOTAL                                        19.56'''
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		yieldOwnerSummaryTotalsExpectedStr = \
-'      DEP/WITHDR YIELD AMOUNT\n' + \
-'OWNER                        ' + \
+'      DEP/WITHDR   YIELD AMT\n' + \
+'OWNER                       ' + \
 '''
-Béa     1,000.00   2.45115938
-JPS     5,000.00  11.15560351
-Papa    3,500.00   8.96921943
-TOTAL   9,500.00  22.57598231'''
+Béa     1,000.00  2.45115938
+JPS     5,000.00 11.15560351
+Papa    3,500.00  8.96921943
+TOTAL   9,500.00 22.57598231'''
 		
 		self.assertEqual(yieldOwnerSummaryTotalsExpectedStr, yieldOwnerSummaryTotalsActualStr)
 		
@@ -209,7 +209,7 @@ TOTAL         9,500.00                                              22.57598231'
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
-		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
+		                                                                 {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.11f'}))
 	
 	def testComputeDepositsYieldsMiddleDepositRowUniqueOwnerTwoDeposits(self):
 		"""
@@ -229,7 +229,7 @@ TOTAL         9,500.00                                              22.57598231'
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
-		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
+		                                                                 {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.11f'}))
 	
 	def testComputeDepositsYieldsFirstDepositRowUniqueOwnerThreeDeposits(self):
 		"""
@@ -249,7 +249,7 @@ TOTAL         9,500.00                                              22.57598231'
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
-		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
+		                                                                 {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.11f'}))
 	
 	def testComputeDepositsYieldsLastDepositRowUniqueOwnerThreeDeposits(self):
 		"""
@@ -269,7 +269,7 @@ TOTAL         9,500.00                                              22.57598231'
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
-		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
+		                                                                 {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.11f'}))
 	
 	def testComputeDepositsYieldsMiddleDepositRowUniqueOwnerThreeDeposits(self):
 		"""
@@ -289,7 +289,7 @@ TOTAL         9,500.00                                              22.57598231'
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
-		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
+		                                                                 {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.11f'}))
 	
 	def testComputeDepositsYieldsFirstDepositDateFromIsMaxRowUniqueOwnerThreeDeposits(self):
 		"""
@@ -310,7 +310,7 @@ TOTAL         9,500.00                                              22.57598231'
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
-		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
+		                                                                 {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.11f'}))
 	
 	def testComputeDepositsYieldsLastDepositDateFromIsMaxRowUniqueOwnerThreeDeposits(self):
 		"""
@@ -332,7 +332,7 @@ TOTAL         9,500.00                                              22.57598231'
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
-		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
+		                                                                 {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.11f'}))
 	
 	def testComputeDepositsYieldsMiddleDepositDateFromIsMaxRowUniqueOwnerThreeDeposits(self):
 		"""
@@ -353,7 +353,7 @@ TOTAL         9,500.00                                              22.57598231'
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
-		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
+		                                                                 {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.11f'}))
 	
 	def testComputeDepositsYieldsFirstDepositDateFromIsMaxRowUniqueOwnerThreeDepositsDepositDateFromIsMax(self):
 		"""
@@ -375,7 +375,7 @@ TOTAL         9,500.00                                              22.57598231'
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
-		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
+		                                                                 {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.11f'}))
 	
 	def testComputeDepositsYieldsLastDepositDateFromIsMaxRowUniqueOwnerThreeDepositsDepositDateFromIsMax(self):
 		"""
@@ -397,7 +397,7 @@ TOTAL         9,500.00                                              22.57598231'
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
-		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
+		                                                                 {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.11f'}))
 	
 	def testComputeDepositsYieldsMiddleDepositDateFromIsMaxRowUniqueOwnerThreeDepositsDepositDateFromIsMax(self):
 		"""
@@ -419,7 +419,7 @@ TOTAL         9,500.00                                              22.57598231'
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
-		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
+		                                                                 {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.11f'}))
 	
 	def testComputeDepositsYieldsMiddleDepositDateFromIsAfterMaxRowUniqueOwnerThreeDepositsDepositDateFromAfterMax_1(self):
 		"""
@@ -565,7 +565,7 @@ TOTAL         9,500.00                                              22.57598231'
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
 		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
-		                                                                 {MERGED_SHEET_HEADER_YIELD_RATE: '.11f'}))
+		                                                                 {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.11f'}))
 		print(yieldOwnerDetailTotals)
 		print(yieldOwnerSummaryTotals)
 	
@@ -614,11 +614,11 @@ TOTAL                                    87.392090'''
 			                                                                                        DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 			                                                                                        DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		yieldOwnerSummaryTotalsExpectedStr = \
-'      DEP/WITHDR YIELD AMOUNT\n' + \
-'OWNER                        ' + \
+'      DEP/WITHDR   YIELD AMT\n' + \
+'OWNER                       ' + \
 '''
-JPS    19,571.69  87.39209000
-TOTAL  19,571.69  87.39209000'''
+JPS    19,571.69 87.39209000
+TOTAL  19,571.69 87.39209000'''
 
 		self.assertEqual(yieldOwnerSummaryTotalsExpectedStr, yieldOwnerSummaryTotalsActualStr)
 		
@@ -630,11 +630,11 @@ TOTAL  19,571.69  87.39209000'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
-'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT   YIELD %\n' + \
-'IDX                                                                                       ' + \
+'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
+'IDX                                                                                                    ' + \
 '''
-1       JPS  19,571.69 19,571.69  2020-12-22  2020-12-31         10  87.39209000  0.446523
-TOTAL        19,571.69                                               87.39209000          '''
+1       JPS  19,571.69 19,571.69  2020-12-22  2020-12-31         10 87.39209000     0.446523  17.658725
+TOTAL        19,571.69                                              87.39209000                        '''
 		self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
 		
 	def testAndAnalyseComputeDepositsYields_dep_2(self):
@@ -684,12 +684,12 @@ TOTAL                                    87.392090'''
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		yieldOwnerSummaryTotalsExpectedStr = \
-'      DEP/WITHDR YIELD AMOUNT\n' + \
-'OWNER                        ' + \
+'      DEP/WITHDR   YIELD AMT\n' + \
+'OWNER                       ' + \
 '''
-JPS     4,975.64  22.21737513
-Papa   14,596.05  65.17471487
-TOTAL  19,571.69  87.39209000'''
+JPS     4,975.64 22.21737513
+Papa   14,596.05 65.17471487
+TOTAL  19,571.69 87.39209000'''
 		
 		self.assertEqual(yieldOwnerSummaryTotalsExpectedStr, yieldOwnerSummaryTotalsActualStr)
 		
@@ -780,7 +780,8 @@ TOTAL  19,571.69  86.32182439'''
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 				DEPOSIT_YIELD_HEADER_CAPITAL: '.2f',
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f',
-				DEPOSIT_YIELD_HEADER_YIELD_PERCENT: '.2f'})
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT: '.14f',
+				DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: '.14f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
 '      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT\n' + \
@@ -935,11 +936,11 @@ TOTAL                                  45.77968601'''
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		yieldOwnerSummaryTotalsExpectedStr = \
-'      DEP/WITHDR YIELD AMOUNT\n' + \
-'OWNER                        ' + \
+'      DEP/WITHDR   YIELD AMT\n' + \
+'OWNER                       ' + \
 '''
-JPS    19,571.69  45.77968601
-TOTAL  19,571.69  45.77968601'''
+JPS    19,571.69 45.77968601
+TOTAL  19,571.69 45.77968601'''
 		
 		if PRINT:
 			print(yieldOwnerSummaryTotalsActualStr)
@@ -954,11 +955,11 @@ TOTAL  19,571.69  45.77968601'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
-'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT   YIELD %\n' + \
-'IDX                                                                                       ' + \
+'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
+'IDX                                                                                                    ' + \
 '''
-1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-05          5  45.77968601  0.233908
-TOTAL        19,571.69                                               45.77968601          '''
+1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-05          5 45.77968601     0.233908  18.596076
+TOTAL        19,571.69                                              45.77968601                        '''
 
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1012,11 +1013,11 @@ TOTAL                                  45.77968601'''
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		yieldOwnerSummaryTotalsExpectedStr = \
-'      DEP/WITHDR YIELD AMOUNT\n' + \
-'OWNER                        ' + \
+'      DEP/WITHDR   YIELD AMT\n' + \
+'OWNER                       ' + \
 '''
-JPS    19,571.69  45.77968601
-TOTAL  19,571.69  45.77968601'''
+JPS    19,571.69 45.77968601
+TOTAL  19,571.69 45.77968601'''
 		
 		if PRINT:
 			print(yieldOwnerSummaryTotalsActualStr)
@@ -1031,11 +1032,11 @@ TOTAL  19,571.69  45.77968601'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
-'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT   YIELD %\n' + \
-'IDX                                                                                       ' + \
+'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
+'IDX                                                                                                    ' + \
 '''
-1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-05          5  45.77968601  0.233908
-TOTAL        19,571.69                                               45.77968601          '''
+1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-05          5 45.77968601     0.233908  18.596076
+TOTAL        19,571.69                                              45.77968601                        '''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1090,7 +1091,7 @@ TOTAL                                  31.89463211987093'''
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 		yieldOwnerSummaryTotalsExpectedStr = \
-'      DEP/WITHDR      YIELD AMOUNT\n' + \
+'      DEP/WITHDR         YIELD AMT\n' + \
 'OWNER                             ' + \
 '''
 JPS    19,571.69 31.89463211987095
@@ -1109,11 +1110,11 @@ TOTAL  19,571.69 31.89463211987095'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
-'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS      YIELD AMOUNT   YIELD %\n' + \
-'IDX                                                                                            ' + \
+'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS         YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
+'IDX                                                                                                          ' + \
 '''
-1       JPS  19,571.69 19,571.69  2021-01-03  2021-01-05          3 31.89463211987095  0.162963
-TOTAL        19,571.69                                              31.89463211987095          '''
+1       JPS  19,571.69 19,571.69  2021-01-03  2021-01-05          3 31.89463211987095     0.162963  21.909696
+TOTAL        19,571.69                                              31.89463211987095                        '''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1166,7 +1167,7 @@ TOTAL                                  63.42440740948201'''
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 		yieldOwnerSummaryTotalsExpectedStr = \
-'      DEP/WITHDR      YIELD AMOUNT\n' + \
+'      DEP/WITHDR         YIELD AMT\n' + \
 'OWNER                             ' + \
 '''
 JPS    24,571.69 63.42440740948223
@@ -1185,12 +1186,12 @@ TOTAL  24,571.69 63.42440740948223'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
-'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS      YIELD AMOUNT   YIELD %\n' + \
-'IDX                                                                                            ' + \
+'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS         YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
+'IDX                                                                                                          ' + \
 '''
-1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-01          1 10.98076808766564  0.056105
-2       JPS   5,000.00 24,582.67  2021-01-02  2021-01-05          4 52.44363932181659  0.213336
-TOTAL        24,571.69                                              63.42440740948223          '''
+1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-01          1 10.98076808766564     0.056105  22.719019
+2       JPS   5,000.00 24,582.67  2021-01-02  2021-01-05          4 52.44363932181659     0.213336  21.465680
+TOTAL        24,571.69                                              63.42440740948223                        '''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1201,7 +1202,7 @@ TOTAL        24,571.69                                              63.424407409
 		"""
 		Only one owner with 3 deposits.
 		"""
-		PRINT = False
+		PRINT = True
 		
 		sbAccountSheetFileName = 'testSBEarningUsdc_uniqueOwner_3_deposit.xlsx'
 		depositSheetFileName = 'testDepositUsdc_uniqueOwner_3_deposit.csv'
@@ -1259,7 +1260,9 @@ TOTAL  40,000.00 61.60570083155653'''
 			{
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 				DEPOSIT_YIELD_HEADER_CAPITAL: '.2f',
-				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT: '.14f',
+				DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: '.14f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
 '      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS      YIELD AMOUNT   YIELD %\n' + \
@@ -1381,7 +1384,8 @@ if __name__ == '__main__':
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_on_first_yield()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_after_first_yield()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_2_deposit()
-	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_3_deposit()
+	tst.testAndAnalyseComputeDepositsYields_uniqueOwner_3_deposit()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_withdr()
-	tst.testAndAnalyseComputeDepositsYields_dep_3()
+	# tst.testAndAnalyseComputeDepositsYields_dep_3()
+	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_withdr()
 
