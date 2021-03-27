@@ -11,25 +11,29 @@ from configmanager import ConfigManager
 from sbyieldratecomputer import *
 
 class TestSBYieldRateComputer(unittest.TestCase):
-	def setUp(self):
-		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
-		depositSheetFileName = 'testDepositUsdc_1.csv'
-
+	def initializeComputerClasses(self, sbAccountSheetFileName, depositSheetFileName):
 		if os.name == 'posix':
 			configPath = '/sdcard/sbyield.ini'
-			sbAccountSheetFilePathName = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/' + sbAccountSheetFileName
-			depositSheetFilePathName = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/' + depositSheetFileName
+			self.testDataPath = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/'
+			sbAccountSheetFilePathName = self.testDataPath + sbAccountSheetFileName
+			depositSheetFilePathName = self.testDataPath + depositSheetFileName
 		else:
 			configPath = 'c:\\temp\\sbyield.ini'
-			sbAccountSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + sbAccountSheetFileName
-			depositSheetFilePathName = 'D:\\Development\\Python\\SByield\\test\\testData\\' + depositSheetFileName
+			self.testDataPath = 'D:\\Development\\Python\\SByield\\test\\testData\\'
+			sbAccountSheetFilePathName = self.testDataPath + sbAccountSheetFileName
+			depositSheetFilePathName = self.testDataPath + depositSheetFileName
 
 		configMgr = ConfigManager(configPath)
 		self.yieldRateComputer = SBYieldRateComputer(configMgr,
-													 sbAccountSheetFilePathName,
-													 depositSheetFilePathName)
+		                                             sbAccountSheetFilePathName,
+		                                             depositSheetFilePathName)
 
 	def test_loadSBEarningSheetUSDC(self):
+		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
+		depositSheetFileName = 'testDepositUsdc_1.csv'
+		
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
+
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
 		sbEarningsDf = self.yieldRateComputer._loadSBEarningSheet(yieldCrypto)
@@ -52,7 +56,12 @@ class TestSBYieldRateComputer(unittest.TestCase):
 	
 	def test_loadSBEarningSheetCHSB(self):
 		PRINT = False
-
+		
+		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
+		depositSheetFileName = 'testDepositUsdc_1.csv'
+		
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
+		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
 		
 		sbEarningsDf = self.yieldRateComputer._loadSBEarningSheet(yieldCrypto)
@@ -71,6 +80,11 @@ class TestSBYieldRateComputer(unittest.TestCase):
 
 	def testGetSBEarningSheetTotalDfUSDC(self):
 		PRINT = False
+		
+		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
+		depositSheetFileName = 'testDepositUsdc_1.csv'
+		
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
 
 		sbEarningsTotals = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
 		
@@ -98,6 +112,11 @@ TOTAL                                        19.56'''
 		
 	def testGetSBEarningSheetTotalDfCHSB(self):
 		PRINT = False
+		
+		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
+		depositSheetFileName = 'testDepositUsdc_1.csv'
+		
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
 
 		sbEarningsTotals = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_CHSB)
 		
@@ -117,6 +136,11 @@ TOTAL                                          2.1'''
 
 	def test_loadDepositSheet(self):
 		PRINT = False
+		
+		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
+		depositSheetFileName = 'testDepositUsdc_1.csv'
+		
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
 
 		depositDf = self.yieldRateComputer._loadDepositSheet()
 		self.assertEqual((5, 2), depositDf.shape)
@@ -138,6 +162,11 @@ TOTAL                                          2.1'''
 		
 	def test_mergeEarningAndDeposit(self):
 		PRINT = False
+		
+		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
+		depositSheetFileName = 'testDepositUsdc_1.csv'
+		
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
 
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
@@ -173,14 +202,18 @@ TOTAL                                          2.1'''
 		
 	def testGetDepositsAndDailyYieldRatesDataframes(self):
 		PRINT = False
-
+		
+		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
+		depositSheetFileName = 'testDepositUsdc_1.csv'
+		
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
+		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
 		depositDataFrame, yieldRatesDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
 		self.assertEqual((5, 2), depositDataFrame.shape)
 		self.assertEqual((9, 3), yieldRatesDataframe.shape)
 		
-		# expectedStrDataframe = depositDataFrame.to_string()
 		expectedDepositStrDataframe = \
 '                    OWNER  DEP/WITHDR\n' + \
 'DATE                                 ' + \
@@ -214,10 +247,102 @@ TOTAL                                          2.1'''
 			print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRatesDataframe, {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.8f'}))
 		else:
 			self.assertEqual(expectedYieldRatesStrDataframe, yieldRatesDataframe.to_string())
-		
 	
+	def testGetDepositsAndDailyYieldRatesDataframes_1_deposit_1_partial_withdr(self):
+		PRINT = False
+		
+		sbAccountSheetFileName = 'testSBEarningUsdc_uniqueOwner_1_deposit_1_partial_withdr.xlsx'
+		depositSheetFileName = 'testDepositUsdc_uniqueOwner_1_deposit_1_partial_withdr.csv'
+		
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
+		
+		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+		
+		depositDataFrame, yieldRatesDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(
+			yieldCrypto)
+
+		if not PRINT:
+			self.assertEqual((2, 2), depositDataFrame.shape)
+			self.assertEqual((5, 3), yieldRatesDataframe.shape)
+		
+		expectedDepositStrDataframe = \
+'           OWNER  DEP/WITHDR\n' + \
+'DATE                        ' + \
+'''
+2020-01-01   JPS     20000.0
+2020-01-03   JPS    -10000.0'''
+		
+		if PRINT:
+			print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositDataFrame, {
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f'}))
+		else:
+			self.assertEqual(expectedDepositStrDataframe, depositDataFrame.to_string())
+		
+		expectedYieldRatesStrDataframe = \
+'            EARNINGS  D YIELD RATE  Y YIELD RATE\n' + \
+'DATE                                            ' + \
+'''
+2021-01-01  9.623818      1.000962      1.420630
+2021-01-02  7.945745      1.000794      1.335928
+2021-01-03  9.958172      1.000994      1.437141
+2021-01-04  4.677371      1.000466      1.185561
+2021-01-05  6.025685      1.000601      1.245038'''
+		
+		if PRINT:
+			print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRatesDataframe, {
+				MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.8f'}))
+		else:
+			self.assertEqual(expectedYieldRatesStrDataframe, yieldRatesDataframe.to_string())
+	
+	def testGetDepositsAndDailyYieldRatesDataframes_1_deposit_1_almost_full_withdr(self):
+		PRINT = False
+		
+		sbAccountSheetFileName = 'testSBEarningUsdc_uniqueOwner_1_deposit_1_almost_full_withdr.xlsx'
+		depositSheetFileName = 'testDepositUsdc_uniqueOwner_1_deposit_1_almost_full_withdr.csv'
+		
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
+		
+		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+		
+		depositDataFrame, yieldRatesDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(
+			yieldCrypto)
+		
+		if not PRINT:
+			self.assertEqual((2, 2), depositDataFrame.shape)
+			self.assertEqual((5, 3), yieldRatesDataframe.shape)
+		
+		expectedDepositStrDataframe = \
+'           OWNER  DEP/WITHDR\n' + \
+'DATE                        ' + \
+'''
+2020-01-01   JPS     20000.0
+2020-01-03   JPS    -10000.0'''
+		
+		if PRINT:
+			print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositDataFrame, {
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f'}))
+		else:
+			self.assertEqual(expectedDepositStrDataframe, depositDataFrame.to_string())
+		
+		expectedYieldRatesStrDataframe = \
+'            EARNINGS  D YIELD RATE  Y YIELD RATE\n' + \
+'DATE                                            ' + \
+'''
+2021-01-01  9.623818      1.000962      1.420630
+2021-01-02  7.945745      1.000794      1.335928
+2021-01-03  9.958172      1.000994      1.437141
+2021-01-04  4.677371      1.000466      1.185561
+2021-01-05  6.025685      1.000601      1.245038'''
+		
+		if PRINT:
+			print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRatesDataframe, {
+				MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.8f'}))
+		else:
+			self.assertEqual(expectedYieldRatesStrDataframe, yieldRatesDataframe.to_string())
+
+
 if __name__ == '__main__':
 	#unittest.main()
 	tst = TestSBYieldRateComputer()
 	tst.setUp()
-	tst.testGetDepositsAndDailyYieldRatesDataframes()
+	tst.testGetDepositsAndDailyYieldRatesDataframes_1_deposit_1_almost_full_withdr()
