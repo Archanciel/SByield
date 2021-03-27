@@ -194,14 +194,16 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		
 		yieldOwnerSummaryTotals = self._computeYieldOwnerSummaryTotals(ownerDateSortedDepositDf)
 		yieldOwnerDetailTotals = self._computeYieldOwnerDetailTotals(ownerDateSortedDepositDf)
-
-		# removing 00:00:00 time component from the sbYieldRatesDf index. 	
-		sbYieldRatesDf.index = pd.to_datetime(sbYieldRatesDf.index).strftime('%Y-%m-%d')
+		
+		sbYieldRatesTotalDf = sbYieldRatesDf.copy()
+		
+		# removing 00:00:00 time component from the sbYieldRatesDf index.
+		sbYieldRatesTotalDf.index = pd.to_datetime(sbYieldRatesTotalDf.index).strftime('%Y-%m-%d')
 		
 		# adding TOTAL row to SB yield rates data frame for MERGED_SHEET_HEADER_EARNING_NEW_NAME column only
-		sbYieldRatesDf.loc[DATAFRAME_HEADER_TOTAL] = sbYieldRatesDf[[MERGED_SHEET_HEADER_EARNING_NEW_NAME]].sum(numeric_only=True)
+		sbYieldRatesTotalDf.loc[DATAFRAME_HEADER_TOTAL] = sbYieldRatesTotalDf[[MERGED_SHEET_HEADER_EARNING_NEW_NAME]].sum(numeric_only=True)
 		
-		return sbYieldRatesDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals
+		return sbYieldRatesTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals
 	
 	def _computeCapitalYieldAmount(self,
 	                               yieldRatesDataframe,

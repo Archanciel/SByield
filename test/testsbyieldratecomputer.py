@@ -51,23 +51,31 @@ class TestSBYieldRateComputer(unittest.TestCase):
 		self.assertEqual(expectedStrDataframe, sbEarningsDf.to_string())
 	
 	def test_loadSBEarningSheetCHSB(self):
+		PRINT = False
+
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
 		
 		sbEarningsDf = self.yieldRateComputer._loadSBEarningSheet(yieldCrypto)
 		self.assertEqual((1, 3), sbEarningsDf.shape)
-		#expectedStrDataframe = sbEarningsDf.to_string()
+
 		expectedStrDataframe = \
 '                         Type Currency  Net amount\n' + \
 'Local time                                        ' + \
 '''
 2020-12-24 09:00:00  Earnings     CHSB         2.1'''
-		self.assertEqual(expectedStrDataframe, sbEarningsDf.to_string())
+		
+		if PRINT:
+			print(sbEarningsDf)
+		else:
+			self.assertEqual(expectedStrDataframe, sbEarningsDf.to_string())
 
 	def testGetSBEarningSheetTotalDfUSDC(self):
+		PRINT = False
+
 		sbEarningsTotals = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
 		
 		self.assertEqual((10, 3), sbEarningsTotals.shape)
-		# expectedStrDataframe = sbEarningsTotals.to_string()
+
 		expectedStrDataframe = \
 '                         Type Currency  Net amount\n' + \
 'Local time                                        ' + \
@@ -82,25 +90,37 @@ class TestSBYieldRateComputer(unittest.TestCase):
 2020-12-29 09:00:00  Earnings     USDC        4.00
 2020-12-30 09:00:00  Earnings     USDC        4.10
 TOTAL                                        19.56'''
-		self.assertEqual(expectedStrDataframe, sbEarningsTotals.to_string())
+		
+		if PRINT:
+			print(sbEarningsTotals)
+		else:
+			self.assertEqual(expectedStrDataframe, sbEarningsTotals.to_string())
 		
 	def testGetSBEarningSheetTotalDfCHSB(self):
+		PRINT = False
+
 		sbEarningsTotals = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_CHSB)
 		
 		self.assertEqual((2, 3), sbEarningsTotals.shape)
-		# expectedStrDataframe = sbEarningsTotals.to_string()
+
 		expectedStrDataframe = \
 '                         Type Currency  Net amount\n' + \
 'Local time                                        ' + \
 '''
 2020-12-24 09:00:00  Earnings     CHSB         2.1
 TOTAL                                          2.1'''
-		self.assertEqual(expectedStrDataframe, sbEarningsTotals.to_string())
+		
+		if PRINT:
+			print(sbEarningsTotals)
+		else:
+			self.assertEqual(expectedStrDataframe, sbEarningsTotals.to_string())
 
 	def test_loadDepositSheet(self):
+		PRINT = False
+
 		depositDf = self.yieldRateComputer._loadDepositSheet()
 		self.assertEqual((5, 2), depositDf.shape)
-		#expectedStrDataframe = depositDf.to_string()
+
 		expectedStrDataframe = \
 '                    OWNER  DEP/WITHDR\n' + \
 'DATE                                 ' + \
@@ -110,9 +130,15 @@ TOTAL                                          2.1'''
 2020-12-25 10:00:01   Béa      1000.0
 2020-12-27 10:00:01  Papa      -500.0
 2020-12-28 10:00:00   JPS      3000.0'''
-		self.assertEqual(expectedStrDataframe, depositDf.to_string())
+		
+		if PRINT:
+			print(depositDf)
+		else:
+			self.assertEqual(expectedStrDataframe, depositDf.to_string())
 		
 	def test_mergeEarningAndDeposit(self):
+		PRINT = False
+
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
 		sbEarningsDf = self.yieldRateComputer._loadSBEarningSheet(yieldCrypto)
@@ -122,32 +148,37 @@ TOTAL                                          2.1'''
 		self.assertEqual((14, 6), mergedEarningDeposit.shape)
 		
 		expectedStrDataframe = \
-'                   DATE  DEP/WITHDR  EARNING CAP  EARNINGS  DAILY YIELD RATE  YEARLY YIELD RATE\n' + \
-'IDX                                                                                            ' + \
+'                   DATE  DEP/WITHDR  EARNING CAP  EARNINGS  D YIELD RATE  Y YIELD RATE\n' + \
+'IDX                                                                                   ' + \
 '''
-1   2020-11-21 10:00:00      2000.0      2000.00      0.00          0.000000           0.000000
-2   2020-12-22 09:00:00         0.0      2000.00      0.80          1.000400           1.157162
-3   2020-12-23 09:00:00         0.0      2000.80      0.81          1.000405           1.159207
-4   2020-12-24 09:00:00         0.0      2001.61      0.82          1.000410           1.161252
-5   2020-12-25 09:00:00         0.0      2002.43      0.78          1.000390           1.152749
-6   2020-12-25 10:00:00      4000.0      6003.21      0.00          0.000000           0.000000
-7   2020-12-25 10:00:01      1000.0      7003.21      0.00          0.000000           0.000000
-8   2020-12-26 09:00:00         0.0      7003.21      2.80          1.000400           1.157085
-9   2020-12-27 09:00:00         0.0      7006.01      2.70          1.000385           1.151008
-10  2020-12-27 10:00:01      -500.0      6508.71      0.00          0.000000           0.000000
-11  2020-12-28 09:00:00         0.0      6508.71      2.75          1.000423           1.166705
-12  2020-12-28 10:00:00      3000.0      9511.46      0.00          0.000000           0.000000
-13  2020-12-29 09:00:00         0.0      9511.46      4.00          1.000421           1.165869
-14  2020-12-30 09:00:00         0.0      9515.46      4.10          1.000431           1.170272'''
-		self.assertEqual(expectedStrDataframe, mergedEarningDeposit.to_string())
-		#print(mergedEarningDeposit)
+1   2020-11-21 10:00:00      2000.0      2000.00      0.00      0.000000      0.000000
+2   2020-12-22 09:00:00         0.0      2000.00      0.80      1.000400      1.157162
+3   2020-12-23 09:00:00         0.0      2000.80      0.81      1.000405      1.159207
+4   2020-12-24 09:00:00         0.0      2001.61      0.82      1.000410      1.161252
+5   2020-12-25 09:00:00         0.0      2002.43      0.78      1.000390      1.152749
+6   2020-12-25 10:00:00      4000.0      6003.21      0.00      0.000000      0.000000
+7   2020-12-25 10:00:01      1000.0      7003.21      0.00      0.000000      0.000000
+8   2020-12-26 09:00:00         0.0      7003.21      2.80      1.000400      1.157085
+9   2020-12-27 09:00:00         0.0      7006.01      2.70      1.000385      1.151008
+10  2020-12-27 10:00:01      -500.0      6508.71      0.00      0.000000      0.000000
+11  2020-12-28 09:00:00         0.0      6508.71      2.75      1.000423      1.166705
+12  2020-12-28 10:00:00      3000.0      9511.46      0.00      0.000000      0.000000
+13  2020-12-29 09:00:00         0.0      9511.46      4.00      1.000421      1.165869
+14  2020-12-30 09:00:00         0.0      9515.46      4.10      1.000431      1.170272'''
+		
+		if PRINT:
+			print(mergedEarningDeposit)
+		else:
+			self.assertEqual(expectedStrDataframe, mergedEarningDeposit.to_string())
 		
 	def testGetDepositsAndDailyYieldRatesDataframes(self):
+		PRINT = False
+
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
 		depositDataFrame, yieldRatesDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
 		self.assertEqual((5, 2), depositDataFrame.shape)
-		self.assertEqual((9, 2), yieldRatesDataframe.shape)
+		self.assertEqual((9, 3), yieldRatesDataframe.shape)
 		
 		# expectedStrDataframe = depositDataFrame.to_string()
 		expectedDepositStrDataframe = \
@@ -159,26 +190,31 @@ TOTAL                                          2.1'''
 2020-12-25 10:00:01   Béa      1000.0
 2020-12-27 10:00:01  Papa      -500.0
 2020-12-28 10:00:00   JPS      3000.0'''
-		self.assertEqual(expectedDepositStrDataframe, depositDataFrame.to_string())
 		
-		#expectedStrDataframe = yieldRatesDataframe.to_string()
+		if PRINT:
+			print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositDataFrame, {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f'}))
+		else:
+			self.assertEqual(expectedDepositStrDataframe, depositDataFrame.to_string())
+		
 		expectedYieldRatesStrDataframe = \
-'            DAILY YIELD RATE  YEARLY YIELD RATE\n' + \
-'DATE                                           ' + \
+'            EARNINGS  D YIELD RATE  Y YIELD RATE\n' + \
+'DATE                                            ' + \
 '''
-2020-12-22          1.000400           1.157162
-2020-12-23          1.000405           1.159207
-2020-12-24          1.000410           1.161252
-2020-12-25          1.000390           1.152749
-2020-12-26          1.000400           1.157085
-2020-12-27          1.000385           1.151008
-2020-12-28          1.000423           1.166705
-2020-12-29          1.000421           1.165869
-2020-12-30          1.000431           1.170272'''
-		self.assertEqual(expectedYieldRatesStrDataframe, yieldRatesDataframe.to_string())
+2020-12-22      0.80      1.000400      1.157162
+2020-12-23      0.81      1.000405      1.159207
+2020-12-24      0.82      1.000410      1.161252
+2020-12-25      0.78      1.000390      1.152749
+2020-12-26      2.80      1.000400      1.157085
+2020-12-27      2.70      1.000385      1.151008
+2020-12-28      2.75      1.000423      1.166705
+2020-12-29      4.00      1.000421      1.165869
+2020-12-30      4.10      1.000431      1.170272'''
 		
-		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositDataFrame, {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f'}))
-		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRatesDataframe, {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.8f'}))
+		if PRINT:
+			print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRatesDataframe, {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.8f'}))
+		else:
+			self.assertEqual(expectedYieldRatesStrDataframe, yieldRatesDataframe.to_string())
+		
 	
 if __name__ == '__main__':
 	#unittest.main()
