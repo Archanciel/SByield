@@ -43,7 +43,7 @@ class TestOwnerDepositYieldComputer(unittest.TestCase):
 			
 			yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 			
-			yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(
+			sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(
 				yieldCrypto)
 			
 			print(depositSheetFileName)
@@ -125,7 +125,7 @@ class TestOwnerDepositYieldComputer(unittest.TestCase):
 
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
 
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
@@ -205,7 +205,7 @@ TOTAL         9,500.00                                              22.57598231'
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
@@ -225,7 +225,7 @@ TOTAL         9,500.00                                              22.57598231'
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
@@ -245,7 +245,7 @@ TOTAL         9,500.00                                              22.57598231'
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
@@ -265,7 +265,7 @@ TOTAL         9,500.00                                              22.57598231'
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
@@ -285,7 +285,7 @@ TOTAL         9,500.00                                              22.57598231'
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
@@ -306,7 +306,7 @@ TOTAL         9,500.00                                              22.57598231'
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
@@ -328,7 +328,7 @@ TOTAL         9,500.00                                              22.57598231'
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
@@ -349,7 +349,7 @@ TOTAL         9,500.00                                              22.57598231'
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
@@ -371,7 +371,7 @@ TOTAL         9,500.00                                              22.57598231'
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
@@ -393,7 +393,7 @@ TOTAL         9,500.00                                              22.57598231'
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
@@ -415,7 +415,7 @@ TOTAL         9,500.00                                              22.57598231'
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
@@ -561,7 +561,7 @@ TOTAL         9,500.00                                              22.57598231'
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		print(depositSheetFileName)
 		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
@@ -581,7 +581,7 @@ TOTAL         9,500.00                                              22.57598231'
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
 			self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
 
 		print(depositSheetFileName)
@@ -650,7 +650,7 @@ TOTAL        19,571.69                                              87.39209000 
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
 			self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		print(depositSheetFileName)
@@ -726,7 +726,7 @@ TOTAL        19,571.69                                               87.39209000
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
 			self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		print(depositSheetFileName)
@@ -812,7 +812,7 @@ TOTAL        19,571.69                                               86.32182439
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = self.ownerDepositYieldComputer.computeDepositsYields(
 			yieldCrypto)
 		
 		print(depositSheetFileName)
@@ -905,7 +905,7 @@ TOTAL            9900.0                                                25.189695
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
 			self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		print(depositSheetFileName)
@@ -982,7 +982,7 @@ TOTAL        19,571.69                                              45.77968601 
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
 			self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		print(depositSheetFileName)
@@ -1060,7 +1060,7 @@ TOTAL        19,571.69                                              45.77968601 
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
 			self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		print(depositSheetFileName)
@@ -1136,7 +1136,7 @@ TOTAL        19,571.69                                              31.894632119
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
 			self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		print(depositSheetFileName)
@@ -1218,8 +1218,6 @@ TOTAL        24,571.69                                              63.424407409
 		
 		print(depositSheetFileName)
 		
-#		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
-
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
 			{
@@ -1228,15 +1226,15 @@ TOTAL        24,571.69                                              63.424407409
 				MERGED_SHEET_HEADER_YEARLY_YIELD_RATE: '.14f'})
 
 		sbEarningsTotalDfExpectedStr = \
-'                         Type Currency        Net amount\n' + \
-'Local time                                              ' + \
+'                             EARNINGS     D YIELD RATE     Y YIELD RATE\n' + \
+'DATE                                                                   ' + \
 '''
-2021-01-01 09:00:00  Earnings     USDC  4.36774838756355
-2021-01-02 09:00:00  Earnings     USDC  7.11332700382809
-2021-01-03 09:00:00  Earnings     USDC  8.47797205061397
-2021-01-04 09:00:00  Earnings     USDC 22.46701621233660
-2021-01-05 09:00:00  Earnings     USDC 19.17963717721430
-TOTAL                                  61.60570083155650'''
+2021-01-01 09:00:00  4.36774838756355 1.00043677483876 1.17279291419006
+2021-01-02 09:00:00  7.11332700382809 1.00047408375502 1.18886558873487
+2021-01-03 09:00:00  8.47797205061397 1.00056476586208 1.22885316870567
+2021-01-04 09:00:00 22.46701621233660 1.00056139528243 1.22734313720236
+2021-01-05 09:00:00 19.17963717721430 1.00047898289546 1.19099238934721
+TOTAL               61.60570083155650                                  '''
 		
 		if PRINT:
 			print(sbEarningsTotalDfActualStr)
@@ -1296,7 +1294,7 @@ TOTAL        40,000.00                                              61.605700831
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
 			self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
 		
 		print(depositSheetFileName)
