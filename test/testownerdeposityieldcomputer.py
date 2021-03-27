@@ -1204,7 +1204,7 @@ TOTAL        24,571.69                                              63.424407409
 		"""
 		Only one owner with 3 deposits.
 		"""
-		PRINT = True
+		PRINT = False
 		
 		sbAccountSheetFileName = 'testSBEarningUsdc_uniqueOwner_3_deposit.xlsx'
 		depositSheetFileName = 'testDepositUsdc_uniqueOwner_3_deposit.csv'
@@ -1226,15 +1226,15 @@ TOTAL        24,571.69                                              63.424407409
 				MERGED_SHEET_HEADER_YEARLY_YIELD_RATE: '.14f'})
 
 		sbEarningsTotalDfExpectedStr = \
-'                             EARNINGS     D YIELD RATE     Y YIELD RATE\n' + \
-'DATE                                                                   ' + \
+'                    EARNINGS     D YIELD RATE     Y YIELD RATE\n' + \
+'DATE                                                          ' + \
 '''
-2021-01-01 09:00:00  4.36774838756355 1.00043677483876 1.17279291419006
-2021-01-02 09:00:00  7.11332700382809 1.00047408375502 1.18886558873487
-2021-01-03 09:00:00  8.47797205061397 1.00056476586208 1.22885316870567
-2021-01-04 09:00:00 22.46701621233660 1.00056139528243 1.22734313720236
-2021-01-05 09:00:00 19.17963717721430 1.00047898289546 1.19099238934721
-TOTAL               61.60570083155650                                  '''
+2021-01-01  4.36774838756355 1.00043677483876 1.17279291419006
+2021-01-02  7.11332700382809 1.00047408375502 1.18886558873487
+2021-01-03  8.47797205061397 1.00056476586208 1.22885316870567
+2021-01-04 22.46701621233660 1.00056139528243 1.22734313720236
+2021-01-05 19.17963717721430 1.00047898289546 1.19099238934721
+TOTAL      61.60570083155650                                  '''
 		
 		if PRINT:
 			print(sbEarningsTotalDfActualStr)
@@ -1247,7 +1247,7 @@ TOTAL               61.60570083155650                                  '''
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 		yieldOwnerSummaryTotalsExpectedStr = \
-'      DEP/WITHDR      YIELD AMOUNT\n' + \
+'      DEP/WITHDR         YIELD AMT\n' + \
 'OWNER                             ' + \
 '''
 JPS    40,000.00 61.60570083155653
@@ -1268,13 +1268,13 @@ TOTAL  40,000.00 61.60570083155653'''
 				DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: '.14f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
-'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS      YIELD AMOUNT   YIELD %\n' + \
-'IDX                                                                                            ' + \
+'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS         YIELD AMT      YIELD AMT %         Y YIELD %\n' + \
+'IDX                                                                                                                     ' + \
 '''
-1       JPS  10,000.00 10,000.00  2021-01-01  2021-01-01          1  4.36774838756355  0.043677
-2       JPS   5,000.00 15,004.37  2021-01-02  2021-01-03          2 15.59129905444206  0.103912
-3       JPS  25,000.00 40,019.96  2021-01-04  2021-01-05          2 41.64665338955092  0.104065
-TOTAL        40,000.00                                              61.60570083155653          '''
+1       JPS  10,000.00 10,000.00  2021-01-01  2021-01-01          1  4.36774838756355 0.04367748387564 17.27929141900555
+2       JPS   5,000.00 15,004.37  2021-01-02  2021-01-03          2 15.59129905444206 0.10391173634169 20.86940249219460
+3       JPS  25,000.00 40,019.96  2021-01-04  2021-01-05          2 41.64665338955092 0.10406470766295 20.90311557299003
+TOTAL        40,000.00                                              61.60570083155653                                   '''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
