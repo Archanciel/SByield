@@ -1047,9 +1047,7 @@ TOTAL        19,571.69                                              45.77968601 
 		
 	def testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_after_first_yield(self):
 		"""
-		Only one owner with 1 deposit done on date after the first paid yield. The case
-		when running the app on a Swissborg account statement spreadsheet required
-		with a date from after the first yield farming deposits.
+		Only one owner with 1 deposit done on date after the first paid yield.
 		"""
 		PRINT = False
 		
@@ -1117,6 +1115,81 @@ TOTAL  19,571.69 31.89463211987095'''
 '''
 1       JPS  19,571.69 19,571.69  2021-01-03  2021-01-05          3 31.89463211987095     0.162963  21.909696
 TOTAL        19,571.69                                              31.89463211987095                        '''
+		
+		if PRINT:
+			print(yieldOwnerDetailTotalsActualStr)
+		else:
+			self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
+		
+	def testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_on_last_yield(self):
+		"""
+		Only one owner with 3 deposits.
+		"""
+		PRINT = False
+		
+		sbAccountSheetFileName = 'testSBEarningUsdc_uniqueOwner_1_deposit_on_last_yield.xlsx'
+		depositSheetFileName = 'testDepositUsdc_uniqueOwner_1_deposit_on_last_yield.csv'
+		
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
+		
+		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+		
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
+			self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+		
+		print(depositSheetFileName)
+		
+		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			sbEarningsTotalDf,
+			{
+				MERGED_SHEET_HEADER_EARNING_NEW_NAME: '.14f',
+				MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.14f',
+				MERGED_SHEET_HEADER_YEARLY_YIELD_RATE: '.14f'})
+		
+		sbEarningsTotalDfExpectedStr = \
+'                   EARNINGS     D YIELD RATE     Y YIELD RATE\n' + \
+'DATE                                                         ' + \
+'''
+2021-01-05 4.10938248077946 1.00041093824808 1.16178968743629
+TOTAL      4.10938248077946                                  '''
+		
+		if PRINT:
+			print(sbEarningsTotalDfActualStr)
+		else:
+			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
+		
+		yieldOwnerSummaryTotalsActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			yieldOwnerSummaryTotals,
+			{
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
+		yieldOwnerSummaryTotalsExpectedStr = \
+'      DEP/WITHDR        YIELD AMT\n' + \
+'OWNER                            ' + \
+'''
+JPS    10,000.00 4.10938248077946
+TOTAL  10,000.00 4.10938248077946'''
+		
+		if PRINT:
+			print(yieldOwnerSummaryTotalsActualStr)
+		else:
+			self.assertEqual(yieldOwnerSummaryTotalsExpectedStr, yieldOwnerSummaryTotalsActualStr)
+		
+		yieldOwnerDetailTotalsActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			yieldOwnerDetailTotals,
+			{
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+				DEPOSIT_YIELD_HEADER_CAPITAL: '.2f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT: '.14f',
+				DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: '.14f'})
+		
+		yieldOwnerDetailTotalsExpectedStr = \
+'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS        YIELD AMT      YIELD AMT %         Y YIELD %\n' + \
+'IDX                                                                                                                    ' + \
+'''
+1       JPS  10,000.00 10,000.00  2021-01-05  2021-01-05          1 4.10938248077946 0.04109382480779 16.17896874362914
+TOTAL        10,000.00                                              4.10938248077946                                   '''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1386,8 +1459,9 @@ if __name__ == '__main__':
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_before_first_yield()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_on_first_yield()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_after_first_yield()
+	tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_on_last_yield()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_2_deposit()
-	tst.testAndAnalyseComputeDepositsYields_uniqueOwner_3_deposit()
+	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_3_deposit()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_withdr()
 	# tst.testAndAnalyseComputeDepositsYields_dep_3()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_withdr()
