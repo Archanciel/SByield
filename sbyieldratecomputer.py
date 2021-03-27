@@ -46,8 +46,8 @@ MERGED_SHEET_HEADER_EARNING_CAPITAL = SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL
 MERGED_SHEET_HEADER_EARNING = SB_ACCOUNT_SHEET_HEADER_EARNING
 MERGED_SHEET_HEADER_DATE_NEW_NAME = 'DATE'
 MERGED_SHEET_HEADER_EARNING_NEW_NAME = 'EARNINGS'
-MERGED_SHEET_HEADER_DAILY_YIELD_RATE = 'DAILY YIELD RATE'
-MERGED_SHEET_HEADER_YEARLY_YIELD_RATE = 'YEARLY YIELD RATE'
+MERGED_SHEET_HEADER_DAILY_YIELD_RATE = 'D YIELD RATE'
+MERGED_SHEET_HEADER_YEARLY_YIELD_RATE = 'Y YIELD RATE'
 
 class SBYieldRateComputer(PandasDataComputer):
 	"""
@@ -220,12 +220,13 @@ class SBYieldRateComputer(PandasDataComputer):
 		
 		mergedEarningDeposit = self._mergeEarningAndDeposit(sbEarningsDf, depositDf)
 
-		# extract only MERGED_SHEET_HEADER_DATE_NEW_NAME, MERGED_SHEET_HEADER_DAILY_YIELD_RATE and
-		# MERGED_SHEET_HEADER_YEARLY_YIELD_RATE columns
+		# extract only MERGED_SHEET_HEADER_DATE_NEW_NAME, MERGED_SHEET_HEADER_EARNING_NEW_NAME,
+		# MERGED_SHEET_HEADER_DAILY_YIELD_RATE and MERGED_SHEET_HEADER_YEARLY_YIELD_RATE columns
 		colDateIdx = mergedEarningDeposit.columns.get_loc(MERGED_SHEET_HEADER_DATE_NEW_NAME)
+		colDailyEarningIdx = mergedEarningDeposit.columns.get_loc(MERGED_SHEET_HEADER_EARNING_NEW_NAME)
 		colDailyYieldRateIdx = mergedEarningDeposit.columns.get_loc(MERGED_SHEET_HEADER_DAILY_YIELD_RATE)
 		colYearlyYieldRateIdx = mergedEarningDeposit.columns.get_loc(MERGED_SHEET_HEADER_YEARLY_YIELD_RATE)
-		dailyYieldRatesDataframe = mergedEarningDeposit[mergedEarningDeposit.columns[[colDateIdx, colDailyYieldRateIdx, colYearlyYieldRateIdx]]]
+		dailyYieldRatesDataframe = mergedEarningDeposit[mergedEarningDeposit.columns[[colDateIdx, colDailyEarningIdx, colDailyYieldRateIdx, colYearlyYieldRateIdx]]]
 
 		# keep only non 0 MERGED_SHEET_HEADER_DAILY_YIELD_RATE rows
 		isYieldRateNonZero = dailyYieldRatesDataframe[MERGED_SHEET_HEADER_DAILY_YIELD_RATE] != 0
@@ -236,7 +237,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		
 		# set MERGED_SHEET_HEADER_DATE_NEW_NAME column as index
 		dailyYieldRatesDataframe = dailyYieldRatesDataframe.set_index(MERGED_SHEET_HEADER_DATE_NEW_NAME)
-
+		
 		return depositDf, dailyYieldRatesDataframe
 
 	def getSBEarningSheetTotalDf(self, yieldCrypto):

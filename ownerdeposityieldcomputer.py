@@ -33,7 +33,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		Can raise InvalidDepositDateError in case the deposit csv file contains a deposit or withdrawal
 		whose date is after the last Swissborg yield payment date.
 		"""
-		depositDf, yieldRatesDataframe = self.sbYieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
+		depositDf, sbYieldRatesDf = self.sbYieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
 
 		# sorting deposits by owner and by deposit date
 		ownerDateSortedDepositDf = depositDf.sort_values([DEPOSIT_SHEET_HEADER_OWNER, DEPOSIT_SHEET_HEADER_DATE], axis=0)
@@ -63,9 +63,9 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		# compute capital, date to and yield day number
 		previousRowOwner = None
 		currentRowCapital = 0.0
-		firstYieldTimeStamp = yieldRatesDataframe.index[0]
+		firstYieldTimeStamp = sbYieldRatesDf.index[0]
 		firstYieldPaymentDate = firstYieldTimeStamp.date()
-		lastYieldTimeStamp = yieldRatesDataframe.index[-1]
+		lastYieldTimeStamp = sbYieldRatesDf.index[-1]
 		lastYieldPaymentDate = lastYieldTimeStamp.date()
 		maxIdxValue = len(ownerDateSortedDepositDf)
 
@@ -107,7 +107,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 						yieldDayNumber = dateToMinusDateFromTimeDelta.days + 1
 						ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 						yieldAmount, yieldPercent, yearlyYieldPercent = self._computeCapitalYieldAmount(
-							yieldRatesDataframe,
+							sbYieldRatesDf,
 							currentRowCapital,
 							currentRowDateFrom,
 							lastYieldPaymentDate,
@@ -128,7 +128,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 						ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 						previousOwnerCapital = ownerDateSortedDepositDf.loc[i - 1, DATAFRAME_HEADER_DEPOSIT_WITHDRAW]
 						yieldAmount, yieldPercent, yearlyYieldPercent = self._computeCapitalYieldAmount(
-							yieldRatesDataframe,
+							sbYieldRatesDf,
 							previousOwnerCapital,
 							previousOwnerDateFrom,
 							lastYieldPaymentDate,
@@ -145,7 +145,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 						yieldDayNumber = dateToMinusDateFromTimeDelta.days + 1
 						ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 						yieldAmount, yieldPercent, yearlyYieldPercent = self._computeCapitalYieldAmount(
-							yieldRatesDataframe,
+							sbYieldRatesDf,
 							currentRowCapital,
 							currentRowDateFrom,
 							lastYieldPaymentDate,
@@ -167,7 +167,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 				ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 				previousRowCapital = ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_CAPITAL]
 				
-				yieldAmount, yieldPercent, yearlyYieldPercent = self._computeCapitalYieldAmount(yieldRatesDataframe,
+				yieldAmount, yieldPercent, yearlyYieldPercent = self._computeCapitalYieldAmount(sbYieldRatesDf,
 				                                                                                previousRowCapital,
 				                                                                                previousRowDateFrom,
 				                                                                                currentRowDateFromMinusOneDay,
@@ -183,7 +183,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 				dateToMinusDateFromTimeDelta = lastYieldPaymentDate - currentRowDateFrom
 				yieldDayNumber = dateToMinusDateFromTimeDelta.days + 1
 				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
-				yieldAmount, yieldPercent, yearlyYieldPercent = self._computeCapitalYieldAmount(yieldRatesDataframe,
+				yieldAmount, yieldPercent, yearlyYieldPercent = self._computeCapitalYieldAmount(sbYieldRatesDf,
 				                                                                                currentRowCapital,
 				                                                                                currentRowDateFrom,
 				                                                                                lastYieldPaymentDate,
@@ -195,7 +195,10 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		yieldOwnerSummaryTotals = self._computeYieldOwnerSummaryTotals(ownerDateSortedDepositDf)
 		yieldOwnerDetailTotals = self._computeYieldOwnerDetailTotals(ownerDateSortedDepositDf)
 		
-		return yieldOwnerSummaryTotals, yieldOwnerDetailTotals
+		# adding TOTAL row to SB yield rates data frame for MERGED_SHEET_HEADER_EARNING_NEW_NAME column only
+		sbYieldRatesDf.loc[DATAFRAME_HEADER_TOTAL] = sbYieldRatesDf[[MERGED_SHEET_HEADER_EARNING_NEW_NAME]].sum(numeric_only=True)
+
+		return sbYieldRatesDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals
 	
 	def _computeCapitalYieldAmount(self,
 	                               yieldRatesDataframe,
@@ -209,7 +212,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		capitalPlusYield = capital
 
 		for index, values in yieldRatesDataframeSubSet.iterrows():
-			yieldRate = values[0]
+			yieldRate = values[1]
 			capitalPlusYield = capitalPlusYield * yieldRate
 
 		yieldAmount = capitalPlusYield - capital
