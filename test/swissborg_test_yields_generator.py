@@ -32,6 +32,7 @@ def computeYields(df):
 	for i in range(0, dayNumber):
 		currentDepWithdr = df.loc[i, DEPWITHDR]
 		if currentDepWithdr >= 0:
+			# handling a deposit
 			currentCapital = df.loc[i, CAPITAL] + currentDepWithdr
 			df.loc[i, CAPITAL] = currentCapital
 			capitalPlusYield = currentCapital * df.loc[i, RATE_DAILY]
@@ -40,6 +41,7 @@ def computeYields(df):
 			if i < lastRowIdx:
 				df.loc[i + 1, CAPITAL] = capitalPlusYield
 		else:
+			# handling a withdrawal
 			currentCapital = df.loc[i, CAPITAL]
 			capitalPlusYield = currentCapital * df.loc[i, RATE_DAILY]
 			yieldAmount = capitalPlusYield - currentCapital
