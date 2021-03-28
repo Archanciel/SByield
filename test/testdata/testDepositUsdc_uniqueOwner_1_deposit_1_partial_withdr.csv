@@ -6,20 +6,20 @@ Explanations:
 2/ Deposits are positive and withdrawals negative
 
 3/ The deposits or withdrawals must be defined with a date which is equal to the first.
-   respectively the last, SB earning payment date for this deposit/withdrawal with
+   respectively the last + 1 day, SB earning payment date for this deposit/withdrawal with
    00:00:00 for the time component.
 
    To describe it differently, the csv file deposit date is equal to the yield subscription
-   activation date + 1 day. Once a yield subscription is active, it starts to generate
+   activation date + 1 day. Once a yield subscription is active, it starts generating
    daily revenues. The first of those revenues is paid 1 day AFTER the activation date.
    This justifies the fact that the csv file deposit date is 1 day after the activation
    day.
 
    For withdrawals, the csv file withdrawal date is equal to the yield redemption
-   fulfilment date. Once a yield redemption is fulfilled, it stops generating
-   daily revenues the day after the fulfilment date. So, since the withdrawal
-   amount still generates a revenue on the redemption fulfilment date, this date
-   IS the csv file withdrawal date.
+   fulfilment date + 1 day. Once a yield redemption is fulfilled, it stops generating
+   daily revenues the day AFTER the fulfilment date. So, since the withdrawal
+   amount still generates a revenue on the redemption fulfilment date, its csv file
+   withdrawal date 1 day after the yield redemption fulfilment date.
 
    If an owner makes several deposits/withdrawals for the same yield farming currency on
    the same date, only one row for this owner with a value equal to the sum of those
@@ -40,4 +40,4 @@ Data:
 
 OWNER,DATE,DEP/WITHDR
 JPS,2021/01/01 00:00:00,20000
-JPS,2021/01/03 00:00:00,-10000
+JPS,2021/01/04 00:00:00,-10000
