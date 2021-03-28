@@ -12,7 +12,7 @@ capitalArray = [0.0] * dayNumber
 # WARNING: THE ARRAY MUST BE COHERENT WITH THE DEPOSIT/WITHDR DEFINED IN THE
 # CORRESPONDING DEPOSIT CSV FILE !!!
 depWithdrArray[0] = 20000
-depWithdrArray[2] = -20015
+depWithdrArray[2] = -10000
 
 zeroYieldArray = [0.0] * dayNumber
 

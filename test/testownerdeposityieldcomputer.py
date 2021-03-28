@@ -1358,7 +1358,7 @@ TOTAL        40,000.00                                              61.605700831
 		"""
 		Only one owner with 1 deposit and 1 partial withdrawal.
 		"""
-		PRINT = False
+		PRINT = True
 		
 		sbAccountSheetFileName = 'testSBEarningUsdc_uniqueOwner_1_deposit_1_partial_withdr.xlsx'
 		depositSheetFileName = 'testDepositUsdc_uniqueOwner_1_deposit_1_partial_withdr.csv'

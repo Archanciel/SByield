@@ -117,7 +117,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		                         parse_dates=[DEPOSIT_SHEET_HEADER_DATE],
 		                         dtype={DATAFRAME_HEADER_DEPOSIT_WITHDRAW: np.float64})
 		depositsDf = depositsDf.set_index([DEPOSIT_SHEET_HEADER_DATE])
-		
+
 		return depositsDf
 
 	def _mergeEarningAndDeposit(self, earningDf, depositDf):
@@ -142,14 +142,15 @@ class SBYieldRateComputer(PandasDataComputer):
 		                              0,
 		                              [SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL, DATAFRAME_HEADER_DEPOSIT_WITHDRAW])
 		
-		# drop no longer unusefull type and  currency columns from the SB earning data frame
+		# drop no longer useful type and currency columns from the SB earning data frame
 		earningDf = earningDf.drop(columns=SB_ACCOUNT_SHEET_NO_LONGER_USED_COLUMNS_LIST)
 		
-		# removing unusefull owner column from the deposit data frame
+		# removing unuseful owner column from the deposit data frame
 		depositDf = depositDf.drop(columns=DEPOSIT_SHEET_HEADER_OWNER)
 		
 		# appending depositDf to earningDf, then sorting on datetime index and converting NaN to zero
-		mergedDf = earningDf.append(depositDf).sort_index().fillna(0)
+		mergedDf = earningDf.append(depositDf)
+		mergedDf = mergedDf.sort_index().fillna(0)
 
 		# replace DATE index with integer index
 		mergedDf = self._replaceDateIndexByIntIndex(mergedDf, MERGED_SHEET_HEADER_DATE, DATAFRAME_HEADER_INDEX)
