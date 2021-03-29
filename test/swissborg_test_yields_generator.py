@@ -1,6 +1,9 @@
 import pandas as pd
 import numpy as np
 
+RANDOM_YIELD_RATE_LOW = 1.15
+RANDOM_YIELD_RATE_HIGH = 1.25
+
 dayNumber = 5
 
 # generating day date list
@@ -11,6 +14,30 @@ capitalArray = [0.0] * dayNumber
 
 # WARNING: THE ARRAY MUST BE COHERENT WITH THE DEPOSIT/WITHDR DEFINED IN THE
 # CORRESPONDING DEPOSIT CSV FILE !!!
+'''
+Depost and withdrawal example:
+
+deposit.csv file
+
+OWNER,DATE,DEP/WITHDR
+JPS,2021/01/01 00:00:00,20000
+JPS,2021/01/04 00:00:00,-10000
+
+depWithdrArray corresponding setting
+
+depWithdrArray[0] = 20000   # 2021/01/01
+depWithdrArray[2] = -10000  # 2021/01/03
+
+generated data
+
+            DATE  DEP/WITHDR  EARNING CAPITAL    Y RATE    D RATE           D YIELD         YIELD SUM
+0     2021-01-01     20000.0     20000.000000  1.204476  1.000510 10.19682672353156 10.19682672353156
+1     2021-01-02         0.0     20010.196827  1.194205  1.000486  9.73227507534466 19.92910179887622
+2     2021-01-03    -10000.0     20019.929102  1.208457  1.000519 10.38806214595388 30.31716394483010
+3     2021-01-04         0.0     10030.317164  1.193944  1.000486  4.87240283804931 35.18956678287941
+4     2021-01-05         0.0     10035.189567  1.191480  1.000480  4.81793888522043 40.00750566809984
+TOTAL                                                             40.00750566809984
+'''
 depWithdrArray[0] = 20000
 depWithdrArray[2] = -10000
 
@@ -61,7 +88,7 @@ def computeYields(df):
 
 # generating an array of random values in the range of 1.15 - 1.25,
 # i.e. returns between 15 % and 25 % per annum
-randomYearlyInterestRates = np.random.uniform(low=1.15, high=1.25, size=(dayNumber))
+randomYearlyInterestRates = np.random.uniform(low=RANDOM_YIELD_RATE_LOW, high=RANDOM_YIELD_RATE_HIGH, size=(dayNumber))
 
 # obtaining an array of corresponding daily interest rates which are 
 # 365th root of a yearly interest rate

@@ -341,7 +341,7 @@ TOTAL                                          2.1'''
 			self.assertEqual(expectedYieldRatesStrDataframe, yieldRatesDataframe.to_string())
 	
 	def testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_1_deposit_1_almost_full_withdr(self):
-		PRINT = True
+		PRINT = False
 		
 		sbAccountSheetFileName = 'testSBEarningUsdc_uniqueOwner_1_deposit_1_almost_full_withdr.xlsx'
 		depositSheetFileName = 'testDepositUsdc_uniqueOwner_1_deposit_1_almost_full_withdr.csv'
@@ -361,8 +361,8 @@ TOTAL                                          2.1'''
 '           OWNER  DEP/WITHDR\n' + \
 'DATE                        ' + \
 '''
-2020-01-01   JPS     20000.0
-2020-01-03   JPS    -10000.0'''
+2021-01-01   JPS     20000.0
+2021-01-04   JPS    -20015.0'''
 		
 		if PRINT:
 			print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositDataFrame, {
@@ -371,14 +371,14 @@ TOTAL                                          2.1'''
 			self.assertEqual(expectedDepositStrDataframe, depositDataFrame.to_string())
 		
 		expectedYieldRatesStrDataframe = \
-'            EARNINGS  D YIELD RATE  Y YIELD RATE\n' + \
-'DATE                                            ' + \
+'             EARNINGS  D YIELD RATE  Y YIELD RATE\n' + \
+'DATE                                             ' + \
 '''
-2021-01-01  9.623818      1.000962      1.420630
-2021-01-02  7.945745      1.000794      1.335928
-2021-01-03  9.958172      1.000994      1.437141
-2021-01-04  4.677371      1.000466      1.185561
-2021-01-05  6.025685      1.000601      1.245038'''
+2021-01-01   8.847285      1.000442      1.175187
+2021-01-02  11.623546      1.000581      1.236116
+2021-01-03  10.816792      1.000540      1.217928
+2021-01-04   0.009836      1.000604      1.246520
+2021-01-05   0.009421      1.000578      1.234841'''
 		
 		if PRINT:
 			print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRatesDataframe, {
@@ -393,5 +393,5 @@ if __name__ == '__main__':
 	tst.setUp()
 #	tst.test_mergeEarningAndDeposit()
 #	tst.testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_2_deposit()
-	tst.testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_1_deposit_1_partial_withdr()
-#	tst.testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_1_deposit_1_almost_full_withdr()
+#	tst.testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_1_deposit_1_partial_withdr()
+	tst.testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_1_deposit_1_almost_full_withdr()

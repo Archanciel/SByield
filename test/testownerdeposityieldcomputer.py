@@ -1437,7 +1437,7 @@ TOTAL        10,000.00                                              39.78003617 
 		continues to generate earning on the yield redemption fulfilment date, the last
 		earning will remain in the smart yield and continue to generate very small earnings.
 		"""
-		PRINT = True
+		PRINT = False
 		
 		sbAccountSheetFileName = 'testSBEarningUsdc_uniqueOwner_1_deposit_1_almost_full_withdr.xlsx'
 		depositSheetFileName = 'testDepositUsdc_uniqueOwner_1_deposit_1_almost_full_withdr.csv'
@@ -1456,17 +1456,17 @@ TOTAL        10,000.00                                              39.78003617 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
 			{
-				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
+				MERGED_SHEET_HEADER_EARNING_NEW_NAME: '.14f'})
 		sbEarningsTotalDfExpectedStr = \
-'             EARNINGS  D YIELD RATE  Y YIELD RATE\n' + \
-'DATE                                             ' + \
+'                    EARNINGS  D YIELD RATE  Y YIELD RATE\n' + \
+'DATE                                                    ' + \
 '''
-2021-01-01 09:00:00  Earnings     USDC  8.32237146
-2021-01-02 09:00:00  Earnings     USDC  9.03544811
-2021-01-03 09:00:00  Earnings     USDC  9.79285984
-2021-01-04 09:00:00  Earnings     USDC  7.78065008
-2021-01-05 09:00:00  Earnings     USDC 10.84835651
-TOTAL                                  45.77968601'''
+2021-01-01  8.84728534291207      1.000442      1.175187
+2021-01-02 11.62354645871160      1.000581      1.236116
+2021-01-03 10.81679235481710      1.000540      1.217928
+2021-01-04  0.00983605445532      1.000604      1.246520
+2021-01-05  0.00942140246999      1.000578      1.234841
+TOTAL      31.30688161336608                            '''
 		
 		if PRINT:
 			print(sbEarningsTotalDfActualStr)
@@ -1477,13 +1477,13 @@ TOTAL                                  45.77968601'''
 			yieldOwnerSummaryTotals,
 			{
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
-				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 		yieldOwnerSummaryTotalsExpectedStr = \
-'      DEP/WITHDR YIELD AMOUNT\n' + \
-'OWNER                        ' + \
+'      DEP/WITHDR         YIELD AMT\n' + \
+'OWNER                             ' + \
 '''
-JPS    19,571.69  45.77968601
-TOTAL  19,571.69  45.77968601'''
+JPS       -15.00 31.30688161336618
+TOTAL     -15.00 31.30688161336618'''
 		
 		if PRINT:
 			print(yieldOwnerSummaryTotalsActualStr)
@@ -1494,15 +1494,16 @@ TOTAL  19,571.69  45.77968601'''
 			yieldOwnerDetailTotals,
 			{
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
-				DEPOSIT_YIELD_HEADER_CAPITAL: '.2f',
-				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+				DEPOSIT_YIELD_HEADER_CAPITAL: '.14f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
-'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS YIELD AMOUNT\n' + \
-'IDX                                                                             ' + \
+'      OWNER DEP/WITHDR               CAPITAL        FROM          TO YIELD DAYS         YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
+'IDX                                                                                                                      ' + \
 '''
-1       JPS  19,571.69 19,571.69  2021-01-01  2021-05-01        121  45.77968601
-TOTAL        19,571.69                                               45.77968601'''
+1       JPS  20,000.00 20,000.00000000000000  2021-01-01  2021-01-03          3 31.28762415644087     0.156438  20.947251
+2       JPS -20,015.00     16.28762415644087  2021-01-04  2021-01-05          2  0.01925745692531     0.118234  24.066683
+TOTAL           -15.00                                                          31.30688161336618                        '''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1542,8 +1543,8 @@ if __name__ == '__main__':
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_on_last_yield()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_2_deposit()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_3_deposit()
-	tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_partial_withdr()
-	#tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_almost_full_withdr()
+	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_partial_withdr()
+	tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_almost_full_withdr()
 	# tst.testAndAnalyseComputeDepositsYields_dep_3()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_withdr()
 
