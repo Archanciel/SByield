@@ -635,7 +635,7 @@ TOTAL  19,571.69 87.39209000'''
 'IDX                                                                                                    ' + \
 '''
 1       JPS  19,571.69 19,571.69  2020-12-22  2020-12-31         10 87.39209000     0.446523  17.658725
-TOTAL        19,571.69                                              87.39209000                        '''
+TOTAL        19,571.69 19,659.08                                    87.39209000                        '''
 		self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
 	
 	@unittest.skip
@@ -961,7 +961,7 @@ TOTAL  19,571.69 45.77968601'''
 'IDX                                                                                                    ' + \
 '''
 1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-05          5 45.77968601     0.233908  18.596076
-TOTAL        19,571.69                                              45.77968601                        '''
+TOTAL        19,571.69 19,617.47                                    45.77968601                        '''
 
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1038,7 +1038,7 @@ TOTAL  19,571.69 45.77968601'''
 'IDX                                                                                                    ' + \
 '''
 1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-05          5 45.77968601     0.233908  18.596076
-TOTAL        19,571.69                                              45.77968601                        '''
+TOTAL        19,571.69 19,617.47                                    45.77968601                        '''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1114,7 +1114,7 @@ TOTAL  19,571.69 31.89463211987095'''
 'IDX                                                                                                          ' + \
 '''
 1       JPS  19,571.69 19,571.69  2021-01-03  2021-01-05          3 31.89463211987095     0.162963  21.909696
-TOTAL        19,571.69                                              31.89463211987095                        '''
+TOTAL        19,571.69 19,603.58                                    31.89463211987095                        '''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1189,7 +1189,7 @@ TOTAL  10,000.00 4.10938248077946'''
 'IDX                                                                                                                    ' + \
 '''
 1       JPS  10,000.00 10,000.00  2021-01-05  2021-01-05          1 4.10938248077946 0.04109382480779 16.17896874362914
-TOTAL        10,000.00                                              4.10938248077946                                   '''
+TOTAL        10,000.00 10,004.11                                    4.10938248077946                                   '''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1266,7 +1266,7 @@ TOTAL  24,571.69 63.42440740948223'''
 '''
 1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-01          1 10.98076808766564     0.056105  22.719019
 2       JPS   5,000.00 24,582.67  2021-01-02  2021-01-05          4 52.44363932181659     0.213336  21.465680
-TOTAL        24,571.69                                              63.42440740948223                        '''
+TOTAL        24,571.69 24,635.11                                    63.42440740948223                        '''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1347,7 +1347,7 @@ TOTAL  40,000.00 61.60570083155653'''
 1       JPS  10,000.00 10,000.00  2021-01-01  2021-01-01          1  4.36774838756355 0.04367748387564 17.27929141900555
 2       JPS   5,000.00 15,004.37  2021-01-02  2021-01-03          2 15.59129905444206 0.10391173634169 20.86940249219460
 3       JPS  25,000.00 40,019.96  2021-01-04  2021-01-05          2 41.64665338955092 0.10406470766295 20.90311557299003
-TOTAL        40,000.00                                              61.60570083155653                                   '''
+TOTAL        40,000.00 40,061.61                                    61.60570083155653                                   '''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1424,7 +1424,7 @@ TOTAL  10,000.00 39.78003617'''
 '''
 1       JPS  20,000.00 20,000.00  2021-01-01  2021-01-03          3 28.95921503     0.144796  19.248711
 2       JPS -10,000.00 10,028.96  2021-01-04  2021-01-05          2 10.82082114     0.107896  21.750490
-TOTAL        10,000.00                                              39.78003617                        '''
+TOTAL        10,000.00 10,039.78                                    39.78003617                        '''
 
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1503,7 +1503,85 @@ TOTAL     -15.00 31.30688161336618'''
 '''
 1       JPS  20,000.00 20,000.00000000000000  2021-01-01  2021-01-03          3 31.28762415644087     0.156438  20.947251
 2       JPS -20,015.00     16.28762415644087  2021-01-04  2021-01-05          2  0.01925745692531     0.118234  24.066683
-TOTAL           -15.00                                                          31.30688161336618                        '''
+TOTAL           -15.00     16.30688161336618                                    31.30688161336618                        '''
+		
+		if PRINT:
+			print(yieldOwnerDetailTotalsActualStr)
+		else:
+			self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
+	
+	def testAndAnalyseComputeDepositsYields_2_owner_1_deposit_before_first_yield(self):
+		"""
+		Two owners with 1 deposit for each done on date before the first paid yield.
+		The case when running the app on a Swissborg account statement spreadsheet
+		required with a date from after the first yield farming deposit(s).
+		"""
+		PRINT = True
+		
+		sbAccountSheetFileName = 'testSBEarningUsdc_2_owner_1_deposit.xlsx'
+		depositSheetFileName = 'testDepositUsdc_2_owner_1_deposit_before_first_yield.csv'
+		
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
+		
+		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+		
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
+			self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+		
+		print(depositSheetFileName)
+		
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		
+		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			sbEarningsTotalDf,
+			{
+				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
+		sbEarningsTotalDfExpectedStr = \
+			'                         Type Currency  Net amount\n' + \
+			'Local time                                        ' + \
+			'''
+			2021-01-01 09:00:00  Earnings     USDC  8.32237146
+			2021-01-02 09:00:00  Earnings     USDC  9.03544811
+			2021-01-03 09:00:00  Earnings     USDC  9.79285984
+			2021-01-04 09:00:00  Earnings     USDC  7.78065008
+			2021-01-05 09:00:00  Earnings     USDC 10.84835651
+			TOTAL                                  45.77968601'''
+		
+		if PRINT:
+			print(sbEarningsTotalDfActualStr)
+		else:
+			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
+		
+		yieldOwnerSummaryTotalsActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			yieldOwnerSummaryTotals,
+			{
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+		yieldOwnerSummaryTotalsExpectedStr = \
+			'      DEP/WITHDR   YIELD AMT\n' + \
+			'OWNER                       ' + \
+			'''
+			JPS    19,571.69 45.77968601
+			TOTAL  19,571.69 45.77968601'''
+		
+		if PRINT:
+			print(yieldOwnerSummaryTotalsActualStr)
+		else:
+			self.assertEqual(yieldOwnerSummaryTotalsExpectedStr, yieldOwnerSummaryTotalsActualStr)
+		
+		yieldOwnerDetailTotalsActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			yieldOwnerDetailTotals,
+			{
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+				DEPOSIT_YIELD_HEADER_CAPITAL: '.2f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+		
+		yieldOwnerDetailTotalsExpectedStr = \
+			'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
+			'IDX                                                                                                    ' + \
+			'''
+			1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-05          5 45.77968601     0.233908  18.596076
+			TOTAL        19,571.69                                              45.77968601                        '''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1537,14 +1615,15 @@ if __name__ == '__main__':
 	# tst.testAndAnalyseComputeDepositsYields_dep_2()
 	# tst.testAndAnalyseComputeDepositsYields_dep_3()
 	# tst.testAndAnalyseComputeDepositsYields_dep_2()
-	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_before_first_yield()
+	#tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_before_first_yield()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_on_first_yield()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_after_first_yield()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_on_last_yield()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_2_deposit()
-	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_3_deposit()
-	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_partial_withdr()
-	tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_almost_full_withdr()
+	#tst.testAndAnalyseComputeDepositsYields_uniqueOwner_3_deposit()
+	#tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_partial_withdr()
+	#tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_almost_full_withdr()
 	# tst.testAndAnalyseComputeDepositsYields_dep_3()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_withdr()
+	tst.testAndAnalyseComputeDepositsYields_2_owner_1_deposit_before_first_yield()
 

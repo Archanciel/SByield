@@ -38,8 +38,7 @@ generated data
 4     2021-01-05         0.0     10035.189567  1.191480  1.000480  4.81793888522043 40.00750566809984
 TOTAL                                                             40.00750566809984
 '''
-depWithdrArray[0] = 20000
-depWithdrArray[2] = -10000
+depWithdrArray[0] = 30000
 
 zeroYieldArray = [0.0] * dayNumber
 
@@ -84,7 +83,7 @@ def computeYields(df):
 	df.loc[TOTAL] = df.sum(numeric_only=True, axis=0)[
 		[YIELD_DAILY]]
 
-	return df.to_string(formatters={YIELD_DAILY: '{:.14f}'.format, YIELD_SUM: '{:.14f}'.format}).replace('NaT', '   ').replace('NaN', '   ')
+	return df.to_string(formatters={RATE_DAILY: '{:.8f}'.format, YIELD_DAILY: '{:.14f}'.format, YIELD_SUM: '{:.14f}'.format}).replace('NaT', '   ').replace('NaN', '   ')
 
 # generating an array of random values in the range of 1.15 - 1.25,
 # i.e. returns between 15 % and 25 % per annum
