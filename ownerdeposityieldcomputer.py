@@ -41,7 +41,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		# replace DATE index with integer index
 		ownerDateSortedDepositDf = self._replaceDateIndexByIntIndex(ownerDateSortedDepositDf, DEPOSIT_SHEET_HEADER_DATE, DATAFRAME_HEADER_INDEX)
 
-		# insert CAPITAL column
+		# insert DEPOSIT_YIELD_HEADER_CAPITAL column
 		self._insertEmptyFloatColumns(ownerDateSortedDepositDf,
 		                              2,
 		                              [DEPOSIT_YIELD_HEADER_CAPITAL])
@@ -257,11 +257,72 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 	def _computeYieldOwnerDetailTotals(self, depositsYieldsDataFrame):
 		yieldOwnerDetailTotals = depositsYieldsDataFrame.copy()
 		
-		yieldOwnerDetailTotals.loc[DATAFRAME_HEADER_TOTAL] = depositsYieldsDataFrame.sum(numeric_only=True, axis=0)[
-			[DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
+		totalDf = pd.DataFrame(columns=[DEPOSIT_SHEET_HEADER_OWNER,
+		                                DATAFRAME_HEADER_DEPOSIT_WITHDRAW,
+		                                DEPOSIT_YIELD_HEADER_CAPITAL,
+		                                DEPOSIT_YIELD_HEADER_DATE_FROM,
+		                                DEPOSIT_YIELD_HEADER_DATE_TO,
+		                                DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER,
+		                                DEPOSIT_YIELD_HEADER_YIELD_AMOUNT,
+		                                DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT,
+		                                DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT])
 		
-		yieldOwnerDetailTotals.loc[DATAFRAME_HEADER_TOTAL, DEPOSIT_YIELD_HEADER_CAPITAL] = \
-			yieldOwnerDetailTotals.loc[DATAFRAME_HEADER_TOTAL, DATAFRAME_HEADER_DEPOSIT_WITHDRAW] + \
-			yieldOwnerDetailTotals.loc[DATAFRAME_HEADER_TOTAL, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]
+		currentOwner = depositsYieldsDataFrame.loc[1, DEPOSIT_SHEET_HEADER_OWNER]
 		
-		return yieldOwnerDetailTotals
+		ownerGroupTotalDf = depositsYieldsDataFrame.groupby([DEPOSIT_SHEET_HEADER_OWNER]).agg({DATAFRAME_HEADER_DEPOSIT_WITHDRAW: 'sum',
+																							   DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: 'sum'}).reset_index()
+		ownerGroupTotalIndex = 0
+		
+		# deactivating SettingWithCopyWarning caueed by totalRow[DEPOSIT_SHEET_HEADER_OWNER] += ' total'
+		pd.set_option('mode.chained_assignment', None)
+		
+		for index, row in depositsYieldsDataFrame.iterrows():
+			if currentOwner == row[DEPOSIT_SHEET_HEADER_OWNER]:
+				totalDf = totalDf.append({DEPOSIT_SHEET_HEADER_OWNER: row[DEPOSIT_SHEET_HEADER_OWNER],
+				                          DATAFRAME_HEADER_DEPOSIT_WITHDRAW: row[DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
+				                          DEPOSIT_YIELD_HEADER_CAPITAL: row[DEPOSIT_YIELD_HEADER_CAPITAL],
+				                          DEPOSIT_YIELD_HEADER_DATE_FROM: row[DEPOSIT_YIELD_HEADER_DATE_FROM],
+				                          DEPOSIT_YIELD_HEADER_DATE_TO: row[DEPOSIT_YIELD_HEADER_DATE_TO],
+				                          DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER: row[
+					                          DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER],
+				                          DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: row[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT],
+				                          DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT: row[
+					                          DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT],
+				                          DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: row[
+					                          DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT]}, ignore_index=True)
+			else:
+				totalRow = ownerGroupTotalDf.loc[ownerGroupTotalIndex]
+				totalRow[DEPOSIT_SHEET_HEADER_OWNER] = DATAFRAME_HEADER_TOTAL
+				totalRow[DATAFRAME_HEADER_DEPOSIT_WITHDRAW] += totalRow[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]
+				totalDf = totalDf.append(totalRow, ignore_index=True)
+				ownerGroupTotalIndex += 1
+				totalDf = totalDf.append({DEPOSIT_SHEET_HEADER_OWNER: row[DEPOSIT_SHEET_HEADER_OWNER],
+				                          DATAFRAME_HEADER_DEPOSIT_WITHDRAW: row[DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
+				                          DEPOSIT_YIELD_HEADER_CAPITAL: row[DEPOSIT_YIELD_HEADER_CAPITAL],
+				                          DEPOSIT_YIELD_HEADER_DATE_FROM: row[DEPOSIT_YIELD_HEADER_DATE_FROM],
+				                          DEPOSIT_YIELD_HEADER_DATE_TO: row[DEPOSIT_YIELD_HEADER_DATE_TO],
+				                          DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER: row[
+					                          DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER],
+				                          DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: row[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT],
+				                          DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT: row[
+					                          DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT],
+				                          DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: row[
+					                          DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT]}, ignore_index=True)
+				currentOwner = row[DEPOSIT_SHEET_HEADER_OWNER]
+		
+		totalRow = ownerGroupTotalDf.loc[ownerGroupTotalIndex]
+		totalRow[DEPOSIT_SHEET_HEADER_OWNER] = DATAFRAME_HEADER_TOTAL
+		totalRow[DATAFRAME_HEADER_DEPOSIT_WITHDRAW] += totalRow[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]
+		
+		totalDf = totalDf.append(totalRow, ignore_index=True)
+
+
+		
+		# yieldOwnerDetailTotals.loc[DATAFRAME_HEADER_TOTAL] = depositsYieldsDataFrame.sum(numeric_only=True, axis=0)[
+		# 	[DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
+		#
+		# yieldOwnerDetailTotals.loc[DATAFRAME_HEADER_TOTAL, DEPOSIT_YIELD_HEADER_CAPITAL] = \
+		# 	yieldOwnerDetailTotals.loc[DATAFRAME_HEADER_TOTAL, DATAFRAME_HEADER_DEPOSIT_WITHDRAW] + \
+		# 	yieldOwnerDetailTotals.loc[DATAFRAME_HEADER_TOTAL, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]
+		
+		return totalDf

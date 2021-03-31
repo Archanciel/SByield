@@ -1537,15 +1537,15 @@ TOTAL           -15.00     16.30688161336618                                    
 			{
 				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
 		sbEarningsTotalDfExpectedStr = \
-			'                         Type Currency  Net amount\n' + \
-			'Local time                                        ' + \
-			'''
-			2021-01-01 09:00:00  Earnings     USDC  8.32237146
-			2021-01-02 09:00:00  Earnings     USDC  9.03544811
-			2021-01-03 09:00:00  Earnings     USDC  9.79285984
-			2021-01-04 09:00:00  Earnings     USDC  7.78065008
-			2021-01-05 09:00:00  Earnings     USDC 10.84835651
-			TOTAL                                  45.77968601'''
+'                         Type Currency  Net amount\n' + \
+'Local time                                        ' + \
+'''
+2021-01-01 09:00:00  Earnings     USDC  8.32237146
+2021-01-02 09:00:00  Earnings     USDC  9.03544811
+2021-01-03 09:00:00  Earnings     USDC  9.79285984
+2021-01-04 09:00:00  Earnings     USDC  7.78065008
+2021-01-05 09:00:00  Earnings     USDC 10.84835651
+TOTAL                                  45.77968601'''
 		
 		if PRINT:
 			print(sbEarningsTotalDfActualStr)
@@ -1558,11 +1558,11 @@ TOTAL           -15.00     16.30688161336618                                    
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		yieldOwnerSummaryTotalsExpectedStr = \
-			'      DEP/WITHDR   YIELD AMT\n' + \
-			'OWNER                       ' + \
-			'''
-			JPS    19,571.69 45.77968601
-			TOTAL  19,571.69 45.77968601'''
+'      DEP/WITHDR   YIELD AMT\n' + \
+'OWNER                       ' + \
+'''
+JPS    19,571.69 45.77968601
+TOTAL  19,571.69 45.77968601'''
 		
 		if PRINT:
 			print(yieldOwnerSummaryTotalsActualStr)
@@ -1577,11 +1577,87 @@ TOTAL           -15.00     16.30688161336618                                    
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
-			'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-			'IDX                                                                                                    ' + \
-			'''
-			1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-05          5 45.77968601     0.233908  18.596076
-			TOTAL        19,571.69                                              45.77968601                        '''
+'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
+'IDX                                                                                                    ' + \
+'''
+1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-05          5 45.77968601     0.233908  18.596076
+TOTAL        19,571.69                                              45.77968601                        '''
+		
+		if PRINT:
+			print(yieldOwnerDetailTotalsActualStr)
+		else:
+			self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
+	
+	def testAndAnalyseComputeDepositsYields_3_owner_multi_deposit(self):
+		"""
+		Three owners with several deposits.
+		"""
+		PRINT = True
+		
+		sbAccountSheetFileName = 'testSBEarningUsdc_3_owner_multi_deposit.xlsx'
+		depositSheetFileName = 'testDepositUsdc_3_owner_multi_deposit.csv'
+		
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
+		
+		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+		
+		sbEarningsTotalDf, yieldOwnerSummaryTotals, yieldOwnerDetailTotals = \
+			self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+		
+		print(depositSheetFileName)
+		
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		
+		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			sbEarningsTotalDf,
+			{
+				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
+		sbEarningsTotalDfExpectedStr = \
+'                         Type Currency  Net amount\n' + \
+'Local time                                        ' + \
+'''
+2021-01-01 09:00:00  Earnings     USDC  8.32237146
+2021-01-02 09:00:00  Earnings     USDC  9.03544811
+2021-01-03 09:00:00  Earnings     USDC  9.79285984
+2021-01-04 09:00:00  Earnings     USDC  7.78065008
+2021-01-05 09:00:00  Earnings     USDC 10.84835651
+TOTAL                                  45.77968601'''
+		
+		if PRINT:
+			print(sbEarningsTotalDfActualStr)
+		else:
+			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
+		
+		yieldOwnerSummaryTotalsActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			yieldOwnerSummaryTotals,
+			{
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+		yieldOwnerSummaryTotalsExpectedStr = \
+'      DEP/WITHDR   YIELD AMT\n' + \
+'OWNER                       ' + \
+'''
+JPS    19,571.69 45.77968601
+TOTAL  19,571.69 45.77968601'''
+		
+		if PRINT:
+			print(yieldOwnerSummaryTotalsActualStr)
+		else:
+			self.assertEqual(yieldOwnerSummaryTotalsExpectedStr, yieldOwnerSummaryTotalsActualStr)
+		
+		yieldOwnerDetailTotalsActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			yieldOwnerDetailTotals,
+			{
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+				DEPOSIT_YIELD_HEADER_CAPITAL: '.2f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+		
+		yieldOwnerDetailTotalsExpectedStr = \
+'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
+'IDX                                                                                                    ' + \
+'''
+1       JPS  19,571.69 19,571.69  2021-01-01  2021-01-05          5 45.77968601     0.233908  18.596076
+TOTAL        19,571.69                                              45.77968601                        '''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1620,10 +1696,11 @@ if __name__ == '__main__':
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_after_first_yield()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_on_last_yield()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_2_deposit()
-	#tst.testAndAnalyseComputeDepositsYields_uniqueOwner_3_deposit()
+	tst.testAndAnalyseComputeDepositsYields_uniqueOwner_3_deposit()
 	#tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_partial_withdr()
 	#tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_almost_full_withdr()
 	# tst.testAndAnalyseComputeDepositsYields_dep_3()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_withdr()
-	tst.testAndAnalyseComputeDepositsYields_2_owner_1_deposit_before_first_yield()
+	#tst.testAndAnalyseComputeDepositsYields_2_owner_1_deposit_before_first_yield()
+	#tst.testAndAnalyseComputeDepositsYields_3_owner_multi_deposit()
 
