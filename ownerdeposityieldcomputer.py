@@ -126,7 +126,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 						                               previousOwnerDateFrom
 						yieldDayNumber = dateToMinusDateFromTimeDelta.days + 1
 						ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
-						previousOwnerCapital = ownerDateSortedDepositDf.loc[i - 1, DATAFRAME_HEADER_DEPOSIT_WITHDRAW]
+						previousOwnerCapital = ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_CAPITAL]
 						yieldAmount, yieldPercent, yearlyYieldPercent = self._computeCapitalYieldAmount(
 							sbYieldRatesDf,
 							previousOwnerCapital,
