@@ -574,7 +574,7 @@ TOTAL         9,500.00                                              22.57598231'
 		"""
 		Only one owner with one deposit.
 		"""
-		PRINT = True
+		PRINT = False
 
 		sbAccountSheetFileName = 'testSBEarningUsdc_analysis_dep_1_2.xlsx'
 		depositSheetFileName = 'testDepositUsdc_analysis_dep_1.csv'
@@ -619,11 +619,11 @@ TOTAL                                    87.392090'''
 			                                                                                        DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 			                                                                                        DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		yieldOwnerSummaryTotalsExpectedStr = \
-'      DEP/WITHDR   YIELD AMT\n' + \
-'OWNER                       ' + \
+'      DEP/WITHDR   YIELD AMT        TOTAL\n' + \
+'OWNER                                    ' + \
 '''
-JPS    19,571.69 87.39209000
-TOTAL  19,571.69 87.39209000'''
+JPS    19,571.69 87.39209000  19659.08209
+TOTAL  19,571.69 87.39209000  19659.08209'''
 
 		if PRINT:
 			print(yieldOwnerSummaryTotalsActualStr)
@@ -638,11 +638,11 @@ TOTAL  19,571.69 87.39209000'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
-'      OWNER DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'IDX                                                                                                    ' + \
+'      DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
+'OWNER                                                                                            ' + \
 '''
-1       JPS  19,571.69 19,571.69  2020-12-22  2020-12-31         10 87.39209000     0.446523  17.658725
-TOTAL        19,571.69 19,659.08                                    87.39209000                        '''
+JPS    19,571.69 19,571.69  2020-12-22  2020-12-31         10 87.39209000     0.446523  17.658725
+TOTAL  19,659.08                                              87.39209000                        '''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1490,11 +1490,11 @@ TOTAL      31.30688161336608                            '''
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 		yieldOwnerSummaryTotalsExpectedStr = \
-'      DEP/WITHDR         YIELD AMT\n' + \
-'OWNER                             ' + \
+'      DEP/WITHDR         YIELD AMT      TOTAL\n' + \
+'OWNER                                        ' + \
 '''
-JPS       -15.00 31.30688161336618
-TOTAL     -15.00 31.30688161336618'''
+JPS       -15.00 31.30688161336618  16.306882
+TOTAL     -15.00 31.30688161336618  16.306882'''
 		
 		if PRINT:
 			print(yieldOwnerSummaryTotalsActualStr)
@@ -1509,12 +1509,12 @@ TOTAL     -15.00 31.30688161336618'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 		
 		yieldOwnerDetailTotalsExpectedStr = \
-'      OWNER DEP/WITHDR               CAPITAL        FROM          TO YIELD DAYS         YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'IDX                                                                                                                      ' + \
+'      DEP/WITHDR               CAPITAL        FROM          TO YIELD DAYS         YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
+'OWNER                                                                                                              ' + \
 '''
-1       JPS  20,000.00 20,000.00000000000000  2021-01-01  2021-01-03          3 31.28762415644087     0.156438  20.947251
-2       JPS -20,015.00     16.28762415644087  2021-01-04  2021-01-05          2  0.01925745692531     0.118234  24.066683
-TOTAL           -15.00     16.30688161336618                                    31.30688161336618                        '''
+JPS    20,000.00 20,000.00000000000000  2021-01-01  2021-01-03          3 31.28762415644087     0.156438  20.947251
+JPS   -20,015.00     16.28762415644087  2021-01-04  2021-01-05          2  0.01925745692531     0.118234  24.066683
+TOTAL      16.31                                                          31.30688161336618                        '''
 		
 		if PRINT:
 			print(yieldOwnerDetailTotalsActualStr)
@@ -1698,7 +1698,7 @@ if __name__ == '__main__':
 	# tst.testComputeDepositsYieldsMiddleDepositDateFromIsAfterMaxRowUniqueOwnerThreeDepositsDepositDateFromAfterMax_5()
 	# tst.testComputeDepositsYieldsMiddleDepositDateFromIsAfterMaxRowUniqueOwnerThreeDepositsDepositDateFromAfterMax_6()
 	# tst.testAndAnalyseComputeDepositsYields()
-#	tst.testAndAnalyseComputeDepositsYields_dep_1()
+	#tst.testAndAnalyseComputeDepositsYields_dep_1()
 	# tst.testAndAnalyseComputeDepositsYields_dep_2()
 	# tst.testAndAnalyseComputeDepositsYields_dep_3()
 	# tst.testAndAnalyseComputeDepositsYields_dep_2()
@@ -1709,9 +1709,9 @@ if __name__ == '__main__':
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_2_deposit()
 	#tst.testAndAnalyseComputeDepositsYields_uniqueOwner_3_deposit()
 	#tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_partial_withdr()
-	#tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_almost_full_withdr()
+	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_almost_full_withdr()
 	# tst.testAndAnalyseComputeDepositsYields_dep_3()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_withdr()
 	#tst.testAndAnalyseComputeDepositsYields_2_owner_1_deposit_before_first_yield()
-	tst.testAndAnalyseComputeDepositsYields_3_owner_multi_deposit()
+	#tst.testAndAnalyseComputeDepositsYields_3_owner_multi_deposit()
 
