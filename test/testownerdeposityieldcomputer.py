@@ -574,6 +574,8 @@ TOTAL         9,500.00                                              22.57598231'
 		"""
 		Only one owner with one deposit.
 		"""
+		PRINT = True
+
 		sbAccountSheetFileName = 'testSBEarningUsdc_analysis_dep_1_2.xlsx'
 		depositSheetFileName = 'testDepositUsdc_analysis_dep_1.csv'
 		
@@ -607,9 +609,11 @@ TOTAL         9,500.00                                              22.57598231'
 2020-12-31 09:00:00  Earnings     USDC    8.403842
 TOTAL                                    87.392090'''
 		
-		self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
-		#print(sbEarningsTotalDfActualStr)
-				
+		if PRINT:
+			print(sbEarningsTotalDfActualStr)
+		else:
+			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
+			
 		yieldOwnerSummaryTotalsActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(yieldOwnerSummaryTotals,
 		                                                                                        {
 			                                                                                        DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
@@ -621,7 +625,10 @@ TOTAL                                    87.392090'''
 JPS    19,571.69 87.39209000
 TOTAL  19,571.69 87.39209000'''
 
-		self.assertEqual(yieldOwnerSummaryTotalsExpectedStr, yieldOwnerSummaryTotalsActualStr)
+		if PRINT:
+			print(yieldOwnerSummaryTotalsActualStr)
+		else:
+			self.assertEqual(yieldOwnerSummaryTotalsExpectedStr, yieldOwnerSummaryTotalsActualStr)
 		
 		yieldOwnerDetailTotalsActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			yieldOwnerDetailTotals,
@@ -636,7 +643,11 @@ TOTAL  19,571.69 87.39209000'''
 '''
 1       JPS  19,571.69 19,571.69  2020-12-22  2020-12-31         10 87.39209000     0.446523  17.658725
 TOTAL        19,571.69 19,659.08                                    87.39209000                        '''
-		self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
+		
+		if PRINT:
+			print(yieldOwnerDetailTotalsActualStr)
+		else:
+			self.assertEqual(yieldOwnerDetailTotalsExpectedStr, yieldOwnerDetailTotalsActualStr)
 	
 	@unittest.skip
 	def testAndAnalyseComputeDepositsYields_dep_2(self):
@@ -1687,7 +1698,7 @@ if __name__ == '__main__':
 	# tst.testComputeDepositsYieldsMiddleDepositDateFromIsAfterMaxRowUniqueOwnerThreeDepositsDepositDateFromAfterMax_5()
 	# tst.testComputeDepositsYieldsMiddleDepositDateFromIsAfterMaxRowUniqueOwnerThreeDepositsDepositDateFromAfterMax_6()
 	# tst.testAndAnalyseComputeDepositsYields()
-	# tst.testAndAnalyseComputeDepositsYields_dep_1()
+#	tst.testAndAnalyseComputeDepositsYields_dep_1()
 	# tst.testAndAnalyseComputeDepositsYields_dep_2()
 	# tst.testAndAnalyseComputeDepositsYields_dep_3()
 	# tst.testAndAnalyseComputeDepositsYields_dep_2()
@@ -1696,11 +1707,11 @@ if __name__ == '__main__':
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_after_first_yield()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_on_last_yield()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_2_deposit()
-	tst.testAndAnalyseComputeDepositsYields_uniqueOwner_3_deposit()
+	#tst.testAndAnalyseComputeDepositsYields_uniqueOwner_3_deposit()
 	#tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_partial_withdr()
 	#tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_almost_full_withdr()
 	# tst.testAndAnalyseComputeDepositsYields_dep_3()
 	# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_withdr()
 	#tst.testAndAnalyseComputeDepositsYields_2_owner_1_deposit_before_first_yield()
-	#tst.testAndAnalyseComputeDepositsYields_3_owner_multi_deposit()
+	tst.testAndAnalyseComputeDepositsYields_3_owner_multi_deposit()
 

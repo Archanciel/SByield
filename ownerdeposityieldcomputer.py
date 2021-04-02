@@ -249,14 +249,20 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		return yieldAmount, yieldAmountPercent, yearlyYieldPercent
 	
 	def _computeYieldOwnerSummaryTotals(self, depositsYieldsDataFrame):
-		yieldOwnerSummaryTotals = depositsYieldsDataFrame.groupby([DEPOSIT_SHEET_HEADER_OWNER]).sum()[[DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
-		yieldOwnerSummaryTotals.loc[DATAFRAME_HEADER_TOTAL] = yieldOwnerSummaryTotals.sum(numeric_only=True, axis=0)[[DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
+		yieldOwnerSummaryTotals = depositsYieldsDataFrame.groupby([DEPOSIT_SHEET_HEADER_OWNER]).sum().reset_index()[[DEPOSIT_SHEET_HEADER_OWNER, DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
+		
+		# adding a TOTAL column
+		for index in range(0, len(yieldOwnerSummaryTotals)):
+			yieldOwnerSummaryTotals.loc[index, DATAFRAME_HEADER_TOTAL] = yieldOwnerSummaryTotals.loc[index, DATAFRAME_HEADER_DEPOSIT_WITHDRAW] + yieldOwnerSummaryTotals.loc[index, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]
+
+		# reseting index to OWNER column
+		yieldOwnerSummaryTotals = yieldOwnerSummaryTotals.set_index(DEPOSIT_SHEET_HEADER_OWNER)
+		
+		yieldOwnerSummaryTotals.loc[DATAFRAME_HEADER_TOTAL] = yieldOwnerSummaryTotals.sum(numeric_only=True, axis=0)[[DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT, DATAFRAME_HEADER_TOTAL]]
 
 		return yieldOwnerSummaryTotals
 	
 	def _computeYieldOwnerDetailTotals(self, depositsYieldsDataFrame):
-		yieldOwnerDetailTotals = depositsYieldsDataFrame.copy()
-		
 		totalDf = pd.DataFrame(columns=[DEPOSIT_SHEET_HEADER_OWNER,
 		                                DATAFRAME_HEADER_DEPOSIT_WITHDRAW,
 		                                DEPOSIT_YIELD_HEADER_CAPITAL,
@@ -315,14 +321,8 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		totalRow[DATAFRAME_HEADER_DEPOSIT_WITHDRAW] += totalRow[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]
 		
 		totalDf = totalDf.append(totalRow, ignore_index=True)
-
-
 		
-		# yieldOwnerDetailTotals.loc[DATAFRAME_HEADER_TOTAL] = depositsYieldsDataFrame.sum(numeric_only=True, axis=0)[
-		# 	[DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
-		#
-		# yieldOwnerDetailTotals.loc[DATAFRAME_HEADER_TOTAL, DEPOSIT_YIELD_HEADER_CAPITAL] = \
-		# 	yieldOwnerDetailTotals.loc[DATAFRAME_HEADER_TOTAL, DATAFRAME_HEADER_DEPOSIT_WITHDRAW] + \
-		# 	yieldOwnerDetailTotals.loc[DATAFRAME_HEADER_TOTAL, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]
-		
+		# reseting index to OWNER column
+		totalDf = totalDf.set_index(DEPOSIT_SHEET_HEADER_OWNER)
+
 		return totalDf
