@@ -103,7 +103,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		
 		return sbEarningsDf
 	
-	def _loadDepositSheet(self):
+	def _loadDepositCsvFile(self):
 		"""
 		Creates a Pandas data frame from the Deposit/Withdrawal sheet.
 		
@@ -191,55 +191,58 @@ class SBYieldRateComputer(PandasDataComputer):
 	def getDepositsAndDailyYieldRatesDataframes(self,
 												yieldCrypto):
 		"""
-		Loads the Swissborg account statement sheet and the Deposit/Withdrawal sheet
+		Loads the Swissborg account statement sheet and the Deposit/Withdrawal csv file
 		in order to compute the daily yield rates which will be used to compute the daily
 		earnings to be distributed in proportion of the deposits/withdrawals amounts
 		invested by the different deposit owners.
 		
-		:param yieldCrypto:
+		:param yieldCrypto: currently, USDC, CHSB, ETH
 		
 		:return: loaded deposit data frame and computed yield rates data frame
 
 		Loaded deposit data frame example
 		
-		                    OWNER DEP/WITHDR
-		Local time
-		2020-12-21 10:00:00   JPS   2,000.00
-		2020-12-25 10:00:00  Papa   4,000.00
-		2020-12-27 10:00:01  Papa    -500.00
+				                    OWNER  DEP/WITHDR
+		DATE
+		2020-12-21 00:00:00   JPS      2000.0
+		2020-12-22 00:00:00   JPS       100.0
+		2020-12-21 00:00:01  Papa      4000.0
+		2020-12-29 00:00:00   Béa      1000.0
+		2020-12-22 00:00:01  Papa      -500.0
 
 		Computed yield rates data frame example
 		
-		           DAILY YIELD RATE
+		            EARNINGS  D YIELD RATE  Y YIELD RATE
 		DATE
-		2020-12-22       1.00040000
-		2020-12-23       1.00040484
-		2020-12-24       1.00040967
+		2020-12-22      2.40      1.000364      1.141911
+		2020-12-23      2.30      1.000348      1.135563
+		2020-12-24      2.25      1.000341      1.132381
+		2020-12-25      2.50      1.000378      1.148074
 		"""
-		sbEarningsDf = self._loadSBEarningSheet(yieldCrypto)
-		depositDf = self._loadDepositSheet()
+		sbEarningSheetDf = self._loadSBEarningSheet(yieldCrypto)
+		depositCsvDf = self._loadDepositCsvFile()
 		
-		mergedEarningDeposit = self._mergeEarningAndDeposit(sbEarningsDf, depositDf)
+		mergedEarningDepositDf = self._mergeEarningAndDeposit(sbEarningSheetDf, depositCsvDf)
 
 		# extract only MERGED_SHEET_HEADER_DATE_NEW_NAME, MERGED_SHEET_HEADER_EARNING_NEW_NAME,
 		# MERGED_SHEET_HEADER_DAILY_YIELD_RATE and MERGED_SHEET_HEADER_YEARLY_YIELD_RATE columns
-		colDateIdx = mergedEarningDeposit.columns.get_loc(MERGED_SHEET_HEADER_DATE_NEW_NAME)
-		colDailyEarningIdx = mergedEarningDeposit.columns.get_loc(MERGED_SHEET_HEADER_EARNING_NEW_NAME)
-		colDailyYieldRateIdx = mergedEarningDeposit.columns.get_loc(MERGED_SHEET_HEADER_DAILY_YIELD_RATE)
-		colYearlyYieldRateIdx = mergedEarningDeposit.columns.get_loc(MERGED_SHEET_HEADER_YEARLY_YIELD_RATE)
-		dailyYieldRatesDataframe = mergedEarningDeposit[mergedEarningDeposit.columns[[colDateIdx, colDailyEarningIdx, colDailyYieldRateIdx, colYearlyYieldRateIdx]]]
+		colDateIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_DATE_NEW_NAME)
+		colDailyEarningIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_EARNING_NEW_NAME)
+		colDailyYieldRateIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_DAILY_YIELD_RATE)
+		colYearlyYieldRateIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_YEARLY_YIELD_RATE)
+		dailyYieldRatesDf = mergedEarningDepositDf[mergedEarningDepositDf.columns[[colDateIdx, colDailyEarningIdx, colDailyYieldRateIdx, colYearlyYieldRateIdx]]]
 
 		# keep only non 0 MERGED_SHEET_HEADER_DAILY_YIELD_RATE rows
-		isYieldRateNonZero = dailyYieldRatesDataframe[MERGED_SHEET_HEADER_DAILY_YIELD_RATE] != 0
-		dailyYieldRatesDataframe = dailyYieldRatesDataframe[isYieldRateNonZero]
+		isYieldRateNonZero = dailyYieldRatesDf[MERGED_SHEET_HEADER_DAILY_YIELD_RATE] != 0
+		dailyYieldRatesDf = dailyYieldRatesDf[isYieldRateNonZero]
 
 		# remove time component from date index
-		dailyYieldRatesDataframe[MERGED_SHEET_HEADER_DATE_NEW_NAME] = pd.to_datetime(dailyYieldRatesDataframe[MERGED_SHEET_HEADER_DATE_NEW_NAME].dt.date)
+		dailyYieldRatesDf[MERGED_SHEET_HEADER_DATE_NEW_NAME] = pd.to_datetime(dailyYieldRatesDf[MERGED_SHEET_HEADER_DATE_NEW_NAME].dt.date)
 		
 		# set MERGED_SHEET_HEADER_DATE_NEW_NAME column as index
-		dailyYieldRatesDataframe = dailyYieldRatesDataframe.set_index(MERGED_SHEET_HEADER_DATE_NEW_NAME)
-		
-		return depositDf, dailyYieldRatesDataframe
+		dailyYieldRatesDf = dailyYieldRatesDf.set_index(MERGED_SHEET_HEADER_DATE_NEW_NAME)
+
+		return depositCsvDf, dailyYieldRatesDf
 
 	def getSBEarningSheetTotalDf(self, yieldCrypto):
 		"""

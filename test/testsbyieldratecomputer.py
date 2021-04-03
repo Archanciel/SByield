@@ -134,7 +134,7 @@ TOTAL                                          2.1'''
 		else:
 			self.assertEqual(expectedStrDataframe, sbEarningsTotals.to_string())
 
-	def test_loadDepositSheet(self):
+	def test_loadDepositCsvFile(self):
 		PRINT = False
 		
 		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
@@ -142,7 +142,7 @@ TOTAL                                          2.1'''
 		
 		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
 
-		depositDf = self.yieldRateComputer._loadDepositSheet()
+		depositDf = self.yieldRateComputer._loadDepositCsvFile()
 		self.assertEqual((5, 2), depositDf.shape)
 
 		expectedStrDataframe = \
@@ -171,7 +171,7 @@ TOTAL                                          2.1'''
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
 		sbEarningsDf = self.yieldRateComputer._loadSBEarningSheet(yieldCrypto)
-		depositDf = self.yieldRateComputer._loadDepositSheet()
+		depositDf = self.yieldRateComputer._loadDepositCsvFile()
 		
 		mergedEarningDeposit = self.yieldRateComputer._mergeEarningAndDeposit(sbEarningsDf, depositDf)
 		self.assertEqual((14, 6), mergedEarningDeposit.shape)
