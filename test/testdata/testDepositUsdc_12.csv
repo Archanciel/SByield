@@ -1,12 +1,48 @@
-Comment: if an owner makes several deposits for the yield farm crypto on the same
-date, add only one row for this owner with a value equal to the sum of those deposits.
-If more than one deposit for different owners are added on the same date, each deposit
-date must be unique, i.e. with a time component with a different second component !
+Explanations:
+
+1/ All deposits or withdrawals contained in a deposit csv file are for the same
+   yield farming currency (USDC, CHSB, ETH, ...).
+
+2/ Deposits are positive and withdrawals negative
+
+3/ The deposits or withdrawals must be defined with a date which is equal to the first.
+   respectively the last + 1 day, SB earning payment date for this deposit/withdrawal with
+   00:00:00 for the time component.
+
+   To describe it differently, the csv file deposit date is equal to the yield subscription
+   activation date + 1 day. Once a yield subscription is active, it starts generating
+   daily revenues. The first of those revenues is paid 1 day AFTER the activation date.
+   This justifies the fact that the csv file deposit date is 1 day after the activation
+   day.
+
+   For withdrawals, the csv file withdrawal date is equal to the yield redemption
+   fulfilment date + 1 day. Once a yield redemption is fulfilled, it stops generating
+   daily revenues the day AFTER the fulfilment date. So, since the withdrawal
+   amount still generates a revenue on the redemption fulfilment date, its csv file
+   withdrawal date 1 day after the yield redemption fulfilment date.
+
+   If an owner makes several deposits/withdrawals for the same yield farming currency on
+   the same date, only one row for this owner with a value equal to the sum of those
+   deposits/withdrawals must be added to the csv file.
+
+   If more than one deposit/withdrawal for different owners are added on the same date,
+   since each deposit/withdrawal date must be unique, the same day deposit/withdrawal date
+   must be defined with a time component increased by 1 second for each added deposit/withdrawal
+   row. Example: 00:00:00, 00:00:01, 00:00:02.
+
+   In practice:
+
+   JPS,2021/02/23 00:00:00,2000
+   Béa,2021/02/23 00:00:01,4000
+   Papa,2020/02/23 00:00:02,-500
+
+Data:
+
 OWNER,DATE,DEP/WITHDR
-JPS,2020/12/21 10:00:00,2000
-JPS,2020/12/22 10:00:00,3000
-Papa,2020/12/25 10:00:00,4000
-Loan,2020/12/30 10:00:00,1000
-Papa,2020/12/26 10:00:00,-500
-JPS,2020/12/30 10:00:01,100
-Papa,2020/12/30 10:00:02,300
+JPS,2020/12/21 00:00:00,2000
+JPS,2020/12/22 00:00:00,3000
+Papa,2020/12/25 00:00:00,4000
+Loan,2020/12/30 00:00:00,1000
+Papa,2020/12/26 00:00:00,-500
+JPS,2020/12/30 00:00:01,100
+Papa,2020/12/30 00:00:02,300

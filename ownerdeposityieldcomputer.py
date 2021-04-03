@@ -103,13 +103,15 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 
 		# compute capital, date to and yield day number
 		previousRowOwner = None
+		initialRowDateFrom = None
 		currentRowCapital = 0.0
 		firstYieldTimeStamp = sbYieldRatesDf.index[0]
 		firstYieldPaymentDate = firstYieldTimeStamp.date()
 		lastYieldTimeStamp = sbYieldRatesDf.index[-1]
 		lastYieldPaymentDate = lastYieldTimeStamp.date()
 		maxIdxValue = len(ownerDateSortedDepositDf)
-
+		ownerDateSortedDepositBeforeUpdateDf = ownerDateSortedDepositDf.copy()
+		
 		for i in range(1, maxIdxValue + 1):
 			currentRowOwner = ownerDateSortedDepositDf.loc[i, DEPOSIT_SHEET_HEADER_OWNER]
 			currentRowDateFrom = ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM]
@@ -222,6 +224,20 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 				dateToMinusDateFromTimeDelta = currentRowDateFromMinusOneDay - \
 				                               previousRowDateFrom
 				yieldDayNumber = dateToMinusDateFromTimeDelta.days + 1
+				if yieldDayNumber <= 0:
+					# the case if in the deposit csv file the first deposit for an owner
+					# is defined with a date before the first yield payment date and
+					# the next deposit is defined with a date equal to the first yield
+					# payment date like in the example below. First yield is payed on
+					# 2020/12/22:
+					#
+					# JPS,2020/11/15 00:00:00,2000
+					# JPS,2020/11/17 00:00:00,300
+					# JPS,2020/11/19 00:00:00,200
+					# JPS,2020/12/22 00:00:00,100
+					# JPS,2020/12/23 00:00:00,50
+					ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM] = \
+						ownerDateSortedDepositBeforeUpdateDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM]
 				ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
 				previousRowCapital = ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_CAPITAL]
 				
