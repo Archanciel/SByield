@@ -318,6 +318,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		
 		ownerGroupTotalDf = depositsYieldsDf.groupby([DEPOSIT_SHEET_HEADER_OWNER]).agg({DATAFRAME_HEADER_DEPOSIT_WITHDRAW: 'sum',
 		                                                                                DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: 'sum'}).reset_index()
+		
 		ownerGroupTotalIndex = 0
 		
 		# deactivating SettingWithCopyWarning caueed by totalRow[DEPOSIT_SHEET_HEADER_OWNER] += ' total'
@@ -356,13 +357,19 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 				                          DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: row[
 					                          DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT]}, ignore_index=True)
 				currentOwner = row[DEPOSIT_SHEET_HEADER_OWNER]
-		
+
+		# appending last owner total row
 		totalRow = ownerGroupTotalDf.loc[ownerGroupTotalIndex]
 		totalRow[DEPOSIT_SHEET_HEADER_OWNER] = DATAFRAME_HEADER_TOTAL
 		totalRow[DATAFRAME_HEADER_DEPOSIT_WITHDRAW] += totalRow[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]
-		
 		totalDf = totalDf.append(totalRow, ignore_index=True)
-		
+
+		# appending grand total row
+		grandTotalRow = ownerGroupTotalDf.sum(numeric_only=True, axis=0)[[DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
+		grandTotalRow.loc[DATAFRAME_HEADER_DEPOSIT_WITHDRAW] += grandTotalRow.loc[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]
+		totalDf = totalDf.append(grandTotalRow, ignore_index=True)
+		totalDf.loc[len(totalDf) - 1, DEPOSIT_SHEET_HEADER_OWNER] = DATAFRAME_HEADER_GRAND_TOTAL
+
 		# reseting index to OWNER column
 		totalDf = totalDf.set_index(DEPOSIT_SHEET_HEADER_OWNER)
 
