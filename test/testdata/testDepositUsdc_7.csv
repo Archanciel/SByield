@@ -38,7 +38,8 @@ Explanations:
 
 Multi owners, some deposits on same day, 1 withdrawal. Owner with 1 deposit at FIRST
 position alphabetically but deposit at LAST yield date of 2020/12/30. TWO owners with
-MULTIPLE deposits/withdrawal BEFORE first yield date of 2020/12/22.
+MULTIPLE deposits/withdrawal BEFORE first yield date of 2020/12/22 followed by 1
+deposit ON first yield date of 2020/12/22.
 
 Data:
 

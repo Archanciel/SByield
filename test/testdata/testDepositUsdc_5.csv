@@ -40,7 +40,8 @@ Test case info:
 
 Multi owners, some deposits on same day, 1 withdrawal. Owner with 1 deposit at LAST
 position alphabetically. TWO owners with multi deposits/withdrawal. One owner with
-MULTIPLE deposits BEFORE first yield date of 2020/12/22.
+MULTIPLE deposits BEFORE first yield date of 2020/12/22 followed by 1 deposit ON
+first yield date of 2020/12/22.
 
 Data:
 
