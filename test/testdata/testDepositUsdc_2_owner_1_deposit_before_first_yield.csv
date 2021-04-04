@@ -36,6 +36,10 @@ Explanations:
    Béa,2021/02/23 00:00:01,4000
    Papa,2020/02/23 00:00:02,-500
 
+Test case info:
+
+2 owners, each one with only 1 deposit BEFORE first yield date of 2021/01/01.
+
 Data:
 
 OWNER,DATE,DEP/WITHDR

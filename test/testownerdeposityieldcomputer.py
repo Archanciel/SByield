@@ -688,9 +688,11 @@ G TOTAL   9,919.56                                             19.56000000      
 		"""
 		The deposit csv file causes the deposits sorted by owner and then by deposit date
 		to start with an owner having only one deposit. This unique deposit is done on the
-		date of the last yield payment and so will have a 0 yield day number and a 0 yield
-		amount. The other owners have each one three deposits.
+		date of the last yield payment and so will have a 1 yield day number and a small
+		yield amount. The other owners have each one three deposits.
 		"""
+		PRINT = False
+		
 		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
 		depositSheetFileName = 'testDepositUsdc_7.csv'
 		
@@ -698,20 +700,100 @@ G TOTAL   9,919.56                                             19.56000000      
 		
 		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		sbYieldRatesWithTotalDf, yieldOwnerWithTotalsSummaryDf, yieldOwnerWithTotalsDetailDf = self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+		sbYieldRatesWithTotalDf, yieldOwnerWithTotalsSummaryDf, yieldOwnerWithTotalsDetailDf = self.ownerDepositYieldComputer.computeDepositsYields(
+			yieldCrypto)
 		
 		print(depositSheetFileName)
-		_, yieldRateDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
-		print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRateDataframe,
-		                                                                 {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.11f'}))
+		
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		
+		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			sbEarningsTotalDf,
+			{
+				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
+		sbEarningsTotalDfExpectedStr = \
+'                         Type Currency  Net amount\n' + \
+'Local time                                        ' + \
+'''
+2020-12-22 09:00:00  Earnings     USDC  0.80000000
+2020-12-23 09:00:00  Earnings     USDC  0.81000000
+2020-12-24 09:00:00  Earnings     USDC  0.82000000
+2020-12-25 09:00:00  Earnings     USDC  0.78000000
+2020-12-26 09:00:00  Earnings     USDC  2.80000000
+2020-12-27 09:00:00  Earnings     USDC  2.70000000
+2020-12-28 09:00:00  Earnings     USDC  2.75000000
+2020-12-29 09:00:00  Earnings     USDC  4.00000000
+2020-12-30 09:00:00  Earnings     USDC  4.10000000
+TOTAL                                  19.56000000'''
+		
+		if PRINT:
+			print(sbEarningsTotalDfActualStr)
+		else:
+			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
+		
+		yieldOwnerWithTotalsSummaryDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			yieldOwnerWithTotalsSummaryDf,
+			{
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+		yieldOwnerWithTotalsSummaryDfExpectedStr = \
+'      DEP/WITHDR   YIELD AMT         TOTAL\n' + \
+'OWNER                                     ' + \
+'''
+Béa     1,000.00  0.36556682   1000.365567
+JPS     5,000.00  7.89504282   5007.895043
+Papa    5,200.00 11.29939037   5211.299390
+TOTAL  11,200.00 19.56000000  11219.560000'''
+		
+		if PRINT:
+			print(yieldOwnerWithTotalsSummaryDfActualStr)
+		else:
+			self.assertEqual(yieldOwnerWithTotalsSummaryDfExpectedStr, yieldOwnerWithTotalsSummaryDfActualStr)
+		
+		yieldOwnerWithTotalsDetailDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			yieldOwnerWithTotalsDetailDf,
+			{
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+				DEPOSIT_YIELD_HEADER_CAPITAL: '.2f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+		
+		yieldOwnerWithTotalsDetailDfExpectedStr = \
+'        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
+'OWNER                                                                                             ' + \
+'''
+Béa       1,000.00 1,000.00  2020-12-30  2020-12-30          1  0.36556682     0.036557  14.271557
+TOTAL     1,000.37                                              0.36556682                        ''' + \
+'''
+JPS       2,000.00 2,000.00  2020-11-15  2020-12-21          0  0.00000000     0.000000   0.000000
+JPS        -300.00 1,700.00  2020-11-17  2020-12-21          0  0.00000000     0.000000   0.000000
+JPS         200.00 1,900.00  2020-11-19  2020-12-21          0  0.00000000     0.000000   0.000000
+JPS         100.00 2,000.00  2020-12-22  2020-12-27          6  2.71637796     0.135819   8.607155
+JPS       3,000.00 5,002.72  2020-12-28  2020-12-30          3  5.17866485     0.103517  13.414676
+TOTAL     5,007.90                                              7.89504282                        ''' + \
+'''
+Papa      2,000.00 2,000.00  2020-11-15  2020-12-21          0  0.00000000     0.000000   0.000000
+Papa       -300.00 1,700.00  2020-11-16  2020-12-21          0  0.00000000     0.000000   0.000000
+Papa       -200.00 1,500.00  2020-11-19  2020-12-21          0  0.00000000     0.000000   0.000000
+Papa       -100.00 1,400.00  2020-12-22  2020-12-22          1  0.32941176     0.023529   8.966712
+Papa      4,000.00 5,400.33  2020-12-23  2020-12-25          3  1.75856581     0.032564   4.040821
+Papa       -500.00 4,902.09  2020-12-26  2020-12-28          3  5.26722255     0.107449  13.957899
+Papa        300.00 5,207.36  2020-12-29  2020-12-30          2  3.94419024     0.075743  14.817998
+TOTAL     5,211.30                                             11.29939037                        ''' + \
+'''
+G TOTAL  11,219.56                                             19.56000000                        '''
+		
+		if PRINT:
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+		else:
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
 	
 	def testComputeDepositsYieldsLastDepositDateFromIsMaxRowUniqueOwnerThreeDeposits(self):
 		"""
 		The deposit csv file causes the deposits sorted by owner and then by deposit date
 		to have the owner having only one deposit to be located in the middle of the
 		deposit table. This unique deposit is done on the date of the last yield payment
-		and so will have a 0 yield day number and a 0 yield	amount. The other owners have
-		each one three deposits.
+		and so will have a 1 yield day number and a small yield amount. The other owners
+		have each one three deposits.
 		"""
 		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
 		depositSheetFileName = 'testDepositUsdc_8.csv'
@@ -731,7 +813,7 @@ G TOTAL   9,919.56                                             19.56000000      
 		"""
 		The deposit csv file causes the deposits sorted by owner and then by deposit date
 		to end with an owner having only one deposit. This unique deposit is done on the
-		date of the last yield payment and so will have a 0 yield day number and a 0 yield
+		date of the last yield payment and so will have 1 yield day number and a small yield
 		amount. The other owners have each one three deposits.
 		"""
 		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
@@ -752,7 +834,7 @@ G TOTAL   9,919.56                                             19.56000000      
 		"""
 		The deposit csv file causes the deposits sorted by owner and then by deposit date
 		to start with an owner having only one deposit. This unique deposit is done on the
-		date of the last yield payment and so will have a 0 yield day number and a 0 yield
+		date of the last yield payment and so will have 1 yield day number and a small yield
 		amount. The other owners have each one three deposits, one of them done on the
 		date of the last yield payment.
 		"""
@@ -775,7 +857,7 @@ G TOTAL   9,919.56                                             19.56000000      
 		The deposit csv file causes the deposits sorted by owner and then by deposit date
 		to have the owner having only one deposit to be located in the middle of the
 		deposit table. This unique deposit is done on the date of the last yield payment
-		and so will have a 0 yield day number and a 0 yield	amount. The other owners have
+		and so will have 1 yield day number and a small yield	amount. The other owners have
 		each one three deposits, one of them done on the date of the last yield payment.
 		"""
 		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
@@ -796,7 +878,7 @@ G TOTAL   9,919.56                                             19.56000000      
 		"""
 		The deposit csv file causes the deposits sorted by owner and then by deposit date
 		to end with an owner having only one deposit. This unique deposit is done on the
-		date of the last yield payment and so will have a 0 yield day number and a 0 yield
+		date of the last yield payment and so will have 1 yield day number and a small yield
 		amount. The other owners have each one three deposits, one of them done on the
 		date of the last yield payment.
 		"""

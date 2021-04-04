@@ -36,6 +36,12 @@ Explanations:
    Béa,2021/02/23 00:00:01,4000
    Papa,2020/02/23 00:00:02,-500
 
+Test case info:
+
+Multi owners, some deposits on same day, 1 withdrawal. Owner with 1 deposit at FIRST
+position alphabetically. One owner with ONE deposit BEFORE first yield date of
+2020/12/22.
+
 Data:
 
 OWNER,DATE,DEP/WITHDR
