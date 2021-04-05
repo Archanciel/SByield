@@ -38,17 +38,15 @@ Explanations:
 
 Test case info:
 
-Multi owners, 1 withdrawal. Owner with 1 deposit at LAST yield payment date of
-2020/12/30 and at MIDDLE position alphabetically. TWO owners with multi deposits/
-withdrawal.
+Multi owners, some deposits on same day, 1 withdrawal. Owner with 1 deposit at FIRST
+position alphabetically WITH DUPLICATED DEPOSIT DATE. One owner with ONE deposit BEFORE
+first yield date of2020/12/22.
 
 Data:
 
 OWNER,DATE,DEP/WITHDR
-JPS,2020/12/21 00:00:00,2000
-JPS,2020/12/22 00:00:00,100
+JPS,2020/11/21 00:00:00,2000
 Papa,2020/12/25 00:00:00,4000
-Loan,2020/12/30 00:00:00,1000
-Papa,2020/12/26 00:00:00,-500
+Béa,2020/12/25 10:00:00,1000
+Papa,2020/12/27 00:00:00,-500
 JPS,2020/12/28 00:00:00,3000
-Papa,2020/12/29 00:00:00,300

@@ -1,8 +1,11 @@
 import numpy as np
 import pandas as pd
+from datetime import datetime
 
 # Swissborg account statement sheet parameters
 from pandasdatacomputer import *
+from duplicatedepositdatetimeerror import DuplicateDepositDateTimeError
+from invaliddeposittimeerror import InvalidDepositTimeError
 
 
 SB_ACCOUNT_SHEET_FIAT = 'USD'           # earning fiat: USD or CHF as defined when downloading the account statement Excel sheet
@@ -116,10 +119,56 @@ class SBYieldRateComputer(PandasDataComputer):
 		                         skiprows=depositSheetSkipRows,
 		                         parse_dates=[DEPOSIT_SHEET_HEADER_DATE],
 		                         dtype={DATAFRAME_HEADER_DEPOSIT_WITHDRAW: np.float64})
+		
+		self.ensureNoDatetimeDuplication(depositsDf)
+		self.ensureDepositTimeComponentValidity(depositsDf)
+		
 		depositsDf = depositsDf.set_index([DEPOSIT_SHEET_HEADER_DATE])
-
+		
 		return depositsDf
+	
+	def ensureDepositTimeComponentValidity(self, depositsDf):
+		"""
+		This method raises an InvalidDepositTimeError if one of the deposit
+		csv line has a date time component whose value is after the Swissborg
+		9:00 H yield payment time.
+		"""
+		dfDateTimeLst = list(depositsDf[DEPOSIT_SHEET_HEADER_DATE])
+		dtNine = datetime.strptime('09:00:00', '%H:%M:%S')
+		badTimeIndex = None
+		
+		try:
+			badTimeIndex = next(i for i, v in enumerate(dfDateTimeLst) if
+			                    v.time() > dtNine.time())
+		except StopIteration:
+			pass
+		
+		if badTimeIndex is not None:
+			raise InvalidDepositTimeError(self.depositSheetFilePathName,
+			                              depositsDf.loc[badTimeIndex, DEPOSIT_SHEET_HEADER_OWNER],
+			                              depositsDf.loc[badTimeIndex, DEPOSIT_SHEET_HEADER_DATE],
+			                              depositsDf.loc[badTimeIndex, DATAFRAME_HEADER_DEPOSIT_WITHDRAW])
+	
+	def ensureNoDatetimeDuplication(self, depositsDf):
+		"""
+		This method raises a DuplicateDepositDateTimeError if one of the deposit
+		csv line has a date from which is identical to another deposit line date.
+		"""
+		duplSeries = depositsDf.duplicated(subset=[DEPOSIT_SHEET_HEADER_DATE])
 
+		duplDatetimeIndex = None
+		
+		try:
+			duplDatetimeIndex = list(duplSeries).index(True)
+		except ValueError:
+			pass
+		
+		if duplDatetimeIndex is not None:
+			raise DuplicateDepositDateTimeError(self.depositSheetFilePathName,
+			                                    depositsDf.loc[duplDatetimeIndex, DEPOSIT_SHEET_HEADER_OWNER],
+			                                    depositsDf.loc[duplDatetimeIndex, DEPOSIT_SHEET_HEADER_DATE],
+			                                    depositsDf.loc[duplDatetimeIndex, DATAFRAME_HEADER_DEPOSIT_WITHDRAW])
+	
 	def _mergeEarningAndDeposit(self, earningDf, depositDf):
 		"""
 		Merges Deposit/Withdrawal dataframe into the Swissborg account statement dataframe.

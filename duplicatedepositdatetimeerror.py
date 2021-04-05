@@ -3,32 +3,20 @@ from sbyieldexception import SBYieldException
 
 class DuplicateDepositDateTimeError(SBYieldException):
     """
-    Exception raised when the deposit CSV file contains a deposit whose date is after the
-    last yield payment date. Handkling this case in the OwnerDepositYieldComputer class
-    would unusefully complexify its code.
+    Exception raised when the deposit CSV file contains a deposit whose date is the same
+    as the date of another deposit..
     """
     def __init__(self,
                  depositCsvFilePathName,
                  owner,
                  depositDate,
-                 depositAmount,
-                 
-                 yieldPaymentDate,
-                 isTooLate=True):
-        if isTooLate:
-            errorMsg = "CSV file {} contains a deposit of {} for owner {} with a deposit \
-date {} after the last payment date {}".format(depositCsvFilePathName,
+                 depositAmount):
+        errorMsg = 'CSV file {} contains a deposit of {} for owner {} with a deposit ' + \
+                   'date {} which is identical to another deposit date. Change the date by ' + \
+                   'increasing the time second by 1 and retry.'
+        errorMsg = errorMsg.format(depositCsvFilePathName,
                                                    depositAmount,
                                                    owner,
-                                                   depositDate,
-                                                   yieldPaymentDate)
-        else:
-            # in fact never happens !
-            errorMsg = "CSV file {} contains a deposit of {} for owner {} with a deposit \
-date {} before the first payment date {}".format(depositCsvFilePathName,
-                                                 depositAmount,
-                                                 owner,
-                                                 depositDate,
-                                                 yieldPaymentDate)
+                                                   depositDate)
 
-        super(InvalidDepositDateError, self).__init__(msg=errorMsg)
+        super(DuplicateDepositDateTimeError, self).__init__(msg=errorMsg)

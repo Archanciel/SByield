@@ -4,8 +4,7 @@ from sbyieldexception import SBYieldException
 class InvalidDepositDateError(SBYieldException):
     """
     Exception raised when the deposit CSV file contains a deposit whose date is after the
-    last yield payment date. Handkling this case in the OwnerDepositYieldComputer class
-    would unusefully complexify its code.
+    last yield payment date.
     """
     def __init__(self,
                  depositCsvFilePathName,

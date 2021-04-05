@@ -9,6 +9,8 @@ sys.path.insert(0,currentdir) # this instruction is necessary for successful imp
 
 from configmanager import ConfigManager
 from sbyieldratecomputer import *
+from duplicatedepositdatetimeerror import DuplicateDepositDateTimeError
+from invaliddeposittimeerror import InvalidDepositTimeError
 
 class TestSBYieldRateComputer(unittest.TestCase):
 	def initializeComputerClasses(self, sbAccountSheetFileName, depositSheetFileName):
@@ -159,7 +161,33 @@ TOTAL                                          2.1'''
 			print(depositDf)
 		else:
 			self.assertEqual(expectedStrDataframe, depositDf.to_string())
+	
+	def test_loadDepositCsvFileWithDuplicateDatetime(self):
+		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
+		depositSheetFileName = 'testDepositUsdc_1_duplDatetime.csv'
 		
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
+		
+		with self.assertRaises(DuplicateDepositDateTimeError) as e:
+			self.yieldRateComputer._loadDepositCsvFile()
+		
+		self.assertEqual(
+			'CSV file {} contains a deposit of 1000.0 for owner Béa with a deposit date 2020-12-25 00:00:00 which is identical to another deposit date. Change the date by increasing the time second by 1 and retry.'.format(
+				self.testDataPath + depositSheetFileName), e.exception.message)
+	
+	def test_loadDepositCsvFileWithInvalidTimeComponent(self):
+		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
+		depositSheetFileName = 'testDepositUsdc_1_invalidTimeComponent.csv'
+		
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
+		
+		with self.assertRaises(InvalidDepositTimeError) as e:
+			self.yieldRateComputer._loadDepositCsvFile()
+		
+		self.assertEqual(
+			'CSV file {} contains a deposit of 1000.0 for owner Béa with a deposit date 2020-12-25 10:00:00 whose time component is later than the 09:00:00 Swissborg yield payment time. Set the time to a value before 09:00:00 and retry.'.format(
+				self.testDataPath + depositSheetFileName), e.exception.message)
+	
 	def test_mergeEarningAndDeposit(self):
 		PRINT = False
 		
@@ -394,4 +422,4 @@ if __name__ == '__main__':
 #	tst.test_mergeEarningAndDeposit()
 #	tst.testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_2_deposit()
 #	tst.testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_1_deposit_1_partial_withdr()
-	tst.testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_1_deposit_1_almost_full_withdr()
+	tst.test_loadDepositCsvFileWithInvalidTimeComponent()
