@@ -19,7 +19,7 @@ Explanations:
    fulfilment date + 1 day. Once a yield redemption is fulfilled, it stops generating
    daily revenues the day AFTER the fulfilment date. So, since the withdrawal
    amount still generates a revenue on the redemption fulfilment date, its csv file
-   withdrawal date 1 day after the yield redemption fulfilment date.
+   withdrawal date is 1 day after the yield redemption fulfilment date.
 
    If an owner makes several deposits/withdrawals for the same yield farming currency on
    the same date, only one row for this owner with a value equal to the sum of those
