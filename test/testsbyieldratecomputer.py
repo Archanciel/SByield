@@ -277,7 +277,7 @@ TOTAL                                          2.1'''
 			self.assertEqual(expectedYieldRatesStrDataframe, yieldRatesDataframe.to_string())
 		
 	def testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_2_deposit(self):
-		PRINT = True
+		PRINT = False
 		
 		sbAccountSheetFileName = 'testSBEarningUsdc_uniqueOwner_2_deposit.xlsx'
 		depositSheetFileName = 'testDepositUsdc_uniqueOwner_2_deposit.csv'
@@ -291,14 +291,14 @@ TOTAL                                          2.1'''
 		
 		if not PRINT:
 			self.assertEqual((2, 2), depositDataFrame.shape)
-			self.assertEqual((5, 3), yieldRatesDataframe.shape)
+			self.assertEqual((5, 4), yieldRatesDataframe.shape)
 		
 		expectedDepositStrDataframe = \
 '           OWNER  DEP/WITHDR\n' + \
 'DATE                        ' + \
 '''
-2020-01-01   JPS     20000.0
-2020-01-03   JPS    -10000.0'''
+2021-01-01   JPS    19571.69
+2021-01-02   JPS     5000.00'''
 		
 		if PRINT:
 			print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(depositDataFrame, {
@@ -307,14 +307,14 @@ TOTAL                                          2.1'''
 			self.assertEqual(expectedDepositStrDataframe, depositDataFrame.to_string())
 		
 		expectedYieldRatesStrDataframe = \
-'            EARNINGS  D YIELD RATE  Y YIELD RATE\n' + \
-'DATE                                            ' + \
+'             EARNING CAP    EARNING  D YIELD RATE  Y YIELD RATE\n' + \
+'DATE                                                           ' + \
 '''
-2021-01-01  9.623818      1.000962      1.420630
-2021-01-02  7.945745      1.000794      1.335928
-2021-01-03  9.958172      1.000994      1.437141
-2021-01-04  4.677371      1.000466      1.185561
-2021-01-05  6.025685      1.000601      1.245038'''
+2021-01-01  19571.690000  10.980768      1.000561      1.227190
+2021-01-02  24582.670768  14.966510      1.000609      1.248762
+2021-01-03  24597.637278  12.647539      1.000514      1.206383
+2021-01-04  24610.284817   9.834966      1.000400      1.157005
+2021-01-05  24620.119783  14.994624      1.000609      1.248861'''
 		
 		if PRINT:
 			print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRatesDataframe, {
