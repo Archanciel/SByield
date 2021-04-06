@@ -271,11 +271,16 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		
 		sbYieldRatesWithTotalDf = sbYieldRatesDf.copy()
 		
+		lastRowCapitalPlusEarningValue = sbYieldRatesWithTotalDf.iloc[-1][MERGED_SHEET_HEADER_EARNING_CAPITAL] + \
+		                                 sbYieldRatesWithTotalDf.iloc[-1][MERGED_SHEET_HEADER_EARNING_NEW_NAME]
+		
 		# removing 00:00:00 time component from the sbYieldRatesDf index.
 		sbYieldRatesWithTotalDf.index = pd.to_datetime(sbYieldRatesWithTotalDf.index).strftime('%Y-%m-%d')
 		
 		# adding TOTAL row to SB yield rates data frame for MERGED_SHEET_HEADER_EARNING_NEW_NAME column only
 		sbYieldRatesWithTotalDf.loc[DATAFRAME_HEADER_TOTAL] = sbYieldRatesWithTotalDf[[MERGED_SHEET_HEADER_EARNING_NEW_NAME]].sum(numeric_only=True)
+		
+		sbYieldRatesWithTotalDf.loc[DATAFRAME_HEADER_TOTAL, MERGED_SHEET_HEADER_EARNING_CAPITAL] = lastRowCapitalPlusEarningValue
 
 		return sbYieldRatesWithTotalDf, yieldOwnerWithTotalsSummaryDf, yieldOwnerWithTotalsDetailDf
 	
@@ -291,7 +296,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		capitalPlusYield = capital
 
 		for index, values in yieldRatesDataframeSubSet.iterrows():
-			yieldRate = values[1]
+			yieldRate = values[2]
 			capitalPlusYield = capitalPlusYield * yieldRate
 
 		yieldAmount = capitalPlusYield - capital

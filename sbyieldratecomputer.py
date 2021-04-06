@@ -48,7 +48,7 @@ MERGED_SHEET_HEADER_DATE = SB_ACCOUNT_SHEET_HEADER_DATE
 MERGED_SHEET_HEADER_EARNING_CAPITAL = SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL
 MERGED_SHEET_HEADER_EARNING = SB_ACCOUNT_SHEET_HEADER_EARNING
 MERGED_SHEET_HEADER_DATE_NEW_NAME = 'DATE'
-MERGED_SHEET_HEADER_EARNING_NEW_NAME = 'EARNINGS'
+MERGED_SHEET_HEADER_EARNING_NEW_NAME = 'EARNING'
 MERGED_SHEET_HEADER_DAILY_YIELD_RATE = 'D YIELD RATE'
 MERGED_SHEET_HEADER_YEARLY_YIELD_RATE = 'Y YIELD RATE'
 
@@ -275,11 +275,13 @@ class SBYieldRateComputer(PandasDataComputer):
 
 		# extract only MERGED_SHEET_HEADER_DATE_NEW_NAME, MERGED_SHEET_HEADER_EARNING_NEW_NAME,
 		# MERGED_SHEET_HEADER_DAILY_YIELD_RATE and MERGED_SHEET_HEADER_YEARLY_YIELD_RATE columns
-		colDateIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_DATE_NEW_NAME)
-		colDailyEarningIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_EARNING_NEW_NAME)
-		colDailyYieldRateIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_DAILY_YIELD_RATE)
-		colYearlyYieldRateIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_YEARLY_YIELD_RATE)
-		dailyYieldRatesDf = mergedEarningDepositDf[mergedEarningDepositDf.columns[[colDateIdx, colDailyEarningIdx, colDailyYieldRateIdx, colYearlyYieldRateIdx]]]
+		dateColIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_DATE_NEW_NAME)
+		earningCapitalColIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_EARNING_CAPITAL)
+		dailyEarningColIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_EARNING_NEW_NAME)
+		dailyYieldRateColIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_DAILY_YIELD_RATE)
+		yearlyYieldRateColIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_YEARLY_YIELD_RATE)
+		dailyYieldRatesDf = mergedEarningDepositDf[mergedEarningDepositDf.columns[[dateColIdx, earningCapitalColIdx, dailyEarningColIdx, dailyYieldRateColIdx, yearlyYieldRateColIdx]]]
+		#dailyYieldRatesDf = mergedEarningDepositDf[mergedEarningDepositDf.columns[[dateColIdx, dailyEarningColIdx, dailyYieldRateColIdx, yearlyYieldRateColIdx]]]
 
 		# keep only non 0 MERGED_SHEET_HEADER_DAILY_YIELD_RATE rows
 		isYieldRateNonZero = dailyYieldRatesDf[MERGED_SHEET_HEADER_DAILY_YIELD_RATE] != 0

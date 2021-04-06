@@ -2073,11 +2073,11 @@ G TOTAL  19,603.58                                              31.8946321198709
 				MERGED_SHEET_HEADER_YEARLY_YIELD_RATE: '.14f'})
 		
 		sbYieldRatesWithTotalDfExpectedStr = \
-'                   EARNINGS     D YIELD RATE     Y YIELD RATE\n' + \
-'DATE                                                         ' + \
+'             EARNING CAP          EARNING     D YIELD RATE     Y YIELD RATE\n' + \
+'DATE                                                                       ' + \
 '''
-2021-01-05 4.10938248077946 1.00041093824808 1.16178968743629
-TOTAL      4.10938248077946                                  '''
+2021-01-05  10000.000000 4.10938248077946 1.00041093824808 1.16178968743629
+TOTAL       10004.109382 4.10938248077946                                  '''
 		
 		if PRINT:
 			print(sbYieldRatesWithTotalDfActualStr)
@@ -2229,15 +2229,15 @@ G TOTAL  24,635.11                                              63.4244074094822
 				MERGED_SHEET_HEADER_YEARLY_YIELD_RATE: '.14f'})
 
 		sbYieldRatesWithTotalDfExpectedStr = \
-'                    EARNINGS     D YIELD RATE     Y YIELD RATE\n' + \
-'DATE                                                          ' + \
+'             EARNING CAP           EARNING     D YIELD RATE     Y YIELD RATE\n' + \
+'DATE                                                                        ' + \
 '''
-2021-01-01  4.36774838756355 1.00043677483876 1.17279291419006
-2021-01-02  7.11332700382809 1.00047408375502 1.18886558873487
-2021-01-03  8.47797205061397 1.00056476586208 1.22885316870567
-2021-01-04 22.46701621233660 1.00056139528243 1.22734313720236
-2021-01-05 19.17963717721430 1.00047898289546 1.19099238934721
-TOTAL      61.60570083155650                                  '''
+2021-01-01  10000.000000  4.36774838756355 1.00043677483876 1.17279291419006
+2021-01-02  15004.367748  7.11332700382809 1.00047408375502 1.18886558873487
+2021-01-03  15011.481075  8.47797205061397 1.00056476586208 1.22885316870567
+2021-01-04  40019.959047 22.46701621233660 1.00056139528243 1.22734313720236
+2021-01-05  40042.426064 19.17963717721430 1.00047898289546 1.19099238934721
+TOTAL       40061.605701 61.60570083155650                                  '''
 		
 		if PRINT:
 			print(sbYieldRatesWithTotalDfActualStr)
@@ -2304,23 +2304,21 @@ G TOTAL  40,061.61                                              61.6057008315565
 		
 		print(depositSheetFileName)
 		
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
-		
 		sbYieldRatesWithTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbYieldRatesWithTotalDf,
 			{
 				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
 		
 		sbYieldRatesWithTotalDfExpectedStr = \
-'             EARNINGS  D YIELD RATE  Y YIELD RATE\n' + \
-'DATE                                             ' + \
+'             EARNING CAP    EARNING  D YIELD RATE  Y YIELD RATE\n' + \
+'DATE                                                           ' + \
 '''
-2021-01-01  11.111261      1.000556      1.224735
-2021-01-02   8.607416      1.000430      1.169954
-2021-01-03   9.240537      1.000462      1.183451
-2021-01-04   5.596533      1.000558      1.225841
-2021-01-05   5.224288      1.000521      1.209226
-TOTAL       39.780036                            '''
+2021-01-01  20000.000000  11.111261      1.000556      1.224735
+2021-01-02  20011.111261   8.607416      1.000430      1.169954
+2021-01-03  20019.718678   9.240537      1.000462      1.183451
+2021-01-04  10028.959215   5.596533      1.000558      1.225841
+2021-01-05  10034.555748   5.224288      1.000521      1.209226
+TOTAL       10039.780036  39.780036                            '''
 		
 		if PRINT:
 			print(sbYieldRatesWithTotalDfActualStr)
@@ -2386,23 +2384,21 @@ G TOTAL  10,039.78                                              39.78003617     
 		
 		print(depositSheetFileName)
 		
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
-		
 		sbYieldRatesWithTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbYieldRatesWithTotalDf,
 			{
 				MERGED_SHEET_HEADER_EARNING_NEW_NAME: '.14f'})
 		
 		sbYieldRatesWithTotalDfExpectedStr = \
-'                    EARNINGS  D YIELD RATE  Y YIELD RATE\n' + \
-'DATE                                                    ' + \
+'             EARNING CAP           EARNING  D YIELD RATE  Y YIELD RATE\n' + \
+'DATE                                                                  ' + \
 '''
-2021-01-01  8.84728534291207      1.000442      1.175187
-2021-01-02 11.62354645871160      1.000581      1.236116
-2021-01-03 10.81679235481710      1.000540      1.217928
-2021-01-04  0.00983605445532      1.000604      1.246520
-2021-01-05  0.00942140246999      1.000578      1.234841
-TOTAL      31.30688161336608                            '''
+2021-01-01  20000.000000  8.84728534291207      1.000442      1.175187
+2021-01-02  20008.847285 11.62354645871160      1.000581      1.236116
+2021-01-03  20020.470832 10.81679235481710      1.000540      1.217928
+2021-01-04     16.287624  0.00983605445532      1.000604      1.246520
+2021-01-05     16.297460  0.00942140246999      1.000578      1.234841
+TOTAL          16.306882 31.30688161336608                            '''
 		
 		if PRINT:
 			print(sbYieldRatesWithTotalDfActualStr)
@@ -2618,7 +2614,7 @@ G TOTAL  36,110.25                                              110.25262326    
 		"""
 		Three owners with several deposits/withdrawals.
 		"""
-		PRINT = False
+		PRINT = True
 		
 		sbAccountSheetFileName = 'testSBEarningUsdc_3_owner_multi_deposit.xlsx'
 		depositSheetFileName = 'testDepositUsdc_3_owner_multi_deposit.csv'
@@ -2653,7 +2649,27 @@ TOTAL                                  110.25262326'''
 			print(sbEarningsTotalDfActualStr)
 		else:
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
+			
+		sbYieldRatesWithTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			sbYieldRatesWithTotalDf,
+			{
+				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
+		sbYieldRatesWithTotalDfExpectedStr = \
+			'                         Type Currency   Net amount\n' + \
+			'Local time                                         ' + \
+			'''
+			2021-01-01 09:00:00  Earnings     USDC  15.02363060
+			2021-01-02 09:00:00  Earnings     USDC  14.33714241
+			2021-01-03 09:00:00  Earnings     USDC  24.77659057
+			2021-01-04 09:00:00  Earnings     USDC  28.66457400
+			2021-01-05 09:00:00  Earnings     USDC  27.45068569
+			TOTAL                                  110.25262326'''
 		
+		if PRINT:
+			print(sbYieldRatesWithTotalDfActualStr)
+		else:
+			self.assertEqual(sbYieldRatesWithTotalDfExpectedStr, sbEarningsTotalDfActualStr)
+	
 		yieldOwnerWithTotalsSummaryDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			yieldOwnerWithTotalsSummaryDf,
 			{
@@ -2722,7 +2738,7 @@ if __name__ == '__main__':
 		# tst.testComputeDepositsYieldsFirstOwner_1_depositBeforeAnd_1_aftertFirstYieldDate()
 		# tst.testComputeDepositsYieldsLastDepositDateFromIsMaxRowUniqueOwnerThreeDeposits()
 		# tst.testComputeDepositsYieldsMiddleDepositDateFromIsMaxRowUniqueOwnerThreeDeposits()
-		tst.testComputeDepositsYieldsFirstDepositDateFromIsMaxRowUniqueOwnerThreeDepositsDepositDateFromIsMax()
+#		tst.testComputeDepositsYieldsFirstDepositDateFromIsMaxRowUniqueOwnerThreeDepositsDepositDateFromIsMax()
 		# tst.testComputeDepositsYieldsLastDepositDateFromIsMaxRowUniqueOwnerThreeDepositsDepositDateFromIsMax()
 		# tst.testComputeDepositsYieldsMiddleDepositDateFromIsMaxRowUniqueOwnerThreeDepositsDepositDateFromIsMax()
 		# tst.testComputeDepositsYieldsMiddleDepositDateFromIsAfterMaxRowUniqueOwnerThreeDepositsDepositDateFromAfterMax_1()
@@ -2748,4 +2764,4 @@ if __name__ == '__main__':
 		# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_withdr()
 		# tst.testAndAnalyseComputeDepositsYields_2_owner_1_deposit_before_first_yield()
 		# tst.testAndAnalyseComputeDepositsYields_3_owner_1_multi_deposit()
-		# tst.testAndAnalyseComputeDepositsYields_3_owner_multi_deposit()
+		tst.testAndAnalyseComputeDepositsYields_3_owner_multi_deposit()

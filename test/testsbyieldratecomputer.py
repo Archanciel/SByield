@@ -205,23 +205,23 @@ TOTAL                                          2.1'''
 		self.assertEqual((14, 6), mergedEarningDeposit.shape)
 		
 		expectedStrDataframe = \
-'                   DATE  DEP/WITHDR  EARNING CAP  EARNINGS  D YIELD RATE  Y YIELD RATE\n' + \
-'IDX                                                                                   ' + \
+'                   DATE  DEP/WITHDR  EARNING CAP  EARNING  D YIELD RATE  Y YIELD RATE\n' + \
+'IDX                                                                                  ' + \
 '''
-1   2020-11-21 00:00:00      2000.0      2000.00      0.00      0.000000      0.000000
-2   2020-12-22 09:00:00         0.0      2000.00      0.80      1.000400      1.157162
-3   2020-12-23 09:00:00         0.0      2000.80      0.81      1.000405      1.159207
-4   2020-12-24 09:00:00         0.0      2001.61      0.82      1.000410      1.161252
-5   2020-12-25 00:00:00      4000.0      6002.43      0.00      0.000000      0.000000
-6   2020-12-25 00:00:01      1000.0      7002.43      0.00      0.000000      0.000000
-7   2020-12-25 09:00:00         0.0      7002.43      0.78      1.000111      1.041493
-8   2020-12-26 09:00:00         0.0      7003.21      2.80      1.000400      1.157085
-9   2020-12-27 00:00:00      -500.0      6506.01      0.00      0.000000      0.000000
-10  2020-12-27 09:00:00         0.0      6506.01      2.70      1.000415      1.163513
-11  2020-12-28 00:00:00      3000.0      9508.71      0.00      0.000000      0.000000
-12  2020-12-28 09:00:00         0.0      9508.71      2.75      1.000289      1.111317
-13  2020-12-29 09:00:00         0.0      9511.46      4.00      1.000421      1.165869
-14  2020-12-30 09:00:00         0.0      9515.46      4.10      1.000431      1.170272'''
+1   2020-11-21 00:00:00      2000.0      2000.00     0.00      0.000000      0.000000
+2   2020-12-22 09:00:00         0.0      2000.00     0.80      1.000400      1.157162
+3   2020-12-23 09:00:00         0.0      2000.80     0.81      1.000405      1.159207
+4   2020-12-24 09:00:00         0.0      2001.61     0.82      1.000410      1.161252
+5   2020-12-25 00:00:00      4000.0      6002.43     0.00      0.000000      0.000000
+6   2020-12-25 00:00:01      1000.0      7002.43     0.00      0.000000      0.000000
+7   2020-12-25 09:00:00         0.0      7002.43     0.78      1.000111      1.041493
+8   2020-12-26 09:00:00         0.0      7003.21     2.80      1.000400      1.157085
+9   2020-12-27 00:00:00      -500.0      6506.01     0.00      0.000000      0.000000
+10  2020-12-27 09:00:00         0.0      6506.01     2.70      1.000415      1.163513
+11  2020-12-28 00:00:00      3000.0      9508.71     0.00      0.000000      0.000000
+12  2020-12-28 09:00:00         0.0      9508.71     2.75      1.000289      1.111317
+13  2020-12-29 09:00:00         0.0      9511.46     4.00      1.000421      1.165869
+14  2020-12-30 09:00:00         0.0      9515.46     4.10      1.000431      1.170272'''
 		
 		if PRINT:
 			print(mergedEarningDeposit)
@@ -240,7 +240,7 @@ TOTAL                                          2.1'''
 
 		depositDataFrame, yieldRatesDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
 		self.assertEqual((5, 2), depositDataFrame.shape)
-		self.assertEqual((9, 3), yieldRatesDataframe.shape)
+		self.assertEqual((9, 4), yieldRatesDataframe.shape)
 		
 		expectedDepositStrDataframe = \
 '                    OWNER  DEP/WITHDR\n' + \
@@ -258,18 +258,18 @@ TOTAL                                          2.1'''
 			self.assertEqual(expectedDepositStrDataframe, depositDataFrame.to_string())
 		
 		expectedYieldRatesStrDataframe = \
-'            EARNINGS  D YIELD RATE  Y YIELD RATE\n' + \
-'DATE                                            ' + \
+'            EARNING CAP  EARNING  D YIELD RATE  Y YIELD RATE\n' + \
+'DATE                                                        ' + \
 '''
-2020-12-22      0.80      1.000400      1.157162
-2020-12-23      0.81      1.000405      1.159207
-2020-12-24      0.82      1.000410      1.161252
-2020-12-25      0.78      1.000111      1.041493
-2020-12-26      2.80      1.000400      1.157085
-2020-12-27      2.70      1.000415      1.163513
-2020-12-28      2.75      1.000289      1.111317
-2020-12-29      4.00      1.000421      1.165869
-2020-12-30      4.10      1.000431      1.170272'''
+2020-12-22      2000.00     0.80      1.000400      1.157162
+2020-12-23      2000.80     0.81      1.000405      1.159207
+2020-12-24      2001.61     0.82      1.000410      1.161252
+2020-12-25      7002.43     0.78      1.000111      1.041493
+2020-12-26      7003.21     2.80      1.000400      1.157085
+2020-12-27      6506.01     2.70      1.000415      1.163513
+2020-12-28      9508.71     2.75      1.000289      1.111317
+2020-12-29      9511.46     4.00      1.000421      1.165869
+2020-12-30      9515.46     4.10      1.000431      1.170272'''
 		
 		if PRINT:
 			print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRatesDataframe, {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.8f'}))
@@ -337,7 +337,7 @@ TOTAL                                          2.1'''
 
 		if not PRINT:
 			self.assertEqual((2, 2), depositDataFrame.shape)
-			self.assertEqual((5, 3), yieldRatesDataframe.shape)
+			self.assertEqual((5, 4), yieldRatesDataframe.shape)
 		
 		expectedDepositStrDataframe = \
 '           OWNER  DEP/WITHDR\n' + \
@@ -353,14 +353,14 @@ TOTAL                                          2.1'''
 			self.assertEqual(expectedDepositStrDataframe, depositDataFrame.to_string())
 		
 		expectedYieldRatesStrDataframe = \
-'             EARNINGS  D YIELD RATE  Y YIELD RATE\n' + \
-'DATE                                             ' + \
+'             EARNING CAP    EARNING  D YIELD RATE  Y YIELD RATE\n' + \
+'DATE                                                           ' + \
 '''
-2021-01-01  11.111261      1.000556      1.224735
-2021-01-02   8.607416      1.000430      1.169954
-2021-01-03   9.240537      1.000462      1.183451
-2021-01-04   5.596533      1.000558      1.225841
-2021-01-05   5.224288      1.000521      1.209226'''
+2021-01-01  20000.000000  11.111261      1.000556      1.224735
+2021-01-02  20011.111261   8.607416      1.000430      1.169954
+2021-01-03  20019.718678   9.240537      1.000462      1.183451
+2021-01-04  10028.959215   5.596533      1.000558      1.225841
+2021-01-05  10034.555748   5.224288      1.000521      1.209226'''
 		
 		if PRINT:
 			print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRatesDataframe, {
@@ -383,7 +383,7 @@ TOTAL                                          2.1'''
 		
 		if not PRINT:
 			self.assertEqual((2, 2), depositDataFrame.shape)
-			self.assertEqual((5, 3), yieldRatesDataframe.shape)
+			self.assertEqual((5, 4), yieldRatesDataframe.shape)
 		
 		expectedDepositStrDataframe = \
 '           OWNER  DEP/WITHDR\n' + \
@@ -399,14 +399,14 @@ TOTAL                                          2.1'''
 			self.assertEqual(expectedDepositStrDataframe, depositDataFrame.to_string())
 		
 		expectedYieldRatesStrDataframe = \
-'             EARNINGS  D YIELD RATE  Y YIELD RATE\n' + \
-'DATE                                             ' + \
+'             EARNING CAP    EARNING  D YIELD RATE  Y YIELD RATE\n' + \
+'DATE                                                           ' + \
 '''
-2021-01-01   8.847285      1.000442      1.175187
-2021-01-02  11.623546      1.000581      1.236116
-2021-01-03  10.816792      1.000540      1.217928
-2021-01-04   0.009836      1.000604      1.246520
-2021-01-05   0.009421      1.000578      1.234841'''
+2021-01-01  20000.000000   8.847285      1.000442      1.175187
+2021-01-02  20008.847285  11.623546      1.000581      1.236116
+2021-01-03  20020.470832  10.816792      1.000540      1.217928
+2021-01-04     16.287624   0.009836      1.000604      1.246520
+2021-01-05     16.297460   0.009421      1.000578      1.234841'''
 		
 		if PRINT:
 			print(self.yieldRateComputer.getDataframeStrWithFormattedColumns(yieldRatesDataframe, {
