@@ -39,7 +39,7 @@ generated data
 TOTAL                                                             40.00750566809984
 '''
 depWithdrArray[0] = 20000
-depWithdrArray[3] = -20015
+depWithdrArray[3] = -10000
 
 zeroYieldArray = [0.0] * dayNumber
 
