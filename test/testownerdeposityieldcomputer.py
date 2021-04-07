@@ -2943,7 +2943,7 @@ G TOTAL      16.31                                                          31.3
 		PRINT = True
 		
 		sbAccountSheetFileName = 'testSBEarningUsdc_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate.xlsx'
-		depositSheetFileName = 'testDepositUsdc_uniqueOwner_1_deposit_1_almost_full_withdr.csv'
+		depositSheetFileName = 'testDepositUsdc_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate.csv'
 		
 		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
 		
@@ -2980,6 +2980,8 @@ TOTAL                                  31.30688161'''
 		sbYieldRatesWithTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbYieldRatesWithTotalDf,
 			{
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.8f',
+				DEPOSIT_YIELD_HEADER_CAPITAL: '.8f',
 				MERGED_SHEET_HEADER_EARNING_NEW_NAME: '.14f'})
 		
 		sbYieldRatesWithTotalDfExpectedStr = \
@@ -3002,7 +3004,8 @@ TOTAL          16.306882 31.30688161336608                            '''
 		yieldOwnerWithTotalsSummaryDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			yieldOwnerWithTotalsSummaryDf,
 			{
-				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.8f',
+				DEPOSIT_YIELD_HEADER_CAPITAL: '.8f',
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 		yieldOwnerWithTotalsSummaryDfExpectedStr = \
 '      DEP/WITHDR         YIELD AMT      TOTAL\n' + \
@@ -3020,7 +3023,7 @@ TOTAL     -15.00 31.30688161336618  16.306882'''
 		yieldOwnerWithTotalsDetailDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			yieldOwnerWithTotalsDetailDf,
 			{
-				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.8f',
 				DEPOSIT_YIELD_HEADER_CAPITAL: '.14f',
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 		

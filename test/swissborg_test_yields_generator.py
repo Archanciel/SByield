@@ -38,10 +38,8 @@ generated data
 4     2021-01-05         0.0     10035.189567  1.191480  1.000480  4.81793888522043 40.00750566809984
 TOTAL                                                             40.00750566809984
 '''
-depWithdrArray[0] = 30000
-depWithdrArray[1] = 5000
-depWithdrArray[2] = 17000
-depWithdrArray[3] = -4000
+depWithdrArray[0] = 20000
+depWithdrArray[3] = -20015
 
 zeroYieldArray = [0.0] * dayNumber
 
@@ -112,5 +110,5 @@ fixedDailyInterestRates = np.power(fixedYearlyInterestRate, 1/365)
 
 dfFixed = pd.DataFrame({DATE: dayDates, DEPWITHDR: depWithdrArray, CAPITAL: capitalArray, RATE_YEARLY: fixedYearlyInterestRates,  RATE_DAILY: fixedDailyInterestRates, YIELD_DAILY: zeroYieldArray})
 
-#print('\nFixed yield of {} % per year\n'.format(round((fixedYearlyInterestRate - 1) * 100)))
-#print(computeYields(dfFixed))
+print('\nFixed yield of {} % per year\n'.format(round((fixedYearlyInterestRate - 1) * 100)))
+print(computeYields(dfFixed))
