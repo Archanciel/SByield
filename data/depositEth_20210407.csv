@@ -8,7 +8,7 @@ Explanations:
 3/ The deposits or withdrawals must be defined with a date which is equal to the first.
    respectively the last + 1 day, SB earning payment date for this deposit/withdrawal with
    00:00:00 for the time component.
-
+ 
    To describe it differently, the csv file deposit date is equal to the yield subscription
    activation date + 1 day. Once a yield subscription is active, it starts generating
    daily revenues. The first of those revenues is paid 1 day AFTER the activation date.
@@ -36,17 +36,9 @@ Explanations:
    Béa,2021/02/23 00:00:01,4000
    Papa,2020/02/23 00:00:02,-500
 
-Test case info:
-
-Multi owners, some deposits on same day, 1 withdrawal. Owner with 1 deposit at FIRST
-position alphabetically WITH DUPLICATED DEPOSIT DATE. One owner with ONE deposit BEFORE
-first yield date of2020/12/22.
-
 Data:
 
 OWNER,DATE,DEP/WITHDR
-JPS,2020/11/21 00:00:00,2000
-Papa,2020/12/25 00:00:00,4000
-Béa,2020/12/25 00:00:,1000
-Papa,2020/12/27 00:00:00,-500
-JPS,2020/12/28 00:00:00,3000
+Papa,2021/03/20 00:00:00,4.5879162
+Béa,2021/03/20 00:00:01,0.3985632
+

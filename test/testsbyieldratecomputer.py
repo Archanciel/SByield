@@ -185,6 +185,19 @@ TOTAL                                          2.1'''
 			self.yieldRateComputer._loadDepositCsvFile()
 		
 		self.assertEqual(
+			'CSV file {} contains a deposit of 1000.0 for owner Béa with a deposit date 2020/12/25 00:00: whose time component is invalid. Correct the time component and retry.'.format(
+				self.testDataPath + depositSheetFileName), e.exception.message)
+	
+	def test_loadDepositCsvFileWithTimeComponentAfterNineOClock(self):
+		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
+		depositSheetFileName = 'testDepositUsdc_1_timeComponentAfter9oclock.csv'
+		
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
+		
+		with self.assertRaises(InvalidDepositTimeError) as e:
+			self.yieldRateComputer._loadDepositCsvFile()
+		
+		self.assertEqual(
 			'CSV file {} contains a deposit of 1000.0 for owner Béa with a deposit date 2020-12-25 10:00:00 whose time component is later than the 09:00:00 Swissborg yield payment time. Set the time to a value before 09:00:00 and retry.'.format(
 				self.testDataPath + depositSheetFileName), e.exception.message)
 	

@@ -136,18 +136,29 @@ class SBYieldRateComputer(PandasDataComputer):
 		dfDateTimeLst = list(depositsDf[DEPOSIT_SHEET_HEADER_DATE])
 		dtNine = datetime.strptime('09:00:00', '%H:%M:%S')
 		badTimeIndex = None
+		invalidTimeFormat = False
+		index = 0
 		
 		try:
-			badTimeIndex = next(i for i, v in enumerate(dfDateTimeLst) if
-			                    v.time() > dtNine.time())
-		except StopIteration:
-			pass
+			for timeComponent in dfDateTimeLst:
+				if isinstance(timeComponent, str):
+					date = datetime.strptime(timeComponent, '%Y/%m/%d %H:%M:%S')
+				else:
+					date = timeComponent
+				if date.time() > dtNine.time():
+					badTimeIndex = index
+				else:
+					index += 1
+		except ValueError:
+			badTimeIndex = index
+			invalidTimeFormat = True
 		
 		if badTimeIndex is not None:
 			raise InvalidDepositTimeError(self.depositSheetFilePathName,
 			                              depositsDf.loc[badTimeIndex, DEPOSIT_SHEET_HEADER_OWNER],
 			                              depositsDf.loc[badTimeIndex, DEPOSIT_SHEET_HEADER_DATE],
-			                              depositsDf.loc[badTimeIndex, DATAFRAME_HEADER_DEPOSIT_WITHDRAW])
+			                              depositsDf.loc[badTimeIndex, DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
+			                              invalidTimeFormat)
 	
 	def ensureNoDatetimeDuplication(self, depositsDf):
 		"""
