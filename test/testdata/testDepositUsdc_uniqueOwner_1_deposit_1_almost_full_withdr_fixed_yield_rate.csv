@@ -36,8 +36,20 @@ Explanations:
    Béa,2021/02/23 00:00:01,4000
    Papa,2020/02/23 00:00:02,-500
 
+Test case info:
+
+Yield rate is a fixed rate os 20 % per year.
+In this scenario, I deposit 20000 USDC on December 30th at 09:01:00 with
+activation date on December 31st at 09:00:00. The first yield is payed on
+January 1st at 09:00:00 - so the deposit date is January 1st -.
+
+On January 2nd at 09:01:00, I do withdraw my deposit
+including my two yields of 20. The fullfilment date is so on January 3rd,
+meaning it still generates yield on January 3rd and stops generating yields
+1 day later on January 4th, which is the dep/withdr date.
+
 Data:
 
 OWNER,DATE,DEP/WITHDR
 JPS,2021/01/01 00:00:00,20000
-JPS,2021/01/04 00:00:00,-20029
+JPS,2021/01/04 00:00:00,-20020

@@ -18,13 +18,13 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 	deposit/withdrawal amounts invested by the different yield subscription
 	amounts owners.
 	"""
-	def __init__(self, configMgr, sbYieldRateComputer):
+	def __init__(self, sbYieldRateComputer):
 		"""
 		Currently, the configMgr is not used. Constants are used in place.
 		
 		:param configMgr:
 		"""
-		super().__init__(configMgr)
+		super().__init__()
 		self.sbYieldRateComputer = sbYieldRateComputer
 
 	def computeDepositsYields(self, yieldCrypto):
@@ -278,9 +278,9 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		sbYieldRatesWithTotalDf.index = pd.to_datetime(sbYieldRatesWithTotalDf.index).strftime('%Y-%m-%d')
 		
 		# adding TOTAL row to SB yield rates data frame for MERGED_SHEET_HEADER_EARNING_NEW_NAME column only
-		sbYieldRatesWithTotalDf.loc[DATAFRAME_HEADER_TOTAL] = sbYieldRatesWithTotalDf[[MERGED_SHEET_HEADER_EARNING_NEW_NAME]].sum(numeric_only=True)
+		sbYieldRatesWithTotalDf.loc[DATAFRAME_HEADER_FINAL_TOTAL] = sbYieldRatesWithTotalDf[[MERGED_SHEET_HEADER_EARNING_NEW_NAME]].sum(numeric_only=True)
 		
-		sbYieldRatesWithTotalDf.loc[DATAFRAME_HEADER_TOTAL, MERGED_SHEET_HEADER_EARNING_CAPITAL] = lastRowCapitalPlusEarningValue
+		sbYieldRatesWithTotalDf.loc[DATAFRAME_HEADER_FINAL_TOTAL, MERGED_SHEET_HEADER_EARNING_CAPITAL] = lastRowCapitalPlusEarningValue
 
 		return sbYieldRatesWithTotalDf, yieldOwnerWithTotalsSummaryDf, yieldOwnerWithTotalsDetailDf
 	
@@ -361,7 +361,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 					                          DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT]}, ignore_index=True)
 			else:
 				totalRow = ownerGroupTotalDf.loc[ownerGroupTotalIndex]
-				totalRow[DEPOSIT_SHEET_HEADER_OWNER] = DATAFRAME_HEADER_TOTAL
+				totalRow[DEPOSIT_SHEET_HEADER_OWNER] = DATAFRAME_HEADER_FINAL_TOTAL
 				totalRow[DATAFRAME_HEADER_DEPOSIT_WITHDRAW] += totalRow[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]
 				totalDf = totalDf.append(totalRow, ignore_index=True)
 				ownerGroupTotalIndex += 1
@@ -381,7 +381,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 
 		# appending last owner total row
 		totalRow = ownerGroupTotalDf.loc[ownerGroupTotalIndex]
-		totalRow[DEPOSIT_SHEET_HEADER_OWNER] = DATAFRAME_HEADER_TOTAL
+		totalRow[DEPOSIT_SHEET_HEADER_OWNER] = DATAFRAME_HEADER_FINAL_TOTAL
 		totalRow[DATAFRAME_HEADER_DEPOSIT_WITHDRAW] += totalRow[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]
 		totalDf = totalDf.append(totalRow, ignore_index=True)
 

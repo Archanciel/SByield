@@ -7,7 +7,6 @@ sys.path.insert(0,parentdir)
 sys.path.insert(0,currentdir) # this instruction is necessary for successful importation of utilityfortest module when
 							  # the test is executed standalone
 
-from configmanager import ConfigManager
 from ownerdeposityieldcomputer import *
 from invaliddepositdateerror import InvalidDepositDateError
 
@@ -15,20 +14,16 @@ from invaliddepositdateerror import InvalidDepositDateError
 class TestOwnerDepositYieldComputer(unittest.TestCase):
 	def initializeComputerClasses(self, sbAccountSheetFileName, depositSheetFileName):
 		if os.name == 'posix':
-			configPath = '/sdcard/sbyield.ini'
 			self.testDataPath = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/'
 			sbAccountSheetFilePathName = self.testDataPath + sbAccountSheetFileName
 			depositSheetFilePathName = self.testDataPath + depositSheetFileName
 		else:
-			configPath = 'c:\\temp\\sbyield.ini'
 			self.testDataPath = 'D:\\Development\\Python\\SByield\\test\\testData\\'
 			sbAccountSheetFilePathName = self.testDataPath + sbAccountSheetFileName
 			depositSheetFilePathName = self.testDataPath + depositSheetFileName
-		configMgr = ConfigManager(configPath)
-		self.yieldRateComputer = SBYieldRateComputer(configMgr,
-		                                             sbAccountSheetFilePathName,
+		self.yieldRateComputer = SBYieldRateComputer(sbAccountSheetFilePathName,
 		                                             depositSheetFilePathName)
-		self.ownerDepositYieldComputer = OwnerDepositYieldComputer(configMgr, self.yieldRateComputer)
+		self.ownerDepositYieldComputer = OwnerDepositYieldComputer(self.yieldRateComputer)
 	
 	def testComputeDepositsYieldsSeveralOwners(self):
 		"""
@@ -2936,7 +2931,7 @@ G TOTAL      16.31                                                          31.3
 		"""
 		Only one owner with 1 deposit and 1 partial withdrawal.
 		"""
-		PRINT = True
+		PRINT = False
 
 		sbAccountSheetFileName = 'testSBEarningUsdc_uniqueOwner_1_deposit_1_partial_withdr_fixed_yield_rate.xlsx'
 		depositSheetFileName = 'testDepositUsdc_uniqueOwner_1_deposit_1_partial_withdr.csv'
@@ -2960,12 +2955,12 @@ G TOTAL      16.31                                                          31.3
 '                         Type Currency  Net amount\n' + \
 'Local time                                        ' + \
 '''
-2021-01-01 09:00:00  Earnings     USDC 11.11126149
-2021-01-02 09:00:00  Earnings     USDC  8.60741640
-2021-01-03 09:00:00  Earnings     USDC  9.24053714
-2021-01-04 09:00:00  Earnings     USDC  5.59653333
-2021-01-05 09:00:00  Earnings     USDC  5.22428781
-TOTAL                                  39.78003617'''
+2021-01-01 09:00:00  Earnings     USDC  9.99271782
+2021-01-02 09:00:00  Earnings     USDC  9.99771054
+2021-01-03 09:00:00  Earnings     USDC 10.00270575
+2021-01-04 09:00:00  Earnings     USDC 10.00770347
+2021-01-05 09:00:00  Earnings     USDC  5.01634476
+TOTAL                                  45.01718234'''
 
 		if PRINT:
 			print('\nSwissborg earnings loaded from Swissborg account statement sheet ...')
@@ -2982,12 +2977,12 @@ TOTAL                                  39.78003617'''
 '             EARNING CAP    EARNING  D YIELD RATE  Y YIELD RATE\n' + \
 'DATE                                                           ' + \
 '''
-2021-01-01  20000.000000  11.111261      1.000556      1.224735
-2021-01-02  20011.111261   8.607416      1.000430      1.169954
-2021-01-03  20019.718678   9.240537      1.000462      1.183451
-2021-01-04  10028.959215   5.596533      1.000558      1.225841
-2021-01-05  10034.555748   5.224288      1.000521      1.209226
-TOTAL       10039.780036  39.780036                            '''
+2021-01-01  20000.000000   9.992718      1.000500      1.200000
+2021-01-02  20009.992718   9.997711      1.000500      1.200000
+2021-01-03  20019.990428  10.002706      1.000500      1.200000
+2021-01-04  10029.993134  10.007703      1.000998      1.439085
+2021-01-05  10040.000838   5.016345      1.000500      1.200000
+TOTAL       10045.017182  45.017182                            '''
 
 		if PRINT:
 			print('\nComputed Swissborg yield rates using deposit/withdrawal owner amounts ...')
@@ -3002,11 +2997,11 @@ TOTAL       10039.780036  39.780036                            '''
 				DEPOSIT_YIELD_HEADER_CAPITAL: '.8f',
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		yieldOwnerWithTotalsSummaryDfExpectedStr = \
-'      DEP/WITHDR   YIELD AMT         TOTAL\n' + \
-'OWNER                                     ' + \
+'           DEP/WITHDR   YIELD AMT         TOTAL\n' + \
+'OWNER                                          ' + \
 '''
-JPS    10,000.00 39.78003617  10039.780036
-TOTAL  10,000.00 39.78003617  10039.780036'''
+JPS   10,000.00000000 45.01718234  10045.017182
+TOTAL 10,000.00000000 45.01718234  10045.017182'''
 
 		if PRINT:
 			print('\nOwner summary deposit/withdrawal yield totals ...')
@@ -3022,14 +3017,14 @@ TOTAL  10,000.00 39.78003617  10039.780036'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                              ' + \
+'              DEP/WITHDR         CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
+'OWNER                                                                                                          ' + \
 '''
-JPS      20,000.00 20,000.00  2021-01-01  2021-01-03          3 28.95921503     0.144796  19.248711
-JPS     -10,000.00 10,028.96  2021-01-04  2021-01-05          2 10.82082114     0.107896  21.750490
-TOTAL    10,039.78                                              39.78003617                        ''' + \
+JPS      20,000.00000000 20,000.00000000  2021-01-01  2021-01-03          3 29.99313411     0.149966   20.00000
+JPS     -10,000.00000000 10,029.99313411  2021-01-04  2021-01-05          2 15.02404823     0.149791   31.41163
+TOTAL    10,045.01718234                                                    45.01718234                        ''' + \
 '''
-G TOTAL  10,039.78                                              39.78003617                        '''
+G TOTAL  10,045.01718234                                                    45.01718234                        '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
@@ -3045,7 +3040,7 @@ G TOTAL  10,039.78                                              39.78003617     
 		
 		In this test case, the yield rate is identical on all days (20 % annually)
 		"""
-		PRINT = True
+		PRINT = False
 		
 		sbAccountSheetFileName = 'testSBEarningUsdc_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate.xlsx'
 		depositSheetFileName = 'testDepositUsdc_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate.csv'
@@ -3064,17 +3059,17 @@ G TOTAL  10,039.78                                              39.78003617     
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
 			{
-				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
+				SB_ACCOUNT_SHEET_HEADER_EARNING: '.10f'})
 		sbEarningsTotalDfExpectedStr = \
-'                         Type Currency  Net amount\n' + \
-'Local time                                        ' + \
+'                         Type Currency    Net amount\n' + \
+'Local time                                          ' + \
 '''
-2021-01-01 09:00:00  Earnings     USDC  8.84728534
-2021-01-02 09:00:00  Earnings     USDC 11.62354646
-2021-01-03 09:00:00  Earnings     USDC 10.81679235
-2021-01-04 09:00:00  Earnings     USDC  0.00983605
-2021-01-05 09:00:00  Earnings     USDC  0.00942140
-TOTAL                                  31.30688161'''
+2021-01-01 09:00:00  Earnings     USDC  9.9927178191
+2021-01-02 09:00:00  Earnings     USDC  9.9977105396
+2021-01-03 09:00:00  Earnings     USDC 10.0027057546
+2021-01-04 09:00:00  Earnings     USDC  0.0049929285
+2021-01-05 09:00:00  Earnings     USDC  0.0049979190
+TOTAL                                  30.0031249608'''
 		
 		if PRINT:
 			print('\nSwissborg earnings loaded from Swissborg account statement sheet ...')
@@ -3093,12 +3088,12 @@ TOTAL                                  31.30688161'''
 '             EARNING CAP           EARNING  D YIELD RATE  Y YIELD RATE\n' + \
 'DATE                                                                  ' + \
 '''
-2021-01-01  20000.000000  8.84728534291207      1.000442      1.175187
-2021-01-02  20008.847285 11.62354645871160      1.000581      1.236116
-2021-01-03  20020.470832 10.81679235481710      1.000540      1.217928
-2021-01-04     16.287624  0.00983605445532      1.000604      1.246520
-2021-01-05     16.297460  0.00942140246999      1.000578      1.234841
-TOTAL          16.306882 31.30688161336608                            '''
+2021-01-01  20000.000000  9.99271781911375        1.0005      1.200000
+2021-01-02  20009.992718  9.99771053958466        1.0005      1.200000
+2021-01-03  20019.990428 10.00270575459580        1.0005      1.200000
+2021-01-04      9.993134  0.00499292846614        1.0005      1.200000
+2021-01-05      9.998127  0.00499791900508        1.0005      1.200109
+TOTAL          10.003125 30.00312496076543                            '''
 		
 		if PRINT:
 			print('\nComputed Swissborg yield rates using deposit/withdrawal owner amounts ...')
@@ -3111,13 +3106,14 @@ TOTAL          16.306882 31.30688161336608                            '''
 			{
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.8f',
 				DEPOSIT_YIELD_HEADER_CAPITAL: '.8f',
-				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f',
+				DATAFRAME_HEADER_TOTAL: '.8f'})
 		yieldOwnerWithTotalsSummaryDfExpectedStr = \
-'      DEP/WITHDR         YIELD AMT      TOTAL\n' + \
-'OWNER                                        ' + \
+'        DEP/WITHDR         YIELD AMT       TOTAL\n' + \
+'OWNER                                           ' + \
 '''
-JPS       -15.00 31.30688161336618  16.306882
-TOTAL     -15.00 31.30688161336618  16.306882'''
+JPS   -20.00000000 30.00312496076544 10.00312496
+TOTAL -20.00000000 30.00312496076544 10.00312496'''
 		
 		if PRINT:
 			print('\nOwner summary deposit/withdrawal yield totals ...')
@@ -3133,21 +3129,129 @@ TOTAL     -15.00 31.30688161336618  16.306882'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 		
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR               CAPITAL        FROM          TO YIELD DAYS         YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                                                ' + \
+'              DEP/WITHDR               CAPITAL        FROM          TO YIELD DAYS         YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
+'OWNER                                                                                                                      ' + \
 '''
-JPS      20,000.00 20,000.00000000000000  2021-01-01  2021-01-03          3 31.28762415644087     0.156438  20.947251
-JPS     -20,015.00     16.28762415644087  2021-01-04  2021-01-05          2  0.01925745692531     0.118234  24.066683
-TOTAL        16.31                                                          31.30688161336618                        ''' + \
+JPS      20,000.00000000 20,000.00000000000000  2021-01-01  2021-01-03          3 29.99313411329422     0.149966  20.000000
+JPS     -20,020.00000000      9.99313411329422  2021-01-04  2021-01-05          2  0.00999084747122     0.099977  20.005464
+TOTAL        10.00312496                                                          30.00312496076544                        ''' + \
 '''
-G TOTAL      16.31                                                          31.30688161336618                        '''
+G TOTAL      10.00312496                                                          30.00312496076544                        '''
 		
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
 			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-	
+
+	def testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate_3_yield_days(self):
+		"""
+		Only one owner with 1 deposit and 1 almost full withdrawal. Since the deposit
+		continues to generate earning on the yield redemption fulfilment date, the last
+		earning will remain in the smart yield and continue to generate very small earnings.
+
+		In this test case, the yield rate is identical on all days (1.001 daily,
+		~44 % annually)
+		"""
+		PRINT = False
+
+		sbAccountSheetFileName = 'testSBEarningUsdc_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate_3_yield_days.xlsx'
+		depositSheetFileName = 'testDepositUsdc_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate_3_yield_days.csv'
+
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
+
+		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+
+		sbYieldRatesWithTotalDf, yieldOwnerWithTotalsSummaryDf, yieldOwnerWithTotalsDetailDf = \
+			self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+
+		print(depositSheetFileName)
+
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+
+		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			sbEarningsTotalDf,
+			{
+				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
+		sbEarningsTotalDfExpectedStr = \
+'                         Type Currency Net amount\n' + \
+'Local time                                       ' + \
+'''
+2021-01-01 09:00:00  Earnings     USDC 1.00000000
+2021-01-02 09:00:00  Earnings     USDC 1.00100000
+2021-01-03 09:00:00  Earnings     USDC 0.00100100
+TOTAL                                  2.00200100'''
+
+		if PRINT:
+			print('\nSwissborg earnings loaded from Swissborg account statement sheet ...')
+			print(sbEarningsTotalDfActualStr)
+		else:
+			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
+
+		sbYieldRatesWithTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			sbYieldRatesWithTotalDf,
+			{
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.8f',
+				DEPOSIT_YIELD_HEADER_CAPITAL: '.8f',
+				MERGED_SHEET_HEADER_EARNING_NEW_NAME: '.14f'})
+
+		sbYieldRatesWithTotalDfExpectedStr = \
+'            EARNING CAP          EARNING  D YIELD RATE  Y YIELD RATE\n' + \
+'DATE                                                                ' + \
+'''
+2021-01-01  1000.000000 1.00000000000000         1.001      1.440251
+2021-01-02  1001.000000 1.00100000000000         1.001      1.440251
+2021-01-03     1.001000 0.00100100000000         1.001      1.440251
+TOTAL          1.002001 2.00200100000000                            '''
+
+		if PRINT:
+			print('\nComputed Swissborg yield rates using deposit/withdrawal owner amounts ...')
+			print(sbYieldRatesWithTotalDfActualStr)
+		else:
+			self.assertEqual(sbYieldRatesWithTotalDfExpectedStr, sbYieldRatesWithTotalDfActualStr)
+
+		yieldOwnerWithTotalsSummaryDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			yieldOwnerWithTotalsSummaryDf,
+			{
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.8f',
+				DEPOSIT_YIELD_HEADER_CAPITAL: '.8f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
+		yieldOwnerWithTotalsSummaryDfExpectedStr = \
+'       DEP/WITHDR        YIELD AMT     TOTAL\n' + \
+'OWNER                                       ' + \
+'''
+JPS   -1.00000000 2.00200099999975  1.002001
+TOTAL -1.00000000 2.00200099999975  1.002001'''
+
+		if PRINT:
+			print('\nOwner summary deposit/withdrawal yield totals ...')
+			print(yieldOwnerWithTotalsSummaryDfActualStr)
+		else:
+			self.assertEqual(yieldOwnerWithTotalsSummaryDfExpectedStr, yieldOwnerWithTotalsSummaryDfActualStr)
+
+		yieldOwnerWithTotalsDetailDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			yieldOwnerWithTotalsDetailDf,
+			{
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.8f',
+				DEPOSIT_YIELD_HEADER_CAPITAL: '.14f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
+
+		yieldOwnerWithTotalsDetailDfExpectedStr = \
+'             DEP/WITHDR              CAPITAL        FROM          TO YIELD DAYS        YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
+'OWNER                                                                                                                   ' + \
+'''
+JPS      1,000.00000000 1,000.00000000000000  2021-01-01  2021-01-02          2 2.00099999999975       0.2001  44.025131
+JPS     -1,001.00000000     1.00099999999975  2021-01-03  2021-01-03          1 0.00100100000000       0.1000  44.025131
+TOTAL        1.00200100                                                         2.00200099999975                        ''' + \
+'''
+G TOTAL      1.00200100                                                         2.00200099999975                        '''
+
+		if PRINT:
+			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+		else:
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+
 	def testAndAnalyseComputeDepositsYields_2_owner_1_deposit_before_first_yield(self):
 		"""
 		Two owners with 1 deposit for each done on date before the first paid yield.
@@ -3524,5 +3628,6 @@ if __name__ == '__main__':
 		# tst.testAndAnalyseComputeDepositsYields_2_owner_1_deposit_before_first_yield()
 		# tst.testAndAnalyseComputeDepositsYields_3_owner_1_multi_deposit()
 		# tst.testAndAnalyseComputeDepositsYields_3_owner_multi_deposit()
-#		tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_partial_withdr_fixed_yield_rate()
-#		tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate()
+		# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_partial_withdr_fixed_yield_rate()
+		# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate()
+		# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate_3_yield_days()

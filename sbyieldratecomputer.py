@@ -68,13 +68,14 @@ class SBYieldRateComputer(PandasDataComputer):
 	out the Swissborg daily earnings proportionally to the deposit/withdrawal amounts
 	invested by the different yield subscription amounts owners.
 	"""
-	def __init__(self, configMgr, sbAccountSheetFilePathName, depositSheetFilePathName):
+	def __init__(self, sbAccountSheetFilePathName, depositSheetFilePathName):
 		"""
 		Currently, the configMgr is not used. Constants are used in place.
 		
-		:param configMgr:
+		:param sbAccountSheetFilePathName:
+		:param depositSheetFilePathName:
 		"""
-		super().__init__(configMgr)
+		super().__init__()
 		self.sbAccountSheetFilePathName = sbAccountSheetFilePathName
 		self.depositSheetFilePathName = depositSheetFilePathName
 	

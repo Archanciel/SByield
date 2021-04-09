@@ -7,7 +7,6 @@ sys.path.insert(0,parentdir)
 sys.path.insert(0,currentdir) # this instruction is necessary for successful importation of utilityfortest module when
 							  # the test is executed standalone
 
-from configmanager import ConfigManager
 from sbyieldratecomputer import *
 from duplicatedepositdatetimeerror import DuplicateDepositDateTimeError
 from invaliddeposittimeerror import InvalidDepositTimeError
@@ -15,19 +14,15 @@ from invaliddeposittimeerror import InvalidDepositTimeError
 class TestSBYieldRateComputer(unittest.TestCase):
 	def initializeComputerClasses(self, sbAccountSheetFileName, depositSheetFileName):
 		if os.name == 'posix':
-			configPath = '/sdcard/sbyield.ini'
 			self.testDataPath = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/'
 			sbAccountSheetFilePathName = self.testDataPath + sbAccountSheetFileName
 			depositSheetFilePathName = self.testDataPath + depositSheetFileName
 		else:
-			configPath = 'c:\\temp\\sbyield.ini'
 			self.testDataPath = 'D:\\Development\\Python\\SByield\\test\\testData\\'
 			sbAccountSheetFilePathName = self.testDataPath + sbAccountSheetFileName
 			depositSheetFilePathName = self.testDataPath + depositSheetFileName
 
-		configMgr = ConfigManager(configPath)
-		self.yieldRateComputer = SBYieldRateComputer(configMgr,
-		                                             sbAccountSheetFilePathName,
+		self.yieldRateComputer = SBYieldRateComputer(sbAccountSheetFilePathName,
 		                                             depositSheetFilePathName)
 
 	def test_loadSBEarningSheetUSDC(self):

@@ -4,14 +4,23 @@ import numpy as np
 RANDOM_YEARLY_YIELD_RATE_LOW = 1.15
 RANDOM_YEARLY_YIELD_RATE_HIGH = 1.25
 
-FIXED_YEARLY_YIELD_RATE = np.power(1.001, 365)
+# generating excel data for testDepositUsdc_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate_3_yield_days.csv
+# FIXED_YEARLY_YIELD_RATE = np.power(1.001, 365)
+# dayNumber = 3
+# depWithdrArray = [0.0] * dayNumber
+# depWithdrArray[0] = 1000
+# depWithdrArray[2] = -1001
 
-dayNumber = 3
+# generating excel data for testDepositUsdc_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate.csv
+FIXED_YEARLY_YIELD_RATE = 1.2
+dayNumber = 5
+depWithdrArray = [0.0] * dayNumber
+depWithdrArray[0] = 20000
+depWithdrArray[3] = -20020
 
 # generating day date list
 dayDates = pd.date_range("2021-01-01", periods=dayNumber, freq="D")
 
-depWithdrArray = [0.0] * dayNumber
 capitalArray = [0.0] * dayNumber
 
 # WARNING: THE ARRAY MUST BE COHERENT WITH THE DEPOSIT/WITHDR DEFINED IN THE
@@ -40,8 +49,6 @@ generated data
 4     2021-01-05         0.0     10035.189567  1.191480  1.000480  4.81793888522043 40.00750566809984
 TOTAL                                                             40.00750566809984
 '''
-depWithdrArray[0] = 1000
-depWithdrArray[2] = -1001
 
 zeroYieldArray = [0.0] * dayNumber
 
@@ -80,7 +87,8 @@ def computeYields(df):
 				# in case of withdrawal, the witdrawn amount continues to generate revenue
 				# during the withdrawal date ! So, the capital amount minus the withdrawal
 				# amount is set to the next day (next row).
-				df.loc[i + 1, CAPITAL] = capitalPlusYield + currentDepWithdr
+				df.loc[i, CAPITAL] = capitalPlusYield
+				df.loc[i + 1, CAPITAL] = capitalPlusYield * df.loc[i + 1, RATE_DAILY]
 			elif i == lastRowIdx:
 				df.loc[i, CAPITAL] = capitalPlusYield
 

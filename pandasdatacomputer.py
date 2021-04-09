@@ -1,5 +1,6 @@
 # generic headers
 DATAFRAME_HEADER_TOTAL = 'TOTAL'
+DATAFRAME_HEADER_FINAL_TOTAL = 'TOTAL'
 DATAFRAME_HEADER_GRAND_TOTAL = 'G TOTAL'
 DATAFRAME_HEADER_DEPOSIT_WITHDRAW = 'DEP/WITHDR'
 DATAFRAME_HEADER_INDEX = 'IDX'
@@ -9,14 +10,6 @@ class PandasDataComputer:
 	"""
 	This class contains code used by its subclasses.
 	"""
-	def __init__(self, configMgr):
-		"""
-		Currently, the configMgr is not used. Constants are used in place.
-		
-		:param configMgr:
-		"""
-		self.configMgr = configMgr
-		
 	def _replaceDateIndexByIntIndex(self, dataFrame, savedDateColumnName, intIndexColumnName):
 		"""
 		Replaces the date index column in the passed dataFrame by an integer index with
