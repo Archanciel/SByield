@@ -1,10 +1,12 @@
 import pandas as pd
 import numpy as np
 
-RANDOM_YIELD_RATE_LOW = 1.15
-RANDOM_YIELD_RATE_HIGH = 1.25
+RANDOM_YEARLY_YIELD_RATE_LOW = 1.15
+RANDOM_YEARLY_YIELD_RATE_HIGH = 1.25
 
-dayNumber = 5
+FIXED_YEARLY_YIELD_RATE = np.power(1.001, 365)
+
+dayNumber = 3
 
 # generating day date list
 dayDates = pd.date_range("2021-01-01", periods=dayNumber, freq="D")
@@ -38,8 +40,8 @@ generated data
 4     2021-01-05         0.0     10035.189567  1.191480  1.000480  4.81793888522043 40.00750566809984
 TOTAL                                                             40.00750566809984
 '''
-depWithdrArray[0] = 20000
-depWithdrArray[3] = -10000
+depWithdrArray[0] = 1000
+depWithdrArray[2] = -1001
 
 zeroYieldArray = [0.0] * dayNumber
 
@@ -70,6 +72,7 @@ def computeYields(df):
 		else:
 			# handling a withdrawal
 			currentCapital = df.loc[i, CAPITAL]
+			currentCapital = currentCapital + currentDepWithdr
 			capitalPlusYield = currentCapital * df.loc[i, RATE_DAILY]
 			yieldAmount = capitalPlusYield - currentCapital
 			df.loc[i, YIELD_DAILY] = yieldAmount
@@ -78,6 +81,9 @@ def computeYields(df):
 				# during the withdrawal date ! So, the capital amount minus the withdrawal
 				# amount is set to the next day (next row).
 				df.loc[i + 1, CAPITAL] = capitalPlusYield + currentDepWithdr
+			elif i == lastRowIdx:
+				df.loc[i, CAPITAL] = capitalPlusYield
+
 		yieldSum += yieldAmount
 		df.loc[i, YIELD_SUM] = yieldSum
 
@@ -88,7 +94,7 @@ def computeYields(df):
 
 # generating an array of random values in the range of 1.15 - 1.25,
 # i.e. returns between 15 % and 25 % per annum
-randomYearlyInterestRates = np.random.uniform(low=RANDOM_YIELD_RATE_LOW, high=RANDOM_YIELD_RATE_HIGH, size=(dayNumber))
+randomYearlyInterestRates = np.random.uniform(low=RANDOM_YEARLY_YIELD_RATE_LOW, high=RANDOM_YEARLY_YIELD_RATE_HIGH, size=(dayNumber))
 
 # obtaining an array of corresponding daily interest rates which are 
 # 365th root of a yearly interest rate
@@ -97,18 +103,17 @@ randomDailyInterestRates = np.power(randomYearlyInterestRates, 1/365)
 dfRandom = pd.DataFrame({DATE: dayDates, DEPWITHDR: depWithdrArray, CAPITAL: capitalArray, RATE_YEARLY: randomYearlyInterestRates, RATE_DAILY: randomDailyInterestRates, YIELD_DAILY: zeroYieldArray, YIELD_SUM: zeroYieldArray})
 
 print('Random yields\n')		
-print(computeYields(dfRandom))
-
-fixedYearlyInterestRate = 1.2
+#print(computeYields(dfRandom))
 
 # generating an array of fixed interest rate values
-fixedYearlyInterestRates = [fixedYearlyInterestRate] * dayNumber
+fixedYearlyInterestRates = [FIXED_YEARLY_YIELD_RATE] * dayNumber
 
 # obtaining an array of corresponding daily interest rates which are 
 # 365th root of the yearly interest rate
-fixedDailyInterestRates = np.power(fixedYearlyInterestRate, 1/365)
+fixedDailyInterestRates = np.power(FIXED_YEARLY_YIELD_RATE, 1 / 365)
 
 dfFixed = pd.DataFrame({DATE: dayDates, DEPWITHDR: depWithdrArray, CAPITAL: capitalArray, RATE_YEARLY: fixedYearlyInterestRates,  RATE_DAILY: fixedDailyInterestRates, YIELD_DAILY: zeroYieldArray})
 
-print('\nFixed yield of {} % per year\n'.format(round((fixedYearlyInterestRate - 1) * 100)))
+print('\nFixed yield of {} % per year\n'.format(round((FIXED_YEARLY_YIELD_RATE - 1) * 100)))
+#print(dfFixed)
 print(computeYields(dfFixed))

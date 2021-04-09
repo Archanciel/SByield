@@ -3525,4 +3525,4 @@ if __name__ == '__main__':
 		# tst.testAndAnalyseComputeDepositsYields_3_owner_1_multi_deposit()
 		# tst.testAndAnalyseComputeDepositsYields_3_owner_multi_deposit()
 #		tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_partial_withdr_fixed_yield_rate()
-		tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate()
+#		tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate()
