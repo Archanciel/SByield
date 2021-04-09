@@ -90,7 +90,7 @@ def computeYields(df):
 	df.loc[TOTAL] = df.sum(numeric_only=True, axis=0)[
 		[YIELD_DAILY]]
 
-	return df.to_string(formatters={RATE_DAILY: '{:.8f}'.format, YIELD_DAILY: '{:.14f}'.format, YIELD_SUM: '{:.14f}'.format}).replace('NaT', '   ').replace('NaN', '   ')
+	return df.to_string(formatters={RATE_DAILY: '{:.8f}'.format, YIELD_DAILY: '{:.14f}'.format, YIELD_SUM: '{:.14f}'.format}).replace('NaT', '   ').replace('NaN', '   ').replace('nan', '   ')
 
 # generating an array of random values in the range of 1.15 - 1.25,
 # i.e. returns between 15 % and 25 % per annum
