@@ -259,16 +259,13 @@ class SBYieldRateComputer(PandasDataComputer):
 
 		return mergedDf
 	
-	def getDepositsAndDailyYieldRatesDataframes(self,
-												yieldCrypto):
+	def getDepositsAndDailyYieldRatesDataframes(self,):
 		"""
 		Loads the Swissborg account statement sheet and the Deposit/Withdrawal csv file
 		in order to compute the daily yield rates which will be used to compute the daily
 		earnings to be distributed in proportion of the deposits/withdrawals amounts
 		invested by the different deposit owners.
-		
-		:param yieldCrypto: currently, USDC, CHSB, ETH
-		
+
 		:return: loaded deposit data frame, deposit file defined crypto and
 				 computed yield rates data frame
 
@@ -291,9 +288,9 @@ class SBYieldRateComputer(PandasDataComputer):
 		2020-12-24      2.25      1.000341      1.132381
 		2020-12-25      2.50      1.000378      1.148074
 		"""
-		sbEarningSheetDf = self._loadSBEarningSheet(yieldCrypto)
 		depositCsvDf, depositCrypto = self._loadDepositCsvFile()
-		
+		sbEarningSheetDf = self._loadSBEarningSheet(depositCrypto)
+
 		mergedEarningDepositDf = self._mergeEarningAndDeposit(sbEarningSheetDf, depositCsvDf)
 
 		# extract only MERGED_SHEET_HEADER_DATE_NEW_NAME, MERGED_SHEET_HEADER_EARNING_NEW_NAME,

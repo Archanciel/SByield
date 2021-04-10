@@ -10,16 +10,21 @@ class Processor:
 		self.ownerDepositYieldComputer = ownerDepositYieldComputer
 		self.priceRequester = priceRequester
 	
-	def computeYield(self, yieldCrypto, fiat):
+	def computeYield(self, fiat):
 		yieldCryptoIntermediateCryptoRate = None
 		intermediateCryptoFiatRate = None
 
-		if yieldCrypto == SB_ACCOUNT_SHEET_CURRENCY_USDC:
+		sbYieldRatesWithTotalDf, \
+		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
+		depositCrypto = self.ownerDepositYieldComputer.computeDepositsYields()
+
+		if depositCrypto == SB_ACCOUNT_SHEET_CURRENCY_USDC:
 			exchangeYieldCrypto = 'CCCAGG'
 			resultDataYieldCryptoFiat = self.priceRequester.getCurrentPrice(yieldCrypto, fiat, exchangeYieldCrypto)
 			yieldCryptoIntermediateCryptoRate = resultDataYieldCryptoFiat.getValue(ResultData.RESULT_KEY_PRICE)
 			intermediateCryptoFiatRate = 1
-		elif yieldCrypto == SB_ACCOUNT_SHEET_CURRENCY_CHSB:
+		elif depositCrypto == SB_ACCOUNT_SHEET_CURRENCY_CHSB:
 			crypto = 'BTC'
 			exchangeYieldCrypto = 'HitBtc'
 			resultDataYieldCrypto = self.priceRequester.getCurrentPrice(yieldCrypto, crypto, exchangeYieldCrypto)
@@ -27,7 +32,7 @@ class Processor:
 			resultDataCryptoFiat = self.priceRequester.getCurrentPrice(crypto, fiat, exchangeCryptoFiat)
 			yieldCryptoIntermediateCryptoRate = resultDataYieldCrypto.getValue(ResultData.RESULT_KEY_PRICE)
 			intermediateCryptoFiatRate = resultDataCryptoFiat.getValue(ResultData.RESULT_KEY_PRICE)
-		elif yieldCrypto == SB_ACCOUNT_SHEET_CURRENCY_ETH:
+		elif depositCrypto == SB_ACCOUNT_SHEET_CURRENCY_ETH:
 			exchangeYieldCrypto = 'Kraken'
 			resultDataYieldCryptoFiat = self.priceRequester.getCurrentPrice(yieldCrypto, fiat, exchangeYieldCrypto)
 			yieldCryptoIntermediateCryptoRate = resultDataYieldCryptoFiat.getValue(ResultData.RESULT_KEY_PRICE)
@@ -36,4 +41,6 @@ class Processor:
 		yieldCryptoFiatRate = yieldCryptoIntermediateCryptoRate * \
 							  intermediateCryptoFiatRate
 
-		return self.ownerDepositYieldComputer.computeDepositsYields(yieldCrypto)
+		return sbYieldRatesWithTotalDf, \
+			   yieldOwnerWithTotalsSummaryDf, \
+			   yieldOwnerWithTotalsDetailDf

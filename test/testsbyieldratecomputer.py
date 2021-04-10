@@ -267,7 +267,7 @@ TOTAL                                          2.1'''
 		
 		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
-		depositDataFrame, depositCrypto, yieldRatesDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(expectedYieldCrypto)
+		depositDataFrame, depositCrypto, yieldRatesDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes()
 
 		if not PRINT:
 			self.assertEqual((5, 2), depositDataFrame.shape)
@@ -318,8 +318,7 @@ TOTAL                                          2.1'''
 		
 		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		depositDataFrame, depositCrypto, yieldRatesDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(
-			expectedYieldCrypto)
+		depositDataFrame, depositCrypto, yieldRatesDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes()
 		
 		if not PRINT:
 			self.assertEqual((2, 2), depositDataFrame.shape)
@@ -365,8 +364,7 @@ TOTAL                                          2.1'''
 		
 		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		depositDataFrame, depositCrypto, yieldRatesDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(
-			expectedYieldCrypto)
+		depositDataFrame, depositCrypto, yieldRatesDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes()
 
 		if not PRINT:
 			self.assertEqual((2, 2), depositDataFrame.shape)
@@ -412,8 +410,7 @@ TOTAL                                          2.1'''
 		
 		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		depositDataFrame, depositCrypto, yieldRatesDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(
-			expectedYieldCrypto)
+		depositDataFrame, depositCrypto, yieldRatesDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes()
 		
 		if not PRINT:
 			self.assertEqual((2, 2), depositDataFrame.shape)
