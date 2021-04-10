@@ -50,6 +50,8 @@ meaning it still generates yield on January 3rd and stops generating yields
 
 Data:
 
+CRYPTO-USDC
+
 OWNER,DATE,DEP/WITHDR
 JPS,2021/01/01 00:00:00,20000
 JPS,2021/01/04 00:00:00,-20020

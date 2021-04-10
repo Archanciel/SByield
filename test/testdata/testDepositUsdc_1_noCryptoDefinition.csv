@@ -38,19 +38,15 @@ Explanations:
 
 Test case info:
 
-Multi owners, some deposits on same day, 1 withdrawal. Owner with 1 deposit at MIDDLE
-position alphabetically. TWO owners with multi deposits/withdrawal. One owners with
-ONE deposit one day AFTER LAST yield date of 2020/12/30 causing exception.
+Multi owners, some deposits on same day, 1 withdrawal. Owner with 1 deposit at FIRST
+position alphabetically. One owner with ONE deposit BEFORE first yield date of
+2020/12/22.
 
 Data:
 
-CRYPTO-USDC
-
 OWNER,DATE,DEP/WITHDR
-JPS,2020/12/21 00:00:00,2000
-JPS,2020/12/22 00:00:00,3000
+JPS,2020/11/21 00:00:00,2000
 Papa,2020/12/25 00:00:00,4000
-Loan,2020/12/30 00:00:00,1000
-Papa,2020/12/26 00:00:00,-500
-JPS,2020/12/30 00:00:01,100
-Papa,2020/12/31 00:00:02,300
+Béa,2020/12/25 00:00:01,1000
+Papa,2020/12/27 00:00:00,-500
+JPS,2020/12/28 00:00:00,3000

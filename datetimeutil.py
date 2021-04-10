@@ -1,7 +1,6 @@
 import arrow
 import re
 
-
 class DateTimeUtil:
 	SECONDS_PER_DAY = 86400
 

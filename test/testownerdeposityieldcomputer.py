@@ -3591,7 +3591,7 @@ if __name__ == '__main__':
 		unittest.main()
 	else:
 		tst = TestOwnerDepositYieldComputer()
-		# tst.testComputeDepositsYieldsSeveralOwners()
+		tst.testComputeDepositsYieldsSeveralOwners()
 		# tst.testComputeDepositsYieldsLastDepositRowUniqueOwnerTwoDeposits()
 		# tst.testComputeDepositsYieldsMiddleDepositRowUniqueOwnerTwoDeposits()
 		# tst.testComputeDepositsYieldsFirstDepositRowUniqueOwnerThreeDeposits()

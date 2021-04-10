@@ -51,8 +51,8 @@ class PandasDataComputer:
 				dataFrame[colName] = [0.0 for i in range(dataFrame.shape[0])]
 			else:
 				dataFrame.insert(loc=position,
-				                 column=colName,
-				                 value=[0.0 for i in range(dataFrame.shape[0])])
+								 column=colName,
+								 value=[0.0 for i in range(dataFrame.shape[0])])
 	
 	def _appendEmptyColumns(self, dataFrame, newColNameLst):
 		"""
@@ -64,25 +64,35 @@ class PandasDataComputer:
 		for colName in newColNameLst:
 			dataFrame[colName] = ''
 	
-	def _determineDepositSheetSkipRows(self, csvSheetFilePathName, firstHeaderColumnName):
+	def _determineDepositSheetSkipRows(self, 
+									   csvSheetFilePathName, 
+									   firstHeaderColumnName,
+									   cryptoParmKey):
 		"""
 		Determines the number of comment lines above the column headers which must be
-		skipped.
+		skipped aswell as return the deposit csv file crypto, currently USDC, CHSB
+		or ETH.
 		
 		:param csvSheetFilePathName
 		:param firstHeaderColumnName
+		:param cryptoParmKey
+		
+		:return line to skip number, deppsit csv file crypto
 		"""
 		with open(csvSheetFilePathName, 'r') as f:
 			fileLines = f.readlines()
 			commentLinesNb = 0
+			crypto = None
 			
 			for line in fileLines:
 				if firstHeaderColumnName in line:
-					return commentLinesNb
+					return commentLinesNb, crypto
 				else:
 					commentLinesNb += 1
+				if cryptoParmKey in line:
+					crypto = line.rstrip('\n').replace(cryptoParmKey, '').upper()
 					
-		return commentLinesNb
+		return commentLinesNb, crypto
 	
 	def getDataframeStrWithFormattedColumns(self, dataFrame, colFormatDic):
 		"""

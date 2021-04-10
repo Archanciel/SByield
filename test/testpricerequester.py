@@ -29,7 +29,7 @@ class TestPriceRequester(unittest.TestCase):
 		resultData = ResultData()
 		resultData = self.priceRequester._getHistoDayPriceAtUTCTimeStamp(crypto,
 																		  unit,
-																		  utcArrowDateTimeObj_endOfDay.timestamp,
+																		  utcArrowDateTimeObj_endOfDay.int_timestamp,
 																		  exchange,
 																		  resultData)
 		self.assertEqual(1506729600, resultData.getValue(resultData.RESULT_KEY_PRICE_TIME_STAMP))
@@ -49,7 +49,7 @@ class TestPriceRequester(unittest.TestCase):
 		resultData = ResultData()
 		resultData = self.priceRequester._getHistoDayPriceAtUTCTimeStamp(crypto,
 																		  unit,
-																		  utcArrowDateTimeObj_midOfDay.timestamp,
+																		  utcArrowDateTimeObj_midOfDay.int_timestamp,
 																		  exchange,
 																		  resultData)
 		self.assertEqual(1506729600, resultData.getValue(resultData.RESULT_KEY_PRICE_TIME_STAMP))
@@ -150,9 +150,9 @@ class TestPriceRequester(unittest.TestCase):
 		# for histominute price,
 		resultData = self.priceRequester.getHistoricalPriceAtUTCTimeStamp(crypto,
 																		  unit,
-																		  timeStampLocalForHistoMinute=utcArrowDateTimeObj.timestamp,
+																		  timeStampLocalForHistoMinute=utcArrowDateTimeObj.int_timestamp,
 																		  localTz=None,
-																		  timeStampUTCNoHHMMForHistoDay=utcArrowDateTimeObj.timestamp,
+																		  timeStampUTCNoHHMMForHistoDay=utcArrowDateTimeObj.int_timestamp,
 																		  exchange=exchange)
 		self.assertEqual(resultData.getValue(resultData.RESULT_KEY_PRICE_TYPE), resultData.PRICE_TYPE_HISTO_MINUTE)
 		self.assertEqual(crypto, resultData.getValue(resultData.RESULT_KEY_CRYPTO))

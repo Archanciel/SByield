@@ -74,7 +74,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		Papa   -4,000.00 24,031.55  2021-01-04  2021-01-05          2 28.06286451     0.116775  23.737252
 		TOTAL  24,059.61       NaN         NaN         NaN            59.61424056          NaN        NaN
 		"""
-		depositDf, sbYieldRatesDf = self.sbYieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
+		depositDf, depositCrypto, sbYieldRatesDf = self.sbYieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
 
 		# sorting deposits by owner and by deposit date
 		ownerDateSortedDepositDf = depositDf.sort_values([DEPOSIT_SHEET_HEADER_OWNER, DEPOSIT_SHEET_HEADER_DATE], axis=0)

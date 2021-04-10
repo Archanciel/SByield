@@ -139,8 +139,13 @@ TOTAL                                          2.1'''
 		
 		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
 
-		depositDf = self.yieldRateComputer._loadDepositCsvFile()
-		self.assertEqual((5, 2), depositDf.shape)
+		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+
+		depositDf, depositCrypto = self.yieldRateComputer._loadDepositCsvFile()
+
+		if not PRINT:
+			self.assertEqual((5, 2), depositDf.shape)
+			self.assertEqual(expectedYieldCrypto, depositCrypto)
 
 		expectedStrDataframe = \
 '                    OWNER  DEP/WITHDR\n' + \
@@ -169,7 +174,20 @@ TOTAL                                          2.1'''
 		self.assertEqual(
 			'CSV file {} contains a deposit of 1000.0 for owner Béa with a deposit date 2020-12-25 00:00:00 which is identical to another deposit date. Change the date by increasing the time second by 1 and retry.'.format(
 				self.testDataPath + depositSheetFileName), e.exception.message)
-	
+
+	def test_loadDepositCsvFileWithoutCryptoDefinition(self):
+		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
+		depositSheetFileName = 'testDepositUsdc_1_noCryptoDefinition.csv'
+
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
+
+		with self.assertRaises(ValueError) as e:
+			self.yieldRateComputer._loadDepositCsvFile()
+
+		self.assertEqual(
+			'{} does not contain crypto currency definition. Add CRYPTO-crypto_symbol in the file before the CSV headers and retry.'.format(
+				self.testDataPath + depositSheetFileName), str(e.exception))
+
 	def test_loadDepositCsvFileWithInvalidTimeComponent(self):
 		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
 		depositSheetFileName = 'testDepositUsdc_1_invalidTimeComponent.csv'
@@ -204,14 +222,17 @@ TOTAL                                          2.1'''
 		
 		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
 
-		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
-		sbEarningsDf = self.yieldRateComputer._loadSBEarningSheet(yieldCrypto)
-		depositDf = self.yieldRateComputer._loadDepositCsvFile()
+		sbEarningsDf = self.yieldRateComputer._loadSBEarningSheet(expectedYieldCrypto)
+		depositDf, depositCrypto = self.yieldRateComputer._loadDepositCsvFile()
 		
 		mergedEarningDeposit = self.yieldRateComputer._mergeEarningAndDeposit(sbEarningsDf, depositDf)
-		self.assertEqual((14, 6), mergedEarningDeposit.shape)
-		
+
+		if not PRINT:
+			self.assertEqual((14, 6), mergedEarningDeposit.shape)
+			self.assertEqual(expectedYieldCrypto, depositCrypto)
+
 		expectedStrDataframe = \
 '                   DATE  DEP/WITHDR  EARNING CAP  EARNING  D YIELD RATE  Y YIELD RATE\n' + \
 'IDX                                                                                  ' + \
@@ -244,12 +265,15 @@ TOTAL                                          2.1'''
 		
 		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
 		
-		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
-		depositDataFrame, yieldRatesDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(yieldCrypto)
-		self.assertEqual((5, 2), depositDataFrame.shape)
-		self.assertEqual((9, 4), yieldRatesDataframe.shape)
-		
+		depositDataFrame, depositCrypto, yieldRatesDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(expectedYieldCrypto)
+
+		if not PRINT:
+			self.assertEqual((5, 2), depositDataFrame.shape)
+			self.assertEqual((9, 4), yieldRatesDataframe.shape)
+			self.assertEqual(expectedYieldCrypto, depositCrypto)
+
 		expectedDepositStrDataframe = \
 '                    OWNER  DEP/WITHDR\n' + \
 'DATE                                 ' + \
@@ -292,15 +316,16 @@ TOTAL                                          2.1'''
 		
 		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
 		
-		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		depositDataFrame, yieldRatesDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(
-			yieldCrypto)
+		depositDataFrame, depositCrypto, yieldRatesDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(
+			expectedYieldCrypto)
 		
 		if not PRINT:
 			self.assertEqual((2, 2), depositDataFrame.shape)
 			self.assertEqual((5, 4), yieldRatesDataframe.shape)
-		
+			self.assertEqual(expectedYieldCrypto, depositCrypto)
+
 		expectedDepositStrDataframe = \
 '           OWNER  DEP/WITHDR\n' + \
 'DATE                        ' + \
@@ -338,15 +363,16 @@ TOTAL                                          2.1'''
 		
 		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
 		
-		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		depositDataFrame, yieldRatesDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(
-			yieldCrypto)
+		depositDataFrame, depositCrypto, yieldRatesDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(
+			expectedYieldCrypto)
 
 		if not PRINT:
 			self.assertEqual((2, 2), depositDataFrame.shape)
 			self.assertEqual((5, 4), yieldRatesDataframe.shape)
-		
+			self.assertEqual(expectedYieldCrypto, depositCrypto)
+
 		expectedDepositStrDataframe = \
 '           OWNER  DEP/WITHDR\n' + \
 'DATE                        ' + \
@@ -384,15 +410,16 @@ TOTAL                                          2.1'''
 		
 		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
 		
-		yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 		
-		depositDataFrame, yieldRatesDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(
-			yieldCrypto)
+		depositDataFrame, depositCrypto, yieldRatesDataframe = self.yieldRateComputer.getDepositsAndDailyYieldRatesDataframes(
+			expectedYieldCrypto)
 		
 		if not PRINT:
 			self.assertEqual((2, 2), depositDataFrame.shape)
 			self.assertEqual((5, 4), yieldRatesDataframe.shape)
-		
+			self.assertEqual(expectedYieldCrypto, depositCrypto)
+
 		expectedDepositStrDataframe = \
 '           OWNER  DEP/WITHDR\n' + \
 'DATE                        ' + \
@@ -430,4 +457,4 @@ if __name__ == '__main__':
 #	tst.test_mergeEarningAndDeposit()
 #	tst.testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_2_deposit()
 #	tst.testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_1_deposit_1_partial_withdr()
-	tst.test_loadDepositCsvFileWithInvalidTimeComponent()
+	tst.test_mergeEarningAndDeposit()

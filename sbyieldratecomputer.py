@@ -29,7 +29,7 @@ SB_ACCOUNT_SHEET_UNUSED_COLUMNS_LIST = ['Time in UTC',
 
 # columns which can be later removed from the Swissborg account statement data frame
 SB_ACCOUNT_SHEET_NO_LONGER_USED_COLUMNS_LIST = [SB_ACCOUNT_SHEET_HEADER_TYPE,
-                                                SB_ACCOUNT_SHEET_HEADER_CURRENCY]
+												SB_ACCOUNT_SHEET_HEADER_CURRENCY]
 
 # two new columns to add to the Swissborg account statement sheet
 SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL = 'EARNING CAP'
@@ -40,6 +40,8 @@ SB_ACCOUNT_SHEET_CURRENCY_CHSB = 'CHSB'     # used to filter rows
 SB_ACCOUNT_SHEET_CURRENCY_ETH = 'ETH'       # used to filter rows
 
 # Deposit/Withdrawal sheet parameters
+DEPOSIT_SHEET_PARM_CRYPTO = 'CRYPTO-'
+
 DEPOSIT_SHEET_HEADER_DATE = 'DATE'
 DEPOSIT_SHEET_HEADER_OWNER = 'OWNER'
 
@@ -112,21 +114,29 @@ class SBYieldRateComputer(PandasDataComputer):
 		Creates a Pandas data frame from the Deposit/Withdrawal sheet.
 		
 		:param sbDepositSheetFilePathName:
-		:return:
+
+		:raise ValueError in case the deposit CSV file does not contain the
+			   crypto definition (CRYPTO-crypto_symbol)
+		:return: deposits data frame, deposit file defined crypto
 		"""
-		depositSheetSkipRows = self._determineDepositSheetSkipRows(self.depositSheetFilePathName,
-		                                                           DEPOSIT_SHEET_HEADER_OWNER)
+		depositSheetSkipRows, depositSheetCrypto = self._determineDepositSheetSkipRows(self.depositSheetFilePathName,
+																					   DEPOSIT_SHEET_HEADER_OWNER,
+																					   DEPOSIT_SHEET_PARM_CRYPTO)
+
+		if depositSheetCrypto is None:
+			raise ValueError('{} does not contain crypto currency definition. Add CRYPTO-crypto_symbol in the file before the CSV headers and retry.'.format(self.depositSheetFilePathName))
+			
 		depositsDf = pd.read_csv(self.depositSheetFilePathName,
-		                         skiprows=depositSheetSkipRows,
-		                         parse_dates=[DEPOSIT_SHEET_HEADER_DATE],
-		                         dtype={DATAFRAME_HEADER_DEPOSIT_WITHDRAW: np.float64})
+								 skiprows=depositSheetSkipRows,
+								 parse_dates=[DEPOSIT_SHEET_HEADER_DATE],
+								 dtype={DATAFRAME_HEADER_DEPOSIT_WITHDRAW: np.float64})
 		
 		self.ensureNoDatetimeDuplication(depositsDf)
 		self.ensureDepositTimeComponentValidity(depositsDf)
 		
 		depositsDf = depositsDf.set_index([DEPOSIT_SHEET_HEADER_DATE])
 		
-		return depositsDf
+		return depositsDf, depositSheetCrypto
 	
 	def ensureDepositTimeComponentValidity(self, depositsDf):
 		"""
@@ -156,10 +166,10 @@ class SBYieldRateComputer(PandasDataComputer):
 		
 		if badTimeIndex is not None:
 			raise InvalidDepositTimeError(self.depositSheetFilePathName,
-			                              depositsDf.loc[badTimeIndex, DEPOSIT_SHEET_HEADER_OWNER],
-			                              depositsDf.loc[badTimeIndex, DEPOSIT_SHEET_HEADER_DATE],
-			                              depositsDf.loc[badTimeIndex, DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
-			                              invalidTimeFormat)
+										  depositsDf.loc[badTimeIndex, DEPOSIT_SHEET_HEADER_OWNER],
+										  depositsDf.loc[badTimeIndex, DEPOSIT_SHEET_HEADER_DATE],
+										  depositsDf.loc[badTimeIndex, DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
+										  invalidTimeFormat)
 	
 	def ensureNoDatetimeDuplication(self, depositsDf):
 		"""
@@ -177,9 +187,9 @@ class SBYieldRateComputer(PandasDataComputer):
 		
 		if duplDatetimeIndex is not None:
 			raise DuplicateDepositDateTimeError(self.depositSheetFilePathName,
-			                                    depositsDf.loc[duplDatetimeIndex, DEPOSIT_SHEET_HEADER_OWNER],
-			                                    depositsDf.loc[duplDatetimeIndex, DEPOSIT_SHEET_HEADER_DATE],
-			                                    depositsDf.loc[duplDatetimeIndex, DATAFRAME_HEADER_DEPOSIT_WITHDRAW])
+												depositsDf.loc[duplDatetimeIndex, DEPOSIT_SHEET_HEADER_OWNER],
+												depositsDf.loc[duplDatetimeIndex, DEPOSIT_SHEET_HEADER_DATE],
+												depositsDf.loc[duplDatetimeIndex, DATAFRAME_HEADER_DEPOSIT_WITHDRAW])
 	
 	def _mergeEarningAndDeposit(self, earningDf, depositDf):
 		"""
@@ -191,7 +201,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		:param depositDf:
 		
 		:return example:
-		                   DATE  DEP/WITHDR  EARNING CAP  EARNINGS  DAILY YIELD RATE
+						   DATE  DEP/WITHDR  EARNING CAP  EARNINGS  DAILY YIELD RATE
 		IDX
 		1   2020-12-21 10:00:00      2000.0      2000.00      0.00          0.000000
 		2   2020-12-22 09:00:00         0.0      2000.00      0.80          1.000400
@@ -200,8 +210,8 @@ class SBYieldRateComputer(PandasDataComputer):
 		"""
 		# inserting 2 empty columns to the loaded Swissborg earning sheet
 		self._insertEmptyFloatColumns(earningDf,
-		                              0,
-		                              [SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL, DATAFRAME_HEADER_DEPOSIT_WITHDRAW])
+									  0,
+									  [SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL, DATAFRAME_HEADER_DEPOSIT_WITHDRAW])
 		
 		# drop no longer useful type and currency columns from the SB earning data frame
 		earningDf = earningDf.drop(columns=SB_ACCOUNT_SHEET_NO_LONGER_USED_COLUMNS_LIST)
@@ -223,8 +233,8 @@ class SBYieldRateComputer(PandasDataComputer):
 
 		# adding daily yield rate and yearly yield rate column
 		self._insertEmptyFloatColumns(mergedDf,
-		                              None,
-		                              [MERGED_SHEET_HEADER_DAILY_YIELD_RATE, MERGED_SHEET_HEADER_YEARLY_YIELD_RATE])
+									  None,
+									  [MERGED_SHEET_HEADER_DAILY_YIELD_RATE, MERGED_SHEET_HEADER_YEARLY_YIELD_RATE])
 
 		# computing the earning capital value as well as the daily yield rate
 		currentCapital = 0
@@ -234,8 +244,8 @@ class SBYieldRateComputer(PandasDataComputer):
 			if i > 1:
 				previousEarning = mergedDf.loc[i - 1, MERGED_SHEET_HEADER_EARNING]
 			currentCapital = currentCapital + \
-			                 mergedDf.loc[i, DATAFRAME_HEADER_DEPOSIT_WITHDRAW] + \
-			                 previousEarning
+							 mergedDf.loc[i, DATAFRAME_HEADER_DEPOSIT_WITHDRAW] + \
+							 previousEarning
 			mergedDf.loc[i, MERGED_SHEET_HEADER_EARNING_CAPITAL] = currentCapital
 			earning = mergedDf.loc[i, MERGED_SHEET_HEADER_EARNING]
 			
@@ -259,11 +269,12 @@ class SBYieldRateComputer(PandasDataComputer):
 		
 		:param yieldCrypto: currently, USDC, CHSB, ETH
 		
-		:return: loaded deposit data frame and computed yield rates data frame
+		:return: loaded deposit data frame, deposit file defined crypto and
+				 computed yield rates data frame
 
 		Loaded deposit data frame example
 		
-				                    OWNER  DEP/WITHDR
+									OWNER  DEP/WITHDR
 		DATE
 		2020-12-21 00:00:00   JPS      2000.0
 		2020-12-22 00:00:00   JPS       100.0
@@ -273,7 +284,7 @@ class SBYieldRateComputer(PandasDataComputer):
 
 		Computed yield rates data frame example
 		
-		            EARNINGS  D YIELD RATE  Y YIELD RATE
+					EARNINGS  D YIELD RATE  Y YIELD RATE
 		DATE
 		2020-12-22      2.40      1.000364      1.141911
 		2020-12-23      2.30      1.000348      1.135563
@@ -281,7 +292,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		2020-12-25      2.50      1.000378      1.148074
 		"""
 		sbEarningSheetDf = self._loadSBEarningSheet(yieldCrypto)
-		depositCsvDf = self._loadDepositCsvFile()
+		depositCsvDf, depositCrypto = self._loadDepositCsvFile()
 		
 		mergedEarningDepositDf = self._mergeEarningAndDeposit(sbEarningSheetDf, depositCsvDf)
 
@@ -305,7 +316,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		# set MERGED_SHEET_HEADER_DATE_NEW_NAME column as index
 		dailyYieldRatesDf = dailyYieldRatesDf.set_index(MERGED_SHEET_HEADER_DATE_NEW_NAME)
 
-		return depositCsvDf, dailyYieldRatesDf
+		return depositCsvDf, depositCrypto, dailyYieldRatesDf
 
 	def getSBEarningSheetTotalDf(self, yieldCrypto):
 		"""
@@ -317,7 +328,7 @@ class SBYieldRateComputer(PandasDataComputer):
 							
 		:return example:
 		
-				                         Type Currency  Net amount
+										 Type Currency  Net amount
 		Local time
 		2020-12-22 09:00:00  Earnings     USDC        2.40
 		2020-12-23 09:00:00  Earnings     USDC        2.30

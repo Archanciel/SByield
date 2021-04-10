@@ -48,6 +48,10 @@ including my first yield of 1. The fullfilment date is so on January 2nd,
 meaning it still generates yield on January 2nd and stops generating yields
 1 day later on January 3rd, which is the dep/withdr date.
 
+DATA
+
+CRYPTO-USDC
+
 OWNER,DATE,DEP/WITHDR
 JPS,2021/01/01 00:00:00,1000
 JPS,2021/01/03 00:00:00,-1001

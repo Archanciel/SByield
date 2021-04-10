@@ -42,6 +42,8 @@ Multi owners, some deposits on same day, 1 withdrawal on FIRST yield date.
 
 Data:
 
+CRYPTO-USDC
+
 OWNER,DATE,DEP/WITHDR
 JPS,2020/12/21 00:00:00,2000
 JPS,2020/12/22 00:00:00,100
