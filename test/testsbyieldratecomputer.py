@@ -141,7 +141,7 @@ TOTAL                                          2.1'''
 
 		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
-		depositDf, depositCrypto = self.yieldRateComputer._loadDepositCsvFile()
+		depositDf, depositCrypto, depositFiatOne, depositFiatTwo = self.yieldRateComputer._loadDepositCsvFile()
 
 		if not PRINT:
 			self.assertEqual((5, 2), depositDf.shape)
@@ -161,7 +161,42 @@ TOTAL                                          2.1'''
 			print(depositDf)
 		else:
 			self.assertEqual(expectedStrDataframe, depositDf.to_string())
-	
+
+	def test_loadDepositCsvFileWithFiatRate(self):
+		PRINT = False
+
+		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
+		depositSheetFileName = 'testDepositUsdc_fiat_rate.csv'
+
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
+
+		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+		expectedDepositFiatOne = DEPOSIT_FIAT_USD
+		expectedDepositFiatTwo = DEPOSIT_FIAT_CHF
+
+		depositDf, depositCrypto, depositFiatOne, depositFiatTwo = self.yieldRateComputer._loadDepositCsvFile()
+
+		if not PRINT:
+			self.assertEqual((5, 4), depositDf.shape)
+			self.assertEqual(expectedYieldCrypto, depositCrypto)
+			self.assertEqual(expectedDepositFiatOne, depositFiatOne)
+			self.assertEqual(expectedDepositFiatTwo, depositFiatTwo)
+
+		expectedStrDataframe = \
+'                    OWNER  DEP/WITHDR  FIAT RATE 1  FIAT RATE 2\n' + \
+'DATE                                                           ' + \
+'''
+2020-11-21 00:00:00   JPS      2000.0            1     0.890000
+2020-12-25 00:00:00  Papa      4000.0            1     0.880000
+2020-12-25 00:00:01   Béa      1000.0            1     0.902947
+2020-12-27 00:00:00  Papa      -500.0            1     0.900000
+2020-12-28 00:00:00   JPS      3000.0            1     0.910000'''
+
+		if PRINT:
+			print(depositDf)
+		else:
+			self.assertEqual(expectedStrDataframe, depositDf.to_string())
+
 	def test_loadDepositCsvFileWithDuplicateDatetime(self):
 		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
 		depositSheetFileName = 'testDepositUsdc_1_duplDatetime.csv'
@@ -225,7 +260,7 @@ TOTAL                                          2.1'''
 		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
 		sbEarningsDf = self.yieldRateComputer._loadSBEarningSheet(expectedYieldCrypto)
-		depositDf, depositCrypto = self.yieldRateComputer._loadDepositCsvFile()
+		depositDf, depositCrypto, depositFiatOne, depositFiatTwo = self.yieldRateComputer._loadDepositCsvFile()
 		
 		mergedEarningDeposit = self.yieldRateComputer._mergeEarningAndDeposit(sbEarningsDf, depositDf)
 
@@ -454,4 +489,4 @@ if __name__ == '__main__':
 #	tst.test_mergeEarningAndDeposit()
 #	tst.testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_2_deposit()
 #	tst.testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_1_deposit_1_partial_withdr()
-	tst.test_mergeEarningAndDeposit()
+	tst.test_loadDepositCsvFileWithFiatRate()

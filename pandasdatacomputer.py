@@ -67,7 +67,9 @@ class PandasDataComputer:
 	def _determineDepositSheetSkipRows(self, 
 									   csvSheetFilePathName, 
 									   firstHeaderColumnName,
-									   cryptoParmKey):
+									   cryptoParmKey,
+									   fiatOneParmKey,
+									   fiatTwoParmKey):
 		"""
 		Determines the number of comment lines above the column headers which must be
 		skipped aswell as return the deposit csv file crypto, currently USDC, CHSB
@@ -83,16 +85,22 @@ class PandasDataComputer:
 			fileLines = f.readlines()
 			commentLinesNb = 0
 			crypto = None
-			
+			depositFiatOne = None
+			depositFiatTwo = None
+
 			for line in fileLines:
 				if firstHeaderColumnName in line:
-					return commentLinesNb, crypto
+					return commentLinesNb, crypto, depositFiatOne, depositFiatTwo
 				else:
 					commentLinesNb += 1
 				if cryptoParmKey in line:
 					crypto = line.rstrip('\n').replace(cryptoParmKey, '').upper()
-					
-		return commentLinesNb, crypto
+				if fiatOneParmKey in line:
+					depositFiatOne = line.rstrip('\n').replace(fiatOneParmKey, '').upper()
+				if fiatTwoParmKey in line:
+					depositFiatTwo = line.rstrip('\n').replace(fiatTwoParmKey, '').upper()
+
+		return commentLinesNb, crypto, depositFiatOne, depositFiatTwo
 	
 	def getDataframeStrWithFormattedColumns(self, dataFrame, colFormatDic):
 		"""

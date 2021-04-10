@@ -41,6 +41,11 @@ SB_ACCOUNT_SHEET_CURRENCY_ETH = 'ETH'       # used to filter rows
 
 # Deposit/Withdrawal sheet parameters
 DEPOSIT_SHEET_PARM_CRYPTO = 'CRYPTO-'
+DEPOSIT_SHEET_PARM_FIAT_ONE = 'FIAT_ONE-'
+DEPOSIT_SHEET_PARM_FIAT_TWO = 'FIAT_TWO-'
+
+DEPOSIT_FIAT_USD = 'USD'
+DEPOSIT_FIAT_CHF = 'CHF'
 
 DEPOSIT_SHEET_HEADER_DATE = 'DATE'
 DEPOSIT_SHEET_HEADER_OWNER = 'OWNER'
@@ -119,9 +124,14 @@ class SBYieldRateComputer(PandasDataComputer):
 			   crypto definition (CRYPTO-crypto_symbol)
 		:return: deposits data frame, deposit file defined crypto
 		"""
-		depositSheetSkipRows, depositSheetCrypto = self._determineDepositSheetSkipRows(self.depositSheetFilePathName,
-																					   DEPOSIT_SHEET_HEADER_OWNER,
-																					   DEPOSIT_SHEET_PARM_CRYPTO)
+		depositSheetSkipRows, \
+		depositSheetCrypto, \
+		depositFiatOne, \
+		depositFiatTwo = self._determineDepositSheetSkipRows(self.depositSheetFilePathName,
+															 DEPOSIT_SHEET_HEADER_OWNER,
+															 DEPOSIT_SHEET_PARM_CRYPTO,
+															 DEPOSIT_SHEET_PARM_FIAT_ONE,
+															 DEPOSIT_SHEET_PARM_FIAT_TWO)
 
 		if depositSheetCrypto is None:
 			raise ValueError('{} does not contain crypto currency definition. Add CRYPTO-crypto_symbol in the file before the CSV headers and retry.'.format(self.depositSheetFilePathName))
@@ -136,7 +146,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		
 		depositsDf = depositsDf.set_index([DEPOSIT_SHEET_HEADER_DATE])
 		
-		return depositsDf, depositSheetCrypto
+		return depositsDf, depositSheetCrypto, depositFiatOne, depositFiatTwo
 	
 	def ensureDepositTimeComponentValidity(self, depositsDf):
 		"""
@@ -288,7 +298,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		2020-12-24      2.25      1.000341      1.132381
 		2020-12-25      2.50      1.000378      1.148074
 		"""
-		depositCsvDf, depositCrypto = self._loadDepositCsvFile()
+		depositCsvDf, depositCrypto, depositFiatOne, depositFiatTwo = self._loadDepositCsvFile()
 		sbEarningSheetDf = self._loadSBEarningSheet(depositCrypto)
 
 		mergedEarningDepositDf = self._mergeEarningAndDeposit(sbEarningSheetDf, depositCsvDf)
