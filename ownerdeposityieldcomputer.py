@@ -180,25 +180,6 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 						ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT] = yieldPercent
 						ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT] = yearlyYieldPercent
 				else:
-					# if i == maxIdxValue:
-					# 	# the case if the deposit csv file has only 1 line ...
-					# 	# setting yield date to as well as yield day number
-					# 	ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] = lastYieldPaymentDate
-					# 	dateToMinusDateFromTimeDelta = ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] - \
-					# 	                               currentRowDateFrom
-					# 	yieldDayNumber = dateToMinusDateFromTimeDelta.days + 1
-					# 	ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
-					# 	yieldAmount, yieldPercent, yearlyYieldPercent = self._computeCapitalYieldAmount(
-					# 		sbYieldRatesDf,
-					# 		currentRowCapital,
-					# 		currentRowDateFrom,
-					# 		lastYieldPaymentDate,
-					# 		yieldDayNumber)
-					# 	ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT] = yieldAmount
-					# 	ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT] = yieldPercent
-					# 	ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT] = yearlyYieldPercent
-					# else:
-					# handling the first deposit csv file line ...
 					ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] = lastYieldPaymentDate
 					dateToMinusDateFromTimeDelta = ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO] - \
 					                               currentRowDateFrom
