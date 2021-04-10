@@ -32,7 +32,7 @@ class Controller:
 		                      self.ownerDepositYieldComputer,
 							  PriceRequester())
 		
-		return processor.computeYield(yieldCrypto, fiat)
+		return processor.computeYield(fiat)
 
 if __name__ == '__main__':
 	formatDic = {SB_ACCOUNT_SHEET_CURRENCY_USDC: '.2f',
@@ -41,13 +41,17 @@ if __name__ == '__main__':
 
 	sbAccountSheetFileName = 'Swissborg_account_statement_20201218_20210408.xlsx'
 
-#	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 #	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
-	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_ETH
+#	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_ETH
 	fiat = 'CHF'
 	ctr = Controller()
-	sbYieldRatesWithTotalDf, yieldOwnerWithTotalsSummaryDf, yieldOwnerWithTotalsDetailDf = \
-		ctr.computeYield(sbAccountSheetFileName, yieldCrypto, fiat)
+	sbYieldRatesWithTotalDf, \
+	yieldOwnerWithTotalsSummaryDf, \
+	yieldOwnerWithTotalsDetailDf, \
+	fiatYieldOwnerWithTotalsDetailDf = ctr.computeYield(sbAccountSheetFileName,
+														yieldCrypto,
+														fiat)
 	
 	sbYieldRatesWithTotalDfStr = ctr.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 		sbYieldRatesWithTotalDf,
@@ -75,6 +79,16 @@ if __name__ == '__main__':
 
 	print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 	print(yieldOwnerWithTotalsDetailDfStr)
+
+	fiatYieldOwnerWithTotalsDetailDfStr = ctr.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+		fiatYieldOwnerWithTotalsDetailDf,
+		{
+			DATAFRAME_HEADER_DEPOSIT_WITHDRAW: formatDic[yieldCrypto],
+			DEPOSIT_YIELD_HEADER_CAPITAL: formatDic[yieldCrypto],
+			DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+
+	print('\nOwner fiat detailed deposit/withdrawal yield totals ...')
+	print(fiatYieldOwnerWithTotalsDetailDfStr)
 
 	
 	
