@@ -1,0 +1,11 @@
+Explanations:
+
+Data:
+
+CRYPTO,UNIT,EXCHANGE
+USDC,USD,1
+CHSB,BTC,HitBTC
+BTC,USD,Kraken
+BTC,CHF,Kraken
+ETH,USD,Kraken
+ETH,CHF,Kraken
