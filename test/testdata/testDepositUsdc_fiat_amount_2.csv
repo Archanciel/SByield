@@ -39,7 +39,7 @@ Explanations:
 4/ Adding deposit/withdrawal fiat converted columns must respect the FIAT AMT
    col name format. Ex: USD AMT, CHF AMT, EUR AMT. Otherwise, the app will not
    convert the yields into the desired conversion fiats.
-   
+
 Test case info:
 
 Multi owners, some deposits on same day, 1 withdrawal. Owner with 1 deposit at FIRST

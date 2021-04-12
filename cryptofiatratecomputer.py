@@ -16,22 +16,13 @@ class CryptoFiatRateComputer(PandasDataComputer):
 	
 	def _loadCryptoFiatCsvFile(self):
 		"""
-		Creates a Pandas data frame from the Deposit/Withdrawal sheet.
-		
-		:param sbDepositSheetFilePathName:
+		Creates a Pandas data frame from the crypto fiat exchange csv file.
 
-		:raise ValueError in case the deposit CSV file does not contain the
-			   crypto definition (CRYPTO-crypto_symbol)
-		:return: deposits data frame, deposit file defined crypto
+		:return: crypto fiat data frame
 		"""
 		cryptoFiatSheetSkipRows, \
-		_, \
-		_, \
 		_ = self._determineDepositSheetSkipRowsAndCrypto(self.cryptoFiatCsvFilePathName,
-															 'CRYPTO',
-															 'not used',
-															 'not used',
-															 'not used')
+															 'CRYPTO')
 
 		cryptoFiatDf = pd.read_csv(self.cryptoFiatCsvFilePathName,
 								 skiprows=cryptoFiatSheetSkipRows)

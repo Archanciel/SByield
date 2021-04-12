@@ -69,7 +69,7 @@ class PandasDataComputer:
 	def _determineDepositSheetSkipRowsAndCrypto(self,
 												csvSheetFilePathName,
 												firstHeaderColumnName,
-												cryptoParmKey):
+												cryptoParmKey = None):
 		"""
 		Determines the number of comment lines above the column headers which must be
 		skipped as well as return the deposit csv file crypto, currently USDC, CHSB
@@ -91,7 +91,7 @@ class PandasDataComputer:
 					return commentLinesNb, crypto
 				else:
 					commentLinesNb += 1
-				if cryptoParmKey in line:
+				if cryptoParmKey is not None and cryptoParmKey in line:
 					crypto = line.rstrip('\n').replace(cryptoParmKey, '').upper()
 
 		return commentLinesNb, crypto

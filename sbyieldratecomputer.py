@@ -114,12 +114,17 @@ class SBYieldRateComputer(PandasDataComputer):
 	
 	def _loadDepositCsvFile(self, ):
 		"""
-		Creates a Pandas data frame from the Deposit/Withdrawal sheet.
-		
-		:param sbDepositSheetFilePathName:
+		Creates a Pandas data frame from the Deposit/Withdrawal CSV file.
 
-		:raise ValueError in case the deposit CSV file does not contain the
-			   crypto definition (CRYPTO-crypto_symbol)
+		:raise DuplicateDepositDateTimeError in case a duplicated deposit/
+			   withdrawal date time is detected in the CSV file.
+
+			   InvalidDepositTimeError in case a deposit/withdrawal date time
+			   component not respecting the hh:mm:ss format is detected in the
+			   CSV file.
+
+			   ValueError in case the deposit CSV file does not contain the
+			   crypto definition (CRYPTO-crypto_symbol).
 
 		:return: deposits data frame, deposit file defined crypto, list of conversion fiats
 		"""
