@@ -5,6 +5,8 @@ DATAFRAME_HEADER_GRAND_TOTAL = 'G TOTAL'
 DATAFRAME_HEADER_DEPOSIT_WITHDRAW = 'DEP/WITHDR'
 DATAFRAME_HEADER_INDEX = 'IDX'
 
+DEPOSIT_SHEET_PARM_FIAT = 'FIAT_'
+
 
 class PandasDataComputer:
 	"""
@@ -64,43 +66,35 @@ class PandasDataComputer:
 		for colName in newColNameLst:
 			dataFrame[colName] = ''
 	
-	def _determineDepositSheetSkipRows(self, 
-									   csvSheetFilePathName, 
-									   firstHeaderColumnName,
-									   cryptoParmKey,
-									   fiatOneParmKey,
-									   fiatTwoParmKey):
+	def _determineDepositSheetSkipRowsAndCrypto(self,
+												csvSheetFilePathName,
+												firstHeaderColumnName,
+												cryptoParmKey):
 		"""
 		Determines the number of comment lines above the column headers which must be
-		skipped aswell as return the deposit csv file crypto, currently USDC, CHSB
+		skipped as well as return the deposit csv file crypto, currently USDC, CHSB
 		or ETH.
 		
 		:param csvSheetFilePathName
 		:param firstHeaderColumnName
 		:param cryptoParmKey
 		
-		:return line to skip number, deppsit csv file crypto
+		:return line to skip number, deposit csv file crypto
 		"""
 		with open(csvSheetFilePathName, 'r') as f:
 			fileLines = f.readlines()
 			commentLinesNb = 0
 			crypto = None
-			depositFiatOne = None
-			depositFiatTwo = None
 
 			for line in fileLines:
 				if firstHeaderColumnName in line:
-					return commentLinesNb, crypto, depositFiatOne, depositFiatTwo
+					return commentLinesNb, crypto
 				else:
 					commentLinesNb += 1
 				if cryptoParmKey in line:
 					crypto = line.rstrip('\n').replace(cryptoParmKey, '').upper()
-				if fiatOneParmKey in line:
-					depositFiatOne = line.rstrip('\n').replace(fiatOneParmKey, '').upper()
-				if fiatTwoParmKey in line:
-					depositFiatTwo = line.rstrip('\n').replace(fiatTwoParmKey, '').upper()
 
-		return commentLinesNb, crypto, depositFiatOne, depositFiatTwo
+		return commentLinesNb, crypto
 	
 	def getDataframeStrWithFormattedColumns(self, dataFrame, colFormatDic):
 		"""

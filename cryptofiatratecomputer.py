@@ -9,8 +9,7 @@ class CryptoFiatRateComputer(PandasDataComputer):
 		"""
 		Currently, the configMgr is not used. Constants are used in place.
 		
-		:param sbAccountSheetFilePathName:
-		:param depositSheetFilePathName:
+		:param cryptoFiatCsvFilePathName:
 		"""
 		super().__init__()
 		self.cryptoFiatCsvFilePathName = cryptoFiatCsvFilePathName
@@ -28,7 +27,7 @@ class CryptoFiatRateComputer(PandasDataComputer):
 		cryptoFiatSheetSkipRows, \
 		_, \
 		_, \
-		_ = self._determineDepositSheetSkipRows(self.cryptoFiatCsvFilePathName,
+		_ = self._determineDepositSheetSkipRowsAndCrypto(self.cryptoFiatCsvFilePathName,
 															 'CRYPTO',
 															 'not used',
 															 'not used',

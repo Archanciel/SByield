@@ -1,5 +1,5 @@
 import unittest
-import os,sys,inspect
+import os, sys, inspect
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
@@ -35,7 +35,6 @@ class TestSBYieldRateComputer(unittest.TestCase):
 
 		sbEarningsDf = self.yieldRateComputer._loadSBEarningSheet(yieldCrypto)
 		self.assertEqual((9, 3), sbEarningsDf.shape)
-		#expectedStrDataframe = sbEarningsDf.to_string()
 		expectedStrDataframe = \
 '                         Type Currency  Net amount\n' + \
 'Local time                                        ' + \
@@ -131,7 +130,12 @@ TOTAL                                          2.1'''
 		else:
 			self.assertEqual(expectedStrDataframe, sbEarningsTotals.to_string())
 
-	def test_loadDepositCsvFile(self):
+	def test_loadDepositCsvFileWithFiatColumns_0(self):
+		'''
+		Test loading a deposit csv file in which the deposit withdrawal are
+		defined with the addition of two corresponding converted fiat amount
+		columns.
+		'''
 		PRINT = False
 		
 		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
@@ -141,7 +145,7 @@ TOTAL                                          2.1'''
 
 		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
-		depositDf, depositCrypto, depositFiatOne, depositFiatTwo = self.yieldRateComputer._loadDepositCsvFile()
+		depositDf, depositCrypto, depositFiatLst = self.yieldRateComputer._loadDepositCsvFile()
 
 		if not PRINT:
 			self.assertEqual((5, 2), depositDf.shape)
@@ -156,17 +160,26 @@ TOTAL                                          2.1'''
 2020-12-25 00:00:01   Béa      1000.0
 2020-12-27 00:00:00  Papa      -500.0
 2020-12-28 00:00:00   JPS      3000.0'''
-		
+
+		expectedFiatLst = []
+
 		if PRINT:
+			print(depositFiatLst)
 			print(depositDf)
 		else:
+			self.assertEqual(expectedFiatLst, depositFiatLst)
 			self.assertEqual(expectedStrDataframe, depositDf.to_string())
 
-	def test_loadDepositCsvFileWithFiatRate(self):
+	def test_loadDepositCsvFileWithFiatColumns_2(self):
+		'''
+		Test loading a deposit csv file in which the deposit withdrawal are
+		defined with the addition of two corresponding converted fiat amount
+		columns.
+		'''
 		PRINT = False
 
 		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
-		depositSheetFileName = 'testDepositUsdc_fiat_rate.csv'
+		depositSheetFileName = 'testDepositUsdc_fiat_amount_2.csv'
 
 		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
 
@@ -174,27 +187,30 @@ TOTAL                                          2.1'''
 		expectedDepositFiatOne = DEPOSIT_FIAT_USD
 		expectedDepositFiatTwo = DEPOSIT_FIAT_CHF
 
-		depositDf, depositCrypto, depositFiatOne, depositFiatTwo = self.yieldRateComputer._loadDepositCsvFile()
+		depositDf, depositCrypto, depositFiatLst = self.yieldRateComputer._loadDepositCsvFile()
 
 		if not PRINT:
 			self.assertEqual((5, 4), depositDf.shape)
 			self.assertEqual(expectedYieldCrypto, depositCrypto)
-			self.assertEqual(expectedDepositFiatOne, depositFiatOne)
-			self.assertEqual(expectedDepositFiatTwo, depositFiatTwo)
+			self.assertEqual(expectedDepositFiatOne, depositFiatLst[0])
+			self.assertEqual(expectedDepositFiatTwo, depositFiatLst[1])
 
 		expectedStrDataframe = \
-'                    OWNER  DEP/WITHDR  FIAT RATE 1  FIAT RATE 2\n' + \
-'DATE                                                           ' + \
+'                    OWNER  DEP/WITHDR  USD AMT  CHF AMT\n' + \
+'DATE                                                   ' + \
 '''
-2020-11-21 00:00:00   JPS      2000.0            1     0.890000
-2020-12-25 00:00:00  Papa      4000.0            1     0.880000
-2020-12-25 00:00:01   Béa      1000.0            1     0.902947
-2020-12-27 00:00:00  Papa      -500.0            1     0.900000
-2020-12-28 00:00:00   JPS      3000.0            1     0.910000'''
+2020-11-21 00:00:00   JPS      2000.0   2000.0  1780.00
+2020-12-25 00:00:00  Papa      4000.0   4000.0  3520.00
+2020-12-25 00:00:01   Béa      1000.0   1000.0   902.95
+2020-12-27 00:00:00  Papa      -500.0   -500.0  -450.00
+2020-12-28 00:00:00   JPS      3000.0   3000.0  2730.00'''
+		expectedFiatLst = ['USD', 'CHF']
 
 		if PRINT:
+			print(depositFiatLst)
 			print(depositDf)
 		else:
+			self.assertEqual(expectedFiatLst, depositFiatLst)
 			self.assertEqual(expectedStrDataframe, depositDf.to_string())
 
 	def test_loadDepositCsvFileWithDuplicateDatetime(self):
@@ -207,7 +223,7 @@ TOTAL                                          2.1'''
 			self.yieldRateComputer._loadDepositCsvFile()
 		
 		self.assertEqual(
-			'CSV file {} contains a deposit of 1000.0 for owner Béa with a deposit date 2020-12-25 00:00:00 which is identical to another deposit date. Change the date by increasing the time second by 1 and retry.'.format(
+			'CSV file {} contains a deposit of 1000 for owner Béa with a deposit date 2020-12-25 00:00:00 which is identical to another deposit date. Change the date by increasing the time second by 1 and retry.'.format(
 				self.testDataPath + depositSheetFileName), e.exception.message)
 
 	def test_loadDepositCsvFileWithoutCryptoDefinition(self):
@@ -233,7 +249,7 @@ TOTAL                                          2.1'''
 			self.yieldRateComputer._loadDepositCsvFile()
 		
 		self.assertEqual(
-			'CSV file {} contains a deposit of 1000.0 for owner Béa with a deposit date 2020/12/25 00:00: whose time component is invalid. Correct the time component and retry.'.format(
+			'CSV file {} contains a deposit of 1000 for owner Béa with a deposit date 2020/12/25 00:00: whose time component is invalid. Correct the time component and retry.'.format(
 				self.testDataPath + depositSheetFileName), e.exception.message)
 	
 	def test_loadDepositCsvFileWithTimeComponentAfterNineOClock(self):
@@ -246,7 +262,7 @@ TOTAL                                          2.1'''
 			self.yieldRateComputer._loadDepositCsvFile()
 		
 		self.assertEqual(
-			'CSV file {} contains a deposit of 1000.0 for owner Béa with a deposit date 2020-12-25 10:00:00 whose time component is later than the 09:00:00 Swissborg yield payment time. Set the time to a value before 09:00:00 and retry.'.format(
+			'CSV file {} contains a deposit of 1000 for owner Béa with a deposit date 2020-12-25 10:00:00 whose time component is later than the 09:00:00 Swissborg yield payment time. Set the time to a value before 09:00:00 and retry.'.format(
 				self.testDataPath + depositSheetFileName), e.exception.message)
 	
 	def test_mergeEarningAndDeposit(self):
@@ -260,7 +276,7 @@ TOTAL                                          2.1'''
 		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
 		sbEarningsDf = self.yieldRateComputer._loadSBEarningSheet(expectedYieldCrypto)
-		depositDf, depositCrypto, depositFiatOne, depositFiatTwo = self.yieldRateComputer._loadDepositCsvFile()
+		depositDf, depositCrypto, depositFiatLst = self.yieldRateComputer._loadDepositCsvFile()
 		
 		mergedEarningDeposit = self.yieldRateComputer._mergeEarningAndDeposit(sbEarningsDf, depositDf)
 
@@ -489,4 +505,4 @@ if __name__ == '__main__':
 #	tst.test_mergeEarningAndDeposit()
 #	tst.testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_2_deposit()
 #	tst.testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_1_deposit_1_partial_withdr()
-	tst.test_loadDepositCsvFileWithFiatRate()
+	tst.test_loadDepositCsvFileWithFiatColumns_2()

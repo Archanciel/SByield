@@ -41,8 +41,6 @@ SB_ACCOUNT_SHEET_CURRENCY_ETH = 'ETH'       # used to filter rows
 
 # Deposit/Withdrawal sheet parameters
 DEPOSIT_SHEET_PARM_CRYPTO = 'CRYPTO-'
-DEPOSIT_SHEET_PARM_FIAT_ONE = 'FIAT_ONE-'
-DEPOSIT_SHEET_PARM_FIAT_TWO = 'FIAT_TWO-'
 
 DEPOSIT_FIAT_USD = 'USD'
 DEPOSIT_FIAT_CHF = 'CHF'
@@ -114,7 +112,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		
 		return sbEarningsDf
 	
-	def _loadDepositCsvFile(self):
+	def _loadDepositCsvFile(self, ):
 		"""
 		Creates a Pandas data frame from the Deposit/Withdrawal sheet.
 		
@@ -122,31 +120,38 @@ class SBYieldRateComputer(PandasDataComputer):
 
 		:raise ValueError in case the deposit CSV file does not contain the
 			   crypto definition (CRYPTO-crypto_symbol)
-		:return: deposits data frame, deposit file defined crypto
+
+		:return: deposits data frame, deposit file defined crypto, list of conversion fiats
 		"""
 		depositSheetSkipRows, \
-		depositSheetCrypto, \
-		depositFiatOne, \
-		depositFiatTwo = self._determineDepositSheetSkipRows(self.depositSheetFilePathName,
-															 DEPOSIT_SHEET_HEADER_OWNER,
-															 DEPOSIT_SHEET_PARM_CRYPTO,
-															 DEPOSIT_SHEET_PARM_FIAT_ONE,
-															 DEPOSIT_SHEET_PARM_FIAT_TWO)
+		depositSheetCrypto = self._determineDepositSheetSkipRowsAndCrypto(self.depositSheetFilePathName,
+																		  DEPOSIT_SHEET_HEADER_OWNER,
+																		  DEPOSIT_SHEET_PARM_CRYPTO)
 
 		if depositSheetCrypto is None:
 			raise ValueError('{} does not contain crypto currency definition. Add CRYPTO-crypto_symbol in the file before the CSV headers and retry.'.format(self.depositSheetFilePathName))
-			
+
 		depositsDf = pd.read_csv(self.depositSheetFilePathName,
 								 skiprows=depositSheetSkipRows,
-								 parse_dates=[DEPOSIT_SHEET_HEADER_DATE],
-								 dtype={DATAFRAME_HEADER_DEPOSIT_WITHDRAW: np.float64})
+								 parse_dates=[DEPOSIT_SHEET_HEADER_DATE])
 		
 		self.ensureNoDatetimeDuplication(depositsDf)
 		self.ensureDepositTimeComponentValidity(depositsDf)
-		
+
+		depositConversionFiatLst = []
+		depositColTypeDic = {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: 'float64'}
+
+		for columnName in depositsDf.columns:
+			if ' AMT' in columnName:
+				depositConversionFiatLst.append(columnName.replace(' AMT', ''))
+				depositColTypeDic[columnName] = 'float64'
+
+		# forcing crypto or fiat col type as float64
+		depositsDf = depositsDf.astype(depositColTypeDic)
+
 		depositsDf = depositsDf.set_index([DEPOSIT_SHEET_HEADER_DATE])
 		
-		return depositsDf, depositSheetCrypto, depositFiatOne, depositFiatTwo
+		return depositsDf, depositSheetCrypto, depositConversionFiatLst
 	
 	def ensureDepositTimeComponentValidity(self, depositsDf):
 		"""
@@ -298,7 +303,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		2020-12-24      2.25      1.000341      1.132381
 		2020-12-25      2.50      1.000378      1.148074
 		"""
-		depositCsvDf, depositCrypto, depositFiatOne, depositFiatTwo = self._loadDepositCsvFile()
+		depositCsvDf, depositCrypto, depositFiatLst = self._loadDepositCsvFile()
 		sbEarningSheetDf = self._loadSBEarningSheet(depositCrypto)
 
 		mergedEarningDepositDf = self._mergeEarningAndDeposit(sbEarningSheetDf, depositCsvDf)

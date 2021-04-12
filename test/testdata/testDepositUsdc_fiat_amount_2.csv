@@ -36,21 +36,25 @@ Explanations:
    Béa,2021/02/23 00:00:01,4000
    Papa,2020/02/23 00:00:02,-500
 
+4/ Adding deposit/withdrawal fiat converted columns must respect the FIAT AMT
+   col name format. Ex: USD AMT, CHF AMT, EUR AMT. Otherwise, the app will not
+   convert the yields into the desired conversion fiats.
+   
 Test case info:
 
 Multi owners, some deposits on same day, 1 withdrawal. Owner with 1 deposit at FIRST
 position alphabetically. One owner with ONE deposit BEFORE first yield date of
 2020/12/22.
 
+Two converted deposit/withdrawal amount columns, one for USD, the other for CHF
+
 Data:
 
 CRYPTO-USDC
-FIAT_ONE-USD
-FIAT_TWO-CHF
 
-OWNER,DATE,DEP/WITHDR,FIAT RATE 1,FIAT RATE 2
-JPS,2020/11/21 00:00:00,2000,1,0.89
-Papa,2020/12/25 00:00:00,4000,1,0.88
-Béa,2020/12/25 00:00:01,1000,1,0.90294677
-Papa,2020/12/27 00:00:00,-500,1,0.9
-JPS,2020/12/28 00:00:00,3000,1,0.91
+OWNER,DATE,DEP/WITHDR,USD AMT,CHF AMT
+JPS,2020/11/21 00:00:00,2000,2000,1780
+Papa,2020/12/25 00:00:00,4000,4000,3520
+Béa,2020/12/25 00:00:01,1000,1000,902.95
+Papa,2020/12/27 00:00:00,-500,-500,-450
+JPS,2020/12/28 00:00:00,3000,3000,2730
