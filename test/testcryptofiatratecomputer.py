@@ -161,6 +161,8 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 			'{}/{} pair not supported. Add adequate information to {} and retry.'.format(crypto, fiat, self.cryptoFiatRateComputer.cryptoFiatCsvFilePathName), e.exception.message)
 
 if __name__ == '__main__':
-	#unittest.main()
-	tst = TestCryptoFiatRateComputer()
-	tst.test_getIntermediateExchangeRateRequestsUnsupportedCryptoFiatPair_()
+	if os.name == 'posix':
+		unittest.main()
+	else:	
+		tst = TestCryptoFiatRateComputer()
+		tst.testComputeCryptoFiatCurrentRate_unsupported_cryptoFiatPair()
