@@ -29,6 +29,23 @@ class CryptoFiatRateComputer(PandasDataComputer):
 		
 		return cryptoFiatDf
 
+	def _getIntermediateExchangeRateRequests(self, crypto, fiat):
+		cryptoFiatDf = self._loadCryptoFiatCsvFile()
+
+		intermediateExchangeRateRequestLst = []
+
+		unitFiatDf = cryptoFiatDf.loc[cryptoFiatDf['UNIT'] == fiat]
+
+		for index, row in unitFiatDf.iterrows():
+			cryptoUnitDf = cryptoFiatDf.loc[(cryptoFiatDf['CRYPTO'] == crypto) & (cryptoFiatDf['UNIT'] == row['CRYPTO'])]
+			if not cryptoUnitDf.empty:
+				unitFiatDf = unitFiatDf.loc[(unitFiatDf['CRYPTO'] == cryptoUnitDf['UNIT'].values[0])]
+				intermediateExchangeRateRequestLst.append(
+					[cryptoUnitDf.iloc[0]['CRYPTO'], cryptoUnitDf.iloc[0]['UNIT'], cryptoUnitDf.iloc[0]['EXCHANGE']])
+				intermediateExchangeRateRequestLst.append([unitFiatDf.iloc[0]['CRYPTO'], unitFiatDf.iloc[0]['UNIT'], unitFiatDf.iloc[0]['EXCHANGE']])
+
+		return intermediateExchangeRateRequestLst
+
 
 if __name__ == "__main__":
 	cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
@@ -44,3 +61,23 @@ if __name__ == "__main__":
 	cryptoFiatDf = cfc._loadCryptoFiatCsvFile()
 	
 	print(cryptoFiatDf)
+
+	crypto = 'CHSB'
+	fiat = 'CHF'
+
+
+	unitFiatDf = cryptoFiatDf.loc[cryptoFiatDf['UNIT'] == fiat]
+	print('Available unitFiatDf')
+	print(unitFiatDf)
+
+	for index, row in unitFiatDf.iterrows():
+		cryptoUnitDf = cryptoFiatDf.loc[(cryptoFiatDf['CRYPTO'] == crypto) & (cryptoFiatDf['UNIT'] == row['CRYPTO'])]
+		if not cryptoUnitDf.empty:
+			print('cryptoUnitDf')
+			print(cryptoUnitDf)
+			unitFiatDf = unitFiatDf.loc[(unitFiatDf['CRYPTO'] == cryptoUnitDf.iloc[0]['UNIT'])]
+			print('Final unitFiatDf')
+			print(unitFiatDf)
+
+	lst = cfc._getIntermediateExchangeRateRequests(crypto, fiat)
+	print(lst)
