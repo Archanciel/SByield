@@ -36,6 +36,10 @@ Explanations:
    Béa,2021/02/23 00:00:01,4000
    Papa,2020/02/23 00:00:02,-500
 
+4/ Adding deposit/withdrawal fiat converted columns must respect the FIAT AMT
+   col name format. Ex: USD AMT, CHF AMT, EUR AMT. Otherwise, the app will not
+   convert the yields into the desired conversion fiats.
+
 Data:
 
 CRYPTO-CHSB
