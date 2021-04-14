@@ -2,7 +2,7 @@ import os
 
 from processor import Processor
 from ownerdeposityieldcomputer import *
-from pricerequester import PriceRequester
+from cryptofiatratecomputer import CryptoFiatRateComputer
 
 class Controller:
 	def computeYield(self, sbAccountSheetFileName, yieldCrypto, fiat):
@@ -30,9 +30,9 @@ class Controller:
 		
 		processor = Processor(sbYieldRateComputer,
 		                      self.ownerDepositYieldComputer,
-							  PriceRequester())
+							  CryptoFiatRateComputer())
 		
-		return processor.computeYield(fiat)
+		return processor.addFiatConversionInfo(fiat)
 
 if __name__ == '__main__':
 	formatDic = {SB_ACCOUNT_SHEET_CURRENCY_USDC: '.2f',

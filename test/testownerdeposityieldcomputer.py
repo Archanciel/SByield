@@ -45,7 +45,7 @@ class TestOwnerDepositYieldComputer(unittest.TestCase):
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -170,7 +170,7 @@ G TOTAL   9,519.56                                             19.56000000      
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -263,7 +263,7 @@ G TOTAL   9,519.56                                             19.56000000      
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -359,7 +359,7 @@ G TOTAL   9,519.56                                             19.56000000      
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -454,7 +454,7 @@ G TOTAL   9,919.56                                             19.56000000      
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -554,7 +554,7 @@ G TOTAL  10,469.56                                             19.56000000      
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -651,7 +651,7 @@ G TOTAL   9,919.56                                             19.56000000      
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -753,7 +753,7 @@ G TOTAL  11,219.56                                             19.56000000      
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -855,7 +855,7 @@ G TOTAL  11,219.56                                             19.56000000      
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -960,7 +960,7 @@ G TOTAL  12,219.56                                             19.56000000      
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -1057,7 +1057,7 @@ G TOTAL   9,919.56                                             19.56000000      
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -1155,7 +1155,7 @@ G TOTAL   9,919.56                                             19.56000000      
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -1284,7 +1284,7 @@ G TOTAL   9,919.56                                             19.56000000      
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -1413,7 +1413,7 @@ G TOTAL   9,919.56                                             19.56000000      
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -1666,7 +1666,7 @@ G TOTAL   9,919.56                                             19.56000000      
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -1792,7 +1792,7 @@ G TOTAL   9,919.56                                             19.56000000      
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(sbEarningsTotalDf,
 		                                                                                        {
@@ -1873,7 +1873,7 @@ G TOTAL  19,659.08                                              87.39209000     
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -1993,7 +1993,7 @@ G TOTAL  19,659.08                                              87.39209000     
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -2114,7 +2114,7 @@ G TOTAL  19,658.01                                              86.32182439     
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -2243,7 +2243,7 @@ G TOTAL  10,925.21                                             25.21000000      
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -2322,7 +2322,7 @@ G TOTAL  19,617.47                                              45.77968601     
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -2400,7 +2400,7 @@ G TOTAL  19,617.47                                              45.77968601     
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -2556,7 +2556,7 @@ G TOTAL  10,004.11                                              4.10938248077946
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -2635,7 +2635,7 @@ G TOTAL  24,635.11                                              63.4244074094822
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -2745,7 +2745,7 @@ G TOTAL  40,061.61                                              61.6057008315565
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -2852,7 +2852,7 @@ G TOTAL  10,039.78                                              39.78003617     
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -2957,7 +2957,7 @@ G TOTAL      16.31                                                          31.3
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -3067,7 +3067,7 @@ G TOTAL  10,045.01718234                                                    45.0
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -3181,7 +3181,7 @@ G TOTAL      10.00312496                                                        
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -3287,7 +3287,7 @@ G TOTAL      1.00200100                                                         
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -3393,7 +3393,7 @@ G TOTAL  30,081.84                                              81.84117609     
 
 		print(depositSheetFileName)
 
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -3506,7 +3506,7 @@ G TOTAL  36,110.25                                              110.25262326    
 		
 		print(depositSheetFileName)
 		
-		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(SB_ACCOUNT_SHEET_CURRENCY_USDC)
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 		
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbEarningsTotalDf,
@@ -3603,13 +3603,252 @@ G TOTAL  48,110.25                                              110.25262326    
 		else:
 			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
 
+	def testAndAnalyseComputeDepositsYields_CHSB_2_owner_multi_deposit_2_fiat(self):
+		"""
+		TWO owners with several deposits/withdrawals.
+		"""
+		PRINT = True
+
+		sbAccountSheetFileName = 'testSwissborg_account_statement_20201218_20210408.xlsx'
+		depositSheetFileName = 'testDepositChsb_fiat_usd_chf.csv'
+
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
+
+		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
+
+		sbYieldRatesWithTotalDf, yieldOwnerWithTotalsSummaryDf, yieldOwnerWithTotalsDetailDf, depositCrypto = \
+			self.ownerDepositYieldComputer.computeDepositsYields()
+
+		print(depositSheetFileName)
+
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
+
+		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			sbEarningsTotalDf,
+			{
+				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
+		sbEarningsTotalDfExpectedStr = \
+'                         Type Currency   Net amount\n' + \
+'Local time                                         ' + \
+'''
+2021-01-30 09:00:00  Earnings     CHSB   3.77500000
+2021-01-31 09:00:00  Earnings     CHSB   3.10400000
+2021-02-01 09:00:00  Earnings     CHSB   2.99900000
+2021-02-02 09:00:00  Earnings     CHSB   2.95700000
+2021-02-03 09:00:00  Earnings     CHSB   2.89400000
+2021-02-04 09:00:00  Earnings     CHSB   3.64200000
+2021-02-05 09:00:00  Earnings     CHSB   3.68000000
+2021-02-06 09:00:00  Earnings     CHSB   3.68000000
+2021-02-07 09:00:00  Earnings     CHSB   3.61300000
+2021-02-08 09:00:00  Earnings     CHSB   3.61300000
+2021-02-09 09:00:00  Earnings     CHSB   3.47200000
+2021-02-10 09:00:00  Earnings     CHSB   3.47300000
+2021-02-11 09:00:00  Earnings     CHSB   3.52600000
+2021-02-12 09:00:00  Earnings     CHSB   3.52700000
+2021-02-13 09:00:00  Earnings     CHSB   3.45900000
+2021-02-14 09:00:00  Earnings     CHSB   3.37500000
+2021-02-15 09:00:00  Earnings     CHSB   3.30700000
+2021-02-16 09:00:00  Earnings     CHSB   3.33400000
+2021-02-17 09:00:00  Earnings     CHSB   3.27700000
+2021-02-18 09:00:00  Earnings     CHSB   3.19800000
+2021-02-19 09:00:00  Earnings     CHSB   3.14300000
+2021-02-20 09:00:00  Earnings     CHSB   3.14400000
+2021-02-21 09:00:00  Earnings     CHSB   3.23100000
+2021-02-22 09:00:00  Earnings     CHSB   3.23100000
+2021-02-23 09:00:00  Earnings     CHSB   3.23200000
+2021-02-24 09:00:00  Earnings     CHSB   3.23200000
+2021-02-25 09:00:00  Earnings     CHSB   3.23300000
+2021-02-26 09:00:00  Earnings     CHSB   3.40100000
+2021-02-27 09:00:00  Earnings     CHSB   3.35900000
+2021-02-28 09:00:00  Earnings     CHSB   3.35900000
+2021-03-01 09:00:00  Earnings     CHSB   3.35400000
+2021-03-02 09:00:00  Earnings     CHSB   3.34400000
+2021-03-03 09:00:00  Earnings     CHSB   3.34500000
+2021-03-04 09:00:00  Earnings     CHSB   3.34500000
+2021-03-05 09:00:00  Earnings     CHSB   2.75700000
+2021-03-06 09:00:00  Earnings     CHSB   2.75700000
+2021-03-07 09:00:00  Earnings     CHSB   3.92000000
+2021-03-08 09:00:00  Earnings     CHSB   4.07100000
+2021-03-09 09:00:00  Earnings     CHSB   4.07200000
+2021-03-10 09:00:00  Earnings     CHSB   3.98900000
+2021-03-11 09:00:00  Earnings     CHSB   4.85200000
+2021-03-12 09:00:00  Earnings     CHSB   4.85300000
+2021-03-13 09:00:00  Earnings     CHSB   4.53400000
+2021-03-14 09:00:00  Earnings     CHSB   4.51000000
+2021-03-15 09:00:00  Earnings     CHSB   4.51000000
+2021-03-16 09:00:00  Earnings     CHSB   4.51900000
+2021-03-17 09:00:00  Earnings     CHSB   4.52000000
+2021-03-18 09:00:00  Earnings     CHSB   4.84900000
+2021-03-19 09:00:00  Earnings     CHSB   4.79100000
+2021-03-20 09:00:00  Earnings     CHSB   4.79100000
+2021-03-21 09:00:00  Earnings     CHSB   4.79200000
+2021-03-22 09:00:00  Earnings     CHSB   4.62400000
+2021-03-23 09:00:00  Earnings     CHSB   4.62500000
+2021-03-24 09:00:00  Earnings     CHSB   4.62600000
+2021-03-25 09:00:00  Earnings     CHSB   3.91600000
+2021-03-26 09:00:00  Earnings     CHSB   3.91600000
+2021-03-27 09:00:00  Earnings     CHSB   3.91700000
+2021-03-28 10:00:00  Earnings     CHSB   3.82400000
+2021-03-29 10:00:00  Earnings     CHSB   3.82400000
+2021-03-30 10:00:00  Earnings     CHSB   3.82500000
+2021-03-31 10:00:00  Earnings     CHSB   3.78200000
+2021-04-01 10:00:00  Earnings     CHSB   3.78300000
+2021-04-02 10:00:00  Earnings     CHSB   3.34800000
+2021-04-03 10:00:00  Earnings     CHSB   3.34800000
+2021-04-04 10:00:00  Earnings     CHSB   3.67300000
+2021-04-05 10:00:00  Earnings     CHSB   3.67400000
+2021-04-06 10:00:00  Earnings     CHSB   3.52900000
+2021-04-07 10:00:00  Earnings     CHSB   3.52900000
+2021-04-08 10:00:00  Earnings     CHSB   3.25600000
+TOTAL                                  255.96400000'''
+
+		if PRINT:
+			print('\nSwissborg earnings loaded from Swissborg account statement sheet ...')
+			print(sbEarningsTotalDfActualStr)
+		else:
+			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
+
+		sbYieldRatesWithTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			sbYieldRatesWithTotalDf,
+			{
+				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
+		sbYieldRatesWithTotalDfExpectedStr = \
+'             EARNING CAP  EARNING  D YIELD RATE  Y YIELD RATE\n' + \
+'DATE                                                         ' + \
+'''
+2021-01-30  20364.429589    3.775      1.000185      1.069996
+2021-01-31  20368.204589    3.104      1.000152      1.057196
+2021-02-01  20371.308589    2.999      1.000147      1.055200
+2021-02-02  20374.307589    2.957      1.000145      1.054398
+2021-02-03  20377.264589    2.894      1.000142      1.053201
+2021-02-04  20380.158589    3.642      1.000179      1.067395
+2021-02-05  20383.800589    3.680      1.000181      1.068109
+2021-02-06  20387.480589    3.680      1.000181      1.068096
+2021-02-07  20391.160589    3.613      1.000177      1.066803
+2021-02-08  20394.773589    3.613      1.000177      1.066791
+2021-02-09  20398.386589    3.472      1.000170      1.064091
+2021-02-10  20401.858589    3.473      1.000170      1.064099
+2021-02-11  20405.331589    3.526      1.000173      1.065097
+2021-02-12  20408.857589    3.527      1.000173      1.065104
+2021-02-13  20412.384589    3.459      1.000169      1.063799
+2021-02-14  20415.843589    3.375      1.000165      1.062191
+2021-02-15  20419.218589    3.307      1.000162      1.060891
+2021-02-16  20422.525589    3.334      1.000163      1.061393
+2021-02-17  20425.859589    3.277      1.000160      1.060302
+2021-02-18  20429.136589    3.198      1.000157      1.058797
+2021-02-19  20943.664589    3.143      1.000150      1.056299
+2021-02-20  20946.807589    3.144      1.000150      1.056309
+2021-02-21  20949.951589    3.231      1.000154      1.057902
+2021-02-22  20953.182589    3.231      1.000154      1.057893
+2021-02-23  20956.413589    3.232      1.000154      1.057902
+2021-02-24  20959.645589    3.232      1.000154      1.057893
+2021-02-25  20962.877589    3.233      1.000154      1.057902
+2021-02-26  20966.110589    3.401      1.000162      1.060991
+2021-02-27  20969.511589    3.359      1.000160      1.060206
+2021-02-28  20972.870589    3.359      1.000160      1.060196
+2021-03-01  20976.229589    3.354      1.000160      1.060093
+2021-03-02  20979.583589    3.344      1.000159      1.059899
+2021-03-03  20982.927589    3.345      1.000159      1.059908
+2021-03-04  20986.272589    3.345      1.000159      1.059898
+2021-03-05  20989.617589    2.757      1.000131      1.049108
+2021-03-06  20992.374589    2.757      1.000131      1.049101
+2021-03-07  29968.471589    3.920      1.000131      1.048898
+2021-03-08  32020.281589    4.071      1.000127      1.047496
+2021-03-09  32024.352589    4.072      1.000127      1.047502
+2021-03-10  32028.424589    3.989      1.000125      1.046505
+2021-03-11  32332.893589    4.852      1.000150      1.056297
+2021-03-12  32337.745589    4.853      1.000150      1.056300
+2021-03-13  32342.598589    4.534      1.000140      1.052496
+2021-03-14  32347.132589    4.510      1.000139      1.052204
+2021-03-15  32351.642589    4.510      1.000139      1.052196
+2021-03-16  32356.152589    4.519      1.000140      1.052295
+2021-03-17  32360.671589    4.520      1.000140      1.052300
+2021-03-18  32365.191589    4.849      1.000150      1.056203
+2021-03-19  32370.040589    4.791      1.000148      1.055504
+2021-03-20  32374.831589    4.791      1.000148      1.055496
+2021-03-21  32379.622589    4.792      1.000148      1.055499
+2021-03-22  32384.414589    4.624      1.000143      1.053494
+2021-03-23  32389.038589    4.625      1.000143      1.053499
+2021-03-24  32393.663589    4.626      1.000143      1.053503
+2021-03-25  32398.289589    3.916      1.000121      1.045103
+2021-03-26  32402.205589    3.916      1.000121      1.045097
+2021-03-27  32406.121589    3.917      1.000121      1.045103
+2021-03-28  32410.038589    3.824      1.000118      1.044004
+2021-03-29  32413.862589    3.824      1.000118      1.043998
+2021-03-30  32417.686589    3.825      1.000118      1.044005
+2021-03-31  32421.511589    3.782      1.000117      1.043494
+2021-04-01  32425.293589    3.783      1.000117      1.043501
+2021-04-02  32429.076589    3.348      1.000103      1.038400
+2021-04-03  32432.424589    3.348      1.000103      1.038396
+2021-04-04  32435.772589    3.673      1.000113      1.042196
+2021-04-05  32439.445589    3.674      1.000113      1.042203
+2021-04-06  32443.119589    3.529      1.000109      1.040499
+2021-04-07  32446.648589    3.529      1.000109      1.040495
+2021-04-08  32450.177589    3.256      1.000100      1.037301
+TOTAL       32453.433589  255.964                            '''
+
+		if PRINT:
+			print('\nComputed Swissborg yield rates using deposit/withdrawal owner amounts ...')
+			print(sbYieldRatesWithTotalDfActualStr)
+		else:
+			self.assertEqual(expectedYieldCrypto, depositCrypto)
+			self.assertEqual(sbYieldRatesWithTotalDfExpectedStr, sbYieldRatesWithTotalDfActualStr)
+
+		yieldOwnerWithTotalsSummaryDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			yieldOwnerWithTotalsSummaryDf,
+			{
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+		yieldOwnerWithTotalsSummaryDfExpectedStr = \
+'      DEP/WITHDR    YIELD AMT         TOTAL\n' + \
+'OWNER                                      ' + \
+'''
+JPS     7,282.50  57.47641711   7339.979716
+Papa   24,914.97 198.48758289  25113.453873
+TOTAL  32,197.47 255.96400000  32453.433589'''
+
+		if PRINT:
+			print('\nOwner summary deposit/withdrawal yield totals ...')
+			print(yieldOwnerWithTotalsSummaryDfActualStr)
+		else:
+			self.assertEqual(yieldOwnerWithTotalsSummaryDfExpectedStr, yieldOwnerWithTotalsSummaryDfActualStr)
+
+		yieldOwnerWithTotalsDetailDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			yieldOwnerWithTotalsDetailDf,
+			{
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+				DEPOSIT_YIELD_HEADER_CAPITAL: '.2f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+
+		yieldOwnerWithTotalsDetailDfExpectedStr = \
+'        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS    YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
+'OWNER                                                                                               ' + \
+'''
+JPS       4,422.80  4,422.80  2021-01-30  2021-02-18         20  14.74779623     0.333449   6.263664
+JPS         511.33  4,948.88  2021-02-19  2021-03-07         17  12.81031440     0.258853   5.707472
+JPS       2,047.89  7,009.58  2021-03-08  2021-03-10          3   2.65582429     0.037888   4.716753
+JPS         300.48  7,312.72  2021-03-11  2021-04-08         29  27.26248218     0.372809   4.794938
+TOTAL     7,339.98                                               57.47641711                        ''' + \
+'''
+Papa     15,941.63 15,941.63  2021-01-30  2021-03-06         36  92.46281423     0.580009   6.038977
+Papa      8,973.34 25,007.43  2021-03-07  2021-04-08         33 106.02476866     0.423973   4.790702
+TOTAL    25,113.45                                              198.48758289                        ''' + \
+'''
+G TOTAL  32,453.43                                              255.96400000                        '''
+
+		if PRINT:
+			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+		else:
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+
 
 if __name__ == '__main__':
 	if os.name == 'posix':
 		unittest.main()
 	else:
 		tst = TestOwnerDepositYieldComputer()
-		tst.testComputeDepositsYieldsSeveralOwners()
+		# tst.testComputeDepositsYieldsSeveralOwners()
 		# tst.testComputeDepositsYieldsLastDepositRowUniqueOwnerTwoDeposits()
 		# tst.testComputeDepositsYieldsMiddleDepositRowUniqueOwnerTwoDeposits()
 		# tst.testComputeDepositsYieldsFirstDepositRowUniqueOwnerThreeDeposits()
@@ -3649,3 +3888,4 @@ if __name__ == '__main__':
 		# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_partial_withdr_fixed_yield_rate()
 		# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate()
 		# tst.testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate_3_yield_days()
+		tst.testAndAnalyseComputeDepositsYields_CHSB_2_owner_multi_deposit_2_fiat()

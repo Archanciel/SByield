@@ -170,7 +170,7 @@ TOTAL                                          2.1'''
 			self.assertEqual(expectedFiatLst, depositFiatLst)
 			self.assertEqual(expectedStrDataframe, depositDf.to_string())
 
-	def test_loadDepositCsvFileWithFiatColumns_2(self):
+	def test_loadDepositCsvUSDCFileWithFiatColumns_2(self):
 		'''
 		Test loading a deposit csv file in which the deposit withdrawal are
 		defined with the addition of two corresponding converted fiat amount
@@ -204,6 +204,50 @@ TOTAL                                          2.1'''
 2020-12-25 00:00:01   Béa      1000.0   1000.0   902.95
 2020-12-27 00:00:00  Papa      -500.0   -500.0  -450.00
 2020-12-28 00:00:00   JPS      3000.0   3000.0  2730.00'''
+		expectedFiatLst = ['USD', 'CHF']
+
+		if PRINT:
+			print(depositFiatLst)
+			print(depositDf)
+		else:
+			self.assertEqual(expectedFiatLst, depositFiatLst)
+			self.assertEqual(expectedStrDataframe, depositDf.to_string())
+
+	def test_loadDepositCsvCHSBFileWithFiatColumns_2(self):
+		'''
+		Test loading a deposit csv file in which the deposit withdrawal are
+		defined with the addition of two corresponding converted fiat amount
+		columns.
+		'''
+		PRINT = False
+
+		sbAccountSheetFileName = 'testSwissborg_account_statement_20201218_20210408.xlsx'
+		depositSheetFileName = 'testDepositChsb_fiat_usd_chf.csv'
+
+		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
+
+		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
+		expectedDepositFiatOne = DEPOSIT_FIAT_USD
+		expectedDepositFiatTwo = DEPOSIT_FIAT_CHF
+
+		depositDf, depositCrypto, depositFiatLst = self.yieldRateComputer._loadDepositCsvFile()
+
+		if not PRINT:
+			self.assertEqual((6, 4), depositDf.shape)
+			self.assertEqual(expectedYieldCrypto, depositCrypto)
+			self.assertEqual(expectedDepositFiatOne, depositFiatLst[0])
+			self.assertEqual(expectedDepositFiatTwo, depositFiatLst[1])
+
+		expectedStrDataframe = \
+'                    OWNER    DEP/WITHDR   USD AMT  CHF AMT\n' + \
+'DATE                                                      ' + \
+'''
+2021-01-30 00:00:00  Papa  15941.626290   8938.09  7973.32
+2021-01-30 00:00:01   JPS   4422.803299   2479.76  2212.10
+2021-02-19 00:00:00   JPS    511.330000    456.60   408.04
+2021-03-07 00:00:00  Papa   8973.340000  10421.37  9712.37
+2021-03-08 00:00:00   JPS   2047.890000   2401.13  2239.89
+2021-03-11 00:00:00   JPS    300.480000    430.55   397.92'''
 		expectedFiatLst = ['USD', 'CHF']
 
 		if PRINT:

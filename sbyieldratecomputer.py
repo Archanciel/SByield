@@ -112,7 +112,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		
 		return sbEarningsDf
 	
-	def _loadDepositCsvFile(self, ):
+	def _loadDepositCsvFile(self):
 		"""
 		Creates a Pandas data frame from the Deposit/Withdrawal CSV file.
 
