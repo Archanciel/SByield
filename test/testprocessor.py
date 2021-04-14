@@ -7,9 +7,8 @@ sys.path.insert(0,parentdir)
 sys.path.insert(0,currentdir) # this instruction is necessary for successful importation of utilityfortest module when
 							  # the test is executed standalone
 
-from ownerdeposityieldcomputer import *
 from cryptofiatratecomputer import CryptoFiatRateComputer
-from processor import Processor
+from processor import *
 
 class TestProcessor(unittest.TestCase):
 	def initializeComputerClasses(self, sbAccountSheetFileName, depositSheetFileName, cryptoFiatCsvFileName):
@@ -49,13 +48,23 @@ class TestProcessor(unittest.TestCase):
 		yieldOwnerWithTotalsSummaryDf, \
 		yieldOwnerWithTotalsDetailDf, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
-
+		pd.options.display.float_format = '${:,.2f}'.format
 		yieldOwnerWithTotalsDetailDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			yieldOwnerWithTotalsDetailDf,
 			{
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 				DEPOSIT_YIELD_HEADER_CAPITAL: '.2f',
-				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.2f',
+				USD_DP_I: '.2f',
+				CHF_DP_I: '.2f',
+				USD_DP_C: '.2f',
+				CHF_DP_C: '.2f',
+				USD_C_C: '.2f',
+				CHF_C_C: '.2f',
+				CHSB_C_C: '.2f',
+				USD_Y: '.2f',
+				CHF_Y: '.2f',
+				CHSB_Y: '.2f'})
 
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
