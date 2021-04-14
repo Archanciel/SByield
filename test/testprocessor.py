@@ -45,7 +45,20 @@ class TestProcessor(unittest.TestCase):
 									   depositSheetFileName,
 									   cryptoFiatCsvFileName)
 
-		self.processor.addFiatConversionInfo()
+		sbYieldRatesWithTotalDf, \
+		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
+		depositCrypto =	self.processor.addFiatConversionInfo()
+
+		yieldOwnerWithTotalsDetailDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			yieldOwnerWithTotalsDetailDf,
+			{
+				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+				DEPOSIT_YIELD_HEADER_CAPITAL: '.2f',
+				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+
+		if PRINT:
+			print(yieldOwnerWithTotalsDetailDfActualStr)
 
 if __name__ == '__main__':
 	if os.name == 'posix':

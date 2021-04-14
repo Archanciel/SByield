@@ -3,14 +3,32 @@ from datetimeutil import DateTimeUtil
 from pricerequester import PriceRequester
 from resultdata import ResultData
 
+DEPWITHDR = 'DEP/WITHDR'
+CAPITAL = 'CAPITAL'
+CHSB_DP_I = 'CHSB'
+USD_DP_I = 'USD'
+CHF_DP_I = 'CHF'
+USD_DP_C = ' USD'
+CHF_DP_C = ' CHF'
+CHSB_C_C = ' CHSB'
+USD_C_C = '  USD'
+CHF_C_C = '  CHF'
+CHSB_Y = '  CHSB'
+USD_Y = '   USD'
+CHF_Y = '   CHF'
+YIELD = 'YIELD AMT'
+INIT = 'DF RATE'
+CURR = 'CUR RATE'
+
+
 class Processor:
 	def __init__(self,
 	             sbYieldRateComputer,
 	             ownerDepositYieldComputer,
-				 cryptoFiatRateXomputer):
+				 cryptoFiatRateComputer):
 		self.sbYieldRateComputer = sbYieldRateComputer
 		self.ownerDepositYieldComputer = ownerDepositYieldComputer
-		self.cryptoFiatRateXomputer = cryptoFiatRateXomputer
+		self.cryptoFiatRateComputer = cryptoFiatRateComputer
 	
 	def addFiatConversionInfo(self):
 		sbYieldRatesWithTotalDf, \
@@ -18,16 +36,77 @@ class Processor:
 		yieldOwnerWithTotalsDetailDf, \
 		depositCrypto = self.ownerDepositYieldComputer.computeDepositsYields()
 
-		yieldOwnerWithTotalsDetailDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
-			yieldOwnerWithTotalsDetailDf,
-			{
-				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
-				DEPOSIT_YIELD_HEADER_CAPITAL: '.2f',
-				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+		colLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
+		fiatColLst = [col for col in colLst if 'AMT' in col and 'YIELD' not in col]
+		fiatPosColLst = []
 
-		print(yieldOwnerWithTotalsDetailDfActualStr)
+		for colName in fiatColLst:
+			fiatPosColLst.append(colLst.index(colName))
+
+		i = 0
+		#print(colLst)
+		for index in fiatPosColLst:
+			colLst = colLst[:i + 1] + colLst[index + i:index + i + 1] + colLst[i + 1:]
+			#print(colLst)
+			i += 1
+
+		for _ in fiatPosColLst:
+			colLst = colLst[:-1]
+			#print(colLst)
+
+		yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf[colLst]
+
+		fiatLst = list(map(lambda x: x.replace(' AMT', ''), fiatColLst))
+		cryptoFiatRateDic = self.getCurrentCryptoFiatRateValues(depositCrypto, fiatColLst)
+
+		# insert DEP/WITHDR CUR RATE columns
+		for fiat in fiatLst:
+			i += 1
+			cryptoFiatCurrentRate = cryptoFiatRateDic[fiat]
+			depositWithdrawalValueLst = yieldOwnerWithTotalsDetailDf[DATAFRAME_HEADER_DEPOSIT_WITHDRAW].tolist()
+			newColValues = list(map(lambda x: x * cryptoFiatCurrentRate, depositWithdrawalValueLst))
+			yieldOwnerWithTotalsDetailDf.insert(loc=i, column='  ' + fiat, value=newColValues)
+
+		i += 1
+		# insert CAPITAL CUR RATE columns
+		for fiat in fiatLst:
+			i += 1
+			cryptoFiatCurrentRate = cryptoFiatRateDic[fiat]
+			capitalValueLst = yieldOwnerWithTotalsDetailDf[DEPOSIT_YIELD_HEADER_CAPITAL].tolist()
+			newColValues = list(map(lambda x: x * cryptoFiatCurrentRate, capitalValueLst))
+			yieldOwnerWithTotalsDetailDf.insert(loc=i, column='   ' + fiat, value=newColValues)
+
+		i += 4
+		# insert YIELD AMT CUR RATE columns
+		for fiat in fiatLst:
+			i += 1
+			cryptoFiatCurrentRate = cryptoFiatRateDic[fiat]
+			yieldAmountValueLst = yieldOwnerWithTotalsDetailDf[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT].tolist()
+			newColValues = list(map(lambda x: x * cryptoFiatCurrentRate, yieldAmountValueLst))
+			yieldOwnerWithTotalsDetailDf.insert(loc=i, column='    ' + fiat, value=newColValues)
+
+		arrays = [
+			np.array([' ', ' ', ' ', ' ', DEPWITHDR, ' ', ' ', CAPITAL, ' ', ' ', ' ', ' ', ' ', YIELD, ' ', ' ']),
+			np.array([' ', ' ', INIT, ' ', CURR, ' ', ' ', CURR,'  ', ' ', ' ', ' ', ' ', CURR, ' ', ' ']),
+			np.array([CHSB_DP_I, USD_DP_I, CHF_DP_I, USD_DP_C, CHF_DP_C, CHSB_C_C, USD_C_C, CHF_C_C, 'DATE FROM', 'DATE TO', 'YIELD DAYS', CHSB_Y, USD_Y, CHF_Y, 'YIELD AMT %', 'Y YIELD AMT %', ' '])
+		]
+		tuples = list(zip(*arrays))
+		index = pd.MultiIndex.from_tuples(tuples)
+		yieldOwnerWithTotalsDetailDf.columns = index
 
 		return sbYieldRatesWithTotalDf, \
 			   yieldOwnerWithTotalsSummaryDf, \
 			   yieldOwnerWithTotalsDetailDf, \
 			   depositCrypto
+
+	def getCurrentCryptoFiatRateValues(self,
+									   crypto,
+									   fiatColLst):
+		cryptoFiatRateDic = {}
+
+		for colName in fiatColLst:
+			fiat = colName.replace(' AMT', '')
+			cryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatCurrentRate(crypto, fiat)
+			cryptoFiatRateDic[fiat] = cryptoFiatRate
+
+		return cryptoFiatRateDic

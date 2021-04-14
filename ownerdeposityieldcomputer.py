@@ -103,7 +103,6 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 
 		# compute capital, date to and yield day number
 		previousRowOwner = None
-		initialRowDateFrom = None
 		currentRowCapital = 0.0
 		firstYieldTimeStamp = sbYieldRatesDf.index[0]
 		firstYieldPaymentDate = firstYieldTimeStamp.date()
@@ -309,15 +308,18 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		return yieldOwnerSummaryTotals
 	
 	def _computeYieldOwnerDetailTotals(self, depositsYieldsDf):
-		totalDf = pd.DataFrame(columns=[DEPOSIT_SHEET_HEADER_OWNER,
-		                                DATAFRAME_HEADER_DEPOSIT_WITHDRAW,
-		                                DEPOSIT_YIELD_HEADER_CAPITAL,
-		                                DEPOSIT_YIELD_HEADER_DATE_FROM,
-		                                DEPOSIT_YIELD_HEADER_DATE_TO,
-		                                DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER,
-		                                DEPOSIT_YIELD_HEADER_YIELD_AMOUNT,
-		                                DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT,
-		                                DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT])
+		fiatAmountColNameLst = [col for col in depositsYieldsDf.columns if 'AMT' in col and 'YIELD' not in col]
+		colNames = [DEPOSIT_SHEET_HEADER_OWNER,
+					DATAFRAME_HEADER_DEPOSIT_WITHDRAW,
+					DEPOSIT_YIELD_HEADER_CAPITAL,
+					DEPOSIT_YIELD_HEADER_DATE_FROM,
+					DEPOSIT_YIELD_HEADER_DATE_TO,
+					DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER,
+					DEPOSIT_YIELD_HEADER_YIELD_AMOUNT,
+					DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT,
+					DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT]
+		colNames.extend(fiatAmountColNameLst)
+		totalDf = pd.DataFrame(columns=colNames)
 		
 		currentOwner = depositsYieldsDf.loc[1, DEPOSIT_SHEET_HEADER_OWNER]
 		
@@ -326,41 +328,41 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		
 		ownerGroupTotalIndex = 0
 		
-		# deactivating SettingWithCopyWarning caueed by totalRow[DEPOSIT_SHEET_HEADER_OWNER] += ' total'
+		# deactivating SettingWithCopyWarning caused by totalRow[DEPOSIT_SHEET_HEADER_OWNER] += ' total'
 		pd.set_option('mode.chained_assignment', None)
-		
+
+
 		for index, row in depositsYieldsDf.iterrows():
+			# creating a dictionary for the fiat columns if they exist
+			fiatAmounzColDic = {}
+			for colName in fiatAmountColNameLst:
+				fiatAmounzColDic[colName] = row[colName]
+
+			appendDic = {DEPOSIT_SHEET_HEADER_OWNER: row[DEPOSIT_SHEET_HEADER_OWNER],
+						DATAFRAME_HEADER_DEPOSIT_WITHDRAW: row[DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
+						DEPOSIT_YIELD_HEADER_CAPITAL: row[DEPOSIT_YIELD_HEADER_CAPITAL],
+						DEPOSIT_YIELD_HEADER_DATE_FROM: row[DEPOSIT_YIELD_HEADER_DATE_FROM],
+						DEPOSIT_YIELD_HEADER_DATE_TO: row[DEPOSIT_YIELD_HEADER_DATE_TO],
+						DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER: row[
+							DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER],
+						DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: row[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT],
+						DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT: row[
+							DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT],
+						DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: row[
+							DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT]}
+
+			# adding the fiatAmounzColDic to the appendDic
+			appendDic.update(fiatAmounzColDic)
+
 			if currentOwner == row[DEPOSIT_SHEET_HEADER_OWNER]:
-				totalDf = totalDf.append({DEPOSIT_SHEET_HEADER_OWNER: row[DEPOSIT_SHEET_HEADER_OWNER],
-				                          DATAFRAME_HEADER_DEPOSIT_WITHDRAW: row[DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
-				                          DEPOSIT_YIELD_HEADER_CAPITAL: row[DEPOSIT_YIELD_HEADER_CAPITAL],
-				                          DEPOSIT_YIELD_HEADER_DATE_FROM: row[DEPOSIT_YIELD_HEADER_DATE_FROM],
-				                          DEPOSIT_YIELD_HEADER_DATE_TO: row[DEPOSIT_YIELD_HEADER_DATE_TO],
-				                          DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER: row[
-					                          DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER],
-				                          DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: row[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT],
-				                          DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT: row[
-					                          DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT],
-				                          DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: row[
-					                          DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT]}, ignore_index=True)
+				totalDf = totalDf.append(appendDic, ignore_index=True)
 			else:
 				totalRow = ownerGroupTotalDf.loc[ownerGroupTotalIndex]
 				totalRow[DEPOSIT_SHEET_HEADER_OWNER] = DATAFRAME_HEADER_FINAL_TOTAL
 				totalRow[DATAFRAME_HEADER_DEPOSIT_WITHDRAW] += totalRow[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]
 				totalDf = totalDf.append(totalRow, ignore_index=True)
 				ownerGroupTotalIndex += 1
-				totalDf = totalDf.append({DEPOSIT_SHEET_HEADER_OWNER: row[DEPOSIT_SHEET_HEADER_OWNER],
-				                          DATAFRAME_HEADER_DEPOSIT_WITHDRAW: row[DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
-				                          DEPOSIT_YIELD_HEADER_CAPITAL: row[DEPOSIT_YIELD_HEADER_CAPITAL],
-				                          DEPOSIT_YIELD_HEADER_DATE_FROM: row[DEPOSIT_YIELD_HEADER_DATE_FROM],
-				                          DEPOSIT_YIELD_HEADER_DATE_TO: row[DEPOSIT_YIELD_HEADER_DATE_TO],
-				                          DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER: row[
-					                          DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER],
-				                          DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: row[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT],
-				                          DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT: row[
-					                          DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT],
-				                          DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: row[
-					                          DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT]}, ignore_index=True)
+				totalDf = totalDf.append(appendDic, ignore_index=True)
 				currentOwner = row[DEPOSIT_SHEET_HEADER_OWNER]
 
 		# appending last owner total row
