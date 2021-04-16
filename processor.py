@@ -39,18 +39,21 @@ class Processor:
 		yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
 		fiatColLst = [col for col in yieldOwnerWithTotalsDetailDfColNameLst if 'AMT' in col and 'YIELD' not in col]
 
-		# getting the indexes or position of the optional fiat amount columns
-		fiatPosColLst = []
+		i = 0
+		addedFiatDepWithdrColumns = 0
+		print(yieldOwnerWithTotalsDetailDfColNameLst)
 
 		for colName in fiatColLst:
-			fiatPosColLst.append(yieldOwnerWithTotalsDetailDfColNameLst.index(colName))
+			fiatColIndex = yieldOwnerWithTotalsDetailDfColNameLst.index(colName)
+			i += addedFiatDepWithdrColumns
+			yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDfColNameLst[:i + 1] + yieldOwnerWithTotalsDetailDfColNameLst[fiatColIndex + i:fiatColIndex + i + 1] + yieldOwnerWithTotalsDetailDfColNameLst[i + 1:]
+			addedFiatDepWithdrColumns += 1
 
-		i = 0
-		print(yieldOwnerWithTotalsDetailDfColNameLst)
-		for index in fiatPosColLst:
-			yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDfColNameLst[:i + 1] + yieldOwnerWithTotalsDetailDfColNameLst[index + i:index + i + 1] + yieldOwnerWithTotalsDetailDfColNameLst[i + 1:]
 			print(yieldOwnerWithTotalsDetailDfColNameLst)
-			i += 1
+			for index in fiatPosColLst:
+				yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDfColNameLst[:i + 1] + yieldOwnerWithTotalsDetailDfColNameLst[index + i:index + i + 1] + yieldOwnerWithTotalsDetailDfColNameLst[i + 1:]
+				print(yieldOwnerWithTotalsDetailDfColNameLst)
+				i += 1
 
 		for _ in fiatPosColLst:
 			yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDfColNameLst[:-1]
