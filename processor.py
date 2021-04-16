@@ -126,12 +126,22 @@ class Processor:
 			yieldOwnerWithTotalsDetailDf, yieldOwnerWithTotalsDetailDfColFormatDic)
 		print(yieldOwnerWithTotalsDetailDfStr)
 
-		depWithdrFiatColNb = 4 * len(fiatColLst)
-		
+		yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf.rename(
+			columns={DEPOSIT_YIELD_HEADER_CAPITAL: ' ' + depositCrypto,
+					 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '  ' + depositCrypto
+					 })
+		fiatNb = len(fiatColLst)
+		depWithdrFiatColNb = 4 * fiatNb
+		capitalFiatColNb = fiatNb
+		yieldAmountColNb = fiatNb + 3
+		multiIndexLevelZeroLst = [' '] * depWithdrFiatColNb + [DEPWITHDR] + [' '] * 11
+		multiIndexLevelOneLst = [depositCrypto] + [' '] * 3 + ['  USD'] + [' '] * 3 + ['  CHF'] + [' '] * capitalFiatColNb + [CAPITAL] + [' '] * yieldAmountColNb + [YIELD] + [' ', ' ']
+		yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
+
 		arrays = [
-			np.array([' ', ' ', ' ', ' ', DEPWITHDR, ' ', ' ', CAPITAL, ' ', ' ', ' ', ' ', ' ', YIELD, ' ', ' ']),
-			np.array([' ', ' ', INIT, ' ', CURR, ' ', ' ', CURR,'  ', ' ', ' ', ' ', ' ', CURR, ' ', ' ']),
-			np.array([CHSB_DP_I, USD_DP_I, CHF_DP_I, USD_DP_C, CHF_DP_C, CHSB_C_C, USD_C_C, CHF_C_C, 'DATE FROM', 'DATE TO', 'YIELD DAYS', CHSB_Y, USD_Y, CHF_Y, 'YIELD AMT %', 'Y YIELD AMT %', ' '])
+			np.array(multiIndexLevelZeroLst),
+			np.array(multiIndexLevelOneLst),
+			np.array(yieldOwnerWithTotalsDetailDfColNameLst)
 		]
 		tuples = list(zip(*arrays))
 		index = pd.MultiIndex.from_tuples(tuples)
