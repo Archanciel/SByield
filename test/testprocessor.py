@@ -48,7 +48,6 @@ class TestProcessor(unittest.TestCase):
 		yieldOwnerWithTotalsSummaryDf, \
 		yieldOwnerWithTotalsDetailDf, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
-		pd.options.display.float_format = '${:,.2f}'.format
 		yieldOwnerWithTotalsDetailDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			yieldOwnerWithTotalsDetailDf,
 			{
