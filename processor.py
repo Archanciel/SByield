@@ -38,41 +38,39 @@ class Processor:
 
 		yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
 		fiatColLst = [col for col in yieldOwnerWithTotalsDetailDfColNameLst if 'AMT' in col and 'YIELD' not in col]
+		fiatLst = list(map(lambda x: x.replace(' AMT', ''), fiatColLst))
+		cryptoFiatRateDic = self.getCurrentCryptoFiatRateValues(depositCrypto, fiatColLst)
 
 		i = 0
 		addedFiatDepWithdrColumns = 0
 		print(yieldOwnerWithTotalsDetailDfColNameLst)
 
-		for colName in fiatColLst:
-			fiatColIndex = yieldOwnerWithTotalsDetailDfColNameLst.index(colName)
+		for fiatColName in fiatColLst:
+			fiatColIndex = yieldOwnerWithTotalsDetailDfColNameLst.index(fiatColName)
+
+			# removing the fiat col name before inserting it in the right position
+			# in the yieldOwnerWithTotalsDetailDfColNameLst
+			del yieldOwnerWithTotalsDetailDfColNameLst[fiatColIndex]
+
 			i += addedFiatDepWithdrColumns
-			yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDfColNameLst[:i + 1] + yieldOwnerWithTotalsDetailDfColNameLst[fiatColIndex + i:fiatColIndex + i + 1] + yieldOwnerWithTotalsDetailDfColNameLst[i + 1:]
+			yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDfColNameLst[:i + 1] + [fiatColName] + yieldOwnerWithTotalsDetailDfColNameLst[i + 1:]
 			addedFiatDepWithdrColumns += 1
-
 			print(yieldOwnerWithTotalsDetailDfColNameLst)
-			for index in fiatPosColLst:
-				yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDfColNameLst[:i + 1] + yieldOwnerWithTotalsDetailDfColNameLst[index + i:index + i + 1] + yieldOwnerWithTotalsDetailDfColNameLst[i + 1:]
-				print(yieldOwnerWithTotalsDetailDfColNameLst)
-				i += 1
 
-		for _ in fiatPosColLst:
-			yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDfColNameLst[:-1]
-			#print(yieldOwnerWithTotalsDetailDfColNameLst)
+			# updating the yieldOwnerWithTotalsDetailDf with the new column
+			# list
+			yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf[yieldOwnerWithTotalsDetailDfColNameLst]
 
-		yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf[yieldOwnerWithTotalsDetailDfColNameLst]
+			# insert DEP/WITHDR CUR RATE columns
+			fiat = fiatColName.replace(' AMT', '')
 
-		fiatLst = list(map(lambda x: x.replace(' AMT', ''), fiatColLst))
-		cryptoFiatRateDic = self.getCurrentCryptoFiatRateValues(depositCrypto, fiatColLst)
-
-		# insert DEP/WITHDR CUR RATE columns
-		for fiat in fiatLst:
 			i += 1
 			cryptoFiatCurrentRate = cryptoFiatRateDic[fiat]
 			depositWithdrawalValueLst = yieldOwnerWithTotalsDetailDf[DATAFRAME_HEADER_DEPOSIT_WITHDRAW].tolist()
 			newColValues = list(map(lambda x: x * cryptoFiatCurrentRate, depositWithdrawalValueLst))
-			yieldOwnerWithTotalsDetailDf.insert(loc=i, column='  ' + fiat, value=newColValues)
+			yieldOwnerWithTotalsDetailDf.insert(loc=i, column=' ' + fiat, value=newColValues)
 
-		i += 1
+			i += 1
 		# insert CAPITAL CUR RATE columns
 		for fiat in fiatLst:
 			i += 1
