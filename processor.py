@@ -35,8 +35,8 @@ class Processor:
 		yieldOwnerWithTotalsDetailDf, \
 		depositCrypto = self.ownerDepositYieldComputer.computeDepositsYields()
 
-		yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
-		fiatColLst = [col for col in yieldOwnerWithTotalsDetailDfColNameLst if 'AMT' in col and 'YIELD' not in col]
+		multiIndexLevelTwoLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
+		fiatColLst = [col for col in multiIndexLevelTwoLst if 'AMT' in col and 'YIELD' not in col]
 		fiatLst = list(map(lambda x: x.replace(' AMT', ''), fiatColLst))
 		cryptoFiatRateDic = self.getCurrentCryptoFiatRateValues(depositCrypto, fiatColLst)
 
@@ -45,14 +45,14 @@ class Processor:
 
 		for fiatColName in fiatColLst:
 			# removing the no longer used fiat col name
-			yieldOwnerWithTotalsDetailDfColNameLst.remove(fiatColName)
+			multiIndexLevelTwoLst.remove(fiatColName)
 
 			dfNewColPosition += 1
-			yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDfColNameLst[:dfNewColPosition] + \
-				[fiatColName] + yieldOwnerWithTotalsDetailDfColNameLst[dfNewColPosition:]
+			multiIndexLevelTwoLst = multiIndexLevelTwoLst[:dfNewColPosition] + \
+				[fiatColName] + multiIndexLevelTwoLst[dfNewColPosition:]
 
 			# updating the yieldOwnerWithTotalsDetailDf with the new column list
-			yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf[yieldOwnerWithTotalsDetailDfColNameLst]
+			yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf[multiIndexLevelTwoLst]
 
 			# renaming the fiat column
 			dateFromRateUniqueColName = levelThreeColNameSpace + 'DF RATE'
@@ -90,7 +90,7 @@ class Processor:
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=capitalGainUniqueColName, value=depositWithdrawalFiatCapitalGainPercentVector.tolist())
 
 			levelThreeColNameSpace += ' '
-			yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
+			multiIndexLevelTwoLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
 
 		# insert CAPITAL CUR RATE columns
 
@@ -118,14 +118,6 @@ class Processor:
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=fiatUniqueColName, value=yieldAmountllCurrentFiatValueLst)
 			dfNewColPosition += 1
 
-		yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
-		yieldOwnerWithTotalsDetailDfColNameLst.remove(DEPOSIT_YIELD_HEADER_DATE_FROM)
-		yieldOwnerWithTotalsDetailDfColNameLst.remove(DEPOSIT_YIELD_HEADER_DATE_TO)
-		yieldOwnerWithTotalsDetailDfColFormatDic = dict.fromkeys(yieldOwnerWithTotalsDetailDfColNameLst, '.2f')
-		yieldOwnerWithTotalsDetailDfStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
-			yieldOwnerWithTotalsDetailDf, yieldOwnerWithTotalsDetailDfColFormatDic)
-		print(yieldOwnerWithTotalsDetailDfStr)
-
 		yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf.rename(
 			columns={DEPOSIT_YIELD_HEADER_CAPITAL: ' ' + depositCrypto,
 					 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '  ' + depositCrypto
@@ -135,14 +127,21 @@ class Processor:
 		capitalFiatColNb = fiatNb
 		yieldAmountColNb = fiatNb + 3
 		multiIndexLevelZeroLst = [' '] * depWithdrFiatColNb + [DEPWITHDR] + [' '] * 11
-		multiIndexLevelOneLst = [depositCrypto] + [' '] * 3 + ['  USD'] + [' '] * 3 + ['  CHF'] + [' '] * capitalFiatColNb + [CAPITAL] + [' '] * yieldAmountColNb + [YIELD] + [' ', ' ']
-		yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
+
+		levelOneDepWithdrFiatArray = []
+
+		for fiat in fiatLst:
+			levelOneDepWithdrFiatArray += [' '] * 3 + ['  ' + fiat]
+
+		multiIndexLevelOneLst = [depositCrypto] + levelOneDepWithdrFiatArray + [' '] * capitalFiatColNb + [CAPITAL] + [' '] * yieldAmountColNb + [YIELD] + [' ', ' ']
+		multiIndexLevelTwoLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
 
 		arrays = [
 			np.array(multiIndexLevelZeroLst),
 			np.array(multiIndexLevelOneLst),
-			np.array(yieldOwnerWithTotalsDetailDfColNameLst)
+			np.array(multiIndexLevelTwoLst)
 		]
+
 		tuples = list(zip(*arrays))
 		index = pd.MultiIndex.from_tuples(tuples)
 		yieldOwnerWithTotalsDetailDf.columns = index

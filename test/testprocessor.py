@@ -38,7 +38,12 @@ class TestProcessor(unittest.TestCase):
 
 		sbAccountSheetFileName = 'testSwissborg_account_statement_20201218_20210408.xlsx'
 		depositSheetFileName = 'testDepositChsb_fiat_usd_chf.csv'
+		depositSheetFileName = 'testDepositChsb_fiat_usd.csv'
+		depositSheetFileName = 'testDepositChsb_no_fiat.csv'
+		depositSheetFileName = 'testDepositChsb_fiat_chf.csv'
 		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+
+		print(depositSheetFileName)
 
 		self.initializeComputerClasses(sbAccountSheetFileName,
 									   depositSheetFileName,
@@ -48,25 +53,20 @@ class TestProcessor(unittest.TestCase):
 		yieldOwnerWithTotalsSummaryDf, \
 		yieldOwnerWithTotalsDetailDf, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
+
+		# simpler way of printing all float columns multi index with 2
+		# decimal places
+		pd.options.display.float_format = '{:,.2f}'.format
+
 		yieldOwnerWithTotalsDetailDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
-			yieldOwnerWithTotalsDetailDf,
-			{
-				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
-				DEPOSIT_YIELD_HEADER_CAPITAL: '.2f',
-				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.2f',
-				USD_DP_I: '.2f',
-				CHF_DP_I: '.2f',
-				USD_DP_C: '.2f',
-				CHF_DP_C: '.2f',
-				USD_C_C: '.2f',
-				CHF_C_C: '.2f',
-				CHSB_C_C: '.2f',
-				USD_Y: '.2f',
-				CHF_Y: '.2f',
-				CHSB_Y: '.2f'})
+			yieldOwnerWithTotalsDetailDf, {})
 
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
+
+		# resetting the pandas global float format so that the other unit test
+		# are not impacted by the previous global float format setting
+		pd.reset_option('display.float_format')
 
 if __name__ == '__main__':
 	if os.name == 'posix':

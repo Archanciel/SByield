@@ -119,7 +119,7 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		if PRINT:
 			print(actualCryptoFiatRate)
 		else:
-			self.assertEqual(expectedCryptoFiatRate, actualCryptoFiatRate)
+			self.assertAlmostEqual(expectedCryptoFiatRate, actualCryptoFiatRate, 1)
 
 	def testComputeCryptoFiatCurrentRate_CHSB_USD(self):
 		PRINT = False

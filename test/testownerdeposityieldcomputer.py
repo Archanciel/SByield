@@ -3605,9 +3605,9 @@ G TOTAL  48,110.25                                              110.25262326    
 
 	def testAndAnalyseComputeDepositsYields_CHSB_2_owner_multi_deposit_2_fiat(self):
 		"""
-		TWO owners with several deposits/withdrawals.
+		TWO owners with several deposits/withdrawals and two fiat amount columns.
 		"""
-		PRINT = True
+		PRINT = False
 
 		sbAccountSheetFileName = 'testSwissborg_account_statement_20201218_20210408.xlsx'
 		depositSheetFileName = 'testDepositChsb_fiat_usd_chf.csv'
@@ -3821,20 +3821,20 @@ TOTAL  32,197.47 255.96400000  32453.433589'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS    YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                               ' + \
+'        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS    YIELD AMT  YIELD AMT %  Y YIELD %   USD AMT  CHF AMT\n' + \
+'OWNER                                                                                                                  ' + \
 '''
-JPS       4,422.80  4,422.80  2021-01-30  2021-02-18         20  14.74779623     0.333449   6.263664
-JPS         511.33  4,948.88  2021-02-19  2021-03-07         17  12.81031440     0.258853   5.707472
-JPS       2,047.89  7,009.58  2021-03-08  2021-03-10          3   2.65582429     0.037888   4.716753
-JPS         300.48  7,312.72  2021-03-11  2021-04-08         29  27.26248218     0.372809   4.794938
-TOTAL     7,339.98                                               57.47641711                        ''' + \
+JPS       4,422.80  4,422.80  2021-01-30  2021-02-18         20  14.74779623     0.333449   6.263664   2479.76  2212.10
+JPS         511.33  4,948.88  2021-02-19  2021-03-07         17  12.81031440     0.258853   5.707472    456.60   408.04
+JPS       2,047.89  7,009.58  2021-03-08  2021-03-10          3   2.65582429     0.037888   4.716753   2401.13  2239.89
+JPS         300.48  7,312.72  2021-03-11  2021-04-08         29  27.26248218     0.372809   4.794938    430.55   397.92
+TOTAL     7,339.98                                               57.47641711                                           ''' + \
 '''
-Papa     15,941.63 15,941.63  2021-01-30  2021-03-06         36  92.46281423     0.580009   6.038977
-Papa      8,973.34 25,007.43  2021-03-07  2021-04-08         33 106.02476866     0.423973   4.790702
-TOTAL    25,113.45                                              198.48758289                        ''' + \
+Papa     15,941.63 15,941.63  2021-01-30  2021-03-06         36  92.46281423     0.580009   6.038977   8938.09  7973.32
+Papa      8,973.34 25,007.43  2021-03-07  2021-04-08         33 106.02476866     0.423973   4.790702  10421.37  9712.37
+TOTAL    25,113.45                                              198.48758289                                           ''' + \
 '''
-G TOTAL  32,453.43                                              255.96400000                        '''
+G TOTAL  32,453.43                                              255.96400000                                           '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
