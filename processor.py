@@ -36,25 +36,26 @@ class Processor:
 		yieldOwnerWithTotalsDetailDf, \
 		depositCrypto = self.ownerDepositYieldComputer.computeDepositsYields()
 
-		colLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
-		fiatColLst = [col for col in colLst if 'AMT' in col and 'YIELD' not in col]
+		yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
+		fiatColLst = [col for col in yieldOwnerWithTotalsDetailDfColNameLst if 'AMT' in col and 'YIELD' not in col]
 		fiatPosColLst = []
 
+		# appending at the right end of the
 		for colName in fiatColLst:
-			fiatPosColLst.append(colLst.index(colName))
+			fiatPosColLst.append(yieldOwnerWithTotalsDetailDfColNameLst.index(colName))
 
 		i = 0
-		#print(colLst)
+		print(yieldOwnerWithTotalsDetailDfColNameLst)
 		for index in fiatPosColLst:
-			colLst = colLst[:i + 1] + colLst[index + i:index + i + 1] + colLst[i + 1:]
-			#print(colLst)
+			yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDfColNameLst[:i + 1] + yieldOwnerWithTotalsDetailDfColNameLst[index + i:index + i + 1] + yieldOwnerWithTotalsDetailDfColNameLst[i + 1:]
+			print(yieldOwnerWithTotalsDetailDfColNameLst)
 			i += 1
 
 		for _ in fiatPosColLst:
-			colLst = colLst[:-1]
-			#print(colLst)
+			yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDfColNameLst[:-1]
+			#print(yieldOwnerWithTotalsDetailDfColNameLst)
 
-		yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf[colLst]
+		yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf[yieldOwnerWithTotalsDetailDfColNameLst]
 
 		fiatLst = list(map(lambda x: x.replace(' AMT', ''), fiatColLst))
 		cryptoFiatRateDic = self.getCurrentCryptoFiatRateValues(depositCrypto, fiatColLst)

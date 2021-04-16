@@ -145,7 +145,7 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		if PRINT:
 			print(actualCryptoFiatRate)
 		else:
-			self.assertEqual(expectedCryptoFiatRate, actualCryptoFiatRate)
+			self.assertAlmostEqual(expectedCryptoFiatRate, actualCryptoFiatRate, 3)
 
 	def testComputeCryptoFiatCurrentRate_unsupported_cryptoFiatPair(self):
 		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
