@@ -40,19 +40,16 @@ class Processor:
 		fiatLst = list(map(lambda x: x.replace(' AMT', ''), fiatColLst))
 		cryptoFiatRateDic = self.getCurrentCryptoFiatRateValues(depositCrypto, fiatColLst)
 
-		i = 0
-		addedFiatDepWithdrColumns = 0
-		print(yieldOwnerWithTotalsDetailDfColNameLst)
+		dfNewColPosition = 0
 		levelThreeColNameSpace = ''
 
 		for fiatColName in fiatColLst:
 			# removing the no longer used fiat col name
 			yieldOwnerWithTotalsDetailDfColNameLst.remove(fiatColName)
 
-			addedFiatDepWithdrColumns += 1
-			yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDfColNameLst[:addedFiatDepWithdrColumns] + \
-				[fiatColName] + yieldOwnerWithTotalsDetailDfColNameLst[addedFiatDepWithdrColumns:]
-			print(yieldOwnerWithTotalsDetailDfColNameLst)
+			dfNewColPosition += 1
+			yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDfColNameLst[:dfNewColPosition] + \
+				[fiatColName] + yieldOwnerWithTotalsDetailDfColNameLst[dfNewColPosition:]
 
 			# updating the yieldOwnerWithTotalsDetailDf with the new column list
 			yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf[yieldOwnerWithTotalsDetailDfColNameLst]
@@ -65,39 +62,39 @@ class Processor:
 
 			# inserting DEP/WITHDR fiat current rate column
 
-			addedFiatDepWithdrColumns += 1
+			dfNewColPosition += 1
 			cryptoFiatCurrentRate = cryptoFiatRateDic[fiat]
 			depositWithdrawalCryptoValueLst = yieldOwnerWithTotalsDetailDf[DATAFRAME_HEADER_DEPOSIT_WITHDRAW].tolist()
 			capitallCurrentFiatValueLst = list(map(lambda x: x * cryptoFiatCurrentRate, depositWithdrawalCryptoValueLst))
 			currentRateUniqueColName = levelThreeColNameSpace + 'CUR RATE'
-			yieldOwnerWithTotalsDetailDf.insert(loc=addedFiatDepWithdrColumns, column=currentRateUniqueColName, value=capitallCurrentFiatValueLst)
+			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=currentRateUniqueColName, value=capitallCurrentFiatValueLst)
 
 			# inserting DEP/WITHDR fiat capital gain column
 
-			addedFiatDepWithdrColumns += 1
+			dfNewColPosition += 1
 			depositWithdrawalDateFromFiatValueLst = yieldOwnerWithTotalsDetailDf[dateFromRateUniqueColName].tolist()
 			depositWithdrawalFiatCapitalGainLst = np.subtract(capitallCurrentFiatValueLst,
 														  	  depositWithdrawalDateFromFiatValueLst)
 			capitalGainUniqueColName = levelThreeColNameSpace + 'CAPITAL GAIN'
-			yieldOwnerWithTotalsDetailDf.insert(loc=addedFiatDepWithdrColumns, column=capitalGainUniqueColName, value=depositWithdrawalFiatCapitalGainLst)
+			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=capitalGainUniqueColName, value=depositWithdrawalFiatCapitalGainLst)
 
 			# inserting DEP/WITHDR fiat capital gain % column
 
-			addedFiatDepWithdrColumns += 1
+			dfNewColPosition += 1
 			depositWithdrawalCurrentFiatVector = np.array(capitallCurrentFiatValueLst)
 			depositWithdrawalDateFromFiatVector = np.array(depositWithdrawalDateFromFiatValueLst)
 			depositWithdrawalFiatCapitalGainPercentVector = ((depositWithdrawalCurrentFiatVector -
 															 depositWithdrawalDateFromFiatVector) / depositWithdrawalDateFromFiatVector) * 100
 
 			capitalGainUniqueColName = levelThreeColNameSpace + 'CAPITAL GAIN %'
-			yieldOwnerWithTotalsDetailDf.insert(loc=addedFiatDepWithdrColumns, column=capitalGainUniqueColName, value=depositWithdrawalFiatCapitalGainPercentVector.tolist())
+			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=capitalGainUniqueColName, value=depositWithdrawalFiatCapitalGainPercentVector.tolist())
 
 			levelThreeColNameSpace += ' '
 			yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
 
 		# insert CAPITAL CUR RATE columns
 
-		addedFiatDepWithdrColumns += 2
+		dfNewColPosition += 2
 		levelThreeColNameSpace = ''
 
 		for fiat in fiatLst:
@@ -105,18 +102,32 @@ class Processor:
 			capitalCryptoValueLst = yieldOwnerWithTotalsDetailDf[DEPOSIT_YIELD_HEADER_CAPITAL].tolist()
 			capitallCurrentFiatValueLst = list(map(lambda x: x * cryptoFiatCurrentRate, capitalCryptoValueLst))
 			fiatUniqueColName = levelThreeColNameSpace + fiat
-			yieldOwnerWithTotalsDetailDf.insert(loc=addedFiatDepWithdrColumns, column=fiatUniqueColName, value=capitallCurrentFiatValueLst)
-			addedFiatDepWithdrColumns += 1
+			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=fiatUniqueColName, value=capitallCurrentFiatValueLst)
+			dfNewColPosition += 1
 
-		i += 4
 		# insert YIELD AMT CUR RATE columns
+
+		dfNewColPosition += 4
+		levelThreeColNameSpace = ' '
+
 		for fiat in fiatLst:
-			i += 1
 			cryptoFiatCurrentRate = cryptoFiatRateDic[fiat]
 			yieldAmountValueLst = yieldOwnerWithTotalsDetailDf[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT].tolist()
-			capitallCurrentFiatValueLst = list(map(lambda x: x * cryptoFiatCurrentRate, yieldAmountValueLst))
-			yieldOwnerWithTotalsDetailDf.insert(loc=i, column='    ' + fiat, value=capitallCurrentFiatValueLst)
+			yieldAmountllCurrentFiatValueLst = list(map(lambda x: x * cryptoFiatCurrentRate, yieldAmountValueLst))
+			fiatUniqueColName = levelThreeColNameSpace + fiat
+			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=fiatUniqueColName, value=yieldAmountllCurrentFiatValueLst)
+			dfNewColPosition += 1
 
+		yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
+		yieldOwnerWithTotalsDetailDfColNameLst.remove(DEPOSIT_YIELD_HEADER_DATE_FROM)
+		yieldOwnerWithTotalsDetailDfColNameLst.remove(DEPOSIT_YIELD_HEADER_DATE_TO)
+		yieldOwnerWithTotalsDetailDfColFormatDic = dict.fromkeys(yieldOwnerWithTotalsDetailDfColNameLst, '.2f')
+		yieldOwnerWithTotalsDetailDfStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			yieldOwnerWithTotalsDetailDf, yieldOwnerWithTotalsDetailDfColFormatDic)
+		print(yieldOwnerWithTotalsDetailDfStr)
+
+		depWithdrFiatColNb = 4 * len(fiatColLst)
+		
 		arrays = [
 			np.array([' ', ' ', ' ', ' ', DEPWITHDR, ' ', ' ', CAPITAL, ' ', ' ', ' ', ' ', ' ', YIELD, ' ', ' ']),
 			np.array([' ', ' ', INIT, ' ', CURR, ' ', ' ', CURR,'  ', ' ', ' ', ' ', ' ', CURR, ' ', ' ']),
