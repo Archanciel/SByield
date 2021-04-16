@@ -252,9 +252,9 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		# optional fiat amount column names
 		yieldOwnerWithTotalsDetailDfColNameLst, fiatAmountColNameLst = self._createYieldOwnerWithTotalsDetailDfColumnLst(ownerDateSortedDepositDf)
 
-		yieldOwnerWithTotalsDetailDf = self._computeYieldOwnerDetailTotals(ownerDateSortedDepositDf,
-																		   yieldOwnerWithTotalsDetailDfColNameLst,
-																		   fiatAmountColNameLst)
+		yieldOwnerWithTotalsDetailDf = self._createYieldOwnerWithTotalsDetailDf(ownerDateSortedDepositDf,
+																				yieldOwnerWithTotalsDetailDfColNameLst,
+																				fiatAmountColNameLst)
 		
 		sbYieldRatesWithTotalDf = sbYieldRatesDf.copy()
 		
@@ -303,21 +303,24 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 	def _computeYieldOwnerSummaryTotals(self, depositsYieldsDf):
 		yieldOwnerSummaryTotals = depositsYieldsDf.groupby([DEPOSIT_SHEET_HEADER_OWNER]).sum().reset_index()[[DEPOSIT_SHEET_HEADER_OWNER, DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
 		
-		# adding a TOTAL column
+		# adding the TOTAL column
 		for index in range(0, len(yieldOwnerSummaryTotals)):
-			yieldOwnerSummaryTotals.loc[index, DATAFRAME_HEADER_TOTAL] = yieldOwnerSummaryTotals.loc[index, DATAFRAME_HEADER_DEPOSIT_WITHDRAW] + yieldOwnerSummaryTotals.loc[index, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]
+			yieldOwnerSummaryTotals.loc[index, DATAFRAME_HEADER_TOTAL] = yieldOwnerSummaryTotals.loc[index, DATAFRAME_HEADER_DEPOSIT_WITHDRAW] + \
+																		 yieldOwnerSummaryTotals.loc[index, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]
 
-		# reseting index to OWNER column
+		# resetting index to OWNER column
 		yieldOwnerSummaryTotals = yieldOwnerSummaryTotals.set_index(DEPOSIT_SHEET_HEADER_OWNER)
 		
-		yieldOwnerSummaryTotals.loc[DATAFRAME_HEADER_TOTAL] = yieldOwnerSummaryTotals.sum(numeric_only=True, axis=0)[[DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT, DATAFRAME_HEADER_TOTAL]]
-
+		# adding the TOTAL row
+		yieldOwnerSummaryTotals.loc[DATAFRAME_HEADER_TOTAL] = yieldOwnerSummaryTotals.sum(numeric_only=True, axis=0)[[DATAFRAME_HEADER_DEPOSIT_WITHDRAW,
+																													  DEPOSIT_YIELD_HEADER_YIELD_AMOUNT,
+																													  DATAFRAME_HEADER_TOTAL]]
 		return yieldOwnerSummaryTotals
 	
-	def _computeYieldOwnerDetailTotals(self,
-									   depositsYieldsDf,
-									   yieldOwnerWithTotalsDetailDfColNameLst,
-									   fiatAmountColNameLst):
+	def _createYieldOwnerWithTotalsDetailDf(self,
+											depositsYieldsDf,
+											yieldOwnerWithTotalsDetailDfColNameLst,
+											fiatAmountColNameLst):
 		yieldOwnerWithTotalsDetailDf = pd.DataFrame(columns=yieldOwnerWithTotalsDetailDfColNameLst)
 		
 		currentOwner = depositsYieldsDf.loc[1, DEPOSIT_SHEET_HEADER_OWNER]
