@@ -4,3 +4,4 @@
 *.iml
 test/testdata/~$testSBEarningUsdc.xlsx
 test/testdata/~$testSBEarningUsdc_analysis.xlsx
+.idea/workspace.xml~

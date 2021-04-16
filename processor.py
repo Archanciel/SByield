@@ -38,9 +38,10 @@ class Processor:
 
 		yieldOwnerWithTotalsDetailDfColNameLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
 		fiatColLst = [col for col in yieldOwnerWithTotalsDetailDfColNameLst if 'AMT' in col and 'YIELD' not in col]
+
+		# getting the indexes or position of the optional fiat amount columns
 		fiatPosColLst = []
 
-		# appending at the right end of the
 		for colName in fiatColLst:
 			fiatPosColLst.append(yieldOwnerWithTotalsDetailDfColNameLst.index(colName))
 

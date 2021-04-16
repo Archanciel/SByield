@@ -265,7 +265,8 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		sbYieldRatesWithTotalDf.index = pd.to_datetime(sbYieldRatesWithTotalDf.index).strftime('%Y-%m-%d')
 		
 		# adding TOTAL row to SB yield rates data frame for MERGED_SHEET_HEADER_EARNING_NEW_NAME column only
-		sbYieldRatesWithTotalDf.loc[DATAFRAME_HEADER_FINAL_TOTAL] = sbYieldRatesWithTotalDf[[MERGED_SHEET_HEADER_EARNING_NEW_NAME]].sum(numeric_only=True)
+		sbYieldRatesWithTotalDf.loc[DATAFRAME_HEADER_FINAL_TOTAL] = \
+			sbYieldRatesWithTotalDf[[MERGED_SHEET_HEADER_EARNING_NEW_NAME]].sum(numeric_only=True)
 		
 		sbYieldRatesWithTotalDf.loc[DATAFRAME_HEADER_FINAL_TOTAL, MERGED_SHEET_HEADER_EARNING_CAPITAL] = lastRowCapitalPlusEarningValue
 
@@ -318,7 +319,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW,
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT,
 				DATAFRAME_HEADER_TOTAL]]
-		
+
 		return yieldOwnerSummaryTotals
 	
 	def _createYieldOwnerWithTotalsDetailDf(self,
