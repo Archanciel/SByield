@@ -9,7 +9,8 @@ YIELD = 'YIELD'
 YIELD_DAYS = 'Y DAYS'
 YIELD_AMT = 'Y AMT'
 YIELD_AMT_PERCENT = 'Y %'
-YEAR_YIELD_PERCENT = 'Y Y %'
+YEAR_YIELD_PERCENT = 'YR Y %'
+YEAR_YIELD_PERCENT_SHORT = 'Y Y %'
 
 class Processor:
 	def __init__(self,
@@ -112,15 +113,19 @@ class Processor:
 		if os.name == 'posix':
 			formatDic = {DEPOSIT_YIELD_HEADER_CAPITAL: ' ' + depositCrypto,
 						 DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER: YIELD_DAYS,
-						 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: YIELD_AMT,
+#						 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: YIELD_AMT,
+						 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '  ' + depositCrypto,
 						 DATAFRAME_HEADER_DEPOSIT_WITHDRAW: DEPWITHDR_SHORT,
 						 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT: YIELD_AMT_PERCENT,
-						 DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: YEAR_YIELD_PERCENT
+						 DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: YEAR_YIELD_PERCENT_SHORT
 			}
 		else:
 			formatDic = {DEPOSIT_YIELD_HEADER_CAPITAL: ' ' + depositCrypto,
+						 DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER: YIELD_DAYS,
 						 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '  ' + depositCrypto,
-			}
+						 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT: YIELD_AMT_PERCENT,
+						 DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: YEAR_YIELD_PERCENT
+						 }
 
 		yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf.rename(
 			columns=formatDic)
@@ -135,7 +140,7 @@ class Processor:
 		for fiat in fiatLst:
 			levelOneDepWithdrFiatArray += [' '] * 3 + ['  ' + fiat]
 
-		multiIndexLevelOneLst = [depositCrypto] + levelOneDepWithdrFiatArray + [' '] * capitalFiatColNb + [CAPITAL] + [' '] * yieldAmountColNb + [YIELD] + [' ', ' ']
+		multiIndexLevelOneLst = [depositCrypto] + levelOneDepWithdrFiatArray + [' '] * capitalFiatColNb + [CAPITAL] + [' '] + ['DATE'] + [' '] * (fiatNb + 1) + [YIELD] + [' ', ' ', ' ', ' ']
 		multiIndexLevelTwoLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
 
 		arrays = [

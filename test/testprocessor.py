@@ -38,9 +38,9 @@ class TestProcessor(unittest.TestCase):
 
 		sbAccountSheetFileName = 'testSwissborg_account_statement_20201218_20210408.xlsx'
 		depositSheetFileName = 'testDepositChsb_fiat_usd_chf.csv'
-		depositSheetFileName = 'testDepositChsb_fiat_usd.csv'
+		#depositSheetFileName = 'testDepositChsb_fiat_usd.csv'
 		depositSheetFileName = 'testDepositChsb_no_fiat.csv'
-		depositSheetFileName = 'testDepositChsb_fiat_chf.csv'
+		#depositSheetFileName = 'testDepositChsb_fiat_chf.csv'
 		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
 
 		print(depositSheetFileName)
