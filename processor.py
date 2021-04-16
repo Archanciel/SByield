@@ -1,24 +1,15 @@
-import numpy as np
+import os
 
 from ownerdeposityieldcomputer import *
 
 DEPWITHDR = 'DEP/WITHDR'
+DEPWITHDR_SHORT = 'DEP/WDR'
 CAPITAL = 'CAPITAL'
-CHSB_DP_I = 'CHSB'
-USD_DP_I = 'USD'
-CHF_DP_I = 'CHF'
-USD_DP_C = ' USD'
-CHF_DP_C = ' CHF'
-CHSB_C_C = ' CHSB'
-USD_C_C = '  USD'
-CHF_C_C = '  CHF'
-CHSB_Y = '  CHSB'
-USD_Y = '   USD'
-CHF_Y = '   CHF'
-YIELD = 'YIELD AMT'
-INIT = 'DF RATE'
-CURR = 'CUR RATE'
-
+YIELD = 'YIELD'
+YIELD_DAYS = 'Y DAYS'
+YIELD_AMT = 'Y AMT'
+YIELD_AMT_PERCENT = 'Y %'
+YEAR_YIELD_PERCENT = 'Y Y %'
 
 class Processor:
 	def __init__(self,
@@ -75,7 +66,7 @@ class Processor:
 			depositWithdrawalDateFromFiatValueLst = yieldOwnerWithTotalsDetailDf[dateFromRateUniqueColName].tolist()
 			depositWithdrawalFiatCapitalGainLst = np.subtract(capitallCurrentFiatValueLst,
 														  	  depositWithdrawalDateFromFiatValueLst)
-			capitalGainUniqueColName = levelThreeColNameSpace + 'CAPITAL GAIN'
+			capitalGainUniqueColName = levelThreeColNameSpace + 'CAP GAIN'
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=capitalGainUniqueColName, value=depositWithdrawalFiatCapitalGainLst)
 
 			# inserting DEP/WITHDR fiat capital gain % column
@@ -86,7 +77,7 @@ class Processor:
 			depositWithdrawalFiatCapitalGainPercentVector = ((depositWithdrawalCurrentFiatVector -
 															 depositWithdrawalDateFromFiatVector) / depositWithdrawalDateFromFiatVector) * 100
 
-			capitalGainUniqueColName = levelThreeColNameSpace + 'CAPITAL GAIN %'
+			capitalGainUniqueColName = levelThreeColNameSpace + 'CAP GAIN %'
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=capitalGainUniqueColName, value=depositWithdrawalFiatCapitalGainPercentVector.tolist())
 
 			levelThreeColNameSpace += ' '
@@ -118,10 +109,21 @@ class Processor:
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=fiatUniqueColName, value=yieldAmountllCurrentFiatValueLst)
 			dfNewColPosition += 1
 
+		if os.name == 'posix':
+			formatDic = {DEPOSIT_YIELD_HEADER_CAPITAL: ' ' + depositCrypto,
+						 DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER: YIELD_DAYS,
+						 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: YIELD_AMT,
+						 DATAFRAME_HEADER_DEPOSIT_WITHDRAW: DEPWITHDR_SHORT,
+						 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT: YIELD_AMT_PERCENT,
+						 DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: YEAR_YIELD_PERCENT
+			}
+		else:
+			formatDic = {DEPOSIT_YIELD_HEADER_CAPITAL: ' ' + depositCrypto,
+						 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '  ' + depositCrypto,
+			}
+
 		yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf.rename(
-			columns={DEPOSIT_YIELD_HEADER_CAPITAL: ' ' + depositCrypto,
-					 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '  ' + depositCrypto
-					 })
+			columns=formatDic)
 		fiatNb = len(fiatColLst)
 		depWithdrFiatColNb = 4 * fiatNb
 		capitalFiatColNb = fiatNb
