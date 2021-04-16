@@ -247,7 +247,14 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT] = yearlyYieldPercent
 		
 		yieldOwnerWithTotalsSummaryDf = self._computeYieldOwnerSummaryTotals(ownerDateSortedDepositDf)
-		yieldOwnerWithTotalsDetailDf = self._computeYieldOwnerDetailTotals(ownerDateSortedDepositDf)
+
+		# creating yieldOwnerWithTotalsDetailDf column name list including
+		# optional fiat amount column names
+		yieldOwnerWithTotalsDetailDfColNameLst, fiatAmountColNameLst = self._createYieldOwnerWithTotalsDetailDfColumnLst(ownerDateSortedDepositDf)
+
+		yieldOwnerWithTotalsDetailDf = self._computeYieldOwnerDetailTotals(ownerDateSortedDepositDf,
+																		   yieldOwnerWithTotalsDetailDfColNameLst,
+																		   fiatAmountColNameLst)
 		
 		sbYieldRatesWithTotalDf = sbYieldRatesDf.copy()
 		
@@ -307,9 +314,10 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 
 		return yieldOwnerSummaryTotals
 	
-	def _computeYieldOwnerDetailTotals(self, depositsYieldsDf):
-		yieldOwnerWithTotalsDetailDfColNameLst, fiatAmountColNameLst = self.createYieldOwnerWithTotalsDetailDfColumnLst(depositsYieldsDf)
-
+	def _computeYieldOwnerDetailTotals(self,
+									   depositsYieldsDf,
+									   yieldOwnerWithTotalsDetailDfColNameLst,
+									   fiatAmountColNameLst):
 		yieldOwnerWithTotalsDetailDf = pd.DataFrame(columns=yieldOwnerWithTotalsDetailDfColNameLst)
 		
 		currentOwner = depositsYieldsDf.loc[1, DEPOSIT_SHEET_HEADER_OWNER]
@@ -322,13 +330,19 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		# deactivating SettingWithCopyWarning caused by totalRow[DEPOSIT_SHEET_HEADER_OWNER] += ' total'
 		pd.set_option('mode.chained_assignment', None)
 
-
 		for index, row in depositsYieldsDf.iterrows():
-			# creating a dictionary for the fiat columns if they exist
-			fiatAmounzColDic = {}
-			for colName in fiatAmountColNameLst:
-				fiatAmounzColDic[colName] = row[colName]
+			# creating a dictionary for the fiat columns, if they exist
+			fiatAmountColDic = {}
 
+			# creating a fiat amount column dic with as key the optional
+			# deposit CSV file fiat columns and as value the corresponding
+			# column value of the current row
+			for colName in fiatAmountColNameLst:
+				fiatAmountColDic[colName] = row[colName]
+
+			# creating the yieldOwnerWithTotalsDetailDf column dic with as key
+			# the yieldOwnerWithTotalsDetailDf column names and as value the
+			# corresponding column value of the current row
 			appendDic = {DEPOSIT_SHEET_HEADER_OWNER: row[DEPOSIT_SHEET_HEADER_OWNER],
 						DATAFRAME_HEADER_DEPOSIT_WITHDRAW: row[DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
 						DEPOSIT_YIELD_HEADER_CAPITAL: row[DEPOSIT_YIELD_HEADER_CAPITAL],
@@ -342,17 +356,24 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 						DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: row[
 							DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT]}
 
-			# adding the fiatAmounzColDic to the appendDic
-			appendDic.update(fiatAmounzColDic)
+			# adding the fiatAmountColDic to the appendDic
+			appendDic.update(fiatAmountColDic)
 
 			if currentOwner == row[DEPOSIT_SHEET_HEADER_OWNER]:
+				# adding the yieldOwnerWithTotalsDetailDf row for the current
+				# owner
 				yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf.append(appendDic, ignore_index=True)
 			else:
+				# as owner has changed, adding the total row for the previous
+				# owner
 				totalRow = ownerGroupTotalDf.loc[ownerGroupTotalIndex]
 				totalRow[DEPOSIT_SHEET_HEADER_OWNER] = DATAFRAME_HEADER_FINAL_TOTAL
 				totalRow[DATAFRAME_HEADER_DEPOSIT_WITHDRAW] += totalRow[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]
 				yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf.append(totalRow, ignore_index=True)
 				ownerGroupTotalIndex += 1
+
+				# now adding the first yieldOwnerWithTotalsDetailDf row for
+				# the current owner
 				yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf.append(appendDic, ignore_index=True)
 				currentOwner = row[DEPOSIT_SHEET_HEADER_OWNER]
 
@@ -373,16 +394,26 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 
 		return yieldOwnerWithTotalsDetailDf
 
-	def createYieldOwnerWithTotalsDetailDfColumnLst(self, depositsYieldsDf):
-		colNames = [DEPOSIT_SHEET_HEADER_OWNER,
-					DATAFRAME_HEADER_DEPOSIT_WITHDRAW,
-					DEPOSIT_YIELD_HEADER_CAPITAL,
-					DEPOSIT_YIELD_HEADER_DATE_FROM,
-					DEPOSIT_YIELD_HEADER_DATE_TO,
-					DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER,
-					DEPOSIT_YIELD_HEADER_YIELD_AMOUNT,
-					DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT,
-					DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT]
+	def _createYieldOwnerWithTotalsDetailDfColumnLst(self, depositsYieldsDf):
+		'''
+		This method creates the list of yieldOwnerWithTotalsDetailDf column
+		names. It adds At the end of the list the column names for the fiat
+		defined in the deposit CSV file. 0 or n fiats can be specified in
+		the deposit CSV file, which justifies the current method.
+		'''
+		yieldOwnerWithTotalsDetailDfColNameLst = [DEPOSIT_SHEET_HEADER_OWNER,
+												  DATAFRAME_HEADER_DEPOSIT_WITHDRAW,
+												  DEPOSIT_YIELD_HEADER_CAPITAL,
+												  DEPOSIT_YIELD_HEADER_DATE_FROM,
+												  DEPOSIT_YIELD_HEADER_DATE_TO,
+												  DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER,
+												  DEPOSIT_YIELD_HEADER_YIELD_AMOUNT,
+												  DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT,
+												  DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT]
+
+		# adding the deposit CSV file fiat amount column names.
+		# Ex of deposit file header: OWNER,DATE,DEP/WITHDR,USD AMT,CHF AMT
 		fiatAmountColNameLst = [col for col in depositsYieldsDf.columns if 'AMT' in col and 'YIELD' not in col]
-		colNames.extend(fiatAmountColNameLst)
-		return colNames, fiatAmountColNameLst
+		yieldOwnerWithTotalsDetailDfColNameLst.extend(fiatAmountColNameLst)
+
+		return yieldOwnerWithTotalsDetailDfColNameLst, fiatAmountColNameLst
