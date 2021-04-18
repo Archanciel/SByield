@@ -153,9 +153,17 @@ class Processor:
 		index = pd.MultiIndex.from_tuples(tuples)
 		yieldOwnerWithTotalsDetailDf.columns = index
 
+		# simpler way of printing all float columns multi index with 2
+		# decimal places
+		pd.options.display.float_format = '{:,.2f}'.format
+
+		yieldOwnerWithTotalsDetailDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			yieldOwnerWithTotalsDetailDf, {})
+
 		return sbYieldRatesWithTotalDf, \
 			   yieldOwnerWithTotalsSummaryDf, \
 			   yieldOwnerWithTotalsDetailDf, \
+			   yieldOwnerWithTotalsDetailDfActualStr, \
 			   depositCrypto
 
 	def getCurrentCryptoFiatRateValues(self,

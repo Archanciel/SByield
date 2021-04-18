@@ -39,8 +39,8 @@ class TestProcessor(unittest.TestCase):
 		sbAccountSheetFileName = 'testSwissborg_account_statement_20201218_20210408.xlsx'
 		depositSheetFileName = 'testDepositChsb_fiat_usd_chf.csv'
 		#depositSheetFileName = 'testDepositChsb_fiat_usd.csv'
-		depositSheetFileName = 'testDepositChsb_no_fiat.csv'
-		#depositSheetFileName = 'testDepositChsb_fiat_chf.csv'
+		#depositSheetFileName = 'testDepositChsb_no_fiat.csv'
+		depositSheetFileName = 'testDepositChsb_fiat_chf.csv'
 		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
 
 		print(depositSheetFileName)
@@ -52,14 +52,39 @@ class TestProcessor(unittest.TestCase):
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
 		yieldOwnerWithTotalsDetailDf, \
+		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
 
-		# simpler way of printing all float columns multi index with 2
-		# decimal places
-		pd.options.display.float_format = '{:,.2f}'.format
+		if PRINT:
+			print(yieldOwnerWithTotalsDetailDfActualStr)
 
-		yieldOwnerWithTotalsDetailDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
-			yieldOwnerWithTotalsDetailDf, {})
+		# resetting the pandas global float format so that the other unit test
+		# are not impacted by the previous global float format setting
+		pd.reset_option('display.float_format')
+
+	def testAddFiatConversionInfo(self):
+		"""
+		"""
+		PRINT = True
+
+		sbAccountSheetFileName = 'testSwissborg_account_statement_20201218_20210408.xlsx'
+		depositSheetFileName = 'testDepositChsb_fiat_usd_chf.csv'
+		#depositSheetFileName = 'testDepositChsb_fiat_usd.csv'
+		#depositSheetFileName = 'testDepositChsb_no_fiat.csv'
+		depositSheetFileName = 'testDepositChsb_fiat_chf.csv'
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+
+		print(depositSheetFileName)
+
+		self.initializeComputerClasses(sbAccountSheetFileName,
+									   depositSheetFileName,
+									   cryptoFiatCsvFileName)
+
+		sbYieldRatesWithTotalDf, \
+		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
+		yieldOwnerWithTotalsDetailDfActualStr, \
+		depositCrypto =	self.processor.addFiatConversionInfo()
 
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
