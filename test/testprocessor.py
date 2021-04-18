@@ -174,8 +174,8 @@ class TestProcessor(unittest.TestCase):
 TOTAL                                  255.96400000'''
 
 		if PRINT:
-			print('\nSwissborg earnings loaded from Swissborg account statement sheet ...')
-			print(sbEarningsTotalDfActualStr)
+			#print('\nSwissborg earnings loaded from Swissborg account statement sheet ...')
+			#print(sbEarningsTotalDfActualStr)
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
@@ -586,8 +586,8 @@ TOTAL                                  255.96400000'''
 TOTAL                                  1,050.12284407'''
 
 		if PRINT:
-			print('\nSwissborg earnings loaded from Swissborg account statement sheet ...')
-			print(sbEarningsTotalDfActualStr)
+			#print('\nSwissborg earnings loaded from Swissborg account statement sheet ...')
+			#print(sbEarningsTotalDfActualStr)
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
 			self.maxDiff=None

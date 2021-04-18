@@ -32,7 +32,7 @@ class Processor:
 		multiIndexLevelTwoLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
 		fiatColLst = [col for col in multiIndexLevelTwoLst if 'AMT' in col and 'YIELD' not in col]
 		fiatLst = list(map(lambda x: x.replace(' AMT', ''), fiatColLst))
-		cryptoFiatRateDic = self.getCurrentCryptoFiatRateValues(depositCrypto, fiatColLst)
+		cryptoFiatRateDic = self._getCurrentCryptoFiatRateValues(depositCrypto, fiatColLst)
 
 		dfNewColPosition = 0
 		levelThreeColNameSpace = ''
@@ -144,17 +144,11 @@ class Processor:
 
 		# completing totals for fiat conversion columns
 
-		aggDic = {DATE_FROM_RATE: 'sum',
-				  CAPITAL_GAIN: 'sum'}
-		space = ''
+		fiatColNameDic = self._buildFiatColNameDic([DATE_FROM_RATE, CAPITAL_GAIN] + fiatLst + [' ' + depositCrypto], len(fiatLst))
+		#fiatColNameDic.update({' CHSB': None})
+		fiatColNameDic = dict.fromkeys(fiatColNameDic, 'sum')
 
-		for i in range(1, len(fiatLst)):
-			space += ' '
-			additionalAggDic = {space + DATE_FROM_RATE: 'sum',
-					  			space + CAPITAL_GAIN: 'sum'}
-			aggDic.update(additionalAggDic)
-
-		ownerGroupTotalDf = yieldOwnerWithTotalsDetailDf.groupby([DEPOSIT_SHEET_HEADER_OWNER]).agg(aggDic).reset_index()
+		ownerGroupTotalDf = yieldOwnerWithTotalsDetailDf.groupby([DEPOSIT_SHEET_HEADER_OWNER]).agg(fiatColNameDic).reset_index()
 
 		ownerGroupTotalDfIndex = 1
 
@@ -162,10 +156,9 @@ class Processor:
 
 		for index, row in yieldOwnerWithTotalsDetailDf.iterrows():
 			if row.loc[DEPOSIT_SHEET_HEADER_OWNER] == DATAFRAME_HEADER_TOTAL:
-				dateFromTotal = ownerGroupTotalDf.iloc[ownerGroupTotalDfIndex][DATE_FROM_RATE]
-				yieldOwnerWithTotalsDetailDf.loc[index, DATE_FROM_RATE] = dateFromTotal
-				capitalGainTotal = ownerGroupTotalDf.iloc[ownerGroupTotalDfIndex][CAPITAL_GAIN]
-				yieldOwnerWithTotalsDetailDf.loc[index, CAPITAL_GAIN] = capitalGainTotal
+				for colName in fiatColNameDic.keys():
+					total = ownerGroupTotalDf.iloc[ownerGroupTotalDfIndex][colName]
+					yieldOwnerWithTotalsDetailDf.loc[index, colName] = total
 				ownerGroupTotalDfIndex += 1
 
 		yieldOwnerWithTotalsDetailDf.set_index(DEPOSIT_SHEET_HEADER_OWNER, inplace=True)
@@ -199,9 +192,9 @@ class Processor:
 			   yieldOwnerWithTotalsDetailDfActualStr, \
 			   depositCrypto
 
-	def getCurrentCryptoFiatRateValues(self,
-									   crypto,
-									   fiatColLst):
+	def _getCurrentCryptoFiatRateValues(self,
+										crypto,
+										fiatColLst):
 		cryptoFiatRateDic = {}
 
 		for colName in fiatColLst:
@@ -210,3 +203,14 @@ class Processor:
 			cryptoFiatRateDic[fiat] = cryptoFiatRate
 
 		return cryptoFiatRateDic
+
+	def _buildFiatColNameDic(self, colNameLst, fiatNb):
+		colNameSpace = ''
+		colNameDic = {}
+
+		for i in range(0, fiatNb):
+			for colName in colNameLst:
+				colNameDic[colNameSpace + colName] = None
+			colNameSpace += ' '
+
+		return colNameDic
