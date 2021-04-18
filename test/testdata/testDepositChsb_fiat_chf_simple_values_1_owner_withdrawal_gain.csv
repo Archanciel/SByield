@@ -43,7 +43,9 @@ Explanations:
 Test case info:
 
 In order to verify the Processor fiat conversion added values, this depoit
-CSV file contains simplified deposit/withdrawal data for 1 owner.
+CSV file contains simplified deposit/withdrawal data for 1 owner. Here,
+the withdrawal CHF value is superior to the CHF current rate withdrawal
+value (750).
 
 Data:
 
