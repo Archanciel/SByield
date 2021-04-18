@@ -162,7 +162,7 @@ class Processor:
 				capGainPecentTotal = yieldOwnerWithTotalsDetailDf.loc[index, CAPITAL_GAIN] / \
 									 yieldOwnerWithTotalsDetailDf.loc[index, DATE_FROM_RATE] * 100
 				yieldOwnerWithTotalsDetailDf.loc[index, CAPITAL_GAIN_PERCENT] = capGainPecentTotal
-				
+
 				yieldOnerGroupTotalDfIndex += 1
 
 		yieldOwnerWithTotalsDetailDf.set_index(DEPOSIT_SHEET_HEADER_OWNER, inplace=True)
