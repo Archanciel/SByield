@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-GENERATE_XLSV_FILE = False
+GENERATE_XLSV_FILE = True
 RANDOM_YEARLY_YIELD_RATE_LOW = 1.15
 RANDOM_YEARLY_YIELD_RATE_HIGH = 1.25
 
@@ -27,9 +27,8 @@ depWithdrArray = [0.0] * dayNumber
 
 depWithdrArray[0] = 10000
 depWithdrArray[5] = 1000
-depWithdrArray[9] = -500
 
-xlsxFilePathName = TEST_DATA_PATH + 'depositChsbSimpleValue1owner.xlsx'
+xlsxFilePathName = TEST_DATA_PATH + 'depositChsbSimpleValue1ownerNoWithdrawal.xlsx'
 
 # generating day date list
 dayDates = pd.date_range("2021-01-01", periods=dayNumber, freq="D")

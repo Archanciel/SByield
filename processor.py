@@ -143,21 +143,26 @@ class Processor:
 
 		# completing totals for fiat conversion columns
 
-		fiatColNameDic = self._buildFiatColNameDic([DATE_FROM_RATE, CAPITAL_GAIN] + fiatLst + [depositCrypto], len(fiatLst))
+		fiatColNameDic = self._buildFiatColNameDic([DATE_FROM_RATE, CAPITAL_GAIN], fiatLst + [depositCrypto], len(fiatLst))
 		fiatColNameSumDic = dict.fromkeys(fiatColNameDic, 'sum')
 
 		yieldOwnerGroupTotalDf = yieldOwnerWithTotalsDetailDf.groupby([DEPOSIT_SHEET_HEADER_OWNER]).agg(fiatColNameSumDic).reset_index()
-
 		yieldOnerGroupTotalDfIndex = 1
 
 		yieldOwnerWithTotalsDetailDf.reset_index(inplace=True)
 
 		for index, row in yieldOwnerWithTotalsDetailDf.iterrows():
 			if row.loc[DEPOSIT_SHEET_HEADER_OWNER] == DATAFRAME_HEADER_TOTAL:
-				# totals must be ompleted only on total rows
+				# totals must be completed only on total rows
 				for colName in fiatColNameDic.keys():
 					total = yieldOwnerGroupTotalDf.iloc[yieldOnerGroupTotalDfIndex][colName]
 					yieldOwnerWithTotalsDetailDf.loc[index, colName] = total
+
+				# computing capital gain percent total
+				capGainPecentTotal = yieldOwnerWithTotalsDetailDf.loc[index, CAPITAL_GAIN] / \
+									 yieldOwnerWithTotalsDetailDf.loc[index, DATE_FROM_RATE] * 100
+				yieldOwnerWithTotalsDetailDf.loc[index, CAPITAL_GAIN_PERCENT] = capGainPecentTotal
+				
 				yieldOnerGroupTotalDfIndex += 1
 
 		yieldOwnerWithTotalsDetailDf.set_index(DEPOSIT_SHEET_HEADER_OWNER, inplace=True)
@@ -221,7 +226,7 @@ class Processor:
 
 		return cryptoFiatRateDic
 
-	def _buildFiatColNameDic(self, colNameLst, fiatNb):
+	def _buildFiatColNameDic(self, colNameLst, fiatColNameLst, fiatNb):
 		"""
 
 		@param colNameLst:
@@ -229,11 +234,24 @@ class Processor:
 		@return:
 		"""
 		colNameSpace = ''
+
+		# prevents                  CAPITAL
+		#          CHSB       CHF       USD
+		# columns to be summed
+		fiatColNameSpace = ' '
+
 		colNameDic = {}
 
 		for i in range(0, fiatNb):
 			for colName in colNameLst:
 				colNameDic[colNameSpace + colName] = None
+
 			colNameSpace += ' '
+
+		# prevents                  CAPITAL
+		#          CHSB       CHF       USD
+		# columns to be summed
+		for fiatColName in fiatColNameLst:
+			colNameDic[fiatColNameSpace + fiatColName] = None
 
 		return colNameDic
