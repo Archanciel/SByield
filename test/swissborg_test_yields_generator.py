@@ -1,10 +1,17 @@
 import pandas as pd
 import numpy as np
 
+GENERATE_XLSV_FILE = True
 RANDOM_YEARLY_YIELD_RATE_LOW = 1.15
 RANDOM_YEARLY_YIELD_RATE_HIGH = 1.25
 
-# generating excel data for testDepositUsdc_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate_3_yield_days.csv
+# generating excel data for
+# testDepositUsdc_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate_3_yield_days.csv
+'''
+OWNER,DATE,DEP/WITHDR
+JPS,2021/01/01 00:00:00,1000
+JPS,2021/01/03 00:00:00,-1001
+'''
 # FIXED_YEARLY_YIELD_RATE = np.power(1.001, 365)
 # dayNumber = 3
 # depWithdrArray = [0.0] * dayNumber
@@ -12,11 +19,16 @@ RANDOM_YEARLY_YIELD_RATE_HIGH = 1.25
 # depWithdrArray[2] = -1001
 
 # generating excel data for testDepositUsdc_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate.csv
-FIXED_YEARLY_YIELD_RATE = 1.2
-dayNumber = 5
+FIXED_YEARLY_YIELD_RATE = 1.1
+
+dayNumber = 365
 depWithdrArray = [0.0] * dayNumber
-depWithdrArray[0] = 20000
-depWithdrArray[3] = -20020
+
+depWithdrArray[0] = 11000
+depWithdrArray[4] = 10000
+depWithdrArray[5] = 10000
+depWithdrArray[5] = 6000
+depWithdrArray[9] = -500
 
 # generating day date list
 dayDates = pd.date_range("2021-01-01", periods=dayNumber, freq="D")
@@ -98,7 +110,8 @@ def computeYields(df):
 	df.loc[TOTAL] = df.sum(numeric_only=True, axis=0)[
 		[YIELD_DAILY]]
 
-	return df.to_string(formatters={RATE_DAILY: '{:.8f}'.format, YIELD_DAILY: '{:.14f}'.format, YIELD_SUM: '{:.14f}'.format}).replace('NaT', '   ').replace('NaN', '   ').replace('nan', '   ')
+	return df,\
+		   df.to_string(formatters={RATE_DAILY: '{:.8f}'.format, YIELD_DAILY: '{:.14f}'.format, YIELD_SUM: '{:.14f}'.format}).replace('NaT', '   ').replace('NaN', '   ').replace('nan', '   ')
 
 # generating an array of random values in the range of 1.15 - 1.25,
 # i.e. returns between 15 % and 25 % per annum
@@ -110,7 +123,7 @@ randomDailyInterestRates = np.power(randomYearlyInterestRates, 1/365)
 
 dfRandom = pd.DataFrame({DATE: dayDates, DEPWITHDR: depWithdrArray, CAPITAL: capitalArray, RATE_YEARLY: randomYearlyInterestRates, RATE_DAILY: randomDailyInterestRates, YIELD_DAILY: zeroYieldArray, YIELD_SUM: zeroYieldArray})
 
-print('Random yields\n')		
+#print('Random yields\n')
 #print(computeYields(dfRandom))
 
 # generating an array of fixed interest rate values
@@ -122,6 +135,14 @@ fixedDailyInterestRates = np.power(FIXED_YEARLY_YIELD_RATE, 1 / 365)
 
 dfFixed = pd.DataFrame({DATE: dayDates, DEPWITHDR: depWithdrArray, CAPITAL: capitalArray, RATE_YEARLY: fixedYearlyInterestRates,  RATE_DAILY: fixedDailyInterestRates, YIELD_DAILY: zeroYieldArray})
 
-print('\nFixed yield of {} % per year\n'.format(round((FIXED_YEARLY_YIELD_RATE - 1) * 100)))
-#print(dfFixed)
-print(computeYields(dfFixed))
+if GENERATE_XLSV_FILE:
+	testDataPath = 'D:\\Development\\Python\\SByield\\test\\testData\\'
+
+	xlsxFilePathName = testDataPath + 'depositChsbSimpleValue.xlsx'
+	dfFixed, _ = computeYields(dfFixed)
+	dfFixed.to_excel(xlsxFilePathName)
+else:
+	print('\nFixed yield of {} % per year\n'.format(round((FIXED_YEARLY_YIELD_RATE - 1) * 100)))
+	#print(dfFixed)
+	dfFixed, dfFixedStr = computeYields(dfFixed)
+	print(dfFixedStr)
