@@ -20,7 +20,7 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 			dataPath = 'D:\\Development\\Python\\SByield\\data\\'
 			cryptoFiatCsvFilePathName = dataPath + cryptoFiatCsvFileName
 
-		self.cryptoFiatRateComputer = CryptoFiatRateComputer(cryptoFiatCsvFilePathName)
+		self.cryptoFiatRateComputer = CryptoFiatRateComputer(PriceRequester(), cryptoFiatCsvFilePathName)
 
 	def test_loadCryptoFiatCsvFile(self):
 		PRINT = False

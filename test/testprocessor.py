@@ -64,13 +64,15 @@ class TestProcessor(unittest.TestCase):
 		# are not impacted by the previous global float format setting
 		pd.reset_option('display.float_format')
 
-	def testAddFiatConversionInfo_1_fiat_simple_values(self):
+	def testAddFiatConversionInfo_1_fiat_simple_values2_owners(self):
 		"""
+		CHSB crypto, 2 owners, 1 with 1 withdrawal, fixed yield rate,
+		CHSB/CHF final rateof 1.5.
 		"""
 		PRINT = True
 
 		sbAccountSheetFileName = 'testDepositCHSB_simple_values.xlsx'
-		depositSheetFileName = 'testDepositChsb_fiat_chf_simple_values.csv'
+		depositSheetFileName = 'testDepositChsb_fiat_chf_simple_values_2_owners.csv'
 		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
 		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
 
@@ -178,14 +180,9 @@ TOTAL                                  255.96400000'''
 		else:
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
-
-		# resetting the pandas global float format so that the other unit test
-		# are not impacted by the previous global float format setting
-		pd.reset_option('display.float_format')
-
 if __name__ == '__main__':
 	if os.name == 'posix':
 		unittest.main()
 	else:
 		tst = TestProcessor()
-		tst.testAddFiatConversionInfo_1_fiat_simple_values()
+		tst.testAddFiatConversionInfo_1_fiat_simple_values2_owners()

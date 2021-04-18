@@ -160,6 +160,10 @@ class Processor:
 		yieldOwnerWithTotalsDetailDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			yieldOwnerWithTotalsDetailDf, {})
 
+		# resetting the pandas global float format so that the other unit test
+		# are not impacted by the previous global float format setting
+		pd.reset_option('display.float_format')
+
 		return sbYieldRatesWithTotalDf, \
 			   yieldOwnerWithTotalsSummaryDf, \
 			   yieldOwnerWithTotalsDetailDf, \
