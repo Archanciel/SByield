@@ -48,6 +48,8 @@ class TestProcessor(unittest.TestCase):
 		self.initializeComputerClasses(sbAccountSheetFileName,
 									   depositSheetFileName,
 									   cryptoFiatCsvFileName)
+									   
+		self.maxDiff=None
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
