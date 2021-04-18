@@ -595,17 +595,17 @@ TOTAL                                  1,050.12284407'''
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'                                                 DEP/WITHDR                                                                                 \n' + \
-'              CHSB                                      CHF             CAPITAL                    DATE                    YIELD            \n' + \
-'        DEP/WITHDR   DF RATE  CUR RATE  CAP GAIN CAP GAIN %      CHSB       CHF        FROM          TO Y DAYS     CHSB      CHF  Y % YR Y %\n' + \
-'OWNER                                                                                                                                       ' + \
+'                                                 DEP/WITHDR                                                                               \n' + \
+'              CHSB                                      CHF             CAPITAL                    DATE                  YIELD            \n' + \
+'        DEP/WITHDR   DF RATE  CUR RATE  CAP GAIN CAP GAIN %      CHSB       CHF        FROM          TO DAYS     CHSB      CHF  Y % YR Y %\n' + \
+'OWNER                                                                                                                                     ' + \
 '''
-JPS      10,000.00  5,000.00 15,000.00 10,000.00     200.00 10,000.00 15,000.00  2021-01-02  2021-01-05      4    10.45    15.68 0.10  10.00
-JPS       1,000.00  1,000.00  1,500.00    500.00      50.00 11,010.45 16,515.68  2021-01-06  2021-01-09      4    11.79    17.69 0.11  10.26
-JPS        -500.00 -2,000.00   -750.00  1,250.00      62.50 10,522.24 15,783.37  2021-01-10  2021-12-31    356 1,025.32 1,537.98 9.74  10.00
-TOTAL    11,547.57  4,000.00 17,321.35 11,750.00            31,532.69 47,299.04                                1,047.57 1,571.35            ''' + \
+JPS      10,000.00  5,000.00 15,000.00 10,000.00     200.00 10,000.00 15,000.00  2021-01-02  2021-01-05    4    10.45    15.68 0.10  10.00
+JPS       1,000.00  1,000.00  1,500.00    500.00      50.00 11,010.45 16,515.68  2021-01-06  2021-01-09    4    11.79    17.69 0.11  10.26
+JPS        -500.00 -2,000.00   -750.00  1,250.00      62.50 10,522.24 15,783.37  2021-01-10  2021-12-31  356 1,025.32 1,537.98 9.74  10.00
+TOTAL    11,547.57  4,000.00 17,321.35 11,750.00            31,532.69 47,299.04                              1,047.57 1,571.35            ''' + \
 '''
-G TOTAL  11,547.57           17,321.35                                                                         1,047.57 1,571.35            '''
+G TOTAL  11,547.57           17,321.35                                                                       1,047.57 1,571.35            '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
@@ -1028,17 +1028,17 @@ TOTAL                                  1,050.12284407'''
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'                                                DEP/WITHDR                                                                                 \n' + \
-'              CHSB                                     CHF             CAPITAL                    DATE                    YIELD            \n' + \
-'        DEP/WITHDR  DF RATE  CUR RATE  CAP GAIN CAP GAIN %      CHSB       CHF        FROM          TO Y DAYS     CHSB      CHF  Y % YR Y %\n' + \
-'OWNER                                                                                                                                      ' + \
+'                                                DEP/WITHDR                                                                               \n' + \
+'              CHSB                                     CHF             CAPITAL                    DATE                  YIELD            \n' + \
+'        DEP/WITHDR  DF RATE  CUR RATE  CAP GAIN CAP GAIN %      CHSB       CHF        FROM          TO DAYS     CHSB      CHF  Y % YR Y %\n' + \
+'OWNER                                                                                                                                    ' + \
 '''
-JPS      10,000.00 5,000.00 15,000.00 10,000.00     200.00 10,000.00 15,000.00  2021-01-02  2021-01-05      4    10.45    15.68 0.10  10.00
-JPS       1,000.00 1,000.00  1,500.00    500.00      50.00 11,010.45 16,515.68  2021-01-06  2021-01-09      4    11.79    17.69 0.11  10.26
-JPS        -500.00  -600.00   -750.00   -150.00     -25.00 10,522.24 15,783.37  2021-01-10  2021-12-31    356 1,025.32 1,537.98 9.74  10.00
-TOTAL    11,547.57 5,400.00 17,321.35 10,350.00            31,532.69 47,299.04                                1,047.57 1,571.35            ''' + \
+JPS      10,000.00 5,000.00 15,000.00 10,000.00     200.00 10,000.00 15,000.00  2021-01-02  2021-01-05    4    10.45    15.68 0.10  10.00
+JPS       1,000.00 1,000.00  1,500.00    500.00      50.00 11,010.45 16,515.68  2021-01-06  2021-01-09    4    11.79    17.69 0.11  10.26
+JPS        -500.00  -600.00   -750.00   -150.00     -25.00 10,522.24 15,783.37  2021-01-10  2021-12-31  356 1,025.32 1,537.98 9.74  10.00
+TOTAL    11,547.57 5,400.00 17,321.35 10,350.00            31,532.69 47,299.04                              1,047.57 1,571.35            ''' + \
 '''
-G TOTAL  11,547.57          17,321.35                                                                         1,047.57 1,571.35            '''
+G TOTAL  11,547.57          17,321.35                                                                       1,047.57 1,571.35            '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')

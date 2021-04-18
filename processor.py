@@ -3,16 +3,16 @@ import os
 from ownerdeposityieldcomputer import *
 
 DEPWITHDR = 'DEP/WITHDR'
-DEPWITHDR_SHORT = 'DEP/WDR'
 DATE_FROM_RATE = 'DF RATE'
+CURRENT_RATE = 'CUR RATE'
 CAPITAL_GAIN = 'CAP GAIN'
+CAPITAL_GAIN_PERCENT = 'CAP GAIN %'
 CAPITAL = 'CAPITAL'
 YIELD = 'YIELD'
-YIELD_DAYS = 'Y DAYS'
+YIELD_DAYS = 'DAYS'
 YIELD_AMT = 'Y AMT'
 YIELD_AMT_PERCENT = 'Y %'
 YEAR_YIELD_PERCENT = 'YR Y %'
-YEAR_YIELD_PERCENT_SHORT = 'Y Y %'
 
 class Processor:
 	def __init__(self,
@@ -70,7 +70,7 @@ class Processor:
 			cryptoFiatCurrentRate = cryptoFiatRateDic[fiat]
 			depositWithdrawalCryptoValueLst = yieldOwnerWithTotalsDetailDf[DATAFRAME_HEADER_DEPOSIT_WITHDRAW].tolist()
 			capitallCurrentFiatValueLst = list(map(lambda x: x * cryptoFiatCurrentRate, depositWithdrawalCryptoValueLst))
-			currentRateUniqueColName = levelTwoColNameSpace + 'CUR RATE'
+			currentRateUniqueColName = levelTwoColNameSpace + CURRENT_RATE
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=currentRateUniqueColName, value=capitallCurrentFiatValueLst)
 
 			# inserting DEP/WITHDR fiat capital gain column
@@ -94,7 +94,7 @@ class Processor:
 			depositWithdrawalDateFromFiatVectorPositiveValues = depositWithdrawalDateFromFiatVector * depositWithdrawalDateFromFiatVectorSign
 			depositWithdrawalFiatCapitalGainPercentVector = ((capitalGainVector) / depositWithdrawalDateFromFiatVectorPositiveValues) * 100
 
-			capitalGainUniqueColName = levelTwoColNameSpace + 'CAP GAIN %'
+			capitalGainUniqueColName = levelTwoColNameSpace + CAPITAL_GAIN_PERCENT
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=capitalGainUniqueColName, value=depositWithdrawalFiatCapitalGainPercentVector.tolist())
 
 			levelTwoColNameSpace += ' '
@@ -127,23 +127,12 @@ class Processor:
 
 		# renaming the yieldOwnerWithTotalsDetailDf columns
 
-		if os.name == 'posix':
-			# since the Android tablet available print space is smaller than
-			# the space available on Windows, the some col names are reduced
-			formatDic = {DEPOSIT_YIELD_HEADER_CAPITAL: depositCrypto,
-						 DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER: YIELD_DAYS,
-						 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: ' ' + depositCrypto,
-						 DATAFRAME_HEADER_DEPOSIT_WITHDRAW: DEPWITHDR_SHORT,
-						 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT: YIELD_AMT_PERCENT,
-						 DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: YEAR_YIELD_PERCENT_SHORT
-			}
-		else:
-			formatDic = {DEPOSIT_YIELD_HEADER_CAPITAL: depositCrypto,
-						 DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER: YIELD_DAYS,
-						 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: ' ' + depositCrypto,
-						 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT: YIELD_AMT_PERCENT,
-						 DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: YEAR_YIELD_PERCENT
-						 }
+		formatDic = {DEPOSIT_YIELD_HEADER_CAPITAL: depositCrypto,
+					 DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER: YIELD_DAYS,
+					 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: ' ' + depositCrypto,
+					 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT: YIELD_AMT_PERCENT,
+					 DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: YEAR_YIELD_PERCENT
+					 }
 
 		yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf.rename(
 			columns=formatDic)
@@ -155,20 +144,21 @@ class Processor:
 		# completing totals for fiat conversion columns
 
 		fiatColNameDic = self._buildFiatColNameDic([DATE_FROM_RATE, CAPITAL_GAIN] + fiatLst + [depositCrypto], len(fiatLst))
-		fiatColNameDic = dict.fromkeys(fiatColNameDic, 'sum')
+		fiatColNameSumDic = dict.fromkeys(fiatColNameDic, 'sum')
 
-		ownerGroupTotalDf = yieldOwnerWithTotalsDetailDf.groupby([DEPOSIT_SHEET_HEADER_OWNER]).agg(fiatColNameDic).reset_index()
+		yieldOwnerGroupTotalDf = yieldOwnerWithTotalsDetailDf.groupby([DEPOSIT_SHEET_HEADER_OWNER]).agg(fiatColNameSumDic).reset_index()
 
-		ownerGroupTotalDfIndex = 1
+		yieldOnerGroupTotalDfIndex = 1
 
 		yieldOwnerWithTotalsDetailDf.reset_index(inplace=True)
 
 		for index, row in yieldOwnerWithTotalsDetailDf.iterrows():
 			if row.loc[DEPOSIT_SHEET_HEADER_OWNER] == DATAFRAME_HEADER_TOTAL:
+				# totals must be ompleted only on total rows
 				for colName in fiatColNameDic.keys():
-					total = ownerGroupTotalDf.iloc[ownerGroupTotalDfIndex][colName]
+					total = yieldOwnerGroupTotalDf.iloc[yieldOnerGroupTotalDfIndex][colName]
 					yieldOwnerWithTotalsDetailDf.loc[index, colName] = total
-				ownerGroupTotalDfIndex += 1
+				yieldOnerGroupTotalDfIndex += 1
 
 		yieldOwnerWithTotalsDetailDf.set_index(DEPOSIT_SHEET_HEADER_OWNER, inplace=True)
 
@@ -194,14 +184,14 @@ class Processor:
 		index = pd.MultiIndex.from_tuples(tuples)
 		yieldOwnerWithTotalsDetailDf.columns = index
 
-		# simpler way of printing all float columns multi index with 2
+		# simple way of printing all float multi index columns with 2
 		# decimal places
 		pd.options.display.float_format = '{:,.2f}'.format
 
 		yieldOwnerWithTotalsDetailDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			yieldOwnerWithTotalsDetailDf, {})
 
-		# resetting the pandas global float format so that the other unit test
+		# resetting the pandas global float format so that the unit tests
 		# are not impacted by the previous global float format setting
 		pd.reset_option('display.float_format')
 
