@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-GENERATE_XLSV_FILE = True
+GENERATE_XLSV_FILE = False
 RANDOM_YEARLY_YIELD_RATE_LOW = 1.15
 RANDOM_YEARLY_YIELD_RATE_HIGH = 1.25
 
@@ -20,15 +20,16 @@ JPS,2021/01/03 00:00:00,-1001
 
 # generating excel data for testDepositUsdc_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate.csv
 FIXED_YEARLY_YIELD_RATE = 1.1
+TEST_DATA_PATH = 'D:\\Development\\Python\\SByield\\test\\testData\\'
 
 dayNumber = 365
 depWithdrArray = [0.0] * dayNumber
 
-depWithdrArray[0] = 11000
-depWithdrArray[4] = 10000
-depWithdrArray[5] = 10000
-depWithdrArray[5] = 6000
+depWithdrArray[0] = 10000
+depWithdrArray[5] = 1000
 depWithdrArray[9] = -500
+
+xlsxFilePathName = TEST_DATA_PATH + 'depositChsbSimpleValue1owner.xlsx'
 
 # generating day date list
 dayDates = pd.date_range("2021-01-01", periods=dayNumber, freq="D")
@@ -136,11 +137,9 @@ fixedDailyInterestRates = np.power(FIXED_YEARLY_YIELD_RATE, 1 / 365)
 dfFixed = pd.DataFrame({DATE: dayDates, DEPWITHDR: depWithdrArray, CAPITAL: capitalArray, RATE_YEARLY: fixedYearlyInterestRates,  RATE_DAILY: fixedDailyInterestRates, YIELD_DAILY: zeroYieldArray})
 
 if GENERATE_XLSV_FILE:
-	testDataPath = 'D:\\Development\\Python\\SByield\\test\\testData\\'
-
-	xlsxFilePathName = testDataPath + 'depositChsbSimpleValue.xlsx'
 	dfFixed, _ = computeYields(dfFixed)
 	dfFixed.to_excel(xlsxFilePathName)
+	print(xlsxFilePathName + ' created')
 else:
 	print('\nFixed yield of {} % per year\n'.format(round((FIXED_YEARLY_YIELD_RATE - 1) * 100)))
 	#print(dfFixed)

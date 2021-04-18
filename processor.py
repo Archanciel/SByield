@@ -4,6 +4,8 @@ from ownerdeposityieldcomputer import *
 
 DEPWITHDR = 'DEP/WITHDR'
 DEPWITHDR_SHORT = 'DEP/WDR'
+DATE_FROM_RATE = 'DF RATE'
+CAPITAL_GAIN = 'CAP GAIN'
 CAPITAL = 'CAPITAL'
 YIELD = 'YIELD'
 YIELD_DAYS = 'Y DAYS'
@@ -47,7 +49,7 @@ class Processor:
 			yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf[multiIndexLevelTwoLst]
 
 			# renaming the fiat column
-			dateFromRateUniqueColName = levelThreeColNameSpace + 'DF RATE'
+			dateFromRateUniqueColName = levelThreeColNameSpace + DATE_FROM_RATE
 			yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf.rename(columns={fiatColName: dateFromRateUniqueColName})
 
 			fiat = fiatColName.replace(' AMT', '')
@@ -67,7 +69,7 @@ class Processor:
 			depositWithdrawalDateFromFiatValueLst = yieldOwnerWithTotalsDetailDf[dateFromRateUniqueColName].tolist()
 			depositWithdrawalFiatCapitalGainLst = np.subtract(capitallCurrentFiatValueLst,
 														  	  depositWithdrawalDateFromFiatValueLst)
-			capitalGainUniqueColName = levelThreeColNameSpace + 'CAP GAIN'
+			capitalGainUniqueColName = levelThreeColNameSpace + CAPITAL_GAIN
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=capitalGainUniqueColName, value=depositWithdrawalFiatCapitalGainLst)
 
 			# inserting DEP/WITHDR fiat capital gain % column
@@ -140,6 +142,33 @@ class Processor:
 		for fiat in fiatLst:
 			levelOneDepWithdrFiatArray += [' '] * 3 + ['  ' + fiat]
 
+		# completing totals for fiat conversion columns
+
+		aggDic = {DATE_FROM_RATE: 'sum',
+				  CAPITAL_GAIN: 'sum'}
+		space = ''
+
+		for i in range(1, len(fiatLst)):
+			space += ' '
+			additionalAggDic = {space + DATE_FROM_RATE: 'sum',
+					  			space + CAPITAL_GAIN: 'sum'}
+			aggDic.update(additionalAggDic)
+
+		ownerGroupTotalDf = yieldOwnerWithTotalsDetailDf.groupby([DEPOSIT_SHEET_HEADER_OWNER]).agg(aggDic).reset_index()
+
+		ownerGroupTotalDfIndex = 1
+
+		yieldOwnerWithTotalsDetailDf.reset_index(inplace=True)
+
+		for index, row in yieldOwnerWithTotalsDetailDf.iterrows():
+			if row.loc[DEPOSIT_SHEET_HEADER_OWNER] == DATAFRAME_HEADER_TOTAL:
+				dateFromTotal = ownerGroupTotalDf.iloc[ownerGroupTotalDfIndex][DATE_FROM_RATE]
+				yieldOwnerWithTotalsDetailDf.loc[index, DATE_FROM_RATE] = dateFromTotal
+				capitalGainTotal = ownerGroupTotalDf.iloc[ownerGroupTotalDfIndex][CAPITAL_GAIN]
+				yieldOwnerWithTotalsDetailDf.loc[index, CAPITAL_GAIN] = capitalGainTotal
+				ownerGroupTotalDfIndex += 1
+
+		yieldOwnerWithTotalsDetailDf.set_index(DEPOSIT_SHEET_HEADER_OWNER, inplace=True)
 		multiIndexLevelOneLst = [depositCrypto] + levelOneDepWithdrFiatArray + [' '] * capitalFiatColNb + [CAPITAL] + [' '] + ['DATE'] + [' '] * (fiatNb + 1) + [YIELD] + [' ', ' ', ' ', ' ']
 		multiIndexLevelTwoLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
 
