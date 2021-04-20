@@ -13,6 +13,7 @@ YIELD_DAYS = 'DAYS'
 YIELD_AMT = 'Y AMT'
 YIELD_AMT_PERCENT = 'Y %'
 YEAR_YIELD_PERCENT = 'YR Y %'
+TOTAL_INCLUDE_YIELD = 'Tot incl yield'
 
 class Processor:
 	def __init__(self,
@@ -182,6 +183,7 @@ class Processor:
 
 		multiIndexLevelOneLst = [depositCrypto] + levelOneDepWithdrFiatArray + [' '] * capitalFiatColNb + [CAPITAL] + [' '] + ['DATE'] + [' '] * (fiatNb + 1) + [YIELD] + [' ', ' ', ' ', ' ']
 		multiIndexLevelTwoLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
+		multiIndexLevelTwoLst[0] = TOTAL_INCLUDE_YIELD
 
 		arrays = [
 			np.array(multiIndexLevelZeroLst),
