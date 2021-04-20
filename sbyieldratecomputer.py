@@ -237,8 +237,12 @@ class SBYieldRateComputer(PandasDataComputer):
 		earningDf = earningDf.drop(columns=SB_ACCOUNT_SHEET_NO_LONGER_USED_COLUMNS_LIST)
 		
 		# removing unuseful owner column from the deposit data frame
-		depositDf = depositDf.drop(columns=DEPOSIT_SHEET_HEADER_OWNER)
-		
+		#depositDf.drop(columns=DEPOSIT_SHEET_HEADER_OWNER, inplace=True)
+
+		# removing optional fiat conversion amount columns
+		# droplist = [i for i in depositDf.columns if 'AMT' in i]
+		# depositDf.drop(droplist, axis=1, inplace=True)
+
 		# appending depositDf to earningDf, then sorting on datetime index and converting NaN to zero
 		mergedDf = earningDf.append(depositDf)
 		mergedDf = mergedDf.sort_index().fillna(0)
@@ -251,6 +255,11 @@ class SBYieldRateComputer(PandasDataComputer):
 		cols = cols[-1:] + cols[:-1]
 		mergedDf = mergedDf[cols]
 
+		mergedDf[SB_ACCOUNT_SHEET_HEADER_DATE] = pd.to_datetime(mergedDf[SB_ACCOUNT_SHEET_HEADER_DATE]).dt.date
+
+		mergedDf = mergedDf.groupby(by=[SB_ACCOUNT_SHEET_HEADER_DATE], observed=True).sum().reset_index()
+
+
 		# adding daily yield rate and yearly yield rate column
 		self._insertEmptyFloatColumns(mergedDf,
 									  None,
@@ -260,8 +269,8 @@ class SBYieldRateComputer(PandasDataComputer):
 		currentCapital = 0
 		previousEarning = 0
 		
-		for i in range(1, len(mergedDf) + 1):
-			if i > 1:
+		for i in range(0, len(mergedDf)):
+			if i > 0:
 				previousEarning = mergedDf.loc[i - 1, MERGED_SHEET_HEADER_EARNING]
 			currentCapital = currentCapital + \
 							 mergedDf.loc[i, DATAFRAME_HEADER_DEPOSIT_WITHDRAW] + \
@@ -328,7 +337,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		dailyYieldRatesDf = dailyYieldRatesDf[isYieldRateNonZero]
 
 		# remove time component from date index
-		dailyYieldRatesDf[MERGED_SHEET_HEADER_DATE_NEW_NAME] = pd.to_datetime(dailyYieldRatesDf[MERGED_SHEET_HEADER_DATE_NEW_NAME].dt.date)
+		#dailyYieldRatesDf[MERGED_SHEET_HEADER_DATE_NEW_NAME] = pd.to_datetime(dailyYieldRatesDf[MERGED_SHEET_HEADER_DATE_NEW_NAME].dt.date)
 		
 		# set MERGED_SHEET_HEADER_DATE_NEW_NAME column as index
 		dailyYieldRatesDf = dailyYieldRatesDf.set_index(MERGED_SHEET_HEADER_DATE_NEW_NAME)

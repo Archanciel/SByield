@@ -104,10 +104,8 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		# compute capital, date to and yield day number
 		previousRowOwner = None
 		currentRowCapital = 0.0
-		firstYieldTimeStamp = sbYieldRatesDf.index[0]
-		firstYieldPaymentDate = firstYieldTimeStamp.date()
-		lastYieldTimeStamp = sbYieldRatesDf.index[-1]
-		lastYieldPaymentDate = lastYieldTimeStamp.date()
+		firstYieldPaymentDate = sbYieldRatesDf.index[0]
+		lastYieldPaymentDate = sbYieldRatesDf.index[-1]
 		maxIdxValue = len(ownerDateSortedDepositDf)
 		ownerDateSortedDepositBeforeUpdateDf = ownerDateSortedDepositDf.copy()
 		
