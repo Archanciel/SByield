@@ -147,7 +147,7 @@ class Processor:
 		fiatColNameSumDic = dict.fromkeys(fiatColNameDic, 'sum')
 
 		yieldOwnerGroupTotalDf = yieldOwnerWithTotalsDetailDf.groupby([DEPOSIT_SHEET_HEADER_OWNER]).agg(fiatColNameSumDic).reset_index()
-		yieldOnerGroupTotalDfIndex = 1
+		yieldOwnerGroupTotalDfIndex = 1
 
 		yieldOwnerWithTotalsDetailDf.reset_index(inplace=True)
 
@@ -155,15 +155,19 @@ class Processor:
 			if row.loc[DEPOSIT_SHEET_HEADER_OWNER] == DATAFRAME_HEADER_TOTAL:
 				# totals must be completed only on total rows
 				for colName in fiatColNameDic.keys():
-					total = yieldOwnerGroupTotalDf.iloc[yieldOnerGroupTotalDfIndex][colName]
+					total = yieldOwnerGroupTotalDf.iloc[yieldOwnerGroupTotalDfIndex][colName]
 					yieldOwnerWithTotalsDetailDf.loc[index, colName] = total
 
 				# computing capital gain percent total
-				capGainPecentTotal = yieldOwnerWithTotalsDetailDf.loc[index, CAPITAL_GAIN] / \
-									 yieldOwnerWithTotalsDetailDf.loc[index, DATE_FROM_RATE] * 100
-				yieldOwnerWithTotalsDetailDf.loc[index, CAPITAL_GAIN_PERCENT] = capGainPecentTotal
+				colNameSpace = ''
 
-				yieldOnerGroupTotalDfIndex += 1
+				for _ in fiatLst:
+					capGainPecentTotal = yieldOwnerWithTotalsDetailDf.loc[index, colNameSpace + CAPITAL_GAIN] / \
+										 yieldOwnerWithTotalsDetailDf.loc[index, colNameSpace + DATE_FROM_RATE] * 100
+					yieldOwnerWithTotalsDetailDf.loc[index, colNameSpace + CAPITAL_GAIN_PERCENT] = capGainPecentTotal
+					colNameSpace += ' '
+
+				yieldOwnerGroupTotalDfIndex += 1
 
 		yieldOwnerWithTotalsDetailDf.set_index(DEPOSIT_SHEET_HEADER_OWNER, inplace=True)
 

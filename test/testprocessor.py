@@ -12,6 +12,8 @@ from pricerequester import PriceRequester
 from pricerequesterteststub import PriceRequesterTestStub
 from processor import *
 
+PRINT_SB_EARNING_TOTALS = False
+
 class TestProcessor(unittest.TestCase):
 	def initializeComputerClasses(self, sbAccountSheetFileName, depositSheetFileName, cryptoFiatCsvFileName):
 		if os.name == 'posix':
@@ -144,7 +146,8 @@ TOTAL                                  255.96400000'''
 
 		if PRINT:
 			# print('\nSwissborg earnings loaded from Swissborg account statement sheet ...')
-			print(sbEarningsTotalDfActualStr)
+			if PRINT_SB_EARNING_TOTALS:
+				print(sbEarningsTotalDfActualStr)
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
@@ -159,11 +162,11 @@ JPS       4,422.80  2,479.76  7,518.77  5,039.01     203.21  2,212.10  6,634.20 
 JPS         511.33    456.60    869.26    412.66      90.38    408.04    767.00    358.95       87.97  4,948.88  8,413.10  7,423.32  2021-02-19  2021-03-07   17  12.81  21.78  19.22 0.26   5.71
 JPS       2,047.89  2,401.13  3,481.41  1,080.28      44.99  2,239.89  3,071.84    831.95       37.14  7,009.58 11,916.29 10,514.37  2021-03-08  2021-03-10    3   2.66   4.51   3.98 0.04   4.72
 JPS         300.48    430.55    510.82     80.27      18.64    397.92    450.72     52.80       13.27  7,312.72 12,431.62 10,969.08  2021-03-11  2021-04-08   29  27.26  46.35  40.89 0.37   4.79
-TOTAL     7,339.98  5,768.04 12,477.97  6,612.22     114.64  5,257.95 11,009.97  5,665.80                                                                         57.48  97.71  86.21            ''' + \
+TOTAL     7,339.98  5,768.04 12,477.97  6,612.22     114.64  5,257.95 11,009.97  5,665.80      107.76                                                             57.48  97.71  86.21            ''' + \
 '''
 Papa     15,941.63  8,938.09 27,100.76 18,162.67     203.21  7,973.32 23,912.44 15,939.12      199.91 15,941.63 27,100.76 23,912.44  2021-01-30  2021-03-06   36  92.46 157.19 138.69 0.58   6.04
 Papa      8,973.34 10,421.37 15,254.68  4,833.31      46.38  9,712.37 13,460.01  3,747.64       38.59 25,007.43 42,512.63 37,511.14  2021-03-07  2021-04-08   33 106.02 180.24 159.04 0.42   4.79
-TOTAL    25,113.45 19,359.46 42,692.87 22,995.98     118.78 17,685.69 37,670.18 19,686.76                                                                        198.49 337.43 297.73            ''' + \
+TOTAL    25,113.45 19,359.46 42,692.87 22,995.98     118.78 17,685.69 37,670.18 19,686.76      111.31                                                            198.49 337.43 297.73            ''' + \
 '''
 G TOTAL  32,453.43           55,170.84                                48,680.15                                                                                  255.96 435.14 383.95            '''
 
@@ -579,8 +582,8 @@ G TOTAL  32,453.43           55,170.84                                48,680.15 
 TOTAL                                  2,631.86967354'''
 
 		if PRINT:
-			#print('\nSwissborg earnings loaded from Swissborg account statement sheet ...')
-			print(sbEarningsTotalDfActualStr)
+			if PRINT_SB_EARNING_TOTALS:
+				print(sbEarningsTotalDfActualStr)
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
@@ -1017,8 +1020,8 @@ G TOTAL  26,135.33           39,202.99                                          
 TOTAL                                  1,050.12284407'''
 
 		if PRINT:
-			print('\nSwissborg earnings loaded from Swissborg account statement sheet ...')
-			print(sbEarningsTotalDfActualStr)
+			if PRINT_SB_EARNING_TOTALS:
+				print(sbEarningsTotalDfActualStr)
 		else:
 			self.maxDiff=None
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
@@ -1450,8 +1453,8 @@ G TOTAL  11,547.57           17,321.35                                          
 TOTAL                                  1,050.12284407'''
 
 		if PRINT:
-			print('\nSwissborg earnings loaded from Swissborg account statement sheet ...')
-			print(sbEarningsTotalDfActualStr)
+			if PRINT_SB_EARNING_TOTALS:
+				print(sbEarningsTotalDfActualStr)
 		else:
 			self.maxDiff=None
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
@@ -1883,8 +1886,8 @@ G TOTAL  11,547.57          17,321.35                                           
 TOTAL                                  1,050.12284407'''
 
 		if PRINT:
-			print('\nSwissborg earnings loaded from Swissborg account statement sheet ...')
-			print(sbEarningsTotalDfActualStr)
+			if PRINT_SB_EARNING_TOTALS:
+				print(sbEarningsTotalDfActualStr)
 		else:
 			self.maxDiff=None
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
@@ -2314,8 +2317,8 @@ G TOTAL  11,547.57          17,321.35                                           
 TOTAL                                  1,098.56475635'''
 
 		if PRINT:
-			print('\nSwissborg earnings loaded from Swissborg account statement sheet ...')
-			print(sbEarningsTotalDfActualStr)
+			if PRINT_SB_EARNING_TOTALS:
+				print(sbEarningsTotalDfActualStr)
 		else:
 			self.maxDiff=None
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
@@ -2744,8 +2747,8 @@ G TOTAL  12,096.01          18,144.01                                           
 TOTAL                                  1,098.56475635'''
 
 		if PRINT:
-			print('\nSwissborg earnings loaded from Swissborg account statement sheet ...')
-			print(sbEarningsTotalDfActualStr)
+			if PRINT_SB_EARNING_TOTALS:
+				print(sbEarningsTotalDfActualStr)
 		else:
 			self.maxDiff=None
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
@@ -2758,7 +2761,7 @@ TOTAL                                  1,098.56475635'''
 '''
 JPS      10,000.00 5,000.00 15,000.00 10,000.00     200.00 4,800.00 17,000.00 12,200.00      254.17 10,000.00 15,000.00 17,000.00  2021-01-02  2021-01-05    4    10.45    15.68    17.77 0.10  10.00
 JPS       1,000.00 1,000.00  1,500.00    500.00      50.00   980.00  1,700.00    720.00       73.47 11,010.45 16,515.68 18,717.77  2021-01-06  2021-12-31  360 1,085.56 1,628.34 1,845.45 9.86  10.00
-TOTAL    12,096.01 6,000.00 18,144.01 10,500.00     175.00 5,780.00 20,563.21 12,920.00                                                                        1,096.01 1,644.01 1,863.21            ''' + \
+TOTAL    12,096.01 6,000.00 18,144.01 10,500.00     175.00 5,780.00 20,563.21 12,920.00      223.53                                                            1,096.01 1,644.01 1,863.21            ''' + \
 '''
 G TOTAL  12,096.01          18,144.01                               20,563.21                                                                                  1,096.01 1,644.01 1,863.21            '''
 
