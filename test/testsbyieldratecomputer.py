@@ -310,7 +310,7 @@ TOTAL                                          2.1'''
 				self.testDataPath + depositSheetFileName), e.exception.message)
 	
 	def test_mergeEarningAndDeposit(self):
-		PRINT = True
+		PRINT = False
 		
 		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'
 		depositSheetFileName = 'testDepositUsdc_1.csv'
@@ -325,27 +325,22 @@ TOTAL                                          2.1'''
 		mergedEarningDeposit = self.yieldRateComputer._mergeEarningAndDeposit(sbEarningsDf, depositDf)
 
 		if not PRINT:
-			self.assertEqual((14, 6), mergedEarningDeposit.shape)
+			self.assertEqual((10, 6), mergedEarningDeposit.shape)
 			self.assertEqual(expectedYieldCrypto, depositCrypto)
 
 		expectedStrDataframe = \
-'                   DATE  DEP/WITHDR  EARNING CAP  EARNING  D YIELD RATE  Y YIELD RATE\n' + \
-'IDX                                                                                  ' + \
+'         DATE  DEP/WITHDR  EARNING CAP  EARNING  D YIELD RATE  Y YIELD RATE' + \
 '''
-1   2020-11-21 00:00:00      2000.0      2000.00     0.00      0.000000      0.000000
-2   2020-12-22 09:00:00         0.0      2000.00     0.80      1.000400      1.157162
-3   2020-12-23 09:00:00         0.0      2000.80     0.81      1.000405      1.159207
-4   2020-12-24 09:00:00         0.0      2001.61     0.82      1.000410      1.161252
-5   2020-12-25 00:00:00      4000.0      6002.43     0.00      0.000000      0.000000
-6   2020-12-25 00:00:01      1000.0      7002.43     0.00      0.000000      0.000000
-7   2020-12-25 09:00:00         0.0      7002.43     0.78      1.000111      1.041493
-8   2020-12-26 09:00:00         0.0      7003.21     2.80      1.000400      1.157085
-9   2020-12-27 00:00:00      -500.0      6506.01     0.00      0.000000      0.000000
-10  2020-12-27 09:00:00         0.0      6506.01     2.70      1.000415      1.163513
-11  2020-12-28 00:00:00      3000.0      9508.71     0.00      0.000000      0.000000
-12  2020-12-28 09:00:00         0.0      9508.71     2.75      1.000289      1.111317
-13  2020-12-29 09:00:00         0.0      9511.46     4.00      1.000421      1.165869
-14  2020-12-30 09:00:00         0.0      9515.46     4.10      1.000431      1.170272'''
+0  2020-11-21      2000.0      2000.00     0.00      0.000000      0.000000
+1  2020-12-22         0.0      2000.00     0.80      1.000400      1.157162
+2  2020-12-23         0.0      2000.80     0.81      1.000405      1.159207
+3  2020-12-24         0.0      2001.61     0.82      1.000410      1.161252
+4  2020-12-25      5000.0      7002.43     0.78      1.000111      1.041493
+5  2020-12-26         0.0      7003.21     2.80      1.000400      1.157085
+6  2020-12-27      -500.0      6506.01     2.70      1.000415      1.163513
+7  2020-12-28      3000.0      9508.71     2.75      1.000289      1.111317
+8  2020-12-29         0.0      9511.46     4.00      1.000421      1.165869
+9  2020-12-30         0.0      9515.46     4.10      1.000431      1.170272'''
 		
 		if PRINT:
 			print(mergedEarningDeposit)
@@ -936,11 +931,13 @@ TOTAL                                          2.1'''
 
 
 if __name__ == '__main__':
-	#unittest.main()
-	tst = TestSBYieldRateComputer()
-	tst.setUp()
-	#tst.test_mergeEarningAndDeposit()
-	tst.test_mergeEarningAndDeposit_bug()
-#	tst.testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_2_deposit()
-#	tst.testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_1_deposit_1_partial_withdr()
-#	tst.test_loadDepositCsvFileWithFiatColumns_2()
+	if os.name == 'posix':
+		unittest.main()
+	else:
+		tst = TestSBYieldRateComputer()
+		tst.setUp()
+		#tst.test_mergeEarningAndDeposit()
+		tst.test_mergeEarningAndDeposit_bug()
+#   	tst.testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_2_deposit()
+#   	tst.testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_1_deposit_1_partial_withdr()
+#   	tst.test_loadDepositCsvFileWithFiatColumns_2()
