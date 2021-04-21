@@ -8,7 +8,7 @@ class Processor:
 				 sbYieldRateComputer,
 				 ownerDepositYieldComputer,
 				 cryptoFiatRateComputer,
-				 language=0):
+				 language=GB):
 		self.sbYieldRateComputer = sbYieldRateComputer
 		self.ownerDepositYieldComputer = ownerDepositYieldComputer
 		self.cryptoFiatRateComputer = cryptoFiatRateComputer
@@ -60,15 +60,15 @@ class Processor:
 			dfNewColPosition += 1
 			cryptoFiatCurrentRate = cryptoFiatRateDic[fiat]
 			depositWithdrawalCryptoValueLst = yieldOwnerWithTotalsDetailDf[DATAFRAME_HEADER_DEPOSIT_WITHDRAW].tolist()
-			capitallCurrentFiatValueLst = list(map(lambda x: x * cryptoFiatCurrentRate, depositWithdrawalCryptoValueLst))
+			capitalCurrentFiatValueLst = list(map(lambda x: x * cryptoFiatCurrentRate, depositWithdrawalCryptoValueLst))
 			currentRateUniqueColName = levelTwoColNameSpace + PROC_CURRENT_RATE[self.language]
-			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=currentRateUniqueColName, value=capitallCurrentFiatValueLst)
+			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=currentRateUniqueColName, value=capitalCurrentFiatValueLst)
 
 			# inserting DEP/WITHDR fiat capital gain column
 
 			dfNewColPosition += 1
 			depositWithdrawalDateFromFiatValueLst = yieldOwnerWithTotalsDetailDf[dateFromRateUniqueColName].tolist()
-			depositWithdrawalFiatCapitalGainLst = np.subtract(capitallCurrentFiatValueLst,
+			depositWithdrawalFiatCapitalGainLst = np.subtract(capitalCurrentFiatValueLst,
 															  depositWithdrawalDateFromFiatValueLst)
 			capitalGainUniqueColName = levelTwoColNameSpace + PROC_CAPITAL_GAIN[self.language]
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=capitalGainUniqueColName, value=depositWithdrawalFiatCapitalGainLst)
@@ -76,7 +76,7 @@ class Processor:
 			# inserting DEP/WITHDR fiat capital gain % column
 
 			dfNewColPosition += 1
-			depositWithdrawalCurrentFiatVector = np.array(capitallCurrentFiatValueLst)
+			depositWithdrawalCurrentFiatVector = np.array(capitalCurrentFiatValueLst)
 			depositWithdrawalDateFromFiatVector = np.array(depositWithdrawalDateFromFiatValueLst)
 			capitalGainVector = depositWithdrawalCurrentFiatVector - depositWithdrawalDateFromFiatVector
 
@@ -98,9 +98,9 @@ class Processor:
 		for fiat in fiatLst:
 			cryptoFiatCurrentRate = cryptoFiatRateDic[fiat]
 			capitalCryptoValueLst = yieldOwnerWithTotalsDetailDf[DEPOSIT_YIELD_HEADER_CAPITAL].tolist()
-			capitallCurrentFiatValueLst = list(map(lambda x: x * cryptoFiatCurrentRate, capitalCryptoValueLst))
+			capitalCurrentFiatValueLst = list(map(lambda x: x * cryptoFiatCurrentRate, capitalCryptoValueLst))
 			fiatUniqueColName = fiat
-			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=fiatUniqueColName, value=capitallCurrentFiatValueLst)
+			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=fiatUniqueColName, value=capitalCurrentFiatValueLst)
 			dfNewColPosition += 1
 
 		# insert YIELD AMT CUR RATE columns
@@ -190,7 +190,7 @@ class Processor:
 		# decimal places
 		pd.options.display.float_format = '{:,.2f}'.format
 
-		yieldOwnerWithTotalsDetailDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+		yieldOwnerWithTotalsDetaiAndFiatlDfStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			yieldOwnerWithTotalsDetailDf, {})
 
 		# resetting the pandas global float format so that the unit tests
@@ -199,8 +199,7 @@ class Processor:
 
 		return sbYieldRatesWithTotalDf, \
 			   yieldOwnerWithTotalsSummaryDf, \
-			   yieldOwnerWithTotalsDetailDf, \
-			   yieldOwnerWithTotalsDetailDfActualStr, \
+			   yieldOwnerWithTotalsDetaiAndFiatlDfStr, \
 			   depositCrypto
 
 	def _getCurrentCryptoFiatRateValues(self,

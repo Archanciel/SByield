@@ -6,7 +6,9 @@ from pricerequester import PriceRequester
 from unsupportedcryptofiatpairerror import UnsupportedCryptoFiatPairError
 
 class CryptoFiatRateComputer(PandasDataComputer):
-	def __init__(self, priceRequestrt, cryptoFiatCsvFilePathName):
+	def __init__(self,
+				 priceRequester,
+				 cryptoFiatCsvFilePathName):
 		"""
 		Currently, the configMgr is not used. Constants are used in place.
 		
@@ -14,7 +16,7 @@ class CryptoFiatRateComputer(PandasDataComputer):
 		"""
 		super().__init__()
 		self.cryptoFiatCsvFilePathName = cryptoFiatCsvFilePathName
-		self.priceReuester = priceRequestrt
+		self.priceReuester = priceRequester
 
 	def _loadCryptoFiatCsvFile(self):
 		"""
