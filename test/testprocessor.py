@@ -15,7 +15,13 @@ from processor import *
 PRINT_SB_EARNING_TOTALS = False
 
 class TestProcessor(unittest.TestCase):
-	def initializeComputerClasses(self, sbAccountSheetFileName, depositSheetFileName, cryptoFiatCsvFileName):
+	def initializeComputerClasses(self,
+								  sbAccountSheetFileName,
+								  depositSheetFileName,
+								  cryptoFiatCsvFileName,
+								  language=GB):
+		self.language = language
+
 		if os.name == 'posix':
 			self.testDataPath = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/test/testdata/'
 			dataPath = '/storage/emulated/0/Android/data/ru.iiec.pydroid3/files/SByield/data/'
@@ -29,14 +35,19 @@ class TestProcessor(unittest.TestCase):
 			depositSheetFilePathName = self.testDataPath + depositSheetFileName
 			self.cryptoFiatCsvFilePathName = dataPath + cryptoFiatCsvFileName
 		self.yieldRateComputer = SBYieldRateComputer(sbAccountSheetFilePathName,
-		                                             depositSheetFilePathName)
-		self.ownerDepositYieldComputer = OwnerDepositYieldComputer(self.yieldRateComputer)
+		                                             depositSheetFilePathName,
+													 self.language)
+		self.ownerDepositYieldComputer = OwnerDepositYieldComputer(self.yieldRateComputer,
+																   self.language)
 		self.processor = Processor(self.yieldRateComputer,
 								   self.ownerDepositYieldComputer,
-								   CryptoFiatRateComputer(PriceRequester(), self.cryptoFiatCsvFilePathName))
+								   CryptoFiatRateComputer(PriceRequester(),
+														  self.cryptoFiatCsvFilePathName),
+								   self.language)
 
-	def testAddFiatConversionInfo_2_fiats_2_owners(self):
+	def testAddFiatConversionInfo_2_fiats_2_owners_french_language(self):
 		"""
+		Two owners, two fiats, french language.
 		"""
 		PRINT = False
 
@@ -49,11 +60,14 @@ class TestProcessor(unittest.TestCase):
 
 		self.initializeComputerClasses(sbAccountSheetFileName,
 									   depositSheetFileName,
-									   cryptoFiatCsvFileName)
+									   cryptoFiatCsvFileName,
+									   language=FR)
 
 		self.processor = Processor(self.yieldRateComputer,
 								   self.ownerDepositYieldComputer,
-								   CryptoFiatRateComputer(PriceRequesterTestStub(), self.cryptoFiatCsvFilePathName))
+								   CryptoFiatRateComputer(PriceRequesterTestStub(),
+														  self.cryptoFiatCsvFilePathName),
+								   language=FR)
 
 		self.maxDiff=None
 
@@ -148,7 +162,147 @@ TOTAL                                  255.96400000'''
 			# print('\nSwissborg earnings loaded from Swissborg account statement sheet ...')
 			if PRINT_SB_EARNING_TOTALS:
 				print(sbEarningsTotalDfActualStr)
+		else:
+			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
+
+		yieldOwnerWithTotalsDetailDfExpectedStr = \
+'                                                                                                          DEPOTS/RETRAITS                                                                                                    \n' + \
+'                     CHSB                                         USD                                                 CHF                       CAPITAL                    DATE                      INTERETS                \n' + \
+'        Tot incl intérêts TX DAT DEP    TX ACT PLUS-VAL CAP P-V CAP %  TX DAT DEP    TX ACT  PLUS-VAL CAP       P-V CAP %      CHSB       USD       CHF          DE           A  JOURS   CHSB    USD      CHF INT % INT ANN %\n' + \
+'OWNER                                                                                                                                                                                                                        ' + \
+'''
+JPS              4,422.80   2,479.76  7,518.77     5,039.01    203.21    2,212.10  6,634.20      4,422.10          199.91  4,422.80  7,518.77  6,634.20  2021-01-30  2021-02-18     20  14.75  25.07    22.12  0.33      6.26
+JPS                511.33     456.60    869.26       412.66     90.38      408.04    767.00        358.95           87.97  4,948.88  8,413.10  7,423.32  2021-02-19  2021-03-07     17  12.81  21.78    19.22  0.26      5.71
+JPS              2,047.89   2,401.13  3,481.41     1,080.28     44.99    2,239.89  3,071.84        831.95           37.14  7,009.58 11,916.29 10,514.37  2021-03-08  2021-03-10      3   2.66   4.51     3.98  0.04      4.72
+JPS                300.48     430.55    510.82        80.27     18.64      397.92    450.72         52.80           13.27  7,312.72 12,431.62 10,969.08  2021-03-11  2021-04-08     29  27.26  46.35    40.89  0.37      4.79
+TOTAL            7,339.98   5,768.04 12,477.97     6,612.22    114.64    5,257.95 11,009.97      5,665.80          107.76                                                               57.48  97.71    86.21                ''' + \
+'''
+Papa            15,941.63   8,938.09 27,100.76    18,162.67    203.21    7,973.32 23,912.44     15,939.12          199.91 15,941.63 27,100.76 23,912.44  2021-01-30  2021-03-06     36  92.46 157.19   138.69  0.58      6.04
+Papa             8,973.34  10,421.37 15,254.68     4,833.31     46.38    9,712.37 13,460.01      3,747.64           38.59 25,007.43 42,512.63 37,511.14  2021-03-07  2021-04-08     33 106.02 180.24   159.04  0.42      4.79
+TOTAL           25,113.45  19,359.46 42,692.87    22,995.98    118.78   17,685.69 37,670.18     19,686.76          111.31                                                              198.49 337.43   297.73                ''' + \
+'''
+G TOTAL         32,453.43            55,170.84                                    48,680.15                                                                                            255.96 435.14   383.95                '''
+
+		if PRINT:
+			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
+		else:
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+
+	def testAddFiatConversionInfo_2_fiats_2_owners(self):
+		"""
+		Two owners, two fiats, default english language.
+		"""
+		PRINT = False
+
+		sbAccountSheetFileName = 'testSwissborg_account_statement_20201218_20210408.xlsx'
+		depositSheetFileName = 'testDepositChsb_fiat_usd_chf.csv'
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
+
+		print(depositSheetFileName)
+
+		self.initializeComputerClasses(sbAccountSheetFileName,
+									   depositSheetFileName,
+									   cryptoFiatCsvFileName)
+
+		self.processor = Processor(self.yieldRateComputer,
+								   self.ownerDepositYieldComputer,
+								   CryptoFiatRateComputer(PriceRequesterTestStub(), self.cryptoFiatCsvFilePathName))
+
+		self.maxDiff = None
+
+		sbYieldRatesWithTotalDf, \
+		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
+		yieldOwnerWithTotalsDetailDfActualStr, \
+		depositCrypto = self.processor.addFiatConversionInfo()
+
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
+
+		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			sbEarningsTotalDf,
+			{
+				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
+		sbEarningsTotalDfExpectedStr = \
+'                         Type Currency   Net amount\n' + \
+'Local time                                         ' + \
+'''
+2021-01-30 09:00:00  Earnings     CHSB   3.77500000
+2021-01-31 09:00:00  Earnings     CHSB   3.10400000
+2021-02-01 09:00:00  Earnings     CHSB   2.99900000
+2021-02-02 09:00:00  Earnings     CHSB   2.95700000
+2021-02-03 09:00:00  Earnings     CHSB   2.89400000
+2021-02-04 09:00:00  Earnings     CHSB   3.64200000
+2021-02-05 09:00:00  Earnings     CHSB   3.68000000
+2021-02-06 09:00:00  Earnings     CHSB   3.68000000
+2021-02-07 09:00:00  Earnings     CHSB   3.61300000
+2021-02-08 09:00:00  Earnings     CHSB   3.61300000
+2021-02-09 09:00:00  Earnings     CHSB   3.47200000
+2021-02-10 09:00:00  Earnings     CHSB   3.47300000
+2021-02-11 09:00:00  Earnings     CHSB   3.52600000
+2021-02-12 09:00:00  Earnings     CHSB   3.52700000
+2021-02-13 09:00:00  Earnings     CHSB   3.45900000
+2021-02-14 09:00:00  Earnings     CHSB   3.37500000
+2021-02-15 09:00:00  Earnings     CHSB   3.30700000
+2021-02-16 09:00:00  Earnings     CHSB   3.33400000
+2021-02-17 09:00:00  Earnings     CHSB   3.27700000
+2021-02-18 09:00:00  Earnings     CHSB   3.19800000
+2021-02-19 09:00:00  Earnings     CHSB   3.14300000
+2021-02-20 09:00:00  Earnings     CHSB   3.14400000
+2021-02-21 09:00:00  Earnings     CHSB   3.23100000
+2021-02-22 09:00:00  Earnings     CHSB   3.23100000
+2021-02-23 09:00:00  Earnings     CHSB   3.23200000
+2021-02-24 09:00:00  Earnings     CHSB   3.23200000
+2021-02-25 09:00:00  Earnings     CHSB   3.23300000
+2021-02-26 09:00:00  Earnings     CHSB   3.40100000
+2021-02-27 09:00:00  Earnings     CHSB   3.35900000
+2021-02-28 09:00:00  Earnings     CHSB   3.35900000
+2021-03-01 09:00:00  Earnings     CHSB   3.35400000
+2021-03-02 09:00:00  Earnings     CHSB   3.34400000
+2021-03-03 09:00:00  Earnings     CHSB   3.34500000
+2021-03-04 09:00:00  Earnings     CHSB   3.34500000
+2021-03-05 09:00:00  Earnings     CHSB   2.75700000
+2021-03-06 09:00:00  Earnings     CHSB   2.75700000
+2021-03-07 09:00:00  Earnings     CHSB   3.92000000
+2021-03-08 09:00:00  Earnings     CHSB   4.07100000
+2021-03-09 09:00:00  Earnings     CHSB   4.07200000
+2021-03-10 09:00:00  Earnings     CHSB   3.98900000
+2021-03-11 09:00:00  Earnings     CHSB   4.85200000
+2021-03-12 09:00:00  Earnings     CHSB   4.85300000
+2021-03-13 09:00:00  Earnings     CHSB   4.53400000
+2021-03-14 09:00:00  Earnings     CHSB   4.51000000
+2021-03-15 09:00:00  Earnings     CHSB   4.51000000
+2021-03-16 09:00:00  Earnings     CHSB   4.51900000
+2021-03-17 09:00:00  Earnings     CHSB   4.52000000
+2021-03-18 09:00:00  Earnings     CHSB   4.84900000
+2021-03-19 09:00:00  Earnings     CHSB   4.79100000
+2021-03-20 09:00:00  Earnings     CHSB   4.79100000
+2021-03-21 09:00:00  Earnings     CHSB   4.79200000
+2021-03-22 09:00:00  Earnings     CHSB   4.62400000
+2021-03-23 09:00:00  Earnings     CHSB   4.62500000
+2021-03-24 09:00:00  Earnings     CHSB   4.62600000
+2021-03-25 09:00:00  Earnings     CHSB   3.91600000
+2021-03-26 09:00:00  Earnings     CHSB   3.91600000
+2021-03-27 09:00:00  Earnings     CHSB   3.91700000
+2021-03-28 10:00:00  Earnings     CHSB   3.82400000
+2021-03-29 10:00:00  Earnings     CHSB   3.82400000
+2021-03-30 10:00:00  Earnings     CHSB   3.82500000
+2021-03-31 10:00:00  Earnings     CHSB   3.78200000
+2021-04-01 10:00:00  Earnings     CHSB   3.78300000
+2021-04-02 10:00:00  Earnings     CHSB   3.34800000
+2021-04-03 10:00:00  Earnings     CHSB   3.34800000
+2021-04-04 10:00:00  Earnings     CHSB   3.67300000
+2021-04-05 10:00:00  Earnings     CHSB   3.67400000
+2021-04-06 10:00:00  Earnings     CHSB   3.52900000
+2021-04-07 10:00:00  Earnings     CHSB   3.52900000
+2021-04-08 10:00:00  Earnings     CHSB   3.25600000
+TOTAL                                  255.96400000'''
+
+		if PRINT:
+			# print('\nSwissborg earnings loaded from Swissborg account statement sheet ...')
+			if PRINT_SB_EARNING_TOTALS:
+				print(sbEarningsTotalDfActualStr)
 		else:
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
@@ -584,7 +738,6 @@ TOTAL                                  2,631.86967354'''
 		if PRINT:
 			if PRINT_SB_EARNING_TOTALS:
 				print(sbEarningsTotalDfActualStr)
-			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
@@ -2776,9 +2929,10 @@ if __name__ == '__main__':
 		unittest.main()
 	else:
 		tst = TestProcessor()
-		tst.testAddFiatConversionInfo_2_fiats_2_owners()
+		#tst.testAddFiatConversionInfo_2_fiats_2_owners()
+		tst.testAddFiatConversionInfo_2_fiats_2_owners_french_language()
 		# tst.testAddFiatConversionInfo_1_fiat_simple_values_2_owners()
 		# tst.testAddFiatConversionInfo_1_fiat_simple_values_1_owner_withdrawal_gain()
 		# tst.testAddFiatConversionInfo_1_fiat_simple_values_1_owner_withdrawal_loss()
-		tst.testAddFiatConversionInfo_1_fiat_simple_values_1_owner_no_withdrawal()
-		tst.testAddFiatConversionInfo_1_fiat_simple_values_1_owner_2_fiats_no_withdrawal()
+		# tst.testAddFiatConversionInfo_1_fiat_simple_values_1_owner_no_withdrawal()
+		# tst.testAddFiatConversionInfo_1_fiat_simple_values_1_owner_2_fiats_no_withdrawal()

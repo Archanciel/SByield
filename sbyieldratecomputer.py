@@ -3,6 +3,8 @@ import pandas as pd
 from datetime import datetime
 
 # Swissborg account statement sheet parameters
+from dfConstants import *
+from dfConstants import MERGED_SHEET_HEADER_EARNING_NEW_NAME
 from pandasdatacomputer import *
 from duplicatedepositdatetimeerror import DuplicateDepositDateTimeError
 from invaliddeposittimeerror import InvalidDepositTimeError
@@ -46,14 +48,12 @@ DEPOSIT_FIAT_USD = 'USD'
 DEPOSIT_FIAT_CHF = 'CHF'
 
 DEPOSIT_SHEET_HEADER_DATE = 'DATE'
-DEPOSIT_SHEET_HEADER_OWNER = 'OWNER'
 
 # Swissborg account statement merged with deposit/withdrawal sheet parameters
 MERGED_SHEET_HEADER_DATE = SB_ACCOUNT_SHEET_HEADER_DATE
 MERGED_SHEET_HEADER_EARNING_CAPITAL = SB_ACCOUNT_SHEET_HEADER_EARNING_CAPITAL
 MERGED_SHEET_HEADER_EARNING = SB_ACCOUNT_SHEET_HEADER_EARNING
 MERGED_SHEET_HEADER_DATE_NEW_NAME = 'DATE'
-MERGED_SHEET_HEADER_EARNING_NEW_NAME = 'EARNING'
 MERGED_SHEET_HEADER_DAILY_YIELD_RATE = 'D YIELD RATE'
 MERGED_SHEET_HEADER_YEARLY_YIELD_RATE = 'Y YIELD RATE'
 
@@ -73,7 +73,9 @@ class SBYieldRateComputer(PandasDataComputer):
 	out the Swissborg daily earnings proportionally to the deposit/withdrawal amounts
 	invested by the different yield subscription amounts owners.
 	"""
-	def __init__(self, sbAccountSheetFilePathName, depositSheetFilePathName):
+	def __init__(self, sbAccountSheetFilePathName,
+				 depositSheetFilePathName,
+				 language=0):
 		"""
 		Currently, the configMgr is not used. Constants are used in place.
 		
@@ -83,6 +85,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		super().__init__()
 		self.sbAccountSheetFilePathName = sbAccountSheetFilePathName
 		self.depositSheetFilePathName = depositSheetFilePathName
+		self.language = language
 	
 	def _loadSBEarningSheet(self, yieldCrypto):
 		"""
@@ -130,7 +133,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		"""
 		depositSheetSkipRows, \
 		depositSheetCrypto = self._determineDepositSheetSkipRowsAndCrypto(self.depositSheetFilePathName,
-																		  DEPOSIT_SHEET_HEADER_OWNER,
+																		  DEPOSIT_SHEET_HEADER_OWNER[GB],
 																		  DEPOSIT_SHEET_PARM_CRYPTO)
 
 		if depositSheetCrypto is None:
@@ -186,7 +189,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		
 		if badTimeIndex is not None:
 			raise InvalidDepositTimeError(self.depositSheetFilePathName,
-										  depositsDf.loc[badTimeIndex, DEPOSIT_SHEET_HEADER_OWNER],
+										  depositsDf.loc[badTimeIndex, DEPOSIT_SHEET_HEADER_OWNER[self.language]],
 										  depositsDf.loc[badTimeIndex, DEPOSIT_SHEET_HEADER_DATE],
 										  depositsDf.loc[badTimeIndex, DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
 										  invalidTimeFormat)
@@ -207,7 +210,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		
 		if duplDatetimeIndex is not None:
 			raise DuplicateDepositDateTimeError(self.depositSheetFilePathName,
-												depositsDf.loc[duplDatetimeIndex, DEPOSIT_SHEET_HEADER_OWNER],
+												depositsDf.loc[duplDatetimeIndex, DEPOSIT_SHEET_HEADER_OWNER[self.language]],
 												depositsDf.loc[duplDatetimeIndex, DEPOSIT_SHEET_HEADER_DATE],
 												depositsDf.loc[duplDatetimeIndex, DATAFRAME_HEADER_DEPOSIT_WITHDRAW])
 	
@@ -283,7 +286,7 @@ class SBYieldRateComputer(PandasDataComputer):
 				mergedDf.loc[i, MERGED_SHEET_HEADER_DAILY_YIELD_RATE] = dailyYieldRate
 				mergedDf.loc[i, MERGED_SHEET_HEADER_YEARLY_YIELD_RATE] = np.power(dailyYieldRate, 365)
 
-		mergedDf = mergedDf.rename(columns={MERGED_SHEET_HEADER_DATE: MERGED_SHEET_HEADER_DATE_NEW_NAME, MERGED_SHEET_HEADER_EARNING: MERGED_SHEET_HEADER_EARNING_NEW_NAME})
+		mergedDf = mergedDf.rename(columns={MERGED_SHEET_HEADER_DATE: MERGED_SHEET_HEADER_DATE_NEW_NAME, MERGED_SHEET_HEADER_EARNING: MERGED_SHEET_HEADER_EARNING_NEW_NAME[self.language]})
 		#print(self.getDataframeStrWithFormattedColumns(mergedDf, {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.8f', MERGED_SHEET_HEADER_YEARLY_YIELD_RATE: '.8f'}))
 
 		return mergedDf
@@ -326,7 +329,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		# MERGED_SHEET_HEADER_DAILY_YIELD_RATE and MERGED_SHEET_HEADER_YEARLY_YIELD_RATE columns
 		dateColIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_DATE_NEW_NAME)
 		earningCapitalColIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_EARNING_CAPITAL)
-		dailyEarningColIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_EARNING_NEW_NAME)
+		dailyEarningColIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_EARNING_NEW_NAME[self.language])
 		dailyYieldRateColIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_DAILY_YIELD_RATE)
 		yearlyYieldRateColIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_YEARLY_YIELD_RATE)
 		dailyYieldRatesDf = mergedEarningDepositDf[mergedEarningDepositDf.columns[[dateColIdx, earningCapitalColIdx, dailyEarningColIdx, dailyYieldRateColIdx, yearlyYieldRateColIdx]]]

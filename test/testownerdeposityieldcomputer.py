@@ -24,6 +24,7 @@ class TestOwnerDepositYieldComputer(unittest.TestCase):
 		self.yieldRateComputer = SBYieldRateComputer(sbAccountSheetFilePathName,
 		                                             depositSheetFilePathName)
 		self.ownerDepositYieldComputer = OwnerDepositYieldComputer(self.yieldRateComputer)
+		self.language = 0
 	
 	def testComputeDepositsYieldsSeveralOwners(self):
 		"""
@@ -69,7 +70,7 @@ TOTAL                                  19.56000000'''
 		sbYieldRatesWithTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbYieldRatesWithTotalDf,
 			{
-				MERGED_SHEET_HEADER_EARNING_NEW_NAME: '.14f',
+				MERGED_SHEET_HEADER_EARNING_NEW_NAME[self.language]: '.14f',
 				MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.14f',
 				MERGED_SHEET_HEADER_YEARLY_YIELD_RATE: '.14f'})
 
@@ -1185,7 +1186,7 @@ TOTAL                                  19.56000000'''
 		sbYieldRatesWithTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbYieldRatesWithTotalDf,
 			{
-				MERGED_SHEET_HEADER_EARNING_NEW_NAME: '.14f',
+				MERGED_SHEET_HEADER_EARNING_NEW_NAME[self.language]: '.14f',
 				MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.14f',
 				MERGED_SHEET_HEADER_YEARLY_YIELD_RATE: '.14f'})
 
@@ -1314,7 +1315,7 @@ TOTAL                                  19.56000000'''
 		sbYieldRatesWithTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbYieldRatesWithTotalDf,
 			{
-				MERGED_SHEET_HEADER_EARNING_NEW_NAME: '.14f',
+				MERGED_SHEET_HEADER_EARNING_NEW_NAME[self.language]: '.14f',
 				MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.14f',
 				MERGED_SHEET_HEADER_YEARLY_YIELD_RATE: '.14f'})
 
@@ -1443,7 +1444,7 @@ TOTAL                                  19.56000000'''
 		sbYieldRatesWithTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbYieldRatesWithTotalDf,
 			{
-				MERGED_SHEET_HEADER_EARNING_NEW_NAME: '.14f',
+				MERGED_SHEET_HEADER_EARNING_NEW_NAME[self.language]: '.14f',
 				MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.14f',
 				MERGED_SHEET_HEADER_YEARLY_YIELD_RATE: '.14f'})
 
@@ -1696,7 +1697,7 @@ TOTAL                                  19.56000000'''
 		sbYieldRatesWithTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbYieldRatesWithTotalDf,
 			{
-				MERGED_SHEET_HEADER_EARNING_NEW_NAME: '.14f',
+				MERGED_SHEET_HEADER_EARNING_NEW_NAME[self.language]: '.14f',
 				MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.14f',
 				MERGED_SHEET_HEADER_YEARLY_YIELD_RATE: '.14f'})
 
@@ -1904,7 +1905,7 @@ TOTAL                                    87.392090'''
 		sbYieldRatesWithTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbYieldRatesWithTotalDf,
 			{
-				MERGED_SHEET_HEADER_EARNING_NEW_NAME: '.14f',
+				MERGED_SHEET_HEADER_EARNING_NEW_NAME[self.language]: '.14f',
 				MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.14f',
 				MERGED_SHEET_HEADER_YEARLY_YIELD_RATE: '.14f'})
 
@@ -2145,7 +2146,7 @@ TOTAL                                        25.21'''
 		sbYieldRatesWithTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbYieldRatesWithTotalDf,
 			{
-				MERGED_SHEET_HEADER_EARNING_NEW_NAME: '.14f',
+				MERGED_SHEET_HEADER_EARNING_NEW_NAME[self.language]: '.14f',
 				MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.14f',
 				MERGED_SHEET_HEADER_YEARLY_YIELD_RATE: '.14f'})
 
@@ -2481,7 +2482,7 @@ G TOTAL  19,603.58                                              31.8946321198709
 		sbYieldRatesWithTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbYieldRatesWithTotalDf,
 			{
-				MERGED_SHEET_HEADER_EARNING_NEW_NAME: '.14f',
+				MERGED_SHEET_HEADER_EARNING_NEW_NAME[self.language]: '.14f',
 				MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.14f',
 				MERGED_SHEET_HEADER_YEARLY_YIELD_RATE: '.14f'})
 
@@ -2661,7 +2662,7 @@ TOTAL                                  61.60570083'''
 		sbYieldRatesWithTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbYieldRatesWithTotalDf,
 			{
-				MERGED_SHEET_HEADER_EARNING_NEW_NAME: '.14f',
+				MERGED_SHEET_HEADER_EARNING_NEW_NAME[self.language]: '.14f',
 				MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.14f',
 				MERGED_SHEET_HEADER_YEARLY_YIELD_RATE: '.14f'})
 
@@ -2878,7 +2879,7 @@ TOTAL                                  31.30688161'''
 		sbYieldRatesWithTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			sbYieldRatesWithTotalDf,
 			{
-				MERGED_SHEET_HEADER_EARNING_NEW_NAME: '.14f'})
+				MERGED_SHEET_HEADER_EARNING_NEW_NAME[self.language]: '.14f'})
 
 		sbYieldRatesWithTotalDfExpectedStr = \
 '             EARNING CAP           EARNING  D YIELD RATE  Y YIELD RATE\n' + \
@@ -3095,7 +3096,7 @@ TOTAL                                  30.0031249608'''
 			{
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.8f',
 				DEPOSIT_YIELD_HEADER_CAPITAL: '.8f',
-				MERGED_SHEET_HEADER_EARNING_NEW_NAME: '.14f'})
+				MERGED_SHEET_HEADER_EARNING_NEW_NAME[self.language]: '.14f'})
 
 		sbYieldRatesWithTotalDfExpectedStr = \
 '             EARNING CAP           EARNING  D YIELD RATE  Y YIELD RATE\n' + \
@@ -3207,7 +3208,7 @@ TOTAL                                  2.00200100'''
 			{
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.8f',
 				DEPOSIT_YIELD_HEADER_CAPITAL: '.8f',
-				MERGED_SHEET_HEADER_EARNING_NEW_NAME: '.14f'})
+				MERGED_SHEET_HEADER_EARNING_NEW_NAME[self.language]: '.14f'})
 
 		sbYieldRatesWithTotalDfExpectedStr = \
 '            EARNING CAP          EARNING  D YIELD RATE  Y YIELD RATE\n' + \
