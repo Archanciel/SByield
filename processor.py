@@ -137,10 +137,14 @@ class Processor:
 		fiatColNameDic = self._buildFiatColNameDic([PROC_DATE_FROM_RATE[self.language], PROC_CAPITAL_GAIN[self.language]], fiatLst + [depositCrypto], len(fiatLst))
 		fiatColNameSumDic = dict.fromkeys(fiatColNameDic, 'sum')
 
-		yieldOwnerGroupTotalDf = yieldOwnerWithTotalsDetailDf.groupby([DEPOSIT_SHEET_HEADER_OWNER[GB]]).agg(fiatColNameSumDic).reset_index()
-		nonTotalRow = ~yieldOwnerGroupTotalDf[DEPOSIT_SHEET_HEADER_OWNER[GB]].str.contains(DATAFRAME_HEADER_TOTAL)
-		yieldOwnerGroupTotalDf = yieldOwnerGroupTotalDf[nonTotalRow].reset_index()
+		# removing total rows before groupby.agg application
+		nonTotalRow = ~yieldOwnerWithTotalsDetailDf.index.str.contains(DATAFRAME_HEADER_TOTAL)
+		yieldOwnerWithoutTotalsDetailDf = yieldOwnerWithTotalsDetailDf[nonTotalRow]
 
+		# now summing specified columns by owners
+		yieldOwnerGroupTotalDf = yieldOwnerWithoutTotalsDetailDf.groupby([DEPOSIT_SHEET_HEADER_OWNER[GB]]).agg(fiatColNameSumDic).reset_index()
+
+		# setting the previously computed total values to the owners total row
 		yieldOwnerGroupTotalDfIndex = 0
 
 		yieldOwnerWithTotalsDetailDf.reset_index(inplace=True)
