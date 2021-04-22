@@ -27,7 +27,7 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 
 		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
 		self.initializeComputerClasses(cryptoFiatCsvFileName)
-		sbEarningsDf = self.cryptoFiatRateComputer._loadCryptoFiatCsvFile()
+		sbEarningsDf = self.cryptoFiatRateComputer._loadCryptoFiatCsvFile(self.cryptoFiatRateComputer.cryptoFiatCsvFilePathName)
 
 		if not PRINT:
 			self.assertEqual((7, 3), sbEarningsDf.shape)

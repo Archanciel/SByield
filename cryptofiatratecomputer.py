@@ -2,6 +2,7 @@ import os
 import pandas as pd
 
 from pandasdatacomputer import PandasDataComputer
+from pricerequester import PriceRequester
 from unsupportedcryptofiatpairerror import UnsupportedCryptoFiatPairError
 
 class CryptoFiatRateComputer(PandasDataComputer):
@@ -15,31 +16,30 @@ class CryptoFiatRateComputer(PandasDataComputer):
 		"""
 		super().__init__()
 		self.cryptoFiatCsvFilePathName = cryptoFiatCsvFilePathName
+		self.cryptoFiatDf = self._loadCryptoFiatCsvFile(cryptoFiatCsvFilePathName)
 		self.priceReuester = priceRequester
 
-	def _loadCryptoFiatCsvFile(self):
+	def _loadCryptoFiatCsvFile(self, cryptoFiatCsvFilePathName):
 		"""
 		Creates a Pandas data frame from the crypto fiat exchange csv file.
 
 		:return: crypto fiat data frame
 		"""
 		cryptoFiatSheetSkipRows, \
-		_ = self._determineDepositSheetSkipRowsAndCrypto(self.cryptoFiatCsvFilePathName,
-															 'CRYPTO')
+		_ = self._determineDepositSheetSkipRowsAndCrypto(cryptoFiatCsvFilePathName,
+														 'CRYPTO')
 
-		cryptoFiatDf = pd.read_csv(self.cryptoFiatCsvFilePathName,
+		cryptoFiatDf = pd.read_csv(cryptoFiatCsvFilePathName,
 								   skiprows=cryptoFiatSheetSkipRows)
 		
 		return cryptoFiatDf
 
 	def _getIntermediateExchangeRateRequests(self, crypto, fiat):
-		cryptoFiatDf = self._loadCryptoFiatCsvFile()
-
 		intermediateExchangeRateRequestLst = []
 
-		unitFiatDf = cryptoFiatDf.loc[cryptoFiatDf['UNIT'] == fiat]
+		unitFiatDf = self.cryptoFiatDf.loc[self.cryptoFiatDf['UNIT'] == fiat]
 
-		cryptoUnitDf = cryptoFiatDf.loc[(cryptoFiatDf['CRYPTO'] == crypto) & (cryptoFiatDf['UNIT'] == fiat)]
+		cryptoUnitDf = self.cryptoFiatDf.loc[(self.cryptoFiatDf['CRYPTO'] == crypto) & (self.cryptoFiatDf['UNIT'] == fiat)]
 
 		if not cryptoUnitDf.empty:
 			# means the cryptoFiatDf contains a row for the crypto/fiat pair, like
@@ -53,7 +53,7 @@ class CryptoFiatRateComputer(PandasDataComputer):
 		# in the cryptoFiatDf, like CHSB/CHF for example. In this case,
 		# [['CHSB', 'BTC', 'HitBTC'], ['BTC', 'CHF', 'Kraken']] will be returned.
 		for index, row in unitFiatDf.iterrows():
-			cryptoUnitDf = cryptoFiatDf.loc[(cryptoFiatDf['CRYPTO'] == crypto) & (cryptoFiatDf['UNIT'] == row['CRYPTO'])]
+			cryptoUnitDf = self.cryptoFiatDf.loc[(self.cryptoFiatDf['CRYPTO'] == crypto) & (self.cryptoFiatDf['UNIT'] == row['CRYPTO'])]
 			if not cryptoUnitDf.empty:
 				unitFiatDf = unitFiatDf.loc[(unitFiatDf['CRYPTO'] == cryptoUnitDf.iloc[0]['UNIT'])]
 				intermediateExchangeRateRequestLst.append(
@@ -124,24 +124,24 @@ if __name__ == "__main__":
 		dataPath = 'D:\\Development\\Python\\SByield\\data\\'
 		cryptoFiatCsvFilePathName = dataPath + cryptoFiatCsvFileName
 
-	cfc = CryptoFiatRateComputer(cryptoFiatCsvFilePathName)
-	cryptoFiatDf = cfc._loadCryptoFiatCsvFile()
-	
-	print(cryptoFiatDf)
+	cfc = CryptoFiatRateComputer(PriceRequester(),
+								 cryptoFiatCsvFilePathName)
+
+	print(cfc.cryptoFiatDf)
 
 	crypto = 'CHSB'
 	fiat = 'CHF'
 
-	unitFiatDf = cryptoFiatDf.loc[cryptoFiatDf['UNIT'] == fiat]
+	unitFiatDf = cfc.cryptoFiatDf.loc[cryptoFiatDf['UNIT'] == fiat]
 	print('Available unitFiatDf')
 	print(unitFiatDf)
 
 	for index, row in unitFiatDf.iterrows():
-		cryptoUnitDf = cryptoFiatDf.loc[(cryptoFiatDf['CRYPTO'] == crypto) & (cryptoFiatDf['UNIT'] == row['CRYPTO'])]
-		if not cryptoUnitDf.empty:
-			print('cryptoUnitDf')
-			print(cryptoUnitDf)
-			unitFiatDf = unitFiatDf.loc[(unitFiatDf['CRYPTO'] == cryptoUnitDf.iloc[0]['UNIT'])]
+		cfc.cryptoUnitDf = cfc.cryptoFiatDf.loc[(cfc.cryptoFiatDf['CRYPTO'] == crypto) & (cfc.cryptoFiatDf['UNIT'] == row['CRYPTO'])]
+		if not cfc.cryptoUnitDf.empty:
+			print('self.cryptoUnitDf')
+			print(cfc.cryptoUnitDf)
+			unitFiatDf = unitFiatDf.loc[(unitFiatDf['CRYPTO'] == cfc.cryptoUnitDf.iloc[0]['UNIT'])]
 			print('Final unitFiatDf')
 			print(unitFiatDf)
 
