@@ -12,7 +12,7 @@ from pricerequester import PriceRequester
 from pricerequesterteststub import PriceRequesterTestStub
 from processor import *
 
-PRINT_SB_EARNING_TOTALS = False
+PRINT_SB_EARNING_TOTALS = True
 
 class TestProcessor(unittest.TestCase):
 	def initializeComputerClasses(self,
@@ -73,7 +73,6 @@ class TestProcessor(unittest.TestCase):
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
-		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto = self.processor.addFiatConversionInfo()
 
@@ -169,7 +168,7 @@ TOTAL                                  255.96400000'''
 '                                                                                                          DEPOTS/RETRAITS                                                                                                    \n' + \
 '                     CHSB                                         USD                                                 CHF                       CAPITAL                    DATE                      INTERETS                \n' + \
 '        Tot incl intérêts TX DAT DEP    TX ACT PLUS-VAL CAP P-V CAP %  TX DAT DEP    TX ACT  PLUS-VAL CAP       P-V CAP %      CHSB       USD       CHF          DE           A  JOURS   CHSB    USD      CHF INT % INT ANN %\n' + \
-'OWNER                                                                                                                                                                                                                        ' + \
+'PROPR                                                                                                                                                                                                                        ' + \
 '''
 JPS              4,422.80   2,479.76  7,518.77     5,039.01    203.21    2,212.10  6,634.20      4,422.10          199.91  4,422.80  7,518.77  6,634.20  2021-01-30  2021-02-18     20  14.75  25.07    22.12  0.33      6.26
 JPS                511.33     456.60    869.26       412.66     90.38      408.04    767.00        358.95           87.97  4,948.88  8,413.10  7,423.32  2021-02-19  2021-03-07     17  12.81  21.78    19.22  0.26      5.71
@@ -214,7 +213,6 @@ G TOTAL         32,453.43            55,170.84                                  
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
-		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto = self.processor.addFiatConversionInfo()
 
@@ -333,7 +331,7 @@ G TOTAL      32,453.43           55,170.84                                48,680
 	def testAddFiatConversionInfo_1_fiat_simple_values_2_owners(self):
 		"""
 		CHSB crypto, 2 owners, 1 with 1 withdrawal, fixed yield rate,
-		CHSB/CHF final rateof 1.5.
+		CHSB/CHF final rate of 1.5.
 		"""
 		PRINT = False
 
@@ -354,7 +352,6 @@ G TOTAL      32,453.43           55,170.84                                48,680
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
-		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
 
@@ -765,9 +762,439 @@ G TOTAL      26,131.87           39,197.80                                      
 		else:
 			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
 
+	def testAddFiatConversionInfo_1_fiat_simple_values_2_owners_1_deposit(self):
+		"""
+		CHSB crypto, 2 owners with 1 deposit, fixed yield rate,
+		CHSB/CHF final rate of 1.5.
+		"""
+		PRINT = False
+
+		sbAccountSheetFileName = 'testDepositCHSB_simple_values_2_owners_1_deposit.xlsx'
+		depositSheetFileName = 'testDepositChsb_fiat_chf_simple_values_2_owners_1_deposit.csv'
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
+
+		print(depositSheetFileName)
+
+		self.initializeComputerClasses(sbAccountSheetFileName,
+									   depositSheetFileName,
+									   cryptoFiatCsvFileName)
+
+		self.processor = Processor(self.yieldRateComputer,
+								   self.ownerDepositYieldComputer,
+								   CryptoFiatRateComputer(PriceRequesterTestStub(), self.cryptoFiatCsvFilePathName))
+
+		sbYieldRatesWithTotalDf, \
+		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDfActualStr, \
+		depositCrypto = self.processor.addFiatConversionInfo()
+
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
+
+		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			sbEarningsTotalDf,
+			{
+				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
+		sbEarningsTotalDfExpectedStr = \
+'                         Type Currency   Net amount\n' + \
+'Local time                                         ' + \
+'''
+2021-01-01 00:00:00  Earnings     CHSB   1.00026116
+2021-01-02 00:00:00  Earnings     CHSB   1.00026116
+2021-01-03 00:00:00  Earnings     CHSB   1.00026116
+2021-01-04 00:00:00  Earnings     CHSB   1.00026116
+2021-01-05 00:00:00  Earnings     CHSB   1.00026116
+2021-01-06 00:00:00  Earnings     CHSB   1.00026116
+2021-01-07 00:00:00  Earnings     CHSB   1.00026116
+2021-01-08 00:00:00  Earnings     CHSB   1.00026116
+2021-01-09 00:00:00  Earnings     CHSB   1.00026116
+2021-01-10 00:00:00  Earnings     CHSB   1.00026116
+2021-01-11 00:00:00  Earnings     CHSB   1.00026116
+2021-01-12 00:00:00  Earnings     CHSB   1.00026116
+2021-01-13 00:00:00  Earnings     CHSB   1.00026116
+2021-01-14 00:00:00  Earnings     CHSB   1.00026116
+2021-01-15 00:00:00  Earnings     CHSB   1.00026116
+2021-01-16 00:00:00  Earnings     CHSB   1.00026116
+2021-01-17 00:00:00  Earnings     CHSB   1.00026116
+2021-01-18 00:00:00  Earnings     CHSB   1.00026116
+2021-01-19 00:00:00  Earnings     CHSB   1.00026116
+2021-01-20 00:00:00  Earnings     CHSB   1.00026116
+2021-01-21 00:00:00  Earnings     CHSB   1.00026116
+2021-01-22 00:00:00  Earnings     CHSB   1.00026116
+2021-01-23 00:00:00  Earnings     CHSB   1.00026116
+2021-01-24 00:00:00  Earnings     CHSB   1.00026116
+2021-01-25 00:00:00  Earnings     CHSB   1.00026116
+2021-01-26 00:00:00  Earnings     CHSB   1.00026116
+2021-01-27 00:00:00  Earnings     CHSB   1.00026116
+2021-01-28 00:00:00  Earnings     CHSB   1.00026116
+2021-01-29 00:00:00  Earnings     CHSB   1.00026116
+2021-01-30 00:00:00  Earnings     CHSB   1.00026116
+2021-01-31 00:00:00  Earnings     CHSB   1.00026116
+2021-02-01 00:00:00  Earnings     CHSB   1.00026116
+2021-02-02 00:00:00  Earnings     CHSB   1.00026116
+2021-02-03 00:00:00  Earnings     CHSB   1.00026116
+2021-02-04 00:00:00  Earnings     CHSB   1.00026116
+2021-02-05 00:00:00  Earnings     CHSB   1.00026116
+2021-02-06 00:00:00  Earnings     CHSB   1.00026116
+2021-02-07 00:00:00  Earnings     CHSB   1.00026116
+2021-02-08 00:00:00  Earnings     CHSB   1.00026116
+2021-02-09 00:00:00  Earnings     CHSB   1.00026116
+2021-02-10 00:00:00  Earnings     CHSB   1.00026116
+2021-02-11 00:00:00  Earnings     CHSB   1.00026116
+2021-02-12 00:00:00  Earnings     CHSB   1.00026116
+2021-02-13 00:00:00  Earnings     CHSB   1.00026116
+2021-02-14 00:00:00  Earnings     CHSB   1.00026116
+2021-02-15 00:00:00  Earnings     CHSB   1.00026116
+2021-02-16 00:00:00  Earnings     CHSB   1.00026116
+2021-02-17 00:00:00  Earnings     CHSB   1.00026116
+2021-02-18 00:00:00  Earnings     CHSB   1.00026116
+2021-02-19 00:00:00  Earnings     CHSB   1.00026116
+2021-02-20 00:00:00  Earnings     CHSB   1.00026116
+2021-02-21 00:00:00  Earnings     CHSB   1.00026116
+2021-02-22 00:00:00  Earnings     CHSB   1.00026116
+2021-02-23 00:00:00  Earnings     CHSB   1.00026116
+2021-02-24 00:00:00  Earnings     CHSB   1.00026116
+2021-02-25 00:00:00  Earnings     CHSB   1.00026116
+2021-02-26 00:00:00  Earnings     CHSB   1.00026116
+2021-02-27 00:00:00  Earnings     CHSB   1.00026116
+2021-02-28 00:00:00  Earnings     CHSB   1.00026116
+2021-03-01 00:00:00  Earnings     CHSB   1.00026116
+2021-03-02 00:00:00  Earnings     CHSB   1.00026116
+2021-03-03 00:00:00  Earnings     CHSB   1.00026116
+2021-03-04 00:00:00  Earnings     CHSB   1.00026116
+2021-03-05 00:00:00  Earnings     CHSB   1.00026116
+2021-03-06 00:00:00  Earnings     CHSB   1.00026116
+2021-03-07 00:00:00  Earnings     CHSB   1.00026116
+2021-03-08 00:00:00  Earnings     CHSB   1.00026116
+2021-03-09 00:00:00  Earnings     CHSB   1.00026116
+2021-03-10 00:00:00  Earnings     CHSB   1.00026116
+2021-03-11 00:00:00  Earnings     CHSB   1.00026116
+2021-03-12 00:00:00  Earnings     CHSB   1.00026116
+2021-03-13 00:00:00  Earnings     CHSB   1.00026116
+2021-03-14 00:00:00  Earnings     CHSB   1.00026116
+2021-03-15 00:00:00  Earnings     CHSB   1.00026116
+2021-03-16 00:00:00  Earnings     CHSB   1.00026116
+2021-03-17 00:00:00  Earnings     CHSB   1.00026116
+2021-03-18 00:00:00  Earnings     CHSB   1.00026116
+2021-03-19 00:00:00  Earnings     CHSB   1.00026116
+2021-03-20 00:00:00  Earnings     CHSB   1.00026116
+2021-03-21 00:00:00  Earnings     CHSB   1.00026116
+2021-03-22 00:00:00  Earnings     CHSB   1.00026116
+2021-03-23 00:00:00  Earnings     CHSB   1.00026116
+2021-03-24 00:00:00  Earnings     CHSB   1.00026116
+2021-03-25 00:00:00  Earnings     CHSB   1.00026116
+2021-03-26 00:00:00  Earnings     CHSB   1.00026116
+2021-03-27 00:00:00  Earnings     CHSB   1.00026116
+2021-03-28 00:00:00  Earnings     CHSB   1.00026116
+2021-03-29 00:00:00  Earnings     CHSB   1.00026116
+2021-03-30 00:00:00  Earnings     CHSB   1.00026116
+2021-03-31 00:00:00  Earnings     CHSB   1.00026116
+2021-04-01 00:00:00  Earnings     CHSB   1.00026116
+2021-04-02 00:00:00  Earnings     CHSB   1.00026116
+2021-04-03 00:00:00  Earnings     CHSB   1.00026116
+2021-04-04 00:00:00  Earnings     CHSB   1.00026116
+2021-04-05 00:00:00  Earnings     CHSB   1.00026116
+2021-04-06 00:00:00  Earnings     CHSB   1.00026116
+2021-04-07 00:00:00  Earnings     CHSB   1.00026116
+2021-04-08 00:00:00  Earnings     CHSB   1.00026116
+2021-04-09 00:00:00  Earnings     CHSB   1.00026116
+2021-04-10 00:00:00  Earnings     CHSB   1.00026116
+2021-04-11 00:00:00  Earnings     CHSB   1.00026116
+2021-04-12 00:00:00  Earnings     CHSB   1.00026116
+2021-04-13 00:00:00  Earnings     CHSB   1.00026116
+2021-04-14 00:00:00  Earnings     CHSB   1.00026116
+2021-04-15 00:00:00  Earnings     CHSB   1.00026116
+2021-04-16 00:00:00  Earnings     CHSB   1.00026116
+2021-04-17 00:00:00  Earnings     CHSB   1.00026116
+2021-04-18 00:00:00  Earnings     CHSB   1.00026116
+2021-04-19 00:00:00  Earnings     CHSB   1.00026116
+2021-04-20 00:00:00  Earnings     CHSB   1.00026116
+2021-04-21 00:00:00  Earnings     CHSB   1.00026116
+2021-04-22 00:00:00  Earnings     CHSB   1.00026116
+2021-04-23 00:00:00  Earnings     CHSB   1.00026116
+2021-04-24 00:00:00  Earnings     CHSB   1.00026116
+2021-04-25 00:00:00  Earnings     CHSB   1.00026116
+2021-04-26 00:00:00  Earnings     CHSB   1.00026116
+2021-04-27 00:00:00  Earnings     CHSB   1.00026116
+2021-04-28 00:00:00  Earnings     CHSB   1.00026116
+2021-04-29 00:00:00  Earnings     CHSB   1.00026116
+2021-04-30 00:00:00  Earnings     CHSB   1.00026116
+2021-05-01 00:00:00  Earnings     CHSB   1.00026116
+2021-05-02 00:00:00  Earnings     CHSB   1.00026116
+2021-05-03 00:00:00  Earnings     CHSB   1.00026116
+2021-05-04 00:00:00  Earnings     CHSB   1.00026116
+2021-05-05 00:00:00  Earnings     CHSB   1.00026116
+2021-05-06 00:00:00  Earnings     CHSB   1.00026116
+2021-05-07 00:00:00  Earnings     CHSB   1.00026116
+2021-05-08 00:00:00  Earnings     CHSB   1.00026116
+2021-05-09 00:00:00  Earnings     CHSB   1.00026116
+2021-05-10 00:00:00  Earnings     CHSB   1.00026116
+2021-05-11 00:00:00  Earnings     CHSB   1.00026116
+2021-05-12 00:00:00  Earnings     CHSB   1.00026116
+2021-05-13 00:00:00  Earnings     CHSB   1.00026116
+2021-05-14 00:00:00  Earnings     CHSB   1.00026116
+2021-05-15 00:00:00  Earnings     CHSB   1.00026116
+2021-05-16 00:00:00  Earnings     CHSB   1.00026116
+2021-05-17 00:00:00  Earnings     CHSB   1.00026116
+2021-05-18 00:00:00  Earnings     CHSB   1.00026116
+2021-05-19 00:00:00  Earnings     CHSB   1.00026116
+2021-05-20 00:00:00  Earnings     CHSB   1.00026116
+2021-05-21 00:00:00  Earnings     CHSB   1.00026116
+2021-05-22 00:00:00  Earnings     CHSB   1.00026116
+2021-05-23 00:00:00  Earnings     CHSB   1.00026116
+2021-05-24 00:00:00  Earnings     CHSB   1.00026116
+2021-05-25 00:00:00  Earnings     CHSB   1.00026116
+2021-05-26 00:00:00  Earnings     CHSB   1.00026116
+2021-05-27 00:00:00  Earnings     CHSB   1.00026116
+2021-05-28 00:00:00  Earnings     CHSB   1.00026116
+2021-05-29 00:00:00  Earnings     CHSB   1.00026116
+2021-05-30 00:00:00  Earnings     CHSB   1.00026116
+2021-05-31 00:00:00  Earnings     CHSB   1.00026116
+2021-06-01 00:00:00  Earnings     CHSB   1.00026116
+2021-06-02 00:00:00  Earnings     CHSB   1.00026116
+2021-06-03 00:00:00  Earnings     CHSB   1.00026116
+2021-06-04 00:00:00  Earnings     CHSB   1.00026116
+2021-06-05 00:00:00  Earnings     CHSB   1.00026116
+2021-06-06 00:00:00  Earnings     CHSB   1.00026116
+2021-06-07 00:00:00  Earnings     CHSB   1.00026116
+2021-06-08 00:00:00  Earnings     CHSB   1.00026116
+2021-06-09 00:00:00  Earnings     CHSB   1.00026116
+2021-06-10 00:00:00  Earnings     CHSB   1.00026116
+2021-06-11 00:00:00  Earnings     CHSB   1.00026116
+2021-06-12 00:00:00  Earnings     CHSB   1.00026116
+2021-06-13 00:00:00  Earnings     CHSB   1.00026116
+2021-06-14 00:00:00  Earnings     CHSB   1.00026116
+2021-06-15 00:00:00  Earnings     CHSB   1.00026116
+2021-06-16 00:00:00  Earnings     CHSB   1.00026116
+2021-06-17 00:00:00  Earnings     CHSB   1.00026116
+2021-06-18 00:00:00  Earnings     CHSB   1.00026116
+2021-06-19 00:00:00  Earnings     CHSB   1.00026116
+2021-06-20 00:00:00  Earnings     CHSB   1.00026116
+2021-06-21 00:00:00  Earnings     CHSB   1.00026116
+2021-06-22 00:00:00  Earnings     CHSB   1.00026116
+2021-06-23 00:00:00  Earnings     CHSB   1.00026116
+2021-06-24 00:00:00  Earnings     CHSB   1.00026116
+2021-06-25 00:00:00  Earnings     CHSB   1.00026116
+2021-06-26 00:00:00  Earnings     CHSB   1.00026116
+2021-06-27 00:00:00  Earnings     CHSB   1.00026116
+2021-06-28 00:00:00  Earnings     CHSB   1.00026116
+2021-06-29 00:00:00  Earnings     CHSB   1.00026116
+2021-06-30 00:00:00  Earnings     CHSB   1.00026116
+2021-07-01 00:00:00  Earnings     CHSB   1.00026116
+2021-07-02 00:00:00  Earnings     CHSB   1.00026116
+2021-07-03 00:00:00  Earnings     CHSB   1.00026116
+2021-07-04 00:00:00  Earnings     CHSB   1.00026116
+2021-07-05 00:00:00  Earnings     CHSB   1.00026116
+2021-07-06 00:00:00  Earnings     CHSB   1.00026116
+2021-07-07 00:00:00  Earnings     CHSB   1.00026116
+2021-07-08 00:00:00  Earnings     CHSB   1.00026116
+2021-07-09 00:00:00  Earnings     CHSB   1.00026116
+2021-07-10 00:00:00  Earnings     CHSB   1.00026116
+2021-07-11 00:00:00  Earnings     CHSB   1.00026116
+2021-07-12 00:00:00  Earnings     CHSB   1.00026116
+2021-07-13 00:00:00  Earnings     CHSB   1.00026116
+2021-07-14 00:00:00  Earnings     CHSB   1.00026116
+2021-07-15 00:00:00  Earnings     CHSB   1.00026116
+2021-07-16 00:00:00  Earnings     CHSB   1.00026116
+2021-07-17 00:00:00  Earnings     CHSB   1.00026116
+2021-07-18 00:00:00  Earnings     CHSB   1.00026116
+2021-07-19 00:00:00  Earnings     CHSB   1.00026116
+2021-07-20 00:00:00  Earnings     CHSB   1.00026116
+2021-07-21 00:00:00  Earnings     CHSB   1.00026116
+2021-07-22 00:00:00  Earnings     CHSB   1.00026116
+2021-07-23 00:00:00  Earnings     CHSB   1.00026116
+2021-07-24 00:00:00  Earnings     CHSB   1.00026116
+2021-07-25 00:00:00  Earnings     CHSB   1.00026116
+2021-07-26 00:00:00  Earnings     CHSB   1.00026116
+2021-07-27 00:00:00  Earnings     CHSB   1.00026116
+2021-07-28 00:00:00  Earnings     CHSB   1.00026116
+2021-07-29 00:00:00  Earnings     CHSB   1.00026116
+2021-07-30 00:00:00  Earnings     CHSB   1.00026116
+2021-07-31 00:00:00  Earnings     CHSB   1.00026116
+2021-08-01 00:00:00  Earnings     CHSB   1.00026116
+2021-08-02 00:00:00  Earnings     CHSB   1.00026116
+2021-08-03 00:00:00  Earnings     CHSB   1.00026116
+2021-08-04 00:00:00  Earnings     CHSB   1.00026116
+2021-08-05 00:00:00  Earnings     CHSB   1.00026116
+2021-08-06 00:00:00  Earnings     CHSB   1.00026116
+2021-08-07 00:00:00  Earnings     CHSB   1.00026116
+2021-08-08 00:00:00  Earnings     CHSB   1.00026116
+2021-08-09 00:00:00  Earnings     CHSB   1.00026116
+2021-08-10 00:00:00  Earnings     CHSB   1.00026116
+2021-08-11 00:00:00  Earnings     CHSB   1.00026116
+2021-08-12 00:00:00  Earnings     CHSB   1.00026116
+2021-08-13 00:00:00  Earnings     CHSB   1.00026116
+2021-08-14 00:00:00  Earnings     CHSB   1.00026116
+2021-08-15 00:00:00  Earnings     CHSB   1.00026116
+2021-08-16 00:00:00  Earnings     CHSB   1.00026116
+2021-08-17 00:00:00  Earnings     CHSB   1.00026116
+2021-08-18 00:00:00  Earnings     CHSB   1.00026116
+2021-08-19 00:00:00  Earnings     CHSB   1.00026116
+2021-08-20 00:00:00  Earnings     CHSB   1.00026116
+2021-08-21 00:00:00  Earnings     CHSB   1.00026116
+2021-08-22 00:00:00  Earnings     CHSB   1.00026116
+2021-08-23 00:00:00  Earnings     CHSB   1.00026116
+2021-08-24 00:00:00  Earnings     CHSB   1.00026116
+2021-08-25 00:00:00  Earnings     CHSB   1.00026116
+2021-08-26 00:00:00  Earnings     CHSB   1.00026116
+2021-08-27 00:00:00  Earnings     CHSB   1.00026116
+2021-08-28 00:00:00  Earnings     CHSB   1.00026116
+2021-08-29 00:00:00  Earnings     CHSB   1.00026116
+2021-08-30 00:00:00  Earnings     CHSB   1.00026116
+2021-08-31 00:00:00  Earnings     CHSB   1.00026116
+2021-09-01 00:00:00  Earnings     CHSB   1.00026116
+2021-09-02 00:00:00  Earnings     CHSB   1.00026116
+2021-09-03 00:00:00  Earnings     CHSB   1.00026116
+2021-09-04 00:00:00  Earnings     CHSB   1.00026116
+2021-09-05 00:00:00  Earnings     CHSB   1.00026116
+2021-09-06 00:00:00  Earnings     CHSB   1.00026116
+2021-09-07 00:00:00  Earnings     CHSB   1.00026116
+2021-09-08 00:00:00  Earnings     CHSB   1.00026116
+2021-09-09 00:00:00  Earnings     CHSB   1.00026116
+2021-09-10 00:00:00  Earnings     CHSB   1.00026116
+2021-09-11 00:00:00  Earnings     CHSB   1.00026116
+2021-09-12 00:00:00  Earnings     CHSB   1.00026116
+2021-09-13 00:00:00  Earnings     CHSB   1.00026116
+2021-09-14 00:00:00  Earnings     CHSB   1.00026116
+2021-09-15 00:00:00  Earnings     CHSB   1.00026116
+2021-09-16 00:00:00  Earnings     CHSB   1.00026116
+2021-09-17 00:00:00  Earnings     CHSB   1.00026116
+2021-09-18 00:00:00  Earnings     CHSB   1.00026116
+2021-09-19 00:00:00  Earnings     CHSB   1.00026116
+2021-09-20 00:00:00  Earnings     CHSB   1.00026116
+2021-09-21 00:00:00  Earnings     CHSB   1.00026116
+2021-09-22 00:00:00  Earnings     CHSB   1.00026116
+2021-09-23 00:00:00  Earnings     CHSB   1.00026116
+2021-09-24 00:00:00  Earnings     CHSB   1.00026116
+2021-09-25 00:00:00  Earnings     CHSB   1.00026116
+2021-09-26 00:00:00  Earnings     CHSB   1.00026116
+2021-09-27 00:00:00  Earnings     CHSB   1.00026116
+2021-09-28 00:00:00  Earnings     CHSB   1.00026116
+2021-09-29 00:00:00  Earnings     CHSB   1.00026116
+2021-09-30 00:00:00  Earnings     CHSB   1.00026116
+2021-10-01 00:00:00  Earnings     CHSB   1.00026116
+2021-10-02 00:00:00  Earnings     CHSB   1.00026116
+2021-10-03 00:00:00  Earnings     CHSB   1.00026116
+2021-10-04 00:00:00  Earnings     CHSB   1.00026116
+2021-10-05 00:00:00  Earnings     CHSB   1.00026116
+2021-10-06 00:00:00  Earnings     CHSB   1.00026116
+2021-10-07 00:00:00  Earnings     CHSB   1.00026116
+2021-10-08 00:00:00  Earnings     CHSB   1.00026116
+2021-10-09 00:00:00  Earnings     CHSB   1.00026116
+2021-10-10 00:00:00  Earnings     CHSB   1.00026116
+2021-10-11 00:00:00  Earnings     CHSB   1.00026116
+2021-10-12 00:00:00  Earnings     CHSB   1.00026116
+2021-10-13 00:00:00  Earnings     CHSB   1.00026116
+2021-10-14 00:00:00  Earnings     CHSB   1.00026116
+2021-10-15 00:00:00  Earnings     CHSB   1.00026116
+2021-10-16 00:00:00  Earnings     CHSB   1.00026116
+2021-10-17 00:00:00  Earnings     CHSB   1.00026116
+2021-10-18 00:00:00  Earnings     CHSB   1.00026116
+2021-10-19 00:00:00  Earnings     CHSB   1.00026116
+2021-10-20 00:00:00  Earnings     CHSB   1.00026116
+2021-10-21 00:00:00  Earnings     CHSB   1.00026116
+2021-10-22 00:00:00  Earnings     CHSB   1.00026116
+2021-10-23 00:00:00  Earnings     CHSB   1.00026116
+2021-10-24 00:00:00  Earnings     CHSB   1.00026116
+2021-10-25 00:00:00  Earnings     CHSB   1.00026116
+2021-10-26 00:00:00  Earnings     CHSB   1.00026116
+2021-10-27 00:00:00  Earnings     CHSB   1.00026116
+2021-10-28 00:00:00  Earnings     CHSB   1.00026116
+2021-10-29 00:00:00  Earnings     CHSB   1.00026116
+2021-10-30 00:00:00  Earnings     CHSB   1.00026116
+2021-10-31 00:00:00  Earnings     CHSB   1.00026116
+2021-11-01 00:00:00  Earnings     CHSB   1.00026116
+2021-11-02 00:00:00  Earnings     CHSB   1.00026116
+2021-11-03 00:00:00  Earnings     CHSB   1.00026116
+2021-11-04 00:00:00  Earnings     CHSB   1.00026116
+2021-11-05 00:00:00  Earnings     CHSB   1.00026116
+2021-11-06 00:00:00  Earnings     CHSB   1.00026116
+2021-11-07 00:00:00  Earnings     CHSB   1.00026116
+2021-11-08 00:00:00  Earnings     CHSB   1.00026116
+2021-11-09 00:00:00  Earnings     CHSB   1.00026116
+2021-11-10 00:00:00  Earnings     CHSB   1.00026116
+2021-11-11 00:00:00  Earnings     CHSB   1.00026116
+2021-11-12 00:00:00  Earnings     CHSB   1.00026116
+2021-11-13 00:00:00  Earnings     CHSB   1.00026116
+2021-11-14 00:00:00  Earnings     CHSB   1.00026116
+2021-11-15 00:00:00  Earnings     CHSB   1.00026116
+2021-11-16 00:00:00  Earnings     CHSB   1.00026116
+2021-11-17 00:00:00  Earnings     CHSB   1.00026116
+2021-11-18 00:00:00  Earnings     CHSB   1.00026116
+2021-11-19 00:00:00  Earnings     CHSB   1.00026116
+2021-11-20 00:00:00  Earnings     CHSB   1.00026116
+2021-11-21 00:00:00  Earnings     CHSB   1.00026116
+2021-11-22 00:00:00  Earnings     CHSB   1.00026116
+2021-11-23 00:00:00  Earnings     CHSB   1.00026116
+2021-11-24 00:00:00  Earnings     CHSB   1.00026116
+2021-11-25 00:00:00  Earnings     CHSB   1.00026116
+2021-11-26 00:00:00  Earnings     CHSB   1.00026116
+2021-11-27 00:00:00  Earnings     CHSB   1.00026116
+2021-11-28 00:00:00  Earnings     CHSB   1.00026116
+2021-11-29 00:00:00  Earnings     CHSB   1.00026116
+2021-11-30 00:00:00  Earnings     CHSB   1.00026116
+2021-12-01 00:00:00  Earnings     CHSB   1.00026116
+2021-12-02 00:00:00  Earnings     CHSB   1.00026116
+2021-12-03 00:00:00  Earnings     CHSB   1.00026116
+2021-12-04 00:00:00  Earnings     CHSB   1.00026116
+2021-12-05 00:00:00  Earnings     CHSB   1.00026116
+2021-12-06 00:00:00  Earnings     CHSB   1.00026116
+2021-12-07 00:00:00  Earnings     CHSB   1.00026116
+2021-12-08 00:00:00  Earnings     CHSB   1.00026116
+2021-12-09 00:00:00  Earnings     CHSB   1.00026116
+2021-12-10 00:00:00  Earnings     CHSB   1.00026116
+2021-12-11 00:00:00  Earnings     CHSB   1.00026116
+2021-12-12 00:00:00  Earnings     CHSB   1.00026116
+2021-12-13 00:00:00  Earnings     CHSB   1.00026116
+2021-12-14 00:00:00  Earnings     CHSB   1.00026116
+2021-12-15 00:00:00  Earnings     CHSB   1.00026116
+2021-12-16 00:00:00  Earnings     CHSB   1.00026116
+2021-12-17 00:00:00  Earnings     CHSB   1.00026116
+2021-12-18 00:00:00  Earnings     CHSB   1.00026116
+2021-12-19 00:00:00  Earnings     CHSB   1.00026116
+2021-12-20 00:00:00  Earnings     CHSB   1.00026116
+2021-12-21 00:00:00  Earnings     CHSB   1.00026116
+2021-12-22 00:00:00  Earnings     CHSB   1.00026116
+2021-12-23 00:00:00  Earnings     CHSB   1.00026116
+2021-12-24 00:00:00  Earnings     CHSB   1.00026116
+2021-12-25 00:00:00  Earnings     CHSB   1.00026116
+2021-12-26 00:00:00  Earnings     CHSB   1.00026116
+2021-12-27 00:00:00  Earnings     CHSB   1.00026116
+2021-12-28 00:00:00  Earnings     CHSB   1.00026116
+2021-12-29 00:00:00  Earnings     CHSB   1.00026116
+2021-12-30 00:00:00  Earnings     CHSB   1.00026116
+2021-12-31 00:00:00  Earnings     CHSB   1.00026116
+TOTAL                                  365.09532262'''
+
+		if PRINT:
+			if PRINT_SB_EARNING_TOTALS:
+				print(sbEarningsTotalDfActualStr)
+		else:
+			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
+
+		yieldOwnerWithTotalsDetailDfExpectedStr = \
+'                                                   DEP/WITHDR                                                                          \n' + \
+'                  CHSB                                    CHF            CAPITAL                    DATE              YIELD            \n' + \
+'        Tot incl yield  DF RATE  CUR RATE CAP GAIN CAP GAIN %     CHSB       CHF        FROM          TO DAYS   CHSB    CHF  Y % YR Y %\n' + \
+'OWNER                                                                                                                                  ' + \
+'''
+JPS           9,000.00 4,500.00 13,500.00 9,000.00     200.00 9,000.00 13,500.00  2021-01-01  2021-12-31  365 328.59 492.88 3.65   3.65
+TOTAL         9,328.59 4,500.00 13,992.88 9,000.00     200.00                                                 328.59 492.88            ''' + \
+'''
+Papa          1,000.00   500.00  1,500.00 1,000.00     200.00 1,000.00  1,500.00  2021-01-01  2021-12-31  365  36.51  54.76 3.65   3.65
+TOTAL         1,036.51   500.00  1,554.76 1,000.00     200.00                                                  36.51  54.76            ''' + \
+'''
+G TOTAL      10,365.10          15,547.64                                                                     365.10 547.64            '''
+
+		if PRINT:
+			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+		else:
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+
 	def testAddFiatConversionInfo_1_fiat_simple_values_1_owner_withdrawal_gain(self):
 		"""
-		CHSB crypto, 2 owners, 1 with 1 withdrawal, fixed yield rate,
+		CHSB crypto, 1 owner with 1 withdrawal, fixed yield rate,
 		CHSB/CHF final rateof 1.5. Withdrawal of 500 CHSB for 2000 CHF,
 		so a gain of 1250 CHF since current withdrawal CHF value is
 		750 CHF.
@@ -791,7 +1218,6 @@ G TOTAL      26,131.87           39,197.80                                      
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
-		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
 
@@ -1198,6 +1624,434 @@ G TOTAL      11,550.12           17,325.18                                      
 		else:
 			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
 
+	def testAddFiatConversionInfo_1_fiat_simple_values_1_owner_1_deposit_gain(self):
+		"""
+		CHSB crypto, 1 owner with 1 deposit, fixed yield rate,
+		CHSB/CHF final rateof 1.5..
+		"""
+		PRINT = False
+
+		sbAccountSheetFileName = 'testDepositCHSB_simple_values_1_owner_1_deposit.xlsx'
+		depositSheetFileName = 'testDepositChsb_fiat_chf_simple_values_1_owner_1_deposit_gain.csv'
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
+
+		print(depositSheetFileName)
+
+		self.initializeComputerClasses(sbAccountSheetFileName,
+									   depositSheetFileName,
+									   cryptoFiatCsvFileName)
+
+		self.processor = Processor(self.yieldRateComputer,
+								   self.ownerDepositYieldComputer,
+								   CryptoFiatRateComputer(PriceRequesterTestStub(), self.cryptoFiatCsvFilePathName))
+
+		sbYieldRatesWithTotalDf, \
+		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDfActualStr, \
+		depositCrypto = self.processor.addFiatConversionInfo()
+
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
+
+		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			sbEarningsTotalDf,
+			{
+				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
+		sbEarningsTotalDfExpectedStr = \
+'                         Type Currency   Net amount\n' + \
+'Local time                                         ' + \
+'''
+2021-01-01 00:00:00  Earnings     CHSB   1.00026116
+2021-01-02 00:00:00  Earnings     CHSB   1.00026116
+2021-01-03 00:00:00  Earnings     CHSB   1.00026116
+2021-01-04 00:00:00  Earnings     CHSB   1.00026116
+2021-01-05 00:00:00  Earnings     CHSB   1.00026116
+2021-01-06 00:00:00  Earnings     CHSB   1.00026116
+2021-01-07 00:00:00  Earnings     CHSB   1.00026116
+2021-01-08 00:00:00  Earnings     CHSB   1.00026116
+2021-01-09 00:00:00  Earnings     CHSB   1.00026116
+2021-01-10 00:00:00  Earnings     CHSB   1.00026116
+2021-01-11 00:00:00  Earnings     CHSB   1.00026116
+2021-01-12 00:00:00  Earnings     CHSB   1.00026116
+2021-01-13 00:00:00  Earnings     CHSB   1.00026116
+2021-01-14 00:00:00  Earnings     CHSB   1.00026116
+2021-01-15 00:00:00  Earnings     CHSB   1.00026116
+2021-01-16 00:00:00  Earnings     CHSB   1.00026116
+2021-01-17 00:00:00  Earnings     CHSB   1.00026116
+2021-01-18 00:00:00  Earnings     CHSB   1.00026116
+2021-01-19 00:00:00  Earnings     CHSB   1.00026116
+2021-01-20 00:00:00  Earnings     CHSB   1.00026116
+2021-01-21 00:00:00  Earnings     CHSB   1.00026116
+2021-01-22 00:00:00  Earnings     CHSB   1.00026116
+2021-01-23 00:00:00  Earnings     CHSB   1.00026116
+2021-01-24 00:00:00  Earnings     CHSB   1.00026116
+2021-01-25 00:00:00  Earnings     CHSB   1.00026116
+2021-01-26 00:00:00  Earnings     CHSB   1.00026116
+2021-01-27 00:00:00  Earnings     CHSB   1.00026116
+2021-01-28 00:00:00  Earnings     CHSB   1.00026116
+2021-01-29 00:00:00  Earnings     CHSB   1.00026116
+2021-01-30 00:00:00  Earnings     CHSB   1.00026116
+2021-01-31 00:00:00  Earnings     CHSB   1.00026116
+2021-02-01 00:00:00  Earnings     CHSB   1.00026116
+2021-02-02 00:00:00  Earnings     CHSB   1.00026116
+2021-02-03 00:00:00  Earnings     CHSB   1.00026116
+2021-02-04 00:00:00  Earnings     CHSB   1.00026116
+2021-02-05 00:00:00  Earnings     CHSB   1.00026116
+2021-02-06 00:00:00  Earnings     CHSB   1.00026116
+2021-02-07 00:00:00  Earnings     CHSB   1.00026116
+2021-02-08 00:00:00  Earnings     CHSB   1.00026116
+2021-02-09 00:00:00  Earnings     CHSB   1.00026116
+2021-02-10 00:00:00  Earnings     CHSB   1.00026116
+2021-02-11 00:00:00  Earnings     CHSB   1.00026116
+2021-02-12 00:00:00  Earnings     CHSB   1.00026116
+2021-02-13 00:00:00  Earnings     CHSB   1.00026116
+2021-02-14 00:00:00  Earnings     CHSB   1.00026116
+2021-02-15 00:00:00  Earnings     CHSB   1.00026116
+2021-02-16 00:00:00  Earnings     CHSB   1.00026116
+2021-02-17 00:00:00  Earnings     CHSB   1.00026116
+2021-02-18 00:00:00  Earnings     CHSB   1.00026116
+2021-02-19 00:00:00  Earnings     CHSB   1.00026116
+2021-02-20 00:00:00  Earnings     CHSB   1.00026116
+2021-02-21 00:00:00  Earnings     CHSB   1.00026116
+2021-02-22 00:00:00  Earnings     CHSB   1.00026116
+2021-02-23 00:00:00  Earnings     CHSB   1.00026116
+2021-02-24 00:00:00  Earnings     CHSB   1.00026116
+2021-02-25 00:00:00  Earnings     CHSB   1.00026116
+2021-02-26 00:00:00  Earnings     CHSB   1.00026116
+2021-02-27 00:00:00  Earnings     CHSB   1.00026116
+2021-02-28 00:00:00  Earnings     CHSB   1.00026116
+2021-03-01 00:00:00  Earnings     CHSB   1.00026116
+2021-03-02 00:00:00  Earnings     CHSB   1.00026116
+2021-03-03 00:00:00  Earnings     CHSB   1.00026116
+2021-03-04 00:00:00  Earnings     CHSB   1.00026116
+2021-03-05 00:00:00  Earnings     CHSB   1.00026116
+2021-03-06 00:00:00  Earnings     CHSB   1.00026116
+2021-03-07 00:00:00  Earnings     CHSB   1.00026116
+2021-03-08 00:00:00  Earnings     CHSB   1.00026116
+2021-03-09 00:00:00  Earnings     CHSB   1.00026116
+2021-03-10 00:00:00  Earnings     CHSB   1.00026116
+2021-03-11 00:00:00  Earnings     CHSB   1.00026116
+2021-03-12 00:00:00  Earnings     CHSB   1.00026116
+2021-03-13 00:00:00  Earnings     CHSB   1.00026116
+2021-03-14 00:00:00  Earnings     CHSB   1.00026116
+2021-03-15 00:00:00  Earnings     CHSB   1.00026116
+2021-03-16 00:00:00  Earnings     CHSB   1.00026116
+2021-03-17 00:00:00  Earnings     CHSB   1.00026116
+2021-03-18 00:00:00  Earnings     CHSB   1.00026116
+2021-03-19 00:00:00  Earnings     CHSB   1.00026116
+2021-03-20 00:00:00  Earnings     CHSB   1.00026116
+2021-03-21 00:00:00  Earnings     CHSB   1.00026116
+2021-03-22 00:00:00  Earnings     CHSB   1.00026116
+2021-03-23 00:00:00  Earnings     CHSB   1.00026116
+2021-03-24 00:00:00  Earnings     CHSB   1.00026116
+2021-03-25 00:00:00  Earnings     CHSB   1.00026116
+2021-03-26 00:00:00  Earnings     CHSB   1.00026116
+2021-03-27 00:00:00  Earnings     CHSB   1.00026116
+2021-03-28 00:00:00  Earnings     CHSB   1.00026116
+2021-03-29 00:00:00  Earnings     CHSB   1.00026116
+2021-03-30 00:00:00  Earnings     CHSB   1.00026116
+2021-03-31 00:00:00  Earnings     CHSB   1.00026116
+2021-04-01 00:00:00  Earnings     CHSB   1.00026116
+2021-04-02 00:00:00  Earnings     CHSB   1.00026116
+2021-04-03 00:00:00  Earnings     CHSB   1.00026116
+2021-04-04 00:00:00  Earnings     CHSB   1.00026116
+2021-04-05 00:00:00  Earnings     CHSB   1.00026116
+2021-04-06 00:00:00  Earnings     CHSB   1.00026116
+2021-04-07 00:00:00  Earnings     CHSB   1.00026116
+2021-04-08 00:00:00  Earnings     CHSB   1.00026116
+2021-04-09 00:00:00  Earnings     CHSB   1.00026116
+2021-04-10 00:00:00  Earnings     CHSB   1.00026116
+2021-04-11 00:00:00  Earnings     CHSB   1.00026116
+2021-04-12 00:00:00  Earnings     CHSB   1.00026116
+2021-04-13 00:00:00  Earnings     CHSB   1.00026116
+2021-04-14 00:00:00  Earnings     CHSB   1.00026116
+2021-04-15 00:00:00  Earnings     CHSB   1.00026116
+2021-04-16 00:00:00  Earnings     CHSB   1.00026116
+2021-04-17 00:00:00  Earnings     CHSB   1.00026116
+2021-04-18 00:00:00  Earnings     CHSB   1.00026116
+2021-04-19 00:00:00  Earnings     CHSB   1.00026116
+2021-04-20 00:00:00  Earnings     CHSB   1.00026116
+2021-04-21 00:00:00  Earnings     CHSB   1.00026116
+2021-04-22 00:00:00  Earnings     CHSB   1.00026116
+2021-04-23 00:00:00  Earnings     CHSB   1.00026116
+2021-04-24 00:00:00  Earnings     CHSB   1.00026116
+2021-04-25 00:00:00  Earnings     CHSB   1.00026116
+2021-04-26 00:00:00  Earnings     CHSB   1.00026116
+2021-04-27 00:00:00  Earnings     CHSB   1.00026116
+2021-04-28 00:00:00  Earnings     CHSB   1.00026116
+2021-04-29 00:00:00  Earnings     CHSB   1.00026116
+2021-04-30 00:00:00  Earnings     CHSB   1.00026116
+2021-05-01 00:00:00  Earnings     CHSB   1.00026116
+2021-05-02 00:00:00  Earnings     CHSB   1.00026116
+2021-05-03 00:00:00  Earnings     CHSB   1.00026116
+2021-05-04 00:00:00  Earnings     CHSB   1.00026116
+2021-05-05 00:00:00  Earnings     CHSB   1.00026116
+2021-05-06 00:00:00  Earnings     CHSB   1.00026116
+2021-05-07 00:00:00  Earnings     CHSB   1.00026116
+2021-05-08 00:00:00  Earnings     CHSB   1.00026116
+2021-05-09 00:00:00  Earnings     CHSB   1.00026116
+2021-05-10 00:00:00  Earnings     CHSB   1.00026116
+2021-05-11 00:00:00  Earnings     CHSB   1.00026116
+2021-05-12 00:00:00  Earnings     CHSB   1.00026116
+2021-05-13 00:00:00  Earnings     CHSB   1.00026116
+2021-05-14 00:00:00  Earnings     CHSB   1.00026116
+2021-05-15 00:00:00  Earnings     CHSB   1.00026116
+2021-05-16 00:00:00  Earnings     CHSB   1.00026116
+2021-05-17 00:00:00  Earnings     CHSB   1.00026116
+2021-05-18 00:00:00  Earnings     CHSB   1.00026116
+2021-05-19 00:00:00  Earnings     CHSB   1.00026116
+2021-05-20 00:00:00  Earnings     CHSB   1.00026116
+2021-05-21 00:00:00  Earnings     CHSB   1.00026116
+2021-05-22 00:00:00  Earnings     CHSB   1.00026116
+2021-05-23 00:00:00  Earnings     CHSB   1.00026116
+2021-05-24 00:00:00  Earnings     CHSB   1.00026116
+2021-05-25 00:00:00  Earnings     CHSB   1.00026116
+2021-05-26 00:00:00  Earnings     CHSB   1.00026116
+2021-05-27 00:00:00  Earnings     CHSB   1.00026116
+2021-05-28 00:00:00  Earnings     CHSB   1.00026116
+2021-05-29 00:00:00  Earnings     CHSB   1.00026116
+2021-05-30 00:00:00  Earnings     CHSB   1.00026116
+2021-05-31 00:00:00  Earnings     CHSB   1.00026116
+2021-06-01 00:00:00  Earnings     CHSB   1.00026116
+2021-06-02 00:00:00  Earnings     CHSB   1.00026116
+2021-06-03 00:00:00  Earnings     CHSB   1.00026116
+2021-06-04 00:00:00  Earnings     CHSB   1.00026116
+2021-06-05 00:00:00  Earnings     CHSB   1.00026116
+2021-06-06 00:00:00  Earnings     CHSB   1.00026116
+2021-06-07 00:00:00  Earnings     CHSB   1.00026116
+2021-06-08 00:00:00  Earnings     CHSB   1.00026116
+2021-06-09 00:00:00  Earnings     CHSB   1.00026116
+2021-06-10 00:00:00  Earnings     CHSB   1.00026116
+2021-06-11 00:00:00  Earnings     CHSB   1.00026116
+2021-06-12 00:00:00  Earnings     CHSB   1.00026116
+2021-06-13 00:00:00  Earnings     CHSB   1.00026116
+2021-06-14 00:00:00  Earnings     CHSB   1.00026116
+2021-06-15 00:00:00  Earnings     CHSB   1.00026116
+2021-06-16 00:00:00  Earnings     CHSB   1.00026116
+2021-06-17 00:00:00  Earnings     CHSB   1.00026116
+2021-06-18 00:00:00  Earnings     CHSB   1.00026116
+2021-06-19 00:00:00  Earnings     CHSB   1.00026116
+2021-06-20 00:00:00  Earnings     CHSB   1.00026116
+2021-06-21 00:00:00  Earnings     CHSB   1.00026116
+2021-06-22 00:00:00  Earnings     CHSB   1.00026116
+2021-06-23 00:00:00  Earnings     CHSB   1.00026116
+2021-06-24 00:00:00  Earnings     CHSB   1.00026116
+2021-06-25 00:00:00  Earnings     CHSB   1.00026116
+2021-06-26 00:00:00  Earnings     CHSB   1.00026116
+2021-06-27 00:00:00  Earnings     CHSB   1.00026116
+2021-06-28 00:00:00  Earnings     CHSB   1.00026116
+2021-06-29 00:00:00  Earnings     CHSB   1.00026116
+2021-06-30 00:00:00  Earnings     CHSB   1.00026116
+2021-07-01 00:00:00  Earnings     CHSB   1.00026116
+2021-07-02 00:00:00  Earnings     CHSB   1.00026116
+2021-07-03 00:00:00  Earnings     CHSB   1.00026116
+2021-07-04 00:00:00  Earnings     CHSB   1.00026116
+2021-07-05 00:00:00  Earnings     CHSB   1.00026116
+2021-07-06 00:00:00  Earnings     CHSB   1.00026116
+2021-07-07 00:00:00  Earnings     CHSB   1.00026116
+2021-07-08 00:00:00  Earnings     CHSB   1.00026116
+2021-07-09 00:00:00  Earnings     CHSB   1.00026116
+2021-07-10 00:00:00  Earnings     CHSB   1.00026116
+2021-07-11 00:00:00  Earnings     CHSB   1.00026116
+2021-07-12 00:00:00  Earnings     CHSB   1.00026116
+2021-07-13 00:00:00  Earnings     CHSB   1.00026116
+2021-07-14 00:00:00  Earnings     CHSB   1.00026116
+2021-07-15 00:00:00  Earnings     CHSB   1.00026116
+2021-07-16 00:00:00  Earnings     CHSB   1.00026116
+2021-07-17 00:00:00  Earnings     CHSB   1.00026116
+2021-07-18 00:00:00  Earnings     CHSB   1.00026116
+2021-07-19 00:00:00  Earnings     CHSB   1.00026116
+2021-07-20 00:00:00  Earnings     CHSB   1.00026116
+2021-07-21 00:00:00  Earnings     CHSB   1.00026116
+2021-07-22 00:00:00  Earnings     CHSB   1.00026116
+2021-07-23 00:00:00  Earnings     CHSB   1.00026116
+2021-07-24 00:00:00  Earnings     CHSB   1.00026116
+2021-07-25 00:00:00  Earnings     CHSB   1.00026116
+2021-07-26 00:00:00  Earnings     CHSB   1.00026116
+2021-07-27 00:00:00  Earnings     CHSB   1.00026116
+2021-07-28 00:00:00  Earnings     CHSB   1.00026116
+2021-07-29 00:00:00  Earnings     CHSB   1.00026116
+2021-07-30 00:00:00  Earnings     CHSB   1.00026116
+2021-07-31 00:00:00  Earnings     CHSB   1.00026116
+2021-08-01 00:00:00  Earnings     CHSB   1.00026116
+2021-08-02 00:00:00  Earnings     CHSB   1.00026116
+2021-08-03 00:00:00  Earnings     CHSB   1.00026116
+2021-08-04 00:00:00  Earnings     CHSB   1.00026116
+2021-08-05 00:00:00  Earnings     CHSB   1.00026116
+2021-08-06 00:00:00  Earnings     CHSB   1.00026116
+2021-08-07 00:00:00  Earnings     CHSB   1.00026116
+2021-08-08 00:00:00  Earnings     CHSB   1.00026116
+2021-08-09 00:00:00  Earnings     CHSB   1.00026116
+2021-08-10 00:00:00  Earnings     CHSB   1.00026116
+2021-08-11 00:00:00  Earnings     CHSB   1.00026116
+2021-08-12 00:00:00  Earnings     CHSB   1.00026116
+2021-08-13 00:00:00  Earnings     CHSB   1.00026116
+2021-08-14 00:00:00  Earnings     CHSB   1.00026116
+2021-08-15 00:00:00  Earnings     CHSB   1.00026116
+2021-08-16 00:00:00  Earnings     CHSB   1.00026116
+2021-08-17 00:00:00  Earnings     CHSB   1.00026116
+2021-08-18 00:00:00  Earnings     CHSB   1.00026116
+2021-08-19 00:00:00  Earnings     CHSB   1.00026116
+2021-08-20 00:00:00  Earnings     CHSB   1.00026116
+2021-08-21 00:00:00  Earnings     CHSB   1.00026116
+2021-08-22 00:00:00  Earnings     CHSB   1.00026116
+2021-08-23 00:00:00  Earnings     CHSB   1.00026116
+2021-08-24 00:00:00  Earnings     CHSB   1.00026116
+2021-08-25 00:00:00  Earnings     CHSB   1.00026116
+2021-08-26 00:00:00  Earnings     CHSB   1.00026116
+2021-08-27 00:00:00  Earnings     CHSB   1.00026116
+2021-08-28 00:00:00  Earnings     CHSB   1.00026116
+2021-08-29 00:00:00  Earnings     CHSB   1.00026116
+2021-08-30 00:00:00  Earnings     CHSB   1.00026116
+2021-08-31 00:00:00  Earnings     CHSB   1.00026116
+2021-09-01 00:00:00  Earnings     CHSB   1.00026116
+2021-09-02 00:00:00  Earnings     CHSB   1.00026116
+2021-09-03 00:00:00  Earnings     CHSB   1.00026116
+2021-09-04 00:00:00  Earnings     CHSB   1.00026116
+2021-09-05 00:00:00  Earnings     CHSB   1.00026116
+2021-09-06 00:00:00  Earnings     CHSB   1.00026116
+2021-09-07 00:00:00  Earnings     CHSB   1.00026116
+2021-09-08 00:00:00  Earnings     CHSB   1.00026116
+2021-09-09 00:00:00  Earnings     CHSB   1.00026116
+2021-09-10 00:00:00  Earnings     CHSB   1.00026116
+2021-09-11 00:00:00  Earnings     CHSB   1.00026116
+2021-09-12 00:00:00  Earnings     CHSB   1.00026116
+2021-09-13 00:00:00  Earnings     CHSB   1.00026116
+2021-09-14 00:00:00  Earnings     CHSB   1.00026116
+2021-09-15 00:00:00  Earnings     CHSB   1.00026116
+2021-09-16 00:00:00  Earnings     CHSB   1.00026116
+2021-09-17 00:00:00  Earnings     CHSB   1.00026116
+2021-09-18 00:00:00  Earnings     CHSB   1.00026116
+2021-09-19 00:00:00  Earnings     CHSB   1.00026116
+2021-09-20 00:00:00  Earnings     CHSB   1.00026116
+2021-09-21 00:00:00  Earnings     CHSB   1.00026116
+2021-09-22 00:00:00  Earnings     CHSB   1.00026116
+2021-09-23 00:00:00  Earnings     CHSB   1.00026116
+2021-09-24 00:00:00  Earnings     CHSB   1.00026116
+2021-09-25 00:00:00  Earnings     CHSB   1.00026116
+2021-09-26 00:00:00  Earnings     CHSB   1.00026116
+2021-09-27 00:00:00  Earnings     CHSB   1.00026116
+2021-09-28 00:00:00  Earnings     CHSB   1.00026116
+2021-09-29 00:00:00  Earnings     CHSB   1.00026116
+2021-09-30 00:00:00  Earnings     CHSB   1.00026116
+2021-10-01 00:00:00  Earnings     CHSB   1.00026116
+2021-10-02 00:00:00  Earnings     CHSB   1.00026116
+2021-10-03 00:00:00  Earnings     CHSB   1.00026116
+2021-10-04 00:00:00  Earnings     CHSB   1.00026116
+2021-10-05 00:00:00  Earnings     CHSB   1.00026116
+2021-10-06 00:00:00  Earnings     CHSB   1.00026116
+2021-10-07 00:00:00  Earnings     CHSB   1.00026116
+2021-10-08 00:00:00  Earnings     CHSB   1.00026116
+2021-10-09 00:00:00  Earnings     CHSB   1.00026116
+2021-10-10 00:00:00  Earnings     CHSB   1.00026116
+2021-10-11 00:00:00  Earnings     CHSB   1.00026116
+2021-10-12 00:00:00  Earnings     CHSB   1.00026116
+2021-10-13 00:00:00  Earnings     CHSB   1.00026116
+2021-10-14 00:00:00  Earnings     CHSB   1.00026116
+2021-10-15 00:00:00  Earnings     CHSB   1.00026116
+2021-10-16 00:00:00  Earnings     CHSB   1.00026116
+2021-10-17 00:00:00  Earnings     CHSB   1.00026116
+2021-10-18 00:00:00  Earnings     CHSB   1.00026116
+2021-10-19 00:00:00  Earnings     CHSB   1.00026116
+2021-10-20 00:00:00  Earnings     CHSB   1.00026116
+2021-10-21 00:00:00  Earnings     CHSB   1.00026116
+2021-10-22 00:00:00  Earnings     CHSB   1.00026116
+2021-10-23 00:00:00  Earnings     CHSB   1.00026116
+2021-10-24 00:00:00  Earnings     CHSB   1.00026116
+2021-10-25 00:00:00  Earnings     CHSB   1.00026116
+2021-10-26 00:00:00  Earnings     CHSB   1.00026116
+2021-10-27 00:00:00  Earnings     CHSB   1.00026116
+2021-10-28 00:00:00  Earnings     CHSB   1.00026116
+2021-10-29 00:00:00  Earnings     CHSB   1.00026116
+2021-10-30 00:00:00  Earnings     CHSB   1.00026116
+2021-10-31 00:00:00  Earnings     CHSB   1.00026116
+2021-11-01 00:00:00  Earnings     CHSB   1.00026116
+2021-11-02 00:00:00  Earnings     CHSB   1.00026116
+2021-11-03 00:00:00  Earnings     CHSB   1.00026116
+2021-11-04 00:00:00  Earnings     CHSB   1.00026116
+2021-11-05 00:00:00  Earnings     CHSB   1.00026116
+2021-11-06 00:00:00  Earnings     CHSB   1.00026116
+2021-11-07 00:00:00  Earnings     CHSB   1.00026116
+2021-11-08 00:00:00  Earnings     CHSB   1.00026116
+2021-11-09 00:00:00  Earnings     CHSB   1.00026116
+2021-11-10 00:00:00  Earnings     CHSB   1.00026116
+2021-11-11 00:00:00  Earnings     CHSB   1.00026116
+2021-11-12 00:00:00  Earnings     CHSB   1.00026116
+2021-11-13 00:00:00  Earnings     CHSB   1.00026116
+2021-11-14 00:00:00  Earnings     CHSB   1.00026116
+2021-11-15 00:00:00  Earnings     CHSB   1.00026116
+2021-11-16 00:00:00  Earnings     CHSB   1.00026116
+2021-11-17 00:00:00  Earnings     CHSB   1.00026116
+2021-11-18 00:00:00  Earnings     CHSB   1.00026116
+2021-11-19 00:00:00  Earnings     CHSB   1.00026116
+2021-11-20 00:00:00  Earnings     CHSB   1.00026116
+2021-11-21 00:00:00  Earnings     CHSB   1.00026116
+2021-11-22 00:00:00  Earnings     CHSB   1.00026116
+2021-11-23 00:00:00  Earnings     CHSB   1.00026116
+2021-11-24 00:00:00  Earnings     CHSB   1.00026116
+2021-11-25 00:00:00  Earnings     CHSB   1.00026116
+2021-11-26 00:00:00  Earnings     CHSB   1.00026116
+2021-11-27 00:00:00  Earnings     CHSB   1.00026116
+2021-11-28 00:00:00  Earnings     CHSB   1.00026116
+2021-11-29 00:00:00  Earnings     CHSB   1.00026116
+2021-11-30 00:00:00  Earnings     CHSB   1.00026116
+2021-12-01 00:00:00  Earnings     CHSB   1.00026116
+2021-12-02 00:00:00  Earnings     CHSB   1.00026116
+2021-12-03 00:00:00  Earnings     CHSB   1.00026116
+2021-12-04 00:00:00  Earnings     CHSB   1.00026116
+2021-12-05 00:00:00  Earnings     CHSB   1.00026116
+2021-12-06 00:00:00  Earnings     CHSB   1.00026116
+2021-12-07 00:00:00  Earnings     CHSB   1.00026116
+2021-12-08 00:00:00  Earnings     CHSB   1.00026116
+2021-12-09 00:00:00  Earnings     CHSB   1.00026116
+2021-12-10 00:00:00  Earnings     CHSB   1.00026116
+2021-12-11 00:00:00  Earnings     CHSB   1.00026116
+2021-12-12 00:00:00  Earnings     CHSB   1.00026116
+2021-12-13 00:00:00  Earnings     CHSB   1.00026116
+2021-12-14 00:00:00  Earnings     CHSB   1.00026116
+2021-12-15 00:00:00  Earnings     CHSB   1.00026116
+2021-12-16 00:00:00  Earnings     CHSB   1.00026116
+2021-12-17 00:00:00  Earnings     CHSB   1.00026116
+2021-12-18 00:00:00  Earnings     CHSB   1.00026116
+2021-12-19 00:00:00  Earnings     CHSB   1.00026116
+2021-12-20 00:00:00  Earnings     CHSB   1.00026116
+2021-12-21 00:00:00  Earnings     CHSB   1.00026116
+2021-12-22 00:00:00  Earnings     CHSB   1.00026116
+2021-12-23 00:00:00  Earnings     CHSB   1.00026116
+2021-12-24 00:00:00  Earnings     CHSB   1.00026116
+2021-12-25 00:00:00  Earnings     CHSB   1.00026116
+2021-12-26 00:00:00  Earnings     CHSB   1.00026116
+2021-12-27 00:00:00  Earnings     CHSB   1.00026116
+2021-12-28 00:00:00  Earnings     CHSB   1.00026116
+2021-12-29 00:00:00  Earnings     CHSB   1.00026116
+2021-12-30 00:00:00  Earnings     CHSB   1.00026116
+2021-12-31 00:00:00  Earnings     CHSB   1.00026116
+TOTAL                                  365.09532262'''
+
+		if PRINT:
+			if PRINT_SB_EARNING_TOTALS:
+				print(sbEarningsTotalDfActualStr)
+		else:
+			self.maxDiff = None
+			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
+
+		yieldOwnerWithTotalsDetailDfExpectedStr = \
+'                                                    DEP/WITHDR                                                                           \n' + \
+'                  CHSB                                     CHF             CAPITAL                    DATE              YIELD            \n' + \
+'        Tot incl yield  DF RATE  CUR RATE  CAP GAIN CAP GAIN %      CHSB       CHF        FROM          TO DAYS   CHSB    CHF  Y % YR Y %\n' + \
+'OWNER                                                                                                                                    ' + \
+'''
+JPS          10,000.00 5,000.00 15,000.00 10,000.00     200.00 10,000.00 15,000.00  2021-01-01  2021-12-31  365 365.10 547.64 3.65   3.65
+TOTAL        10,365.10 5,000.00 15,547.64 10,000.00     200.00                                                  365.10 547.64            ''' + \
+'''
+G TOTAL      10,365.10          15,547.64                                                                       365.10 547.64            '''
+
+		if PRINT:
+			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+		else:
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+
 	def testAddFiatConversionInfo_1_fiat_simple_values_1_owner_withdrawal_loss(self):
 		"""
 		CHSB crypto, 2 owners, 1 with 1 withdrawal, fixed yield rate,
@@ -1224,7 +2078,6 @@ G TOTAL      11,550.12           17,325.18                                      
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
-		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
 
@@ -1657,7 +2510,6 @@ G TOTAL      11,550.12          17,325.18                                       
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
-		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
 
@@ -2088,7 +2940,6 @@ G TOTAL      11,550.12          17,325.18                                       
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
-		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
 
@@ -2518,7 +3369,6 @@ G TOTAL      12,098.56          18,147.85                                       
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
-		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
 
@@ -2924,15 +3774,1171 @@ G TOTAL      12,098.56          18,147.85                               20,567.5
 		else:
 			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
 
+	def testAddFiatConversionInfo_USDC_1_fiat_simple_values_2_owners_bug(self):
+		"""
+		USDC crypto, 2 owners with 1 deposit, fixed yield rate,
+		USDC/CHF final rate of 1.5.
+
+		Corresponding OwnerDepositYieldComputer tesz:
+		TestOwnerDepositYieldComputer.testComputeDepositsYields_2_owners_bug
+		"""
+		PRINT = False
+
+		sbAccountSheetFileName = 'testSBEarningUsdc_simple_values_bug.xlsx'
+		depositSheetFileName = 'depositUsdc_fiat_chf_simple_values_bug.csv'
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+
+		print(depositSheetFileName)
+
+		self.initializeComputerClasses(sbAccountSheetFileName,
+									   depositSheetFileName,
+									   cryptoFiatCsvFileName)
+
+		self.processor = Processor(self.yieldRateComputer,
+								   self.ownerDepositYieldComputer,
+								   CryptoFiatRateComputer(PriceRequesterTestStub(),
+								   self.cryptoFiatCsvFilePathName))
+
+		sbYieldRatesWithTotalDf, \
+		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDfActualStr, \
+		depositCrypto =	self.processor.addFiatConversionInfo()
+
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
+
+		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			sbEarningsTotalDf,
+			{
+				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
+		sbEarningsTotalDfExpectedStr = \
+'                         Type Currency   Net amount\n' + \
+'Local time                                         ' + \
+'''
+2021-02-20 00:00:00  Earnings     USDC   1.04463150
+2021-02-21 00:00:00  Earnings     USDC   1.04490432
+2021-02-22 00:00:00  Earnings     USDC   1.04517720
+2021-02-23 00:00:00  Earnings     USDC   1.04545016
+2021-02-24 00:00:00  Earnings     USDC   1.04572319
+2021-02-25 00:00:00  Earnings     USDC   1.04599629
+2021-02-26 00:00:00  Earnings     USDC   1.04626946
+2021-02-27 00:00:00  Earnings     USDC   1.04654270
+2021-02-28 00:00:00  Earnings     USDC   1.04681601
+2021-03-01 00:00:00  Earnings     USDC   1.04708939
+2021-03-02 00:00:00  Earnings     USDC   1.04736285
+2021-03-03 00:00:00  Earnings     USDC   1.04763638
+2021-03-04 00:00:00  Earnings     USDC   1.04790998
+2021-03-05 00:00:00  Earnings     USDC   1.04818365
+2021-03-06 00:00:00  Earnings     USDC   1.04845739
+2021-03-07 00:00:00  Earnings     USDC   1.04873120
+2021-03-08 00:00:00  Earnings     USDC   1.04900508
+2021-03-09 00:00:00  Earnings     USDC   1.04927904
+2021-03-10 00:00:00  Earnings     USDC   1.04955307
+2021-03-11 00:00:00  Earnings     USDC   1.04982717
+2021-03-12 00:00:00  Earnings     USDC   1.05010134
+2021-03-13 00:00:00  Earnings     USDC   1.05037558
+2021-03-14 00:00:00  Earnings     USDC   1.05064989
+2021-03-15 00:00:00  Earnings     USDC   1.05092428
+2021-03-16 00:00:00  Earnings     USDC   1.05119874
+2021-03-17 00:00:00  Earnings     USDC   1.05147326
+2021-03-18 00:00:00  Earnings     USDC   1.05174787
+2021-03-19 00:00:00  Earnings     USDC   1.05202254
+2021-03-20 00:00:00  Earnings     USDC   1.05229728
+2021-03-21 00:00:00  Earnings     USDC   1.05257210
+2021-03-22 00:00:00  Earnings     USDC   2.35863637
+2021-03-23 00:00:00  Earnings     USDC   2.35925234
+2021-03-24 00:00:00  Earnings     USDC   2.35986848
+2021-03-25 00:00:00  Earnings     USDC   2.36048478
+2021-03-26 00:00:00  Earnings     USDC   2.36110124
+2021-03-27 00:00:00  Earnings     USDC   2.36171786
+2021-03-28 00:00:00  Earnings     USDC   2.36233464
+2021-03-29 00:00:00  Earnings     USDC   2.36295158
+2021-03-30 00:00:00  Earnings     USDC   2.36356868
+2021-03-31 00:00:00  Earnings     USDC   2.36418595
+2021-04-01 00:00:00  Earnings     USDC   2.36480337
+2021-04-02 00:00:00  Earnings     USDC   2.36542096
+2021-04-03 00:00:00  Earnings     USDC   2.36603871
+2021-04-04 00:00:00  Earnings     USDC   2.36665662
+2021-04-05 00:00:00  Earnings     USDC   2.36727469
+2021-04-06 00:00:00  Earnings     USDC   2.36789292
+2021-04-07 00:00:00  Earnings     USDC   2.36851132
+2021-04-08 00:00:00  Earnings     USDC   2.36912987
+2021-04-09 00:00:00  Earnings     USDC   2.36974859
+2021-04-10 00:00:00  Earnings     USDC   2.37036747
+2021-04-11 00:00:00  Earnings     USDC   2.37098651
+2021-04-12 00:00:00  Earnings     USDC   2.37160571
+2021-04-13 00:00:00  Earnings     USDC   2.37222507
+2021-04-14 00:00:00  Earnings     USDC   2.37284460
+2021-04-15 00:00:00  Earnings     USDC   2.37346428
+2021-04-16 00:00:00  Earnings     USDC   2.37408413
+2021-04-17 00:00:00  Earnings     USDC   2.37470414
+2021-04-18 00:00:00  Earnings     USDC   2.37532432
+2021-04-19 00:00:00  Earnings     USDC   2.37594465
+2021-04-20 00:00:00  Earnings     USDC   2.37656515
+2021-04-21 00:00:00  Earnings     USDC   2.37718581
+2021-04-22 00:00:00  Earnings     USDC   2.37780663
+2021-04-23 00:00:00  Earnings     USDC   2.37842761
+2021-04-24 00:00:00  Earnings     USDC   2.37904876
+2021-04-25 00:00:00  Earnings     USDC   2.37967006
+2021-04-26 00:00:00  Earnings     USDC   2.38029153
+2021-04-27 00:00:00  Earnings     USDC   2.38091316
+2021-04-28 00:00:00  Earnings     USDC   2.38153496
+2021-04-29 00:00:00  Earnings     USDC   2.38215692
+2021-04-30 00:00:00  Earnings     USDC   2.38277903
+2021-05-01 00:00:00  Earnings     USDC   2.38340132
+2021-05-02 00:00:00  Earnings     USDC   2.38402376
+2021-05-03 00:00:00  Earnings     USDC   2.38464637
+2021-05-04 00:00:00  Earnings     USDC   2.38526914
+2021-05-05 00:00:00  Earnings     USDC   2.38589207
+2021-05-06 00:00:00  Earnings     USDC   2.38651516
+2021-05-07 00:00:00  Earnings     USDC   2.38713842
+2021-05-08 00:00:00  Earnings     USDC   2.38776184
+2021-05-09 00:00:00  Earnings     USDC   2.38838542
+2021-05-10 00:00:00  Earnings     USDC   2.38900917
+2021-05-11 00:00:00  Earnings     USDC   2.38963308
+2021-05-12 00:00:00  Earnings     USDC   2.39025715
+2021-05-13 00:00:00  Earnings     USDC   2.39088138
+2021-05-14 00:00:00  Earnings     USDC   2.39150578
+2021-05-15 00:00:00  Earnings     USDC   2.39213034
+2021-05-16 00:00:00  Earnings     USDC   2.39275506
+2021-05-17 00:00:00  Earnings     USDC   2.39337995
+2021-05-18 00:00:00  Earnings     USDC   2.39400500
+2021-05-19 00:00:00  Earnings     USDC   2.39463021
+2021-05-20 00:00:00  Earnings     USDC   2.39525559
+2021-05-21 00:00:00  Earnings     USDC   2.39588113
+2021-05-22 00:00:00  Earnings     USDC   2.39650683
+2021-05-23 00:00:00  Earnings     USDC   2.39713270
+2021-05-24 00:00:00  Earnings     USDC   2.39775873
+2021-05-25 00:00:00  Earnings     USDC   2.39838492
+2021-05-26 00:00:00  Earnings     USDC   2.39901128
+2021-05-27 00:00:00  Earnings     USDC   2.39963780
+2021-05-28 00:00:00  Earnings     USDC   2.40026449
+2021-05-29 00:00:00  Earnings     USDC   2.40089133
+2021-05-30 00:00:00  Earnings     USDC   2.40151835
+2021-05-31 00:00:00  Earnings     USDC   2.40214552
+2021-06-01 00:00:00  Earnings     USDC   2.40277286
+2021-06-02 00:00:00  Earnings     USDC   2.40340036
+2021-06-03 00:00:00  Earnings     USDC   2.40402803
+2021-06-04 00:00:00  Earnings     USDC   2.40465586
+2021-06-05 00:00:00  Earnings     USDC   2.40528386
+2021-06-06 00:00:00  Earnings     USDC   2.40591202
+2021-06-07 00:00:00  Earnings     USDC   2.40654034
+2021-06-08 00:00:00  Earnings     USDC   2.40716883
+2021-06-09 00:00:00  Earnings     USDC   2.40779748
+2021-06-10 00:00:00  Earnings     USDC   2.40842629
+2021-06-11 00:00:00  Earnings     USDC   2.40905527
+2021-06-12 00:00:00  Earnings     USDC   2.40968441
+2021-06-13 00:00:00  Earnings     USDC   2.41031372
+2021-06-14 00:00:00  Earnings     USDC   2.41094320
+2021-06-15 00:00:00  Earnings     USDC   2.41157283
+2021-06-16 00:00:00  Earnings     USDC   2.41220263
+2021-06-17 00:00:00  Earnings     USDC   2.41283260
+2021-06-18 00:00:00  Earnings     USDC   2.41346273
+2021-06-19 00:00:00  Earnings     USDC   2.41409302
+2021-06-20 00:00:00  Earnings     USDC   2.41472348
+2021-06-21 00:00:00  Earnings     USDC   2.41535411
+2021-06-22 00:00:00  Earnings     USDC   2.41598490
+2021-06-23 00:00:00  Earnings     USDC   2.41661585
+2021-06-24 00:00:00  Earnings     USDC   2.41724697
+2021-06-25 00:00:00  Earnings     USDC   2.41787825
+2021-06-26 00:00:00  Earnings     USDC   2.41850970
+2021-06-27 00:00:00  Earnings     USDC   2.41914131
+2021-06-28 00:00:00  Earnings     USDC   2.41977309
+2021-06-29 00:00:00  Earnings     USDC   2.42040503
+2021-06-30 00:00:00  Earnings     USDC   2.42103714
+2021-07-01 00:00:00  Earnings     USDC   2.42166941
+2021-07-02 00:00:00  Earnings     USDC   2.42230185
+2021-07-03 00:00:00  Earnings     USDC   2.42293445
+2021-07-04 00:00:00  Earnings     USDC   2.42356722
+2021-07-05 00:00:00  Earnings     USDC   2.42420016
+2021-07-06 00:00:00  Earnings     USDC   2.42483326
+2021-07-07 00:00:00  Earnings     USDC   2.42546652
+2021-07-08 00:00:00  Earnings     USDC   2.42609995
+2021-07-09 00:00:00  Earnings     USDC   2.42673354
+2021-07-10 00:00:00  Earnings     USDC   2.42736731
+2021-07-11 00:00:00  Earnings     USDC   2.42800123
+2021-07-12 00:00:00  Earnings     USDC   2.42863532
+2021-07-13 00:00:00  Earnings     USDC   2.42926958
+2021-07-14 00:00:00  Earnings     USDC   2.42990400
+2021-07-15 00:00:00  Earnings     USDC   2.43053859
+2021-07-16 00:00:00  Earnings     USDC   2.43117335
+2021-07-17 00:00:00  Earnings     USDC   2.43180827
+2021-07-18 00:00:00  Earnings     USDC   2.43244335
+2021-07-19 00:00:00  Earnings     USDC   2.43307860
+2021-07-20 00:00:00  Earnings     USDC   2.43371402
+2021-07-21 00:00:00  Earnings     USDC   2.43434960
+2021-07-22 00:00:00  Earnings     USDC   2.43498535
+2021-07-23 00:00:00  Earnings     USDC   2.43562127
+2021-07-24 00:00:00  Earnings     USDC   2.43625735
+2021-07-25 00:00:00  Earnings     USDC   2.43689360
+2021-07-26 00:00:00  Earnings     USDC   2.43753001
+2021-07-27 00:00:00  Earnings     USDC   2.43816659
+2021-07-28 00:00:00  Earnings     USDC   2.43880334
+2021-07-29 00:00:00  Earnings     USDC   2.43944025
+2021-07-30 00:00:00  Earnings     USDC   2.44007733
+2021-07-31 00:00:00  Earnings     USDC   2.44071458
+2021-08-01 00:00:00  Earnings     USDC   2.44135199
+2021-08-02 00:00:00  Earnings     USDC   2.44198957
+2021-08-03 00:00:00  Earnings     USDC   2.44262731
+2021-08-04 00:00:00  Earnings     USDC   2.44326522
+2021-08-05 00:00:00  Earnings     USDC   2.44390330
+2021-08-06 00:00:00  Earnings     USDC   2.44454155
+2021-08-07 00:00:00  Earnings     USDC   2.44517996
+2021-08-08 00:00:00  Earnings     USDC   2.44581854
+2021-08-09 00:00:00  Earnings     USDC   2.44645728
+2021-08-10 00:00:00  Earnings     USDC   2.44709619
+2021-08-11 00:00:00  Earnings     USDC   2.44773527
+2021-08-12 00:00:00  Earnings     USDC   2.44837452
+2021-08-13 00:00:00  Earnings     USDC   2.44901393
+2021-08-14 00:00:00  Earnings     USDC   2.44965351
+2021-08-15 00:00:00  Earnings     USDC   2.45029325
+2021-08-16 00:00:00  Earnings     USDC   2.45093317
+2021-08-17 00:00:00  Earnings     USDC   2.45157325
+2021-08-18 00:00:00  Earnings     USDC   2.45221349
+2021-08-19 00:00:00  Earnings     USDC   2.45285391
+2021-08-20 00:00:00  Earnings     USDC   2.45349449
+2021-08-21 00:00:00  Earnings     USDC   2.45413524
+2021-08-22 00:00:00  Earnings     USDC   2.45477616
+2021-08-23 00:00:00  Earnings     USDC   2.45541724
+2021-08-24 00:00:00  Earnings     USDC   2.45605849
+2021-08-25 00:00:00  Earnings     USDC   2.45669991
+2021-08-26 00:00:00  Earnings     USDC   2.45734150
+2021-08-27 00:00:00  Earnings     USDC   2.45798325
+2021-08-28 00:00:00  Earnings     USDC   2.45862518
+2021-08-29 00:00:00  Earnings     USDC   2.45926726
+2021-08-30 00:00:00  Earnings     USDC   2.45990952
+2021-08-31 00:00:00  Earnings     USDC   2.46055195
+2021-09-01 00:00:00  Earnings     USDC   2.46119454
+2021-09-02 00:00:00  Earnings     USDC   2.46183730
+2021-09-03 00:00:00  Earnings     USDC   2.46248023
+2021-09-04 00:00:00  Earnings     USDC   2.46312332
+2021-09-05 00:00:00  Earnings     USDC   2.46376659
+2021-09-06 00:00:00  Earnings     USDC   2.46441002
+2021-09-07 00:00:00  Earnings     USDC   2.46505362
+2021-09-08 00:00:00  Earnings     USDC   2.46569739
+2021-09-09 00:00:00  Earnings     USDC   2.46634132
+2021-09-10 00:00:00  Earnings     USDC   2.46698543
+2021-09-11 00:00:00  Earnings     USDC   2.46762970
+2021-09-12 00:00:00  Earnings     USDC   2.46827414
+2021-09-13 00:00:00  Earnings     USDC   2.46891875
+2021-09-14 00:00:00  Earnings     USDC   2.46956353
+2021-09-15 00:00:00  Earnings     USDC   2.47020847
+2021-09-16 00:00:00  Earnings     USDC   2.47085359
+2021-09-17 00:00:00  Earnings     USDC   2.47149887
+2021-09-18 00:00:00  Earnings     USDC   2.47214432
+2021-09-19 00:00:00  Earnings     USDC   2.47278994
+2021-09-20 00:00:00  Earnings     USDC   2.47343573
+2021-09-21 00:00:00  Earnings     USDC   2.47408169
+2021-09-22 00:00:00  Earnings     USDC   2.47472782
+2021-09-23 00:00:00  Earnings     USDC   2.47537411
+2021-09-24 00:00:00  Earnings     USDC   2.47602057
+2021-09-25 00:00:00  Earnings     USDC   2.47666721
+2021-09-26 00:00:00  Earnings     USDC   2.47731401
+2021-09-27 00:00:00  Earnings     USDC   2.47796098
+2021-09-28 00:00:00  Earnings     USDC   2.47860812
+2021-09-29 00:00:00  Earnings     USDC   2.47925542
+2021-09-30 00:00:00  Earnings     USDC   2.47990290
+2021-10-01 00:00:00  Earnings     USDC   2.48055055
+2021-10-02 00:00:00  Earnings     USDC   2.48119836
+2021-10-03 00:00:00  Earnings     USDC   2.48184635
+2021-10-04 00:00:00  Earnings     USDC   2.48249450
+2021-10-05 00:00:00  Earnings     USDC   2.48314282
+2021-10-06 00:00:00  Earnings     USDC   2.48379132
+2021-10-07 00:00:00  Earnings     USDC   2.48443998
+2021-10-08 00:00:00  Earnings     USDC   2.48508881
+2021-10-09 00:00:00  Earnings     USDC   2.48573781
+2021-10-10 00:00:00  Earnings     USDC   2.48638698
+2021-10-11 00:00:00  Earnings     USDC   2.48703632
+2021-10-12 00:00:00  Earnings     USDC   2.48768583
+2021-10-13 00:00:00  Earnings     USDC   2.48833551
+2021-10-14 00:00:00  Earnings     USDC   2.48898535
+2021-10-15 00:00:00  Earnings     USDC   2.48963537
+2021-10-16 00:00:00  Earnings     USDC   2.49028556
+2021-10-17 00:00:00  Earnings     USDC   2.49093592
+2021-10-18 00:00:00  Earnings     USDC   2.49158645
+2021-10-19 00:00:00  Earnings     USDC   2.49223714
+2021-10-20 00:00:00  Earnings     USDC   2.49288801
+2021-10-21 00:00:00  Earnings     USDC   2.49353905
+2021-10-22 00:00:00  Earnings     USDC   2.49419026
+2021-10-23 00:00:00  Earnings     USDC   2.49484163
+2021-10-24 00:00:00  Earnings     USDC   2.49549318
+2021-10-25 00:00:00  Earnings     USDC   2.49614490
+2021-10-26 00:00:00  Earnings     USDC   2.49679679
+2021-10-27 00:00:00  Earnings     USDC   2.49744884
+2021-10-28 00:00:00  Earnings     USDC   2.49810107
+2021-10-29 00:00:00  Earnings     USDC   2.49875347
+2021-10-30 00:00:00  Earnings     USDC   2.49940604
+2021-10-31 00:00:00  Earnings     USDC   2.50005878
+2021-11-01 00:00:00  Earnings     USDC   2.50071169
+2021-11-02 00:00:00  Earnings     USDC   2.50136477
+2021-11-03 00:00:00  Earnings     USDC   2.50201802
+2021-11-04 00:00:00  Earnings     USDC   2.50267144
+2021-11-05 00:00:00  Earnings     USDC   2.50332504
+2021-11-06 00:00:00  Earnings     USDC   2.50397880
+2021-11-07 00:00:00  Earnings     USDC   2.50463273
+2021-11-08 00:00:00  Earnings     USDC   2.50528684
+2021-11-09 00:00:00  Earnings     USDC   2.50594111
+2021-11-10 00:00:00  Earnings     USDC   2.50659556
+2021-11-11 00:00:00  Earnings     USDC   2.50725018
+2021-11-12 00:00:00  Earnings     USDC   2.50790496
+2021-11-13 00:00:00  Earnings     USDC   2.50855992
+2021-11-14 00:00:00  Earnings     USDC   2.50921505
+2021-11-15 00:00:00  Earnings     USDC   2.50987036
+2021-11-16 00:00:00  Earnings     USDC   2.51052583
+2021-11-17 00:00:00  Earnings     USDC   2.51118147
+2021-11-18 00:00:00  Earnings     USDC   2.51183729
+2021-11-19 00:00:00  Earnings     USDC   2.51249327
+2021-11-20 00:00:00  Earnings     USDC   2.51314943
+2021-11-21 00:00:00  Earnings     USDC   2.51380576
+2021-11-22 00:00:00  Earnings     USDC   2.51446226
+2021-11-23 00:00:00  Earnings     USDC   2.51511893
+2021-11-24 00:00:00  Earnings     USDC   2.51577577
+2021-11-25 00:00:00  Earnings     USDC   2.51643279
+2021-11-26 00:00:00  Earnings     USDC   2.51708997
+2021-11-27 00:00:00  Earnings     USDC   2.51774733
+2021-11-28 00:00:00  Earnings     USDC   2.51840486
+2021-11-29 00:00:00  Earnings     USDC   2.51906256
+2021-11-30 00:00:00  Earnings     USDC   2.51972044
+2021-12-01 00:00:00  Earnings     USDC   2.52037848
+2021-12-02 00:00:00  Earnings     USDC   2.52103670
+2021-12-03 00:00:00  Earnings     USDC   2.52169509
+2021-12-04 00:00:00  Earnings     USDC   2.52235365
+2021-12-05 00:00:00  Earnings     USDC   2.52301238
+2021-12-06 00:00:00  Earnings     USDC   2.52367128
+2021-12-07 00:00:00  Earnings     USDC   2.52433036
+2021-12-08 00:00:00  Earnings     USDC   2.52498961
+2021-12-09 00:00:00  Earnings     USDC   2.52564903
+2021-12-10 00:00:00  Earnings     USDC   2.52630862
+2021-12-11 00:00:00  Earnings     USDC   2.52696839
+2021-12-12 00:00:00  Earnings     USDC   2.52762833
+2021-12-13 00:00:00  Earnings     USDC   2.52828844
+2021-12-14 00:00:00  Earnings     USDC   2.52894872
+2021-12-15 00:00:00  Earnings     USDC   2.52960917
+2021-12-16 00:00:00  Earnings     USDC   2.53026980
+2021-12-17 00:00:00  Earnings     USDC   2.53093060
+2021-12-18 00:00:00  Earnings     USDC   2.53159157
+2021-12-19 00:00:00  Earnings     USDC   2.53225272
+2021-12-20 00:00:00  Earnings     USDC   2.53291404
+2021-12-21 00:00:00  Earnings     USDC   2.53357553
+2021-12-22 00:00:00  Earnings     USDC   2.53423719
+2021-12-23 00:00:00  Earnings     USDC   2.53489903
+2021-12-24 00:00:00  Earnings     USDC   2.53556103
+2021-12-25 00:00:00  Earnings     USDC   2.53622322
+2021-12-26 00:00:00  Earnings     USDC   2.53688557
+2021-12-27 00:00:00  Earnings     USDC   2.53754810
+2021-12-28 00:00:00  Earnings     USDC   2.53821080
+2021-12-29 00:00:00  Earnings     USDC   2.53887367
+2021-12-30 00:00:00  Earnings     USDC   2.53953672
+2021-12-31 00:00:00  Earnings     USDC   2.54019994
+TOTAL                                  729.22345326'''
+
+		if PRINT:
+			if PRINT_SB_EARNING_TOTALS:
+				print(sbEarningsTotalDfActualStr)
+		else:
+			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
+
+		yieldOwnerWithTotalsDetailDfExpectedStr = \
+'                                                   DEP/WITHDR                                                                           \n' + \
+'                  USDC                                    CHF           CAPITAL                    DATE                YIELD            \n' + \
+'        Tot incl yield  DF RATE  CUR RATE CAP GAIN CAP GAIN %     USDC      CHF        FROM          TO DAYS   USDC      CHF  Y % YR Y %\n' + \
+'OWNER                                                                                                                                   ' + \
+'''
+Béa           4,000.00 4,000.00  6,000.00 2,000.00      50.00 4,000.00 6,000.00  2021-02-20  2021-12-31  315 342.93   514.39 8.57  10.00
+TOTAL         4,342.93 4,000.00  6,514.39 2,000.00      50.00                                                342.93   514.39            ''' + \
+'''
+JPS           5,000.00 5,000.00  7,500.00 2,500.00      50.00 5,000.00 7,500.00  2021-03-22  2021-12-31  285 386.30   579.45 7.73  10.00
+TOTAL         5,386.30 5,000.00  8,079.45 2,500.00      50.00                                                386.30   579.45            ''' + \
+'''
+G TOTAL       9,729.22          14,593.84                                                                    729.22 1,093.84            '''
+
+		if PRINT:
+			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+		else:
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+
+	def testAddFiatConversionInfo_USDC_1_fiat_simple_values_2_owners_bug_french_language(self):
+		"""
+		USDC crypto, 2 owners with 1 deposit, fixed yield rate,
+		USDC/CHF final rate of 1.5.
+
+		Corresponding OwnerDepositYieldComputer tesz:
+		TestOwnerDepositYieldComputer.testComputeDepositsYields_2_owners_bug
+		"""
+		PRINT = False
+
+		sbAccountSheetFileName = 'testSBEarningUsdc_simple_values_bug.xlsx'
+		depositSheetFileName = 'depositUsdc_fiat_chf_simple_values_bug.csv'
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+
+		print(depositSheetFileName)
+
+		self.initializeComputerClasses(sbAccountSheetFileName,
+									   depositSheetFileName,
+									   cryptoFiatCsvFileName)
+
+		self.processor = Processor(self.yieldRateComputer,
+								   self.ownerDepositYieldComputer,
+								   CryptoFiatRateComputer(PriceRequesterTestStub(),
+								   self.cryptoFiatCsvFilePathName),
+								   language=FR)
+
+		sbYieldRatesWithTotalDf, \
+		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDfActualStr, \
+		depositCrypto =	self.processor.addFiatConversionInfo()
+
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
+
+		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			sbEarningsTotalDf,
+			{
+				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
+		sbEarningsTotalDfExpectedStr = \
+'                         Type Currency   Net amount\n' + \
+'Local time                                         ' + \
+'''
+2021-02-20 00:00:00  Earnings     USDC   1.04463150
+2021-02-21 00:00:00  Earnings     USDC   1.04490432
+2021-02-22 00:00:00  Earnings     USDC   1.04517720
+2021-02-23 00:00:00  Earnings     USDC   1.04545016
+2021-02-24 00:00:00  Earnings     USDC   1.04572319
+2021-02-25 00:00:00  Earnings     USDC   1.04599629
+2021-02-26 00:00:00  Earnings     USDC   1.04626946
+2021-02-27 00:00:00  Earnings     USDC   1.04654270
+2021-02-28 00:00:00  Earnings     USDC   1.04681601
+2021-03-01 00:00:00  Earnings     USDC   1.04708939
+2021-03-02 00:00:00  Earnings     USDC   1.04736285
+2021-03-03 00:00:00  Earnings     USDC   1.04763638
+2021-03-04 00:00:00  Earnings     USDC   1.04790998
+2021-03-05 00:00:00  Earnings     USDC   1.04818365
+2021-03-06 00:00:00  Earnings     USDC   1.04845739
+2021-03-07 00:00:00  Earnings     USDC   1.04873120
+2021-03-08 00:00:00  Earnings     USDC   1.04900508
+2021-03-09 00:00:00  Earnings     USDC   1.04927904
+2021-03-10 00:00:00  Earnings     USDC   1.04955307
+2021-03-11 00:00:00  Earnings     USDC   1.04982717
+2021-03-12 00:00:00  Earnings     USDC   1.05010134
+2021-03-13 00:00:00  Earnings     USDC   1.05037558
+2021-03-14 00:00:00  Earnings     USDC   1.05064989
+2021-03-15 00:00:00  Earnings     USDC   1.05092428
+2021-03-16 00:00:00  Earnings     USDC   1.05119874
+2021-03-17 00:00:00  Earnings     USDC   1.05147326
+2021-03-18 00:00:00  Earnings     USDC   1.05174787
+2021-03-19 00:00:00  Earnings     USDC   1.05202254
+2021-03-20 00:00:00  Earnings     USDC   1.05229728
+2021-03-21 00:00:00  Earnings     USDC   1.05257210
+2021-03-22 00:00:00  Earnings     USDC   2.35863637
+2021-03-23 00:00:00  Earnings     USDC   2.35925234
+2021-03-24 00:00:00  Earnings     USDC   2.35986848
+2021-03-25 00:00:00  Earnings     USDC   2.36048478
+2021-03-26 00:00:00  Earnings     USDC   2.36110124
+2021-03-27 00:00:00  Earnings     USDC   2.36171786
+2021-03-28 00:00:00  Earnings     USDC   2.36233464
+2021-03-29 00:00:00  Earnings     USDC   2.36295158
+2021-03-30 00:00:00  Earnings     USDC   2.36356868
+2021-03-31 00:00:00  Earnings     USDC   2.36418595
+2021-04-01 00:00:00  Earnings     USDC   2.36480337
+2021-04-02 00:00:00  Earnings     USDC   2.36542096
+2021-04-03 00:00:00  Earnings     USDC   2.36603871
+2021-04-04 00:00:00  Earnings     USDC   2.36665662
+2021-04-05 00:00:00  Earnings     USDC   2.36727469
+2021-04-06 00:00:00  Earnings     USDC   2.36789292
+2021-04-07 00:00:00  Earnings     USDC   2.36851132
+2021-04-08 00:00:00  Earnings     USDC   2.36912987
+2021-04-09 00:00:00  Earnings     USDC   2.36974859
+2021-04-10 00:00:00  Earnings     USDC   2.37036747
+2021-04-11 00:00:00  Earnings     USDC   2.37098651
+2021-04-12 00:00:00  Earnings     USDC   2.37160571
+2021-04-13 00:00:00  Earnings     USDC   2.37222507
+2021-04-14 00:00:00  Earnings     USDC   2.37284460
+2021-04-15 00:00:00  Earnings     USDC   2.37346428
+2021-04-16 00:00:00  Earnings     USDC   2.37408413
+2021-04-17 00:00:00  Earnings     USDC   2.37470414
+2021-04-18 00:00:00  Earnings     USDC   2.37532432
+2021-04-19 00:00:00  Earnings     USDC   2.37594465
+2021-04-20 00:00:00  Earnings     USDC   2.37656515
+2021-04-21 00:00:00  Earnings     USDC   2.37718581
+2021-04-22 00:00:00  Earnings     USDC   2.37780663
+2021-04-23 00:00:00  Earnings     USDC   2.37842761
+2021-04-24 00:00:00  Earnings     USDC   2.37904876
+2021-04-25 00:00:00  Earnings     USDC   2.37967006
+2021-04-26 00:00:00  Earnings     USDC   2.38029153
+2021-04-27 00:00:00  Earnings     USDC   2.38091316
+2021-04-28 00:00:00  Earnings     USDC   2.38153496
+2021-04-29 00:00:00  Earnings     USDC   2.38215692
+2021-04-30 00:00:00  Earnings     USDC   2.38277903
+2021-05-01 00:00:00  Earnings     USDC   2.38340132
+2021-05-02 00:00:00  Earnings     USDC   2.38402376
+2021-05-03 00:00:00  Earnings     USDC   2.38464637
+2021-05-04 00:00:00  Earnings     USDC   2.38526914
+2021-05-05 00:00:00  Earnings     USDC   2.38589207
+2021-05-06 00:00:00  Earnings     USDC   2.38651516
+2021-05-07 00:00:00  Earnings     USDC   2.38713842
+2021-05-08 00:00:00  Earnings     USDC   2.38776184
+2021-05-09 00:00:00  Earnings     USDC   2.38838542
+2021-05-10 00:00:00  Earnings     USDC   2.38900917
+2021-05-11 00:00:00  Earnings     USDC   2.38963308
+2021-05-12 00:00:00  Earnings     USDC   2.39025715
+2021-05-13 00:00:00  Earnings     USDC   2.39088138
+2021-05-14 00:00:00  Earnings     USDC   2.39150578
+2021-05-15 00:00:00  Earnings     USDC   2.39213034
+2021-05-16 00:00:00  Earnings     USDC   2.39275506
+2021-05-17 00:00:00  Earnings     USDC   2.39337995
+2021-05-18 00:00:00  Earnings     USDC   2.39400500
+2021-05-19 00:00:00  Earnings     USDC   2.39463021
+2021-05-20 00:00:00  Earnings     USDC   2.39525559
+2021-05-21 00:00:00  Earnings     USDC   2.39588113
+2021-05-22 00:00:00  Earnings     USDC   2.39650683
+2021-05-23 00:00:00  Earnings     USDC   2.39713270
+2021-05-24 00:00:00  Earnings     USDC   2.39775873
+2021-05-25 00:00:00  Earnings     USDC   2.39838492
+2021-05-26 00:00:00  Earnings     USDC   2.39901128
+2021-05-27 00:00:00  Earnings     USDC   2.39963780
+2021-05-28 00:00:00  Earnings     USDC   2.40026449
+2021-05-29 00:00:00  Earnings     USDC   2.40089133
+2021-05-30 00:00:00  Earnings     USDC   2.40151835
+2021-05-31 00:00:00  Earnings     USDC   2.40214552
+2021-06-01 00:00:00  Earnings     USDC   2.40277286
+2021-06-02 00:00:00  Earnings     USDC   2.40340036
+2021-06-03 00:00:00  Earnings     USDC   2.40402803
+2021-06-04 00:00:00  Earnings     USDC   2.40465586
+2021-06-05 00:00:00  Earnings     USDC   2.40528386
+2021-06-06 00:00:00  Earnings     USDC   2.40591202
+2021-06-07 00:00:00  Earnings     USDC   2.40654034
+2021-06-08 00:00:00  Earnings     USDC   2.40716883
+2021-06-09 00:00:00  Earnings     USDC   2.40779748
+2021-06-10 00:00:00  Earnings     USDC   2.40842629
+2021-06-11 00:00:00  Earnings     USDC   2.40905527
+2021-06-12 00:00:00  Earnings     USDC   2.40968441
+2021-06-13 00:00:00  Earnings     USDC   2.41031372
+2021-06-14 00:00:00  Earnings     USDC   2.41094320
+2021-06-15 00:00:00  Earnings     USDC   2.41157283
+2021-06-16 00:00:00  Earnings     USDC   2.41220263
+2021-06-17 00:00:00  Earnings     USDC   2.41283260
+2021-06-18 00:00:00  Earnings     USDC   2.41346273
+2021-06-19 00:00:00  Earnings     USDC   2.41409302
+2021-06-20 00:00:00  Earnings     USDC   2.41472348
+2021-06-21 00:00:00  Earnings     USDC   2.41535411
+2021-06-22 00:00:00  Earnings     USDC   2.41598490
+2021-06-23 00:00:00  Earnings     USDC   2.41661585
+2021-06-24 00:00:00  Earnings     USDC   2.41724697
+2021-06-25 00:00:00  Earnings     USDC   2.41787825
+2021-06-26 00:00:00  Earnings     USDC   2.41850970
+2021-06-27 00:00:00  Earnings     USDC   2.41914131
+2021-06-28 00:00:00  Earnings     USDC   2.41977309
+2021-06-29 00:00:00  Earnings     USDC   2.42040503
+2021-06-30 00:00:00  Earnings     USDC   2.42103714
+2021-07-01 00:00:00  Earnings     USDC   2.42166941
+2021-07-02 00:00:00  Earnings     USDC   2.42230185
+2021-07-03 00:00:00  Earnings     USDC   2.42293445
+2021-07-04 00:00:00  Earnings     USDC   2.42356722
+2021-07-05 00:00:00  Earnings     USDC   2.42420016
+2021-07-06 00:00:00  Earnings     USDC   2.42483326
+2021-07-07 00:00:00  Earnings     USDC   2.42546652
+2021-07-08 00:00:00  Earnings     USDC   2.42609995
+2021-07-09 00:00:00  Earnings     USDC   2.42673354
+2021-07-10 00:00:00  Earnings     USDC   2.42736731
+2021-07-11 00:00:00  Earnings     USDC   2.42800123
+2021-07-12 00:00:00  Earnings     USDC   2.42863532
+2021-07-13 00:00:00  Earnings     USDC   2.42926958
+2021-07-14 00:00:00  Earnings     USDC   2.42990400
+2021-07-15 00:00:00  Earnings     USDC   2.43053859
+2021-07-16 00:00:00  Earnings     USDC   2.43117335
+2021-07-17 00:00:00  Earnings     USDC   2.43180827
+2021-07-18 00:00:00  Earnings     USDC   2.43244335
+2021-07-19 00:00:00  Earnings     USDC   2.43307860
+2021-07-20 00:00:00  Earnings     USDC   2.43371402
+2021-07-21 00:00:00  Earnings     USDC   2.43434960
+2021-07-22 00:00:00  Earnings     USDC   2.43498535
+2021-07-23 00:00:00  Earnings     USDC   2.43562127
+2021-07-24 00:00:00  Earnings     USDC   2.43625735
+2021-07-25 00:00:00  Earnings     USDC   2.43689360
+2021-07-26 00:00:00  Earnings     USDC   2.43753001
+2021-07-27 00:00:00  Earnings     USDC   2.43816659
+2021-07-28 00:00:00  Earnings     USDC   2.43880334
+2021-07-29 00:00:00  Earnings     USDC   2.43944025
+2021-07-30 00:00:00  Earnings     USDC   2.44007733
+2021-07-31 00:00:00  Earnings     USDC   2.44071458
+2021-08-01 00:00:00  Earnings     USDC   2.44135199
+2021-08-02 00:00:00  Earnings     USDC   2.44198957
+2021-08-03 00:00:00  Earnings     USDC   2.44262731
+2021-08-04 00:00:00  Earnings     USDC   2.44326522
+2021-08-05 00:00:00  Earnings     USDC   2.44390330
+2021-08-06 00:00:00  Earnings     USDC   2.44454155
+2021-08-07 00:00:00  Earnings     USDC   2.44517996
+2021-08-08 00:00:00  Earnings     USDC   2.44581854
+2021-08-09 00:00:00  Earnings     USDC   2.44645728
+2021-08-10 00:00:00  Earnings     USDC   2.44709619
+2021-08-11 00:00:00  Earnings     USDC   2.44773527
+2021-08-12 00:00:00  Earnings     USDC   2.44837452
+2021-08-13 00:00:00  Earnings     USDC   2.44901393
+2021-08-14 00:00:00  Earnings     USDC   2.44965351
+2021-08-15 00:00:00  Earnings     USDC   2.45029325
+2021-08-16 00:00:00  Earnings     USDC   2.45093317
+2021-08-17 00:00:00  Earnings     USDC   2.45157325
+2021-08-18 00:00:00  Earnings     USDC   2.45221349
+2021-08-19 00:00:00  Earnings     USDC   2.45285391
+2021-08-20 00:00:00  Earnings     USDC   2.45349449
+2021-08-21 00:00:00  Earnings     USDC   2.45413524
+2021-08-22 00:00:00  Earnings     USDC   2.45477616
+2021-08-23 00:00:00  Earnings     USDC   2.45541724
+2021-08-24 00:00:00  Earnings     USDC   2.45605849
+2021-08-25 00:00:00  Earnings     USDC   2.45669991
+2021-08-26 00:00:00  Earnings     USDC   2.45734150
+2021-08-27 00:00:00  Earnings     USDC   2.45798325
+2021-08-28 00:00:00  Earnings     USDC   2.45862518
+2021-08-29 00:00:00  Earnings     USDC   2.45926726
+2021-08-30 00:00:00  Earnings     USDC   2.45990952
+2021-08-31 00:00:00  Earnings     USDC   2.46055195
+2021-09-01 00:00:00  Earnings     USDC   2.46119454
+2021-09-02 00:00:00  Earnings     USDC   2.46183730
+2021-09-03 00:00:00  Earnings     USDC   2.46248023
+2021-09-04 00:00:00  Earnings     USDC   2.46312332
+2021-09-05 00:00:00  Earnings     USDC   2.46376659
+2021-09-06 00:00:00  Earnings     USDC   2.46441002
+2021-09-07 00:00:00  Earnings     USDC   2.46505362
+2021-09-08 00:00:00  Earnings     USDC   2.46569739
+2021-09-09 00:00:00  Earnings     USDC   2.46634132
+2021-09-10 00:00:00  Earnings     USDC   2.46698543
+2021-09-11 00:00:00  Earnings     USDC   2.46762970
+2021-09-12 00:00:00  Earnings     USDC   2.46827414
+2021-09-13 00:00:00  Earnings     USDC   2.46891875
+2021-09-14 00:00:00  Earnings     USDC   2.46956353
+2021-09-15 00:00:00  Earnings     USDC   2.47020847
+2021-09-16 00:00:00  Earnings     USDC   2.47085359
+2021-09-17 00:00:00  Earnings     USDC   2.47149887
+2021-09-18 00:00:00  Earnings     USDC   2.47214432
+2021-09-19 00:00:00  Earnings     USDC   2.47278994
+2021-09-20 00:00:00  Earnings     USDC   2.47343573
+2021-09-21 00:00:00  Earnings     USDC   2.47408169
+2021-09-22 00:00:00  Earnings     USDC   2.47472782
+2021-09-23 00:00:00  Earnings     USDC   2.47537411
+2021-09-24 00:00:00  Earnings     USDC   2.47602057
+2021-09-25 00:00:00  Earnings     USDC   2.47666721
+2021-09-26 00:00:00  Earnings     USDC   2.47731401
+2021-09-27 00:00:00  Earnings     USDC   2.47796098
+2021-09-28 00:00:00  Earnings     USDC   2.47860812
+2021-09-29 00:00:00  Earnings     USDC   2.47925542
+2021-09-30 00:00:00  Earnings     USDC   2.47990290
+2021-10-01 00:00:00  Earnings     USDC   2.48055055
+2021-10-02 00:00:00  Earnings     USDC   2.48119836
+2021-10-03 00:00:00  Earnings     USDC   2.48184635
+2021-10-04 00:00:00  Earnings     USDC   2.48249450
+2021-10-05 00:00:00  Earnings     USDC   2.48314282
+2021-10-06 00:00:00  Earnings     USDC   2.48379132
+2021-10-07 00:00:00  Earnings     USDC   2.48443998
+2021-10-08 00:00:00  Earnings     USDC   2.48508881
+2021-10-09 00:00:00  Earnings     USDC   2.48573781
+2021-10-10 00:00:00  Earnings     USDC   2.48638698
+2021-10-11 00:00:00  Earnings     USDC   2.48703632
+2021-10-12 00:00:00  Earnings     USDC   2.48768583
+2021-10-13 00:00:00  Earnings     USDC   2.48833551
+2021-10-14 00:00:00  Earnings     USDC   2.48898535
+2021-10-15 00:00:00  Earnings     USDC   2.48963537
+2021-10-16 00:00:00  Earnings     USDC   2.49028556
+2021-10-17 00:00:00  Earnings     USDC   2.49093592
+2021-10-18 00:00:00  Earnings     USDC   2.49158645
+2021-10-19 00:00:00  Earnings     USDC   2.49223714
+2021-10-20 00:00:00  Earnings     USDC   2.49288801
+2021-10-21 00:00:00  Earnings     USDC   2.49353905
+2021-10-22 00:00:00  Earnings     USDC   2.49419026
+2021-10-23 00:00:00  Earnings     USDC   2.49484163
+2021-10-24 00:00:00  Earnings     USDC   2.49549318
+2021-10-25 00:00:00  Earnings     USDC   2.49614490
+2021-10-26 00:00:00  Earnings     USDC   2.49679679
+2021-10-27 00:00:00  Earnings     USDC   2.49744884
+2021-10-28 00:00:00  Earnings     USDC   2.49810107
+2021-10-29 00:00:00  Earnings     USDC   2.49875347
+2021-10-30 00:00:00  Earnings     USDC   2.49940604
+2021-10-31 00:00:00  Earnings     USDC   2.50005878
+2021-11-01 00:00:00  Earnings     USDC   2.50071169
+2021-11-02 00:00:00  Earnings     USDC   2.50136477
+2021-11-03 00:00:00  Earnings     USDC   2.50201802
+2021-11-04 00:00:00  Earnings     USDC   2.50267144
+2021-11-05 00:00:00  Earnings     USDC   2.50332504
+2021-11-06 00:00:00  Earnings     USDC   2.50397880
+2021-11-07 00:00:00  Earnings     USDC   2.50463273
+2021-11-08 00:00:00  Earnings     USDC   2.50528684
+2021-11-09 00:00:00  Earnings     USDC   2.50594111
+2021-11-10 00:00:00  Earnings     USDC   2.50659556
+2021-11-11 00:00:00  Earnings     USDC   2.50725018
+2021-11-12 00:00:00  Earnings     USDC   2.50790496
+2021-11-13 00:00:00  Earnings     USDC   2.50855992
+2021-11-14 00:00:00  Earnings     USDC   2.50921505
+2021-11-15 00:00:00  Earnings     USDC   2.50987036
+2021-11-16 00:00:00  Earnings     USDC   2.51052583
+2021-11-17 00:00:00  Earnings     USDC   2.51118147
+2021-11-18 00:00:00  Earnings     USDC   2.51183729
+2021-11-19 00:00:00  Earnings     USDC   2.51249327
+2021-11-20 00:00:00  Earnings     USDC   2.51314943
+2021-11-21 00:00:00  Earnings     USDC   2.51380576
+2021-11-22 00:00:00  Earnings     USDC   2.51446226
+2021-11-23 00:00:00  Earnings     USDC   2.51511893
+2021-11-24 00:00:00  Earnings     USDC   2.51577577
+2021-11-25 00:00:00  Earnings     USDC   2.51643279
+2021-11-26 00:00:00  Earnings     USDC   2.51708997
+2021-11-27 00:00:00  Earnings     USDC   2.51774733
+2021-11-28 00:00:00  Earnings     USDC   2.51840486
+2021-11-29 00:00:00  Earnings     USDC   2.51906256
+2021-11-30 00:00:00  Earnings     USDC   2.51972044
+2021-12-01 00:00:00  Earnings     USDC   2.52037848
+2021-12-02 00:00:00  Earnings     USDC   2.52103670
+2021-12-03 00:00:00  Earnings     USDC   2.52169509
+2021-12-04 00:00:00  Earnings     USDC   2.52235365
+2021-12-05 00:00:00  Earnings     USDC   2.52301238
+2021-12-06 00:00:00  Earnings     USDC   2.52367128
+2021-12-07 00:00:00  Earnings     USDC   2.52433036
+2021-12-08 00:00:00  Earnings     USDC   2.52498961
+2021-12-09 00:00:00  Earnings     USDC   2.52564903
+2021-12-10 00:00:00  Earnings     USDC   2.52630862
+2021-12-11 00:00:00  Earnings     USDC   2.52696839
+2021-12-12 00:00:00  Earnings     USDC   2.52762833
+2021-12-13 00:00:00  Earnings     USDC   2.52828844
+2021-12-14 00:00:00  Earnings     USDC   2.52894872
+2021-12-15 00:00:00  Earnings     USDC   2.52960917
+2021-12-16 00:00:00  Earnings     USDC   2.53026980
+2021-12-17 00:00:00  Earnings     USDC   2.53093060
+2021-12-18 00:00:00  Earnings     USDC   2.53159157
+2021-12-19 00:00:00  Earnings     USDC   2.53225272
+2021-12-20 00:00:00  Earnings     USDC   2.53291404
+2021-12-21 00:00:00  Earnings     USDC   2.53357553
+2021-12-22 00:00:00  Earnings     USDC   2.53423719
+2021-12-23 00:00:00  Earnings     USDC   2.53489903
+2021-12-24 00:00:00  Earnings     USDC   2.53556103
+2021-12-25 00:00:00  Earnings     USDC   2.53622322
+2021-12-26 00:00:00  Earnings     USDC   2.53688557
+2021-12-27 00:00:00  Earnings     USDC   2.53754810
+2021-12-28 00:00:00  Earnings     USDC   2.53821080
+2021-12-29 00:00:00  Earnings     USDC   2.53887367
+2021-12-30 00:00:00  Earnings     USDC   2.53953672
+2021-12-31 00:00:00  Earnings     USDC   2.54019994
+TOTAL                                  729.22345326'''
+
+		if PRINT:
+			if PRINT_SB_EARNING_TOTALS:
+				print(sbEarningsTotalDfActualStr)
+		else:
+			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
+
+		yieldOwnerWithTotalsDetailDfExpectedStr = \
+'                                                            DEPOTS/RETRAITS                                                                                 \n' + \
+'                     USDC                                               CHF           CAPITAL                    DATE               INTERETS                \n' + \
+'        Tot incl intérêts TX DAT DEP    TX ACT PLUS-VAL CAP       P-V CAP %     USDC      CHF        FROM          TO  JOURS   USDC      CHF INT % INT ANN %\n' + \
+'PROPR                                                                                                                                                       ' + \
+'''
+Béa              4,000.00   4,000.00  6,000.00     2,000.00           50.00 4,000.00 6,000.00  2021-02-20  2021-12-31    315 342.93   514.39  8.57     10.00
+TOTAL            4,342.93   4,000.00  6,514.39     2,000.00           50.00                                                  342.93   514.39                ''' + \
+'''
+JPS              5,000.00   5,000.00  7,500.00     2,500.00           50.00 5,000.00 7,500.00  2021-03-22  2021-12-31    285 386.30   579.45  7.73     10.00
+TOTAL            5,386.30   5,000.00  8,079.45     2,500.00           50.00                                                  386.30   579.45                ''' + \
+'''
+G TOTAL          9,729.22            14,593.84                                                                               729.22 1,093.84                '''
+
+		if PRINT:
+			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+		else:
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+
+	def testAddFiatConversionInfo_USDC_1_fiat_simple_values_2_owners_2_deposits_bug_french_language(self):
+		"""
+		USDC crypto, 2 owners with 2 deposit and 1 withdrawal, fixed yield rate,
+		USDC/CHF final rate of 1.5.
+		"""
+		PRINT = False
+
+		sbAccountSheetFileName = 'testSBEarningUsdc_simple_values_multi_depwithdr_bug.xlsx'
+		depositSheetFileName = 'depositUsdc_fiat_chf_simple_values_depwithdr_bug.csv'
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+
+		print(depositSheetFileName)
+
+		self.initializeComputerClasses(sbAccountSheetFileName,
+									   depositSheetFileName,
+									   cryptoFiatCsvFileName)
+
+		self.processor = Processor(self.yieldRateComputer,
+								   self.ownerDepositYieldComputer,
+								   CryptoFiatRateComputer(PriceRequesterTestStub(),
+								   self.cryptoFiatCsvFilePathName),
+								   language=FR)
+
+		sbYieldRatesWithTotalDf, \
+		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDfActualStr, \
+		depositCrypto =	self.processor.addFiatConversionInfo()
+
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
+
+		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			sbEarningsTotalDf,
+			{
+				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
+		sbEarningsTotalDfExpectedStr = \
+'                         Type Currency   Net amount\n' + \
+'Local time                                         ' + \
+'''
+2021-02-20 00:00:00  Earnings     USDC   1.04463150
+2021-02-21 00:00:00  Earnings     USDC   1.04490432
+2021-02-22 00:00:00  Earnings     USDC   1.04517720
+2021-02-23 00:00:00  Earnings     USDC   1.04545016
+2021-02-24 00:00:00  Earnings     USDC   1.04572319
+2021-02-25 00:00:00  Earnings     USDC   1.04599629
+2021-02-26 00:00:00  Earnings     USDC   1.04626946
+2021-02-27 00:00:00  Earnings     USDC   1.04654270
+2021-02-28 00:00:00  Earnings     USDC   1.04681601
+2021-03-01 00:00:00  Earnings     USDC   1.04708939
+2021-03-02 00:00:00  Earnings     USDC   1.04736285
+2021-03-03 00:00:00  Earnings     USDC   1.04763638
+2021-03-04 00:00:00  Earnings     USDC   1.04790998
+2021-03-05 00:00:00  Earnings     USDC   1.04818365
+2021-03-06 00:00:00  Earnings     USDC   1.04845739
+2021-03-07 00:00:00  Earnings     USDC   1.04873120
+2021-03-08 00:00:00  Earnings     USDC   1.04900508
+2021-03-09 00:00:00  Earnings     USDC   1.04927904
+2021-03-10 00:00:00  Earnings     USDC   1.04955307
+2021-03-11 00:00:00  Earnings     USDC   1.04982717
+2021-03-12 00:00:00  Earnings     USDC   1.05010134
+2021-03-13 00:00:00  Earnings     USDC   1.05037558
+2021-03-14 00:00:00  Earnings     USDC   1.05064989
+2021-03-15 00:00:00  Earnings     USDC   1.05092428
+2021-03-16 00:00:00  Earnings     USDC   1.05119874
+2021-03-17 00:00:00  Earnings     USDC   1.05147326
+2021-03-18 00:00:00  Earnings     USDC   1.05174787
+2021-03-19 00:00:00  Earnings     USDC   1.05202254
+2021-03-20 00:00:00  Earnings     USDC   1.05229728
+2021-03-21 00:00:00  Earnings     USDC   1.05257210
+2021-03-22 00:00:00  Earnings     USDC   2.35863637
+2021-03-23 00:00:00  Earnings     USDC   2.35925234
+2021-03-24 00:00:00  Earnings     USDC   2.35986848
+2021-03-25 00:00:00  Earnings     USDC   2.36048478
+2021-03-26 00:00:00  Earnings     USDC   2.36110124
+2021-03-27 00:00:00  Earnings     USDC   2.36171786
+2021-03-28 00:00:00  Earnings     USDC   2.36233464
+2021-03-29 00:00:00  Earnings     USDC   2.36295158
+2021-03-30 00:00:00  Earnings     USDC   2.36356868
+2021-03-31 00:00:00  Earnings     USDC   2.36418595
+2021-04-01 00:00:00  Earnings     USDC   2.36480337
+2021-04-02 00:00:00  Earnings     USDC   2.36542096
+2021-04-03 00:00:00  Earnings     USDC   2.36603871
+2021-04-04 00:00:00  Earnings     USDC   2.36665662
+2021-04-05 00:00:00  Earnings     USDC   2.36727469
+2021-04-06 00:00:00  Earnings     USDC   2.36789292
+2021-04-07 00:00:00  Earnings     USDC   2.36851132
+2021-04-08 00:00:00  Earnings     USDC   2.36912987
+2021-04-09 00:00:00  Earnings     USDC   2.36974859
+2021-04-10 00:00:00  Earnings     USDC   2.37036747
+2021-04-11 00:00:00  Earnings     USDC   2.37098651
+2021-04-12 00:00:00  Earnings     USDC   2.37160571
+2021-04-13 00:00:00  Earnings     USDC   2.37222507
+2021-04-14 00:00:00  Earnings     USDC   2.37284460
+2021-04-15 00:00:00  Earnings     USDC   2.37346428
+2021-04-16 00:00:00  Earnings     USDC   2.37408413
+2021-04-17 00:00:00  Earnings     USDC   2.37470414
+2021-04-18 00:00:00  Earnings     USDC   2.37532432
+2021-04-19 00:00:00  Earnings     USDC   2.37594465
+2021-04-20 00:00:00  Earnings     USDC   2.37656515
+2021-04-21 00:00:00  Earnings     USDC   2.37718581
+2021-04-22 00:00:00  Earnings     USDC   2.11664875
+2021-04-23 00:00:00  Earnings     USDC   2.11775446
+2021-04-24 00:00:00  Earnings     USDC   2.11830752
+2021-04-25 00:00:00  Earnings     USDC   2.11886074
+2021-04-26 00:00:00  Earnings     USDC   2.11941409
+2021-04-27 00:00:00  Earnings     USDC   2.11996760
+2021-04-28 00:00:00  Earnings     USDC   2.12052124
+2021-04-29 00:00:00  Earnings     USDC   2.12107503
+2021-04-30 00:00:00  Earnings     USDC   2.12162897
+2021-05-01 00:00:00  Earnings     USDC   2.12218305
+2021-05-02 00:00:00  Earnings     USDC   2.12273727
+2021-05-03 00:00:00  Earnings     USDC   2.12329164
+2021-05-04 00:00:00  Earnings     USDC   2.12384616
+2021-05-05 00:00:00  Earnings     USDC   2.12440082
+2021-05-06 00:00:00  Earnings     USDC   2.12495562
+2021-05-07 00:00:00  Earnings     USDC   2.12551057
+2021-05-08 00:00:00  Earnings     USDC   2.12606566
+2021-05-09 00:00:00  Earnings     USDC   2.12662090
+2021-05-10 00:00:00  Earnings     USDC   2.12717628
+2021-05-11 00:00:00  Earnings     USDC   2.12773181
+2021-05-12 00:00:00  Earnings     USDC   2.12828749
+2021-05-13 00:00:00  Earnings     USDC   2.12884331
+2021-05-14 00:00:00  Earnings     USDC   2.12939927
+2021-05-15 00:00:00  Earnings     USDC   2.12995538
+2021-05-16 00:00:00  Earnings     USDC   2.13051163
+2021-05-17 00:00:00  Earnings     USDC   2.13106803
+2021-05-18 00:00:00  Earnings     USDC   2.13162458
+2021-05-19 00:00:00  Earnings     USDC   2.13218127
+2021-05-20 00:00:00  Earnings     USDC   2.13273811
+2021-05-21 00:00:00  Earnings     USDC   2.13329509
+2021-05-22 00:00:00  Earnings     USDC   2.13385221
+2021-05-23 00:00:00  Earnings     USDC   2.13440949
+2021-05-24 00:00:00  Earnings     USDC   2.13496690
+2021-05-25 00:00:00  Earnings     USDC   2.13552447
+2021-05-26 00:00:00  Earnings     USDC   2.13608218
+2021-05-27 00:00:00  Earnings     USDC   2.13664003
+2021-05-28 00:00:00  Earnings     USDC   2.13719803
+2021-05-29 00:00:00  Earnings     USDC   2.13775618
+2021-05-30 00:00:00  Earnings     USDC   2.13831447
+2021-05-31 00:00:00  Earnings     USDC   2.13887291
+2021-06-01 00:00:00  Earnings     USDC   2.13943149
+2021-06-02 00:00:00  Earnings     USDC   2.13999022
+2021-06-03 00:00:00  Earnings     USDC   2.14054910
+2021-06-04 00:00:00  Earnings     USDC   2.14110812
+2021-06-05 00:00:00  Earnings     USDC   2.14166728
+2021-06-06 00:00:00  Earnings     USDC   2.14222660
+2021-06-07 00:00:00  Earnings     USDC   2.14278606
+2021-06-08 00:00:00  Earnings     USDC   2.14334566
+2021-06-09 00:00:00  Earnings     USDC   2.14390541
+2021-06-10 00:00:00  Earnings     USDC   2.14446531
+2021-06-11 00:00:00  Earnings     USDC   2.14502536
+2021-06-12 00:00:00  Earnings     USDC   2.14558555
+2021-06-13 00:00:00  Earnings     USDC   2.14614588
+2021-06-14 00:00:00  Earnings     USDC   2.14670637
+2021-06-15 00:00:00  Earnings     USDC   2.14726700
+2021-06-16 00:00:00  Earnings     USDC   2.14782777
+2021-06-17 00:00:00  Earnings     USDC   2.14838869
+2021-06-18 00:00:00  Earnings     USDC   2.14894976
+2021-06-19 00:00:00  Earnings     USDC   2.14951098
+2021-06-20 00:00:00  Earnings     USDC   2.15007234
+2021-06-21 00:00:00  Earnings     USDC   2.15063385
+2021-06-22 00:00:00  Earnings     USDC   2.15119550
+2021-06-23 00:00:00  Earnings     USDC   2.15175730
+2021-06-24 00:00:00  Earnings     USDC   2.15231925
+2021-06-25 00:00:00  Earnings     USDC   2.15288135
+2021-06-26 00:00:00  Earnings     USDC   2.15344359
+2021-06-27 00:00:00  Earnings     USDC   2.15400598
+2021-06-28 00:00:00  Earnings     USDC   2.15456851
+2021-06-29 00:00:00  Earnings     USDC   2.15513120
+2021-06-30 00:00:00  Earnings     USDC   2.15569403
+2021-07-01 00:00:00  Earnings     USDC   2.15625700
+2021-07-02 00:00:00  Earnings     USDC   2.15682013
+2021-07-03 00:00:00  Earnings     USDC   2.15738340
+2021-07-04 00:00:00  Earnings     USDC   2.15794681
+2021-07-05 00:00:00  Earnings     USDC   2.15851038
+2021-07-06 00:00:00  Earnings     USDC   2.15907409
+2021-07-07 00:00:00  Earnings     USDC   2.15963795
+2021-07-08 00:00:00  Earnings     USDC   2.16020196
+2021-07-09 00:00:00  Earnings     USDC   2.16076611
+2021-07-10 00:00:00  Earnings     USDC   2.16133041
+2021-07-11 00:00:00  Earnings     USDC   2.16189486
+2021-07-12 00:00:00  Earnings     USDC   2.16245946
+2021-07-13 00:00:00  Earnings     USDC   2.16302420
+2021-07-14 00:00:00  Earnings     USDC   2.16358909
+2021-07-15 00:00:00  Earnings     USDC   2.16415413
+2021-07-16 00:00:00  Earnings     USDC   2.16471931
+2021-07-17 00:00:00  Earnings     USDC   2.16528465
+2021-07-18 00:00:00  Earnings     USDC   2.16585013
+2021-07-19 00:00:00  Earnings     USDC   2.16641576
+2021-07-20 00:00:00  Earnings     USDC   2.16698153
+2021-07-21 00:00:00  Earnings     USDC   2.16754746
+2021-07-22 00:00:00  Earnings     USDC   2.16811353
+2021-07-23 00:00:00  Earnings     USDC   2.16867975
+2021-07-24 00:00:00  Earnings     USDC   2.16924612
+2021-07-25 00:00:00  Earnings     USDC   2.16981263
+2021-07-26 00:00:00  Earnings     USDC   2.17037930
+2021-07-27 00:00:00  Earnings     USDC   2.17094611
+2021-07-28 00:00:00  Earnings     USDC   2.17151307
+2021-07-29 00:00:00  Earnings     USDC   2.17208018
+2021-07-30 00:00:00  Earnings     USDC   2.17264743
+2021-07-31 00:00:00  Earnings     USDC   2.17321484
+2021-08-01 00:00:00  Earnings     USDC   2.17378239
+2021-08-02 00:00:00  Earnings     USDC   2.17435009
+2021-08-03 00:00:00  Earnings     USDC   2.17491794
+2021-08-04 00:00:00  Earnings     USDC   2.17548593
+2021-08-05 00:00:00  Earnings     USDC   2.17605408
+2021-08-06 00:00:00  Earnings     USDC   2.17662237
+2021-08-07 00:00:00  Earnings     USDC   2.17719081
+2021-08-08 00:00:00  Earnings     USDC   2.17775941
+2021-08-09 00:00:00  Earnings     USDC   2.17832814
+2021-08-10 00:00:00  Earnings     USDC   2.17889703
+2021-08-11 00:00:00  Earnings     USDC   2.17946607
+2021-08-12 00:00:00  Earnings     USDC   2.18003525
+2021-08-13 00:00:00  Earnings     USDC   2.18060459
+2021-08-14 00:00:00  Earnings     USDC   2.18117407
+2021-08-15 00:00:00  Earnings     USDC   2.18174370
+2021-08-16 00:00:00  Earnings     USDC   2.18231348
+2021-08-17 00:00:00  Earnings     USDC   2.18288341
+2021-08-18 00:00:00  Earnings     USDC   2.18345348
+2021-08-19 00:00:00  Earnings     USDC   2.18402371
+2021-08-20 00:00:00  Earnings     USDC   2.18459409
+2021-08-21 00:00:00  Earnings     USDC   2.18516461
+2021-08-22 00:00:00  Earnings     USDC   2.18573528
+2021-08-23 00:00:00  Earnings     USDC   2.18630610
+2021-08-24 00:00:00  Earnings     USDC   2.18687708
+2021-08-25 00:00:00  Earnings     USDC   2.18744820
+2021-08-26 00:00:00  Earnings     USDC   2.18801946
+2021-08-27 00:00:00  Earnings     USDC   2.18859088
+2021-08-28 00:00:00  Earnings     USDC   2.18916245
+2021-08-29 00:00:00  Earnings     USDC   2.18973417
+2021-08-30 00:00:00  Earnings     USDC   2.19030603
+2021-08-31 00:00:00  Earnings     USDC   2.19087805
+2021-09-01 00:00:00  Earnings     USDC   2.19145022
+2021-09-02 00:00:00  Earnings     USDC   2.19202253
+2021-09-03 00:00:00  Earnings     USDC   2.19259499
+2021-09-04 00:00:00  Earnings     USDC   2.19316761
+2021-09-05 00:00:00  Earnings     USDC   2.19374037
+2021-09-06 00:00:00  Earnings     USDC   2.19431328
+2021-09-07 00:00:00  Earnings     USDC   2.19488634
+2021-09-08 00:00:00  Earnings     USDC   2.19545956
+2021-09-09 00:00:00  Earnings     USDC   2.19603292
+2021-09-10 00:00:00  Earnings     USDC   2.19660643
+2021-09-11 00:00:00  Earnings     USDC   2.19718009
+2021-09-12 00:00:00  Earnings     USDC   2.19775390
+2021-09-13 00:00:00  Earnings     USDC   2.19832786
+2021-09-14 00:00:00  Earnings     USDC   2.19890197
+2021-09-15 00:00:00  Earnings     USDC   2.19947623
+2021-09-16 00:00:00  Earnings     USDC   2.20005064
+2021-09-17 00:00:00  Earnings     USDC   2.20062520
+2021-09-18 00:00:00  Earnings     USDC   2.20119992
+2021-09-19 00:00:00  Earnings     USDC   2.20177478
+2021-09-20 00:00:00  Earnings     USDC   2.20234979
+2021-09-21 00:00:00  Earnings     USDC   2.20292495
+2021-09-22 00:00:00  Earnings     USDC   2.20350026
+2021-09-23 00:00:00  Earnings     USDC   2.20407572
+2021-09-24 00:00:00  Earnings     USDC   2.20465133
+2021-09-25 00:00:00  Earnings     USDC   2.20522709
+2021-09-26 00:00:00  Earnings     USDC   2.20580301
+2021-09-27 00:00:00  Earnings     USDC   2.20637907
+2021-09-28 00:00:00  Earnings     USDC   2.20695528
+2021-09-29 00:00:00  Earnings     USDC   2.20753165
+2021-09-30 00:00:00  Earnings     USDC   2.20810816
+2021-10-01 00:00:00  Earnings     USDC   2.20868483
+2021-10-02 00:00:00  Earnings     USDC   2.20926164
+2021-10-03 00:00:00  Earnings     USDC   2.20983861
+2021-10-04 00:00:00  Earnings     USDC   2.21041572
+2021-10-05 00:00:00  Earnings     USDC   2.21099299
+2021-10-06 00:00:00  Earnings     USDC   2.21157041
+2021-10-07 00:00:00  Earnings     USDC   2.21214798
+2021-10-08 00:00:00  Earnings     USDC   2.21272570
+2021-10-09 00:00:00  Earnings     USDC   2.21330357
+2021-10-10 00:00:00  Earnings     USDC   2.21388159
+2021-10-11 00:00:00  Earnings     USDC   2.21445976
+2021-10-12 00:00:00  Earnings     USDC   2.21503809
+2021-10-13 00:00:00  Earnings     USDC   2.21561656
+2021-10-14 00:00:00  Earnings     USDC   2.21619519
+2021-10-15 00:00:00  Earnings     USDC   2.21677396
+2021-10-16 00:00:00  Earnings     USDC   2.21735289
+2021-10-17 00:00:00  Earnings     USDC   2.21793197
+2021-10-18 00:00:00  Earnings     USDC   2.21851120
+2021-10-19 00:00:00  Earnings     USDC   2.21909058
+2021-10-20 00:00:00  Earnings     USDC   2.21967012
+2021-10-21 00:00:00  Earnings     USDC   2.22024980
+2021-10-22 00:00:00  Earnings     USDC   2.22082964
+2021-10-23 00:00:00  Earnings     USDC   2.22140962
+2021-10-24 00:00:00  Earnings     USDC   2.22198976
+2021-10-25 00:00:00  Earnings     USDC   2.22257005
+2021-10-26 00:00:00  Earnings     USDC   2.22315049
+2021-10-27 00:00:00  Earnings     USDC   2.22373109
+2021-10-28 00:00:00  Earnings     USDC   2.22431183
+2021-10-29 00:00:00  Earnings     USDC   2.22489273
+2021-10-30 00:00:00  Earnings     USDC   2.22547378
+2021-10-31 00:00:00  Earnings     USDC   2.22605498
+2021-11-01 00:00:00  Earnings     USDC   2.22663633
+2021-11-02 00:00:00  Earnings     USDC   2.22721783
+2021-11-03 00:00:00  Earnings     USDC   2.22779949
+2021-11-04 00:00:00  Earnings     USDC   2.22838130
+2021-11-05 00:00:00  Earnings     USDC   2.22896325
+2021-11-06 00:00:00  Earnings     USDC   2.22954537
+2021-11-07 00:00:00  Earnings     USDC   2.23012763
+2021-11-08 00:00:00  Earnings     USDC   2.23071004
+2021-11-09 00:00:00  Earnings     USDC   2.23129261
+2021-11-10 00:00:00  Earnings     USDC   2.23187533
+2021-11-11 00:00:00  Earnings     USDC   2.23245820
+2021-11-12 00:00:00  Earnings     USDC   2.23304123
+2021-11-13 00:00:00  Earnings     USDC   2.23362440
+2021-11-14 00:00:00  Earnings     USDC   2.23420773
+2021-11-15 00:00:00  Earnings     USDC   2.23479121
+2021-11-16 00:00:00  Earnings     USDC   2.23537485
+2021-11-17 00:00:00  Earnings     USDC   2.23595863
+2021-11-18 00:00:00  Earnings     USDC   2.23654257
+2021-11-19 00:00:00  Earnings     USDC   2.23712666
+2021-11-20 00:00:00  Earnings     USDC   2.23771090
+2021-11-21 00:00:00  Earnings     USDC   2.23829530
+2021-11-22 00:00:00  Earnings     USDC   2.23887985
+2021-11-23 00:00:00  Earnings     USDC   2.23946455
+2021-11-24 00:00:00  Earnings     USDC   2.24004940
+2021-11-25 00:00:00  Earnings     USDC   2.24063441
+2021-11-26 00:00:00  Earnings     USDC   2.24121957
+2021-11-27 00:00:00  Earnings     USDC   2.24180488
+2021-11-28 00:00:00  Earnings     USDC   2.24239035
+2021-11-29 00:00:00  Earnings     USDC   2.24297596
+2021-11-30 00:00:00  Earnings     USDC   2.24356174
+2021-12-01 00:00:00  Earnings     USDC   2.24414766
+2021-12-02 00:00:00  Earnings     USDC   2.24473374
+2021-12-03 00:00:00  Earnings     USDC   2.24531997
+2021-12-04 00:00:00  Earnings     USDC   2.24590635
+2021-12-05 00:00:00  Earnings     USDC   2.24649289
+2021-12-06 00:00:00  Earnings     USDC   2.24707957
+2021-12-07 00:00:00  Earnings     USDC   2.24766642
+2021-12-08 00:00:00  Earnings     USDC   2.24825341
+2021-12-09 00:00:00  Earnings     USDC   2.24884056
+2021-12-10 00:00:00  Earnings     USDC   2.24942786
+2021-12-11 00:00:00  Earnings     USDC   2.25001532
+2021-12-12 00:00:00  Earnings     USDC   2.25060293
+2021-12-13 00:00:00  Earnings     USDC   2.25119069
+2021-12-14 00:00:00  Earnings     USDC   2.25177861
+2021-12-15 00:00:00  Earnings     USDC   2.25236668
+2021-12-16 00:00:00  Earnings     USDC   2.25295490
+2021-12-17 00:00:00  Earnings     USDC   2.25354328
+2021-12-18 00:00:00  Earnings     USDC   2.25413181
+2021-12-19 00:00:00  Earnings     USDC   2.25472049
+2021-12-20 00:00:00  Earnings     USDC   2.25530933
+2021-12-21 00:00:00  Earnings     USDC   2.25589832
+2021-12-22 00:00:00  Earnings     USDC   2.25648747
+2021-12-23 00:00:00  Earnings     USDC   2.25707677
+2021-12-24 00:00:00  Earnings     USDC   2.25766622
+2021-12-25 00:00:00  Earnings     USDC   2.25825583
+2021-12-26 00:00:00  Earnings     USDC   2.25884559
+2021-12-27 00:00:00  Earnings     USDC   2.25943551
+2021-12-28 00:00:00  Earnings     USDC   2.26002557
+2021-12-29 00:00:00  Earnings     USDC   2.26061580
+2021-12-30 00:00:00  Earnings     USDC   2.26120618
+2021-12-31 00:00:00  Earnings     USDC   2.26179671
+TOTAL                                  660.79363079'''
+
+		if PRINT:
+			if PRINT_SB_EARNING_TOTALS:
+				print(sbEarningsTotalDfActualStr)
+		else:
+			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
+
+		yieldOwnerWithTotalsDetailDfExpectedStr = \
+'                                                            DEPOTS/RETRAITS                                                                                 \n' + \
+'                     USDC                                               CHF           CAPITAL                    DATE               INTERETS                \n' + \
+'        Tot incl intérêts TX DAT DEP    TX ACT PLUS-VAL CAP       P-V CAP %     USDC      CHF        FROM          TO  JOURS   USDC      CHF INT % INT ANN %\n' + \
+'PROPR                                                                                                                                                       ' + \
+'''
+Béa              4,000.00   4,000.00  6,000.00     2,000.00           50.00 4,000.00 6,000.00  2021-02-20  2021-12-31    315 343.00   514.50  8.57     10.00
+TOTAL            4,343.00   4,000.00  6,514.50     2,000.00           50.00                                                  343.00   514.50                ''' + \
+'''
+JPS              5,000.00   5,000.00  7,500.00     2,500.00           50.00 5,000.00 7,500.00  2021-03-22  2021-04-21     31  40.64    60.96  0.81     10.00
+JPS             -1,000.00  -1,200.00 -1,500.00      -300.00          -25.00 4,040.64 6,060.96  2021-04-22  2021-12-31    254 277.16   415.73  6.86     10.00
+TOTAL            4,317.79   3,800.00  6,476.69     2,200.00           57.89                                                  317.79   476.69                ''' + \
+'''
+G TOTAL          8,660.79            12,991.19                                                                               660.79   991.19                '''
+
+		if PRINT:
+			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+		else:
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+
 if __name__ == '__main__':
 	if os.name == 'posix':
 		unittest.main()
 	else:
 		tst = TestProcessor()
 		#tst.testAddFiatConversionInfo_2_fiats_2_owners()
-		tst.testAddFiatConversionInfo_2_fiats_2_owners_french_language()
+		# tst.testAddFiatConversionInfo_2_fiats_2_owners_french_language()
 		# tst.testAddFiatConversionInfo_1_fiat_simple_values_2_owners()
 		# tst.testAddFiatConversionInfo_1_fiat_simple_values_1_owner_withdrawal_gain()
 		# tst.testAddFiatConversionInfo_1_fiat_simple_values_1_owner_withdrawal_loss()
 		# tst.testAddFiatConversionInfo_1_fiat_simple_values_1_owner_no_withdrawal()
 		# tst.testAddFiatConversionInfo_1_fiat_simple_values_1_owner_2_fiats_no_withdrawal()
+		# tst.testAddFiatConversionInfo_1_fiat_simple_values_1_owner_1_deposit_gain()
+		# tst.testAddFiatConversionInfo_1_fiat_simple_values_2_owners_1_deposit()
+		# tst.testAddFiatConversionInfo_USDC_1_fiat_simple_values_2_owners_bug()
+		tst.testAddFiatConversionInfo_USDC_1_fiat_simple_values_2_owners_2_deposits_bug_french_language()

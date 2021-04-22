@@ -184,6 +184,28 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		else:
 			self.assertAlmostEqual(expectedCryptoFiatRate, actualCryptoFiatRate, 3)
 
+	def testComputeCryptoFiatCurrentRate_USDC_CHF(self):
+		PRINT = False
+
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+		self.initializeComputerClasses(cryptoFiatCsvFileName)
+
+		crypto = 'USDC'
+		unit = 'USD'
+		fiat = 'CHF'
+		exchange2 = 'CCCAGG'
+		priceRequester = PriceRequester()
+
+		actualCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatCurrentRate(crypto, fiat)
+		resultData = priceRequester.getCurrentPrice(unit, fiat, exchange2)
+		unitFiatRate = resultData.getValue(resultData.RESULT_KEY_PRICE)
+		expectedCryptoFiatRate = unitFiatRate
+
+		if PRINT:
+			print(actualCryptoFiatRate)
+		else:
+			self.assertAlmostEqual(expectedCryptoFiatRate, actualCryptoFiatRate, 3)
+
 	def testComputeCryptoFiatCurrentRate_USDC_USD(self):
 		PRINT = False
 
@@ -219,4 +241,4 @@ if __name__ == '__main__':
 		unittest.main()
 	else:	
 		tst = TestCryptoFiatRateComputer()
-		tst.testComputeCryptoFiatCurrentRate_USDC_USD()
+		tst.testComputeCryptoFiatCurrentRate_USDC_CHF()

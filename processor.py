@@ -138,7 +138,10 @@ class Processor:
 		fiatColNameSumDic = dict.fromkeys(fiatColNameDic, 'sum')
 
 		yieldOwnerGroupTotalDf = yieldOwnerWithTotalsDetailDf.groupby([DEPOSIT_SHEET_HEADER_OWNER[GB]]).agg(fiatColNameSumDic).reset_index()
-		yieldOwnerGroupTotalDfIndex = 1
+		nonTotalRow = ~yieldOwnerGroupTotalDf[DEPOSIT_SHEET_HEADER_OWNER[GB]].str.contains(DATAFRAME_HEADER_TOTAL)
+		yieldOwnerGroupTotalDf = yieldOwnerGroupTotalDf[nonTotalRow].reset_index()
+
+		yieldOwnerGroupTotalDfIndex = 0
 
 		yieldOwnerWithTotalsDetailDf.reset_index(inplace=True)
 
@@ -153,16 +156,17 @@ class Processor:
 				colNameSpace = ''
 
 				for _ in fiatLst:
-					capGainPecentTotal = yieldOwnerWithTotalsDetailDf.loc[index, colNameSpace + PROC_CAPITAL_GAIN[self.language]] / \
+					capGainPercentTotal = yieldOwnerWithTotalsDetailDf.loc[index, colNameSpace + PROC_CAPITAL_GAIN[self.language]] / \
 										 yieldOwnerWithTotalsDetailDf.loc[index, colNameSpace + PROC_DATE_FROM_RATE[self.language]] * 100
-					yieldOwnerWithTotalsDetailDf.loc[index, colNameSpace + PROC_CAPITAL_GAIN_PERCENT[self.language]] = capGainPecentTotal
+					yieldOwnerWithTotalsDetailDf.loc[index, colNameSpace + PROC_CAPITAL_GAIN_PERCENT[self.language]] = capGainPercentTotal
 					colNameSpace += ' '
 
 				yieldOwnerGroupTotalDfIndex += 1
 
-		yieldOwnerWithTotalsDetailDf.set_index(DEPOSIT_SHEET_HEADER_OWNER[GB], inplace=True)
+		yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf.rename(columns={DEPOSIT_SHEET_HEADER_OWNER[GB]: DEPOSIT_SHEET_HEADER_OWNER[self.language]})
+		yieldOwnerWithTotalsDetailDf.set_index(DEPOSIT_SHEET_HEADER_OWNER[self.language], inplace=True)
 
-		# defining multi level index rows
+		# defining multi level language dependent index rows
 
 		multiIndexLevelZeroLst = [' '] * depWithdrFiatColNb + [PROC_DEPWITHDR[self.language]] + [' '] * 11
 

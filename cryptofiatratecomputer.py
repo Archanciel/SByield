@@ -2,6 +2,7 @@ import os
 import pandas as pd
 
 from pandasdatacomputer import PandasDataComputer
+from resultdata import ResultData
 from pricerequester import PriceRequester
 from unsupportedcryptofiatpairerror import UnsupportedCryptoFiatPairError
 
@@ -88,7 +89,11 @@ class CryptoFiatRateComputer(PandasDataComputer):
 				crypto = intermediateExchangeRateRequestLst[0][0]
 				unit = intermediateExchangeRateRequestLst[0][1]
 				exchange = intermediateExchangeRateRequestLst[0][2]
-				resultData = self.priceReuester.getCurrentPrice(crypto, unit, exchange)
+				if exchange == '1':
+					resultData = ResultData()
+					resultData.setValue(resultData.RESULT_KEY_PRICE, 1)
+				else:
+					resultData = self.priceReuester.getCurrentPrice(crypto, unit, exchange)
 				if not self.checkIfProblem(resultData):
 					firstRate = resultData.getValue(resultData.RESULT_KEY_PRICE)
 					crypto = intermediateExchangeRateRequestLst[1][0]
@@ -98,8 +103,8 @@ class CryptoFiatRateComputer(PandasDataComputer):
 					if not self.checkIfProblem(resultData):
 						secondRate = resultData.getValue(resultData.RESULT_KEY_PRICE)
 						return firstRate * secondRate
-		else:
-			raise UnsupportedCryptoFiatPairError(crypto, fiat, self.cryptoFiatCsvFilePathName)
+
+		raise UnsupportedCryptoFiatPairError(crypto, fiat, self.cryptoFiatCsvFilePathName)
 
 	def checkIfProblem(self, resultData):
 		isProblem = False

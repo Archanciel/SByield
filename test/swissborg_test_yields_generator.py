@@ -25,10 +25,11 @@ TEST_DATA_PATH = 'D:\\Development\\Python\\SByield\\test\\testData\\'
 dayNumber = 365
 depWithdrArray = [0.0] * dayNumber
 
-depWithdrArray[0] = 10000
-depWithdrArray[5] = 1000
+depWithdrArray[50] = 4000
+depWithdrArray[80] = 5000
+depWithdrArray[111] = -1000
 
-xlsxFilePathName = TEST_DATA_PATH + 'depositChsbSimpleValue1ownerNoWithdrawal.xlsx'
+xlsxFilePathName = TEST_DATA_PATH + 'GENERATED_testSBEarningUsdc_simple_values_bug.xlsx'
 
 # generating day date list
 dayDates = pd.date_range("2021-01-01", periods=dayNumber, freq="D")
