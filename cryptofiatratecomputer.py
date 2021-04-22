@@ -2,7 +2,6 @@ import os
 import pandas as pd
 
 from pandasdatacomputer import PandasDataComputer
-from pricerequester import PriceRequester
 from unsupportedcryptofiatpairerror import UnsupportedCryptoFiatPairError
 
 class CryptoFiatRateComputer(PandasDataComputer):
@@ -77,9 +76,14 @@ class CryptoFiatRateComputer(PandasDataComputer):
 
 		if rateRequestNumber == 1:
 			exchange = intermediateExchangeRateRequestLst[0][2]
-			resultData = self.priceReuester.getCurrentPrice(crypto, fiat, exchange)
-			if not self.checkIfProblem(resultData):
-				return resultData.getValue(resultData.RESULT_KEY_PRICE)
+			if exchange == '1':
+				# the case if the crypto/fiat pair is a stablecoin/ coin fiat pair,
+				# like USDC/USD !
+				return 1
+			else:
+				resultData = self.priceReuester.getCurrentPrice(crypto, fiat, exchange)
+				if not self.checkIfProblem(resultData):
+					return resultData.getValue(resultData.RESULT_KEY_PRICE)
 		elif rateRequestNumber == 2:
 				crypto = intermediateExchangeRateRequestLst[0][0]
 				unit = intermediateExchangeRateRequestLst[0][1]

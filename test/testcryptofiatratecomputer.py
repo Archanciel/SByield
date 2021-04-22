@@ -30,7 +30,7 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		sbEarningsDf = self.cryptoFiatRateComputer._loadCryptoFiatCsvFile()
 
 		if not PRINT:
-			self.assertEqual((6, 3), sbEarningsDf.shape)
+			self.assertEqual((7, 3), sbEarningsDf.shape)
 
 		expectedStrDataframe = \
 '  CRYPTO UNIT EXCHANGE' + \
@@ -40,12 +40,49 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 2    BTC  USD   Kraken
 3    BTC  CHF   Kraken
 4    ETH  USD   Kraken
-5    ETH  CHF   Kraken'''
+5    ETH  CHF   Kraken
+6    USD  CHF   CCCAGG'''
 
 		if PRINT:
 			print(sbEarningsDf)
 		else:
 			self.assertEqual(expectedStrDataframe, sbEarningsDf.to_string())
+
+	def test_getIntermediateExchangeRateRequests_ETH_CHF(self):
+		PRINT = False
+
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+		self.initializeComputerClasses(cryptoFiatCsvFileName)
+
+		crypto = 'ETH'
+		fiat = 'CHF'
+
+		actualIntermediateExchangeRateRequestLst = self.cryptoFiatRateComputer._getIntermediateExchangeRateRequests(crypto, fiat)
+
+		expectedIntermediateExchangeRateRequestLst = [['ETH', 'CHF', 'Kraken']]
+
+		if PRINT:
+			print(actualIntermediateExchangeRateRequestLst)
+		else:
+			self.assertEqual(expectedIntermediateExchangeRateRequestLst, actualIntermediateExchangeRateRequestLst)
+
+	def test_getIntermediateExchangeRateRequests_USDC_CHF(self):
+		PRINT = False
+
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+		self.initializeComputerClasses(cryptoFiatCsvFileName)
+
+		crypto = 'USDC'
+		fiat = 'CHF'
+
+		actualIntermediateExchangeRateRequestLst = self.cryptoFiatRateComputer._getIntermediateExchangeRateRequests(crypto, fiat)
+
+		expectedIntermediateExchangeRateRequestLst = [['USDC', 'USD', '1'], ['USD', 'CHF', 'CCCAGG']]
+
+		if PRINT:
+			print(actualIntermediateExchangeRateRequestLst)
+		else:
+			self.assertEqual(expectedIntermediateExchangeRateRequestLst, actualIntermediateExchangeRateRequestLst)
 
 	def test_getIntermediateExchangeRateRequests_CHSB_CHF(self):
 		PRINT = False
@@ -65,18 +102,18 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		else:
 			self.assertEqual(expectedIntermediateExchangeRateRequestLst, actualIntermediateExchangeRateRequestLst)
 
-	def test_getIntermediateExchangeRateRequests_ETH_CHF(self):
+	def test_getIntermediateExchangeRateRequests_CHSB_USD(self):
 		PRINT = False
 
 		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
 		self.initializeComputerClasses(cryptoFiatCsvFileName)
 
-		crypto = 'ETH'
-		fiat = 'CHF'
+		crypto = 'CHSB'
+		fiat = 'USD'
 
 		actualIntermediateExchangeRateRequestLst = self.cryptoFiatRateComputer._getIntermediateExchangeRateRequests(crypto, fiat)
 
-		expectedIntermediateExchangeRateRequestLst = [['ETH', 'CHF', 'Kraken']]
+		expectedIntermediateExchangeRateRequestLst = [['CHSB', 'BTC', 'HitBTC'], ['BTC', 'USD', 'Kraken']]
 
 		if PRINT:
 			print(actualIntermediateExchangeRateRequestLst)
@@ -147,6 +184,23 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		else:
 			self.assertAlmostEqual(expectedCryptoFiatRate, actualCryptoFiatRate, 3)
 
+	def testComputeCryptoFiatCurrentRate_USDC_USD(self):
+		PRINT = False
+
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+		self.initializeComputerClasses(cryptoFiatCsvFileName)
+
+		crypto = 'USDC'
+		fiat = 'USD'
+
+		actualCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatCurrentRate(crypto, fiat)
+		expectedCryptoFiatRate = 1
+
+		if PRINT:
+			print(actualCryptoFiatRate)
+		else:
+			self.assertEqual(expectedCryptoFiatRate, actualCryptoFiatRate)
+
 	def testComputeCryptoFiatCurrentRate_unsupported_cryptoFiatPair(self):
 		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
 		self.initializeComputerClasses(cryptoFiatCsvFileName)
@@ -165,4 +219,4 @@ if __name__ == '__main__':
 		unittest.main()
 	else:	
 		tst = TestCryptoFiatRateComputer()
-		tst.testComputeCryptoFiatCurrentRate_unsupported_cryptoFiatPair()
+		tst.testComputeCryptoFiatCurrentRate_USDC_USD()
