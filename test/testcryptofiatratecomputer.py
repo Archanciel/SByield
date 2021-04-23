@@ -30,7 +30,7 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		sbEarningsDf = self.cryptoFiatRateComputer._loadCryptoFiatCsvFile(self.cryptoFiatRateComputer.cryptoFiatCsvFilePathName)
 
 		if not PRINT:
-			self.assertEqual((7, 3), sbEarningsDf.shape)
+			self.assertEqual((8, 3), sbEarningsDf.shape)
 
 		expectedStrDataframe = \
 '  CRYPTO UNIT EXCHANGE' + \
@@ -41,7 +41,8 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 3    BTC  CHF   Kraken
 4    ETH  USD   Kraken
 5    ETH  CHF   Kraken
-6    USD  CHF   CCCAGG'''
+6    USD  CHF   CCCAGG
+7    USD  EUR   CCCAGG'''
 
 		if PRINT:
 			print(sbEarningsDf)
@@ -127,7 +128,7 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		self.initializeComputerClasses(cryptoFiatCsvFileName)
 
 		crypto = 'ETH'
-		fiat = 'EUR'
+		fiat = 'YEN'
 
 		actualIntermediateExchangeRateRequestLst = self.cryptoFiatRateComputer._getIntermediateExchangeRateRequests(crypto, fiat)
 

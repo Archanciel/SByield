@@ -96,6 +96,8 @@ class PriceRequesterTestStub(PriceRequester):
 			rate = 113333.3333  # causes CHSB/USD to be 1.7
 		elif crypto == 'USD' and unit == 'CHF':
 			rate = 1.5
+		elif crypto == 'USD' and unit == 'EUR':
+			rate = 1.4
 		else:
 			raise ValueError('Crypto {}/{} pair not supported by PriceRequesterTestStub. Complete PriceRequesterTestStub.getCurrentPrice() method and retry !'.format(crypto, unit))
 
