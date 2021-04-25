@@ -40,8 +40,15 @@ class Controller:
 							  CryptoFiatRateComputer(PriceRequester(),
 													 cryptoFiatCsvFilePathName),
 							  language)
-		
+
+		processor.activateHelpStarsAddition()
+
 		return processor.addFiatConversionInfo()
+
+	def printHelpLines(self, language):
+		print()
+		print(' * ' + PROC_TOTAL_INCLUDE_YIELD_HELP[language])
+		print('** ' + PROC_CURRENT_RATE_HELP[language])
 
 if __name__ == '__main__':
 	formatDic = {SB_ACCOUNT_SHEET_CURRENCY_USDC: '.2f',
@@ -53,7 +60,7 @@ if __name__ == '__main__':
 	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 #	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
 #	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_ETH
-	language = FR
+	language = GB
 	ctr = Controller()
 
 	sbYieldRatesWithTotalDf, \
@@ -82,6 +89,7 @@ if __name__ == '__main__':
 
 	print('\nOwner fiat detailed deposit/withdrawal yield totals ...')
 	print(yieldOwnerWithTotalsDetaiAndFiatlDfStr)
+	ctr.printHelpLines(language)
 
 	
 	

@@ -20,3 +20,6 @@ PROC_YIELD_DAYS = ('DAYS', ' JOURS')
 PROC_YIELD_AMT_PERCENT = ('Y %', 'INT %')
 PROC_YEAR_YIELD_PERCENT = ('YR Y %', 'INT ANN %')
 PROC_TOTAL_INCLUDE_YIELD = ('Tot incl yield', 'Tot incl intérêts')
+
+PROC_TOTAL_INCLUDE_YIELD_HELP = ('total in those 2 columns includes the generated yield total', 'le total dans ces 2 colonnes inclut le total des intérêts générés')
+PROC_CURRENT_RATE_HELP = ('deposit/withdrawal value at the date from rate', 'valeur des dépôts/retraits au taux en vigeur à la date du dépôt/retrait')
