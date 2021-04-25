@@ -12,7 +12,7 @@ from pricerequester import PriceRequester
 from pricerequesterteststub import PriceRequesterTestStub
 from processor import *
 
-PRINT_SB_EARNING_TOTALS = True
+PRINT_SB_EARNING_TOTALS = False
 
 class TestProcessor(unittest.TestCase):
 	def initializeComputerClasses(self,
@@ -4526,7 +4526,7 @@ TOTAL                                  729.22345326'''
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '                                                            DEPOTS/RETRAITS                                                                                 \n' + \
 '                     USDC                                               CHF           CAPITAL                    DATE               INTERETS                \n' + \
-'        Tot incl intérêts TX DAT DEP    TX ACT PLUS-VAL CAP       P-V CAP %     USDC      CHF        FROM          TO  JOURS   USDC      CHF INT % INT ANN %\n' + \
+'        Tot incl intérêts TX DAT DEP    TX ACT PLUS-VAL CAP       P-V CAP %     USDC      CHF          DE           A  JOURS   USDC      CHF INT % INT ANN %\n' + \
 'PROPR                                                                                                                                                       ' + \
 '''
 Béa              4,000.00   4,000.00  6,000.00     2,000.00           50.00 4,000.00 6,000.00  2021-02-20  2021-12-31    315 342.93   514.39  8.57     10.00
@@ -4908,7 +4908,7 @@ TOTAL                                  660.79363079'''
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '                                                            DEPOTS/RETRAITS                                                                                 \n' + \
 '                     USDC                                               CHF           CAPITAL                    DATE               INTERETS                \n' + \
-'        Tot incl intérêts TX DAT DEP    TX ACT PLUS-VAL CAP       P-V CAP %     USDC      CHF        FROM          TO  JOURS   USDC      CHF INT % INT ANN %\n' + \
+'        Tot incl intérêts TX DAT DEP    TX ACT PLUS-VAL CAP       P-V CAP %     USDC      CHF          DE           A  JOURS   USDC      CHF INT % INT ANN %\n' + \
 'PROPR                                                                                                                                                       ' + \
 '''
 Béa              4,000.00   4,000.00  6,000.00     2,000.00           50.00 4,000.00 6,000.00  2021-02-20  2021-12-31    315 343.00   514.50  8.57     10.00
@@ -5291,7 +5291,7 @@ TOTAL                                  660.79363079'''
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '                                                                                                          DEPOTS/RETRAITS                                                                                                 \n' + \
 '                     USDC                                         CHF                                                 EUR                    CAPITAL                    DATE                      INTERETS                \n' + \
-'        Tot incl intérêts TX DAT DEP    TX ACT PLUS-VAL CAP P-V CAP %  TX DAT DEP    TX ACT  PLUS-VAL CAP       P-V CAP %     USDC      CHF      EUR        FROM          TO  JOURS   USDC    CHF      EUR INT % INT ANN %\n' + \
+'        Tot incl intérêts TX DAT DEP    TX ACT PLUS-VAL CAP P-V CAP %  TX DAT DEP    TX ACT  PLUS-VAL CAP       P-V CAP %     USDC      CHF      EUR          DE           A  JOURS   USDC    CHF      EUR INT % INT ANN %\n' + \
 'PROPR                                                                                                                                                                                                                     ' + \
 '''
 Béa              4,000.00   4,000.00  6,000.00     2,000.00     50.00    2,800.00  5,600.00      2,800.00          100.00 4,000.00 6,000.00 5,600.00  2021-02-20  2021-12-31    315 343.00 514.50   480.20  8.57     10.00
