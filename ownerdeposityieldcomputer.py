@@ -1,7 +1,7 @@
 from datetime import timedelta
 from sbyieldratecomputer import *
 from pandasdatacomputer import PandasDataComputer
-from invaliddepositdateerror import InvalidDepositDateError
+from depositdateafterlastyieldpaymenterror import DepositDateAfterLastYieldPaymentError
 
 DEPOSIT_YIELD_HEADER_CAPITAL = 'CAPITAL'
 DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER = 'YIELD DAYS'
@@ -117,11 +117,11 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 			if currentRowDateFrom > lastYieldPaymentDate:
 				# the case if an erroneous deposit/withdrawal date which is greater than
 				# the Swissborg last payment date was defined in the deposit csv file
-				raise InvalidDepositDateError(self.sbYieldRateComputer.depositSheetFilePathName,
-				                              ownerDateSortedDepositDf.loc[i, DEPOSIT_SHEET_HEADER_OWNER[self.language]],
-				                              currentRowDateFrom,
-				                              ownerDateSortedDepositDf.loc[i, DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
-				                              lastYieldPaymentDate)
+				raise DepositDateAfterLastYieldPaymentError(self.sbYieldRateComputer.depositSheetFilePathName,
+															ownerDateSortedDepositDf.loc[i, DEPOSIT_SHEET_HEADER_OWNER[self.language]],
+															currentRowDateFrom,
+															ownerDateSortedDepositDf.loc[i, DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
+															lastYieldPaymentDate)
 			if currentRowDateFrom < firstYieldPaymentDate:
 				# the case if the application is run on a Swissborg earning sheet which was downloaded
 				# with specifying a start date later than the first deposits dates. This does not cause

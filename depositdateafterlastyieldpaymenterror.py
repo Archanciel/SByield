@@ -1,7 +1,7 @@
 from sbyieldexception import SBYieldException
 
 
-class InvalidDepositDateError(SBYieldException):
+class DepositDateAfterLastYieldPaymentError(SBYieldException):
 	"""
 	Exception raised when the deposit CSV file contains a deposit whose date is after the
 	last yield payment date.
@@ -19,4 +19,4 @@ date of {} which is after the last payment date of {}".format(depositCsvFilePath
 															  depositDate,
 															  yieldPaymentDate)
 
-		super(InvalidDepositDateError, self).__init__(msg=errorMsg)
+		super(DepositDateAfterLastYieldPaymentError, self).__init__(msg=errorMsg)

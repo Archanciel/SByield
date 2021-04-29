@@ -8,7 +8,7 @@ sys.path.insert(0,currentdir) # this instruction is necessary for successful imp
 							  # the test is executed standalone
 
 from ownerdeposityieldcomputer import *
-from invaliddepositdateerror import InvalidDepositDateError
+from depositdateafterlastyieldpaymenterror import DepositDateAfterLastYieldPaymentError
 
 
 class TestOwnerDepositYieldComputer(unittest.TestCase):
@@ -2265,7 +2265,7 @@ G TOTAL   9,919.56                                             19.56000000      
 
 		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
 
-		with self.assertRaises(InvalidDepositDateError) as e:
+		with self.assertRaises(DepositDateAfterLastYieldPaymentError) as e:
 			self.ownerDepositYieldComputer.computeDepositsYields()
 
 		self.assertEqual('CSV file {}testDepositUsdc_13.csv contains a deposit of 100.0 for owner JPS with a deposit date of 2020-12-31 which is after the last payment date of 2020-12-30'.format(self.testDataPath), e.exception.message)
@@ -2285,7 +2285,7 @@ G TOTAL   9,919.56                                             19.56000000      
 
 		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
-		with self.assertRaises(InvalidDepositDateError) as e:
+		with self.assertRaises(DepositDateAfterLastYieldPaymentError) as e:
 			self.ownerDepositYieldComputer.computeDepositsYields()
 
 		self.assertEqual(
@@ -2305,7 +2305,7 @@ G TOTAL   9,919.56                                             19.56000000      
 
 		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
 
-		with self.assertRaises(InvalidDepositDateError) as e:
+		with self.assertRaises(DepositDateAfterLastYieldPaymentError) as e:
 			self.ownerDepositYieldComputer.computeDepositsYields()
 
 		self.assertEqual(
@@ -2326,7 +2326,7 @@ G TOTAL   9,919.56                                             19.56000000      
 
 		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
-		with self.assertRaises(InvalidDepositDateError) as e:
+		with self.assertRaises(DepositDateAfterLastYieldPaymentError) as e:
 			self.ownerDepositYieldComputer.computeDepositsYields()
 
 		self.assertEqual(
@@ -2347,7 +2347,7 @@ G TOTAL   9,919.56                                             19.56000000      
 
 		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
-		with self.assertRaises(InvalidDepositDateError) as e:
+		with self.assertRaises(DepositDateAfterLastYieldPaymentError) as e:
 			self.ownerDepositYieldComputer.computeDepositsYields()
 
 		self.assertEqual(
@@ -2368,7 +2368,7 @@ G TOTAL   9,919.56                                             19.56000000      
 
 		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 
-		with self.assertRaises(InvalidDepositDateError) as e:
+		with self.assertRaises(DepositDateAfterLastYieldPaymentError) as e:
 			self.ownerDepositYieldComputer.computeDepositsYields()
 
 		self.assertEqual(
