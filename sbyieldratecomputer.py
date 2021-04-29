@@ -7,8 +7,9 @@ from dfConstants import *
 from dfConstants import MERGED_SHEET_HEADER_EARNING_NEW_NAME
 from pandasdatacomputer import *
 from duplicatedepositdatetimeerror import DuplicateDepositDateTimeError
-from invaliddeposittimeerror import InvalidDepositTimeError
+from invaliddepositdatetimeerror import InvalidDepositDateTimeError
 
+DATE_TIME_NINE_O_CLOCK = datetime.strptime('09:00:00', '%H:%M:%S')
 
 SB_ACCOUNT_SHEET_FIAT = 'USD'           # earning fiat: USD or CHF as defined when downloading the account statement Excel sheet
 SB_ACCOUNT_SHEET_NAME = 'Transactions'  # name of the spreadsheet
@@ -144,7 +145,7 @@ class SBYieldRateComputer(PandasDataComputer):
 								 parse_dates=[DEPOSIT_SHEET_HEADER_DATE])
 		
 		self.ensureNoDatetimeDuplication(depositsDf)
-		self.ensureDepositTimeComponentValidity(depositsDf)
+		self.ensureDepositDateTimeComponentValidity(depositsDf)
 
 		depositConversionFiatLst = []
 		depositColTypeDic = {DATAFRAME_HEADER_DEPOSIT_WITHDRAW: 'float64'}
@@ -161,38 +162,43 @@ class SBYieldRateComputer(PandasDataComputer):
 		
 		return depositsDf, depositSheetCrypto, depositConversionFiatLst
 	
-	def ensureDepositTimeComponentValidity(self, depositsDf):
+	def ensureDepositDateTimeComponentValidity(self, depositsDf):
 		"""
-		This method raises an InvalidDepositTimeError if one of the deposit
-		csv line has a date time component whose value is after the Swissborg
-		9:00 H yield payment time.
+		This method raises an InvalidDepositTimeError in 2 cases:
+
+		1/ if one of the deposit csv line has a date time component whose
+		   format is invalid,
+		2/ if one of the deposit csv line has a date time component whose value
+		   is after the Swissborg 9:00 H yield payment time.
 		"""
 		dfDateTimeLst = list(depositsDf[DEPOSIT_SHEET_HEADER_DATE])
-		dtNine = datetime.strptime('09:00:00', '%H:%M:%S')
-		badTimeIndex = None
-		invalidTimeFormat = False
+		badDateTimeLstIndex = None
+		invalidDateTimeFormat = False
 		index = 0
 		
 		try:
-			for timeComponent in dfDateTimeLst:
-				if isinstance(timeComponent, str):
-					date = datetime.strptime(timeComponent, '%Y/%m/%d %H:%M:%S')
+			for dateTimeComponent in dfDateTimeLst:
+				if isinstance(dateTimeComponent, str):
+					date = datetime.strptime(dateTimeComponent, '%Y/%m/%d %H:%M:%S')
 				else:
-					date = timeComponent
-				if date.time() > dtNine.time():
-					badTimeIndex = index
+					date = dateTimeComponent
+				if date.time() > DATE_TIME_NINE_O_CLOCK.time():
+					# in this case, the invalidDateTimeFormat variable remains False,
+					# which means the date time component format is correct, but the
+					# time component value is not acceptable
+					badDateTimeLstIndex = index
 				else:
 					index += 1
 		except ValueError:
-			badTimeIndex = index
-			invalidTimeFormat = True
-		
-		if badTimeIndex is not None:
-			raise InvalidDepositTimeError(self.depositSheetFilePathName,
-										  depositsDf.loc[badTimeIndex, DEPOSIT_SHEET_HEADER_OWNER[self.language]],
-										  depositsDf.loc[badTimeIndex, DEPOSIT_SHEET_HEADER_DATE],
-										  depositsDf.loc[badTimeIndex, DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
-										  invalidTimeFormat)
+			badDateTimeLstIndex = index
+			invalidDateTimeFormat = True
+
+		if badDateTimeLstIndex is not None:
+			raise InvalidDepositDateTimeError(self.depositSheetFilePathName,
+											  depositsDf.loc[badDateTimeLstIndex, DEPOSIT_SHEET_HEADER_OWNER[self.language]],
+											  depositsDf.loc[badDateTimeLstIndex, DEPOSIT_SHEET_HEADER_DATE],
+											  depositsDf.loc[badDateTimeLstIndex, DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
+											  invalidDateTimeFormat)
 	
 	def ensureNoDatetimeDuplication(self, depositsDf):
 		"""

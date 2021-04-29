@@ -26,10 +26,14 @@ dayNumber = 365
 depWithdrArray = [0.0] * dayNumber
 
 depWithdrArray[0] = 10000
-depWithdrArray[5] = 1000
-depWithdrArray[9] = -11024.57
+depWithdrArray[59] = 10000
+depWithdrArray[90] = 1000
+depWithdrArray[120] = -500
+depWithdrArray[151] = -500
+depWithdrArray[181] = 1000
+depWithdrArray[304] = -22531
 
-xlsxFilePathName = TEST_DATA_PATH + 'GENERATED_testDepositCHSB_simple_values_1_owner_max_withdrawal.xlsx'
+xlsxFilePathName = TEST_DATA_PATH + 'GENERATED_testDepositChsb_fiat_chf_pandas_avg_rate_explore.xlsx'
 
 # generating day date list
 dayDates = pd.date_range("2021-01-01", periods=dayNumber, freq="D")

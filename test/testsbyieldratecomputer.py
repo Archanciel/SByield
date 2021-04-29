@@ -9,7 +9,7 @@ sys.path.insert(0,currentdir) # this instruction is necessary for successful imp
 
 from sbyieldratecomputer import *
 from duplicatedepositdatetimeerror import DuplicateDepositDateTimeError
-from invaliddeposittimeerror import InvalidDepositTimeError
+from invaliddepositdatetimeerror import InvalidDepositDateTimeError
 
 class TestSBYieldRateComputer(unittest.TestCase):
 	def initializeComputerClasses(self, sbAccountSheetFileName, depositSheetFileName):
@@ -289,11 +289,11 @@ TOTAL                                          2.1'''
 		
 		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
 		
-		with self.assertRaises(InvalidDepositTimeError) as e:
+		with self.assertRaises(InvalidDepositDateTimeError) as e:
 			self.yieldRateComputer._loadDepositCsvFile()
 		
 		self.assertEqual(
-			'CSV file {} contains a deposit of 1000 for owner Béa with a deposit date 2020/12/25 00:00: whose time component is invalid. Correct the time component and retry.'.format(
+			'CSV file {} contains a deposit of 1000 for owner Béa with a deposit date of 2020/12/25 00:00: whose format is invalid. Correct the date time component and retry.'.format(
 				self.testDataPath + depositSheetFileName), e.exception.message)
 	
 	def test_loadDepositCsvFileWithTimeComponentAfterNineOClock(self):
@@ -302,11 +302,11 @@ TOTAL                                          2.1'''
 		
 		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
 		
-		with self.assertRaises(InvalidDepositTimeError) as e:
+		with self.assertRaises(InvalidDepositDateTimeError) as e:
 			self.yieldRateComputer._loadDepositCsvFile()
 		
 		self.assertEqual(
-			'CSV file {} contains a deposit of 1000 for owner Béa with a deposit date 2020-12-25 10:00:00 whose time component is later than the 09:00:00 Swissborg yield payment time. Set the time to a value before 09:00:00 and retry.'.format(
+			'CSV file {} contains a deposit of 1000 for owner Béa with a deposit date of 2020-12-25 10:00:00 whose time component is later than the 09:00:00 Swissborg yield payment time. Set the time to a value before 09:00:00 and retry.'.format(
 				self.testDataPath + depositSheetFileName), e.exception.message)
 	
 	def test_mergeEarningAndDeposit(self):
@@ -937,7 +937,8 @@ if __name__ == '__main__':
 		tst = TestSBYieldRateComputer()
 		tst.setUp()
 		#tst.test_mergeEarningAndDeposit()
-		tst.test_mergeEarningAndDeposit_bug()
+		# tst.test_mergeEarningAndDeposit_bug()
 #   	tst.testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_2_deposit()
 #   	tst.testGetDepositsAndDailyYieldRatesDataframes_uniqueOwner_1_deposit_1_partial_withdr()
 #   	tst.test_loadDepositCsvFileWithFiatColumns_2()
+		tst.test_loadDepositCsvFileWithTimeComponentAfterNineOClock()

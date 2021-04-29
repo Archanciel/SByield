@@ -2265,12 +2265,10 @@ G TOTAL   9,919.56                                             19.56000000      
 
 		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
 
-		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
-
 		with self.assertRaises(InvalidDepositDateError) as e:
 			self.ownerDepositYieldComputer.computeDepositsYields()
 
-		self.assertEqual('CSV file {}testDepositUsdc_13.csv contains a deposit of 100.0 for owner JPS with a deposit date 2020-12-31 after the last payment date 2020-12-30'.format(self.testDataPath), e.exception.message)
+		self.assertEqual('CSV file {}testDepositUsdc_13.csv contains a deposit of 100.0 for owner JPS with a deposit date of 2020-12-31 which is after the last payment date of 2020-12-30'.format(self.testDataPath), e.exception.message)
 
 	def testComputeDepositsYieldsMiddleDepositDateFromIsAfterMaxRowUniqueOwnerThreeDepositsDepositDateFromAfterMax_2(
 			self):
@@ -2291,7 +2289,7 @@ G TOTAL   9,919.56                                             19.56000000      
 			self.ownerDepositYieldComputer.computeDepositsYields()
 
 		self.assertEqual(
-			'CSV file {}testDepositUsdc_14.csv contains a deposit of 100.0 for owner JPS with a deposit date 2020-12-31 after the last payment date 2020-12-30'.format(
+			'CSV file {}testDepositUsdc_14.csv contains a deposit of 100.0 for owner JPS with a deposit date of 2020-12-31 which is after the last payment date of 2020-12-30'.format(
 				self.testDataPath), e.exception.message)
 
 	def testComputeDepositsYieldsMiddleDepositDateFromIsAfterMaxRowUniqueOwnerThreeDepositsDepositDateFromAfterMax_3(
@@ -2307,13 +2305,11 @@ G TOTAL   9,919.56                                             19.56000000      
 
 		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
 
-		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
-
 		with self.assertRaises(InvalidDepositDateError) as e:
 			self.ownerDepositYieldComputer.computeDepositsYields()
 
 		self.assertEqual(
-			'CSV file {}testDepositUsdc_15.csv contains a deposit of 1000.0 for owner Loan with a deposit date 2020-12-31 after the last payment date 2020-12-30'.format(
+			'CSV file {}testDepositUsdc_15.csv contains a deposit of 1000.0 for owner Loan with a deposit date of 2020-12-31 which is after the last payment date of 2020-12-30'.format(
 				self.testDataPath), e.exception.message)
 
 	def testComputeDepositsYieldsMiddleDepositDateFromIsAfterMaxRowUniqueOwnerThreeDepositsDepositDateFromAfterMax_4(self):
@@ -2334,7 +2330,7 @@ G TOTAL   9,919.56                                             19.56000000      
 			self.ownerDepositYieldComputer.computeDepositsYields()
 
 		self.assertEqual(
-			'CSV file {}testDepositUsdc_16.csv contains a deposit of 300.0 for owner Papa with a deposit date 2020-12-31 after the last payment date 2020-12-30'.format(
+			'CSV file {}testDepositUsdc_16.csv contains a deposit of 300.0 for owner Papa with a deposit date of 2020-12-31 which is after the last payment date of 2020-12-30'.format(
 				self.testDataPath), e.exception.message)
 
 	def testComputeDepositsYieldsMiddleDepositDateFromIsAfterMaxRowUniqueOwnerThreeDepositsDepositDateFromAfterMax_5(self):
@@ -2355,7 +2351,7 @@ G TOTAL   9,919.56                                             19.56000000      
 			self.ownerDepositYieldComputer.computeDepositsYields()
 
 		self.assertEqual(
-			'CSV file {}testDepositUsdc_17.csv contains a deposit of 1000.0 for owner Béa with a deposit date 2020-12-31 after the last payment date 2020-12-30'.format(
+			'CSV file {}testDepositUsdc_17.csv contains a deposit of 1000.0 for owner Béa with a deposit date of 2020-12-31 which is after the last payment date of 2020-12-30'.format(
 				self.testDataPath), e.exception.message)
 
 	def testComputeDepositsYieldsMiddleDepositDateFromIsAfterMaxRowUniqueOwnerThreeDepositsDepositDateFromAfterMax_6(self):
@@ -2376,7 +2372,7 @@ G TOTAL   9,919.56                                             19.56000000      
 			self.ownerDepositYieldComputer.computeDepositsYields()
 
 		self.assertEqual(
-			'CSV file {}testDepositUsdc_18.csv contains a deposit of 1000.0 for owner Zoé with a deposit date 2020-12-31 after the last payment date 2020-12-30'.format(
+			'CSV file {}testDepositUsdc_18.csv contains a deposit of 1000.0 for owner Zoé with a deposit date of 2020-12-31 which is after the last payment date of 2020-12-30'.format(
 				self.testDataPath), e.exception.message)
 
 	def testComputeDepositsYieldsLastDepositRowUniqueOwnerTwoDepositsOnFirstDepositDate(self):
