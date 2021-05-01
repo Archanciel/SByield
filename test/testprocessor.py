@@ -1934,8 +1934,8 @@ G TOTAL      11,550.12           17,325.18                                      
 
 	def testAddFiatConversionInfo_1_fiat_simple_values_1_owner_1_deposit_gain(self):
 		"""
-		CHSB crypto, 1 owner with 1 deposit, fixed yield rate,
-		CHSB/CHF final rateof 1.5..
+		CHSB crypto, 1 owner with 1 deposit, fixed yield rate, CHSB/CHF final
+		rate of 1.5.
 		"""
 		PRINT = False
 
