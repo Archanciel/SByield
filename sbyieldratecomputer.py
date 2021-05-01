@@ -11,7 +11,6 @@ from invaliddepositdatetimeerror import InvalidDepositDateTimeError
 
 DATE_TIME_NINE_O_CLOCK = datetime.strptime('09:00:00', '%H:%M:%S')
 
-SB_ACCOUNT_SHEET_FIAT = 'USD'           # earning fiat: USD or CHF as defined when downloading the account statement Excel sheet
 SB_ACCOUNT_SHEET_NAME = 'Transactions'  # name of the spreadsheet
 SB_ACCOUNT_SHEET_SKIP_ROWS = 8          # number of lines above the column headers to skip
 
@@ -20,15 +19,6 @@ SB_ACCOUNT_SHEET_HEADER_DATE = 'Local time'     # yyyy-mm-dd hh:mm
 SB_ACCOUNT_SHEET_HEADER_EARNING = 'Net amount'  # column containing the daily earning in USDC or CHSB for example
 SB_ACCOUNT_SHEET_HEADER_TYPE = 'Type'           # row type: Earnings or Deposit for example
 SB_ACCOUNT_SHEET_HEADER_CURRENCY = 'Currency'   # USDC or CHSB for example
-
-# Swissborg account statement sheet columns to remove
-SB_ACCOUNT_SHEET_UNUSED_COLUMNS_LIST = ['Time in UTC',
-										'Fee',
-										'Fee ({})'.format(SB_ACCOUNT_SHEET_FIAT),
-										'Gross amount ({})'.format(SB_ACCOUNT_SHEET_FIAT),
-										'Gross amount',
-										'Net amount ({})'.format(SB_ACCOUNT_SHEET_FIAT),
-										'Note']
 
 # columns which can be later removed from the Swissborg account statement data frame
 SB_ACCOUNT_SHEET_NO_LONGER_USED_COLUMNS_LIST = [SB_ACCOUNT_SHEET_HEADER_TYPE,
@@ -74,9 +64,11 @@ class SBYieldRateComputer(PandasDataComputer):
 	out the Swissborg daily earnings proportionally to the deposit/withdrawal amounts
 	invested by the different yield subscription amounts owners.
 	"""
-	def __init__(self, sbAccountSheetFilePathName,
+	def __init__(self,
+				 sbAccountSheetFilePathName,
+				 sbAccountSheetFiat,
 				 depositSheetFilePathName,
-				 language=0):
+				 language=GB):
 		"""
 		Currently, the configMgr is not used. Constants are used in place.
 		
@@ -85,10 +77,12 @@ class SBYieldRateComputer(PandasDataComputer):
 		"""
 		super().__init__()
 		self.sbAccountSheetFilePathName = sbAccountSheetFilePathName
+		self.sbAccountSheetFiat = sbAccountSheetFiat
 		self.depositSheetFilePathName = depositSheetFilePathName
 		self.language = language
 	
-	def _loadSBEarningSheet(self, yieldCrypto):
+	def _loadSBEarningSheet(self,
+							yieldCrypto):
 		"""
 		Creates a Pandas data frame from the Swissborg account statement sheet, removing
 		unused columns. It then selects only the 'Earnings' type rows for the passed
@@ -106,8 +100,17 @@ class SBYieldRateComputer(PandasDataComputer):
 								 parse_dates=[SB_ACCOUNT_SHEET_HEADER_DATE])
 		sbEarningsDf = sbEarningsDf.set_index([SB_ACCOUNT_SHEET_HEADER_DATE])
 
+		# Swissborg account statement sheet columns to remove
+		sbAccountSheetUnusedColumnsLst = ['Time in UTC',
+										  'Fee',
+										  'Fee ({})'.format(self.sbAccountSheetFiat),
+										  'Gross amount ({})'.format(self.sbAccountSheetFiat),
+										  'Gross amount',
+										  'Net amount ({})'.format(self.sbAccountSheetFiat),
+										  'Note']
+
 		# drop unused columns
-		sbEarningsDf = sbEarningsDf.drop(columns=SB_ACCOUNT_SHEET_UNUSED_COLUMNS_LIST)
+		sbEarningsDf = sbEarningsDf.drop(columns=sbAccountSheetUnusedColumnsLst)
 		
 		# filter useful rows
 		isTypeEarning = sbEarningsDf[SB_ACCOUNT_SHEET_HEADER_TYPE] == SB_ACCOUNT_SHEET_TYPE_EARNING

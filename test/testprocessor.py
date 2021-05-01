@@ -34,9 +34,10 @@ class TestProcessor(unittest.TestCase):
 			sbAccountSheetFilePathName = self.testDataPath + sbAccountSheetFileName
 			depositSheetFilePathName = self.testDataPath + depositSheetFileName
 			self.cryptoFiatCsvFilePathName = dataPath + cryptoFiatCsvFileName
-		self.yieldRateComputer = SBYieldRateComputer(sbAccountSheetFilePathName,
-		                                             depositSheetFilePathName,
-													 self.language)
+		self.yieldRateComputer = SBYieldRateComputer(sbAccountSheetFilePathName=sbAccountSheetFilePathName,
+													 sbAccountSheetFiat='USD',
+		                                             depositSheetFilePathName=depositSheetFilePathName,
+													 language=self.language)
 		self.ownerDepositYieldComputer = OwnerDepositYieldComputer(self.yieldRateComputer,
 																   self.language)
 		self.processor = Processor(self.yieldRateComputer,

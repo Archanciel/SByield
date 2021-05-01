@@ -22,8 +22,9 @@ class TestSBYieldRateComputer(unittest.TestCase):
 			sbAccountSheetFilePathName = self.testDataPath + sbAccountSheetFileName
 			depositSheetFilePathName = self.testDataPath + depositSheetFileName
 
-		self.yieldRateComputer = SBYieldRateComputer(sbAccountSheetFilePathName,
-		                                             depositSheetFilePathName)
+		self.yieldRateComputer = SBYieldRateComputer(sbAccountSheetFilePathName=sbAccountSheetFilePathName,
+													 sbAccountSheetFiat='USD',
+		                                             depositSheetFilePathName=depositSheetFilePathName)
 
 	def test_loadSBEarningSheetUSDC(self):
 		sbAccountSheetFileName = 'testSBEarningUsdc.xlsx'

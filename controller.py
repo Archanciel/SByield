@@ -30,8 +30,9 @@ class Controller:
 			sbAccountSheetFilePathName = dataPath + sbAccountSheetFileName
 			depositSheetFilePathName = dataPath + depositSheetFileName
 
-		sbYieldRateComputer = SBYieldRateComputer(sbAccountSheetFilePathName,
-		                                          depositSheetFilePathName)
+		sbYieldRateComputer = SBYieldRateComputer(sbAccountSheetFilePathName=sbAccountSheetFilePathName,
+												  sbAccountSheetFiat='CHF',
+		                                          depositSheetFilePathName=depositSheetFilePathName)
 		self.ownerDepositYieldComputer = OwnerDepositYieldComputer(sbYieldRateComputer)
 
 		cryptoFiatCsvFilePathName = dataPath + cryptoFiatCsvFileName
@@ -55,7 +56,7 @@ if __name__ == '__main__':
 				 SB_ACCOUNT_SHEET_CURRENCY_CHSB: '.8f',
 	             SB_ACCOUNT_SHEET_CURRENCY_ETH: '.8f'}
 
-	sbAccountSheetFileName = 'Swissborg_account_statement_2021-04-20.xlsx'
+	sbAccountSheetFileName = 'Swissborg_account_statement_20201112_20210430.xlsx'
 
 	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 #	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
