@@ -31,24 +31,27 @@ depWithdrArray = [0.0] * ((dayNumber * yearNumber) + 1)
 dayDates = pd.date_range("2021-01-01", periods=((dayNumber * yearNumber) + 1), freq="D")
 
 # daily yield withdrawal --> TOTAL == 953.22624764737157
-depWithdrArray = [-2.61157876067773] * ((dayNumber * yearNumber) + 1)
+#TOTAL_WITHDR = 'TOTAL DAILY WITHDRAWALS'
+#depWithdrArray = [-2.61157876067773] * ((dayNumber * yearNumber) + 1)
 
 # monthly yield withdrawal --> TOTAL == 957.98000736447830
 # idx = 29
 # withdrawAmount = -78.64477220619301
+# TOTAL_WITHDR = 'TOTAL MONTHLY WITHDRAWALS'
 #
 # for i in range(12 * yearNumber):
 # 	print('i = {}, index = {}, date = {}, withdrawal = {}'.format(i, idx, dayDates[idx], withdrawAmount))
 # 	depWithdrArray[idx] = withdrawAmount
 # 	idx += 30
 
-# idx = 365
-# withdrawAmount = -1002.61089670860747
-#
-# for i in range(yearNumber):
-# 	print('i = {}, index = {}, date = {}, withdrawal = {}'.format(i, idx, dayDates[idx], withdrawAmount))
-# 	depWithdrArray[idx] = withdrawAmount
-# 	idx += 365
+idx = 365
+withdrawAmount = -1002.61089670860747
+TOTAL_WITHDR = 'TOTAL YEARLY WITHDRAWALS'
+
+for i in range(yearNumber):
+	print('i = {}, index = {}, date = {}, withdrawal = {}'.format(i, idx, dayDates[idx], withdrawAmount))
+	depWithdrArray[idx] = withdrawAmount
+	idx += 365
 
 depWithdrArray[0] = 10000
 # depWithdrArray[59] = -1000
@@ -97,7 +100,7 @@ DEPWITHDR = 'DEP/WITHDR'
 CAPITAL = 'EARNING CAPITAL'
 YIELD_DAILY = 'D YIELD'
 YIELD_SUM = 'YIELD SUM'
-TOTAL = 'TOTAL'
+TOTAL = 'TOTAL YIELD'
 
 def computeYields(df):
 	lastRowIdx = (dayNumber * yearNumber)
@@ -127,10 +130,10 @@ def computeYields(df):
 				# amount is set to the next day (next row).
 				df.loc[i, CAPITAL] = capitalPlusYield
 
-				df.loc[i + 1, CAPITAL] = capitalPlusYield * df.loc[i + 1, RATE_DAILY]
+#				df.loc[i + 1, CAPITAL] = capitalPlusYield * df.loc[i + 1, RATE_DAILY]
 
 				# required if daily yield is withdrawn every day. Otherwise, computation is not correct
-#				df.loc[i + 1, CAPITAL] = (capitalPlusYield + df.loc[i + 1, DEPWITHDR]) * df.loc[i + 1, RATE_DAILY]
+				df.loc[i + 1, CAPITAL] = (capitalPlusYield + df.loc[i + 1, DEPWITHDR]) * df.loc[i + 1, RATE_DAILY]
 			elif i == lastRowIdx:
 				df.loc[i, CAPITAL] = capitalPlusYield
 
@@ -139,6 +142,7 @@ def computeYields(df):
 
 	df.loc[TOTAL] = df.sum(numeric_only=True, axis=0)[
 		[YIELD_DAILY]]
+	df.loc[TOTAL_WITHDR] = df.iloc[:,1:2].where(df.iloc[:,1:2] < 0).sum()
 
 	return df,\
 		   df.to_string(formatters={RATE_DAILY: '{:.8f}'.format, YIELD_DAILY: '{:.14f}'.format, YIELD_SUM: '{:.14f}'.format}).replace('NaT', '   ').replace('NaN', '   ').replace('nan', '   ')
