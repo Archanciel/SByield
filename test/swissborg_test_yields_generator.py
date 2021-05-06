@@ -23,18 +23,32 @@ FIXED_YEARLY_YIELD_RATE = 1.1
 TEST_DATA_PATH = 'D:\\Development\\Python\\SByield\\test\\testData\\'
 
 dayNumber = 365
-depWithdrArray = [0.0] * dayNumber
+yearNumber = 3
+depWithdrArray = [0.0] * ((dayNumber * yearNumber) + 1)
+
+
+# generating day date list
+dayDates = pd.date_range("2021-01-01", periods=((dayNumber * yearNumber) + 1), freq="D")
 
 # daily yield withdrawal --> TOTAL == 953.22624764737157
-#depWithdrArray = [-2.61157876067773] * dayNumber
+depWithdrArray = [-2.61157876067773] * ((dayNumber * yearNumber) + 1)
 
 # monthly yield withdrawal --> TOTAL == 957.98000736447830
-idx = 29
+# idx = 29
+# withdrawAmount = -78.64477220619301
+#
+# for i in range(12 * yearNumber):
+# 	print('i = {}, index = {}, date = {}, withdrawal = {}'.format(i, idx, dayDates[idx], withdrawAmount))
+# 	depWithdrArray[idx] = withdrawAmount
+# 	idx += 30
 
-for i in range(12):
-	print('{}: {}'.format(i, idx))
-	depWithdrArray[idx] = -78.64477220619301
-	idx += 30
+# idx = 365
+# withdrawAmount = -1002.61089670860747
+#
+# for i in range(yearNumber):
+# 	print('i = {}, index = {}, date = {}, withdrawal = {}'.format(i, idx, dayDates[idx], withdrawAmount))
+# 	depWithdrArray[idx] = withdrawAmount
+# 	idx += 365
 
 depWithdrArray[0] = 10000
 # depWithdrArray[59] = -1000
@@ -45,10 +59,7 @@ depWithdrArray[0] = 10000
 
 xlsxFilePathName = TEST_DATA_PATH + 'GENERATED_testDepositChsb_fiat_chf_pandas_avg_rate_explore.xlsx'
 
-# generating day date list
-dayDates = pd.date_range("2021-01-01", periods=dayNumber, freq="D")
-
-capitalArray = [0.0] * dayNumber
+capitalArray = [0.0] * ((dayNumber * yearNumber) + 1)
 
 # WARNING: THE ARRAY MUST BE COHERENT WITH THE DEPOSIT/WITHDR DEFINED IN THE
 # CORRESPONDING DEPOSIT CSV FILE !!!
@@ -77,7 +88,7 @@ generated data
 TOTAL                                                             40.00750566809984
 '''
 
-zeroYieldArray = [0.0] * dayNumber
+zeroYieldArray = [0.0] * ((dayNumber * yearNumber) + 1)
 
 DATE = 'DATE'
 RATE_DAILY = 'D RATE'
@@ -89,10 +100,10 @@ YIELD_SUM = 'YIELD SUM'
 TOTAL = 'TOTAL'
 
 def computeYields(df):
-	lastRowIdx = dayNumber - 1
+	lastRowIdx = (dayNumber * yearNumber)
 	yieldSum = 0.0
 	
-	for i in range(0, dayNumber):
+	for i in range(0, (dayNumber * yearNumber) + 1):
 		currentDepWithdr = df.loc[i, DEPWITHDR]
 		if currentDepWithdr >= 0:
 			# handling a deposit
@@ -111,15 +122,15 @@ def computeYields(df):
 			yieldAmount = capitalPlusYield - currentCapital
 			df.loc[i, YIELD_DAILY] = yieldAmount
 			if i < lastRowIdx:
-				# in case of withdrawal, the witdrawn amount continues to generate revenue
+				# in case of withdrawal, the withdrawn amount continues to generate revenue
 				# during the withdrawal date ! So, the capital amount minus the withdrawal
 				# amount is set to the next day (next row).
 				df.loc[i, CAPITAL] = capitalPlusYield
 
-#				df.loc[i + 1, CAPITAL] = capitalPlusYield yield * df.loc[i + 1, RATE_DAILY]
+				df.loc[i + 1, CAPITAL] = capitalPlusYield * df.loc[i + 1, RATE_DAILY]
 
 				# required if daily yield is withdrawn every day. Otherwise, computation is not correct
-				df.loc[i + 1, CAPITAL] = (capitalPlusYield + df.loc[i + 1, DEPWITHDR]) * df.loc[i + 1, RATE_DAILY]
+#				df.loc[i + 1, CAPITAL] = (capitalPlusYield + df.loc[i + 1, DEPWITHDR]) * df.loc[i + 1, RATE_DAILY]
 			elif i == lastRowIdx:
 				df.loc[i, CAPITAL] = capitalPlusYield
 
@@ -134,7 +145,7 @@ def computeYields(df):
 
 # generating an array of random values in the range of 1.15 - 1.25,
 # i.e. returns between 15 % and 25 % per annum
-randomYearlyInterestRates = np.random.uniform(low=RANDOM_YEARLY_YIELD_RATE_LOW, high=RANDOM_YEARLY_YIELD_RATE_HIGH, size=(dayNumber))
+randomYearlyInterestRates = np.random.uniform(low=RANDOM_YEARLY_YIELD_RATE_LOW, high=RANDOM_YEARLY_YIELD_RATE_HIGH, size=(dayNumber * yearNumber) + 1)
 
 # obtaining an array of corresponding daily interest rates which are 
 # 365th root of a yearly interest rate
@@ -146,7 +157,7 @@ dfRandom = pd.DataFrame({DATE: dayDates, DEPWITHDR: depWithdrArray, CAPITAL: cap
 #print(computeYields(dfRandom))
 
 # generating an array of fixed interest rate values
-fixedYearlyInterestRates = [FIXED_YEARLY_YIELD_RATE] * dayNumber
+fixedYearlyInterestRates = [FIXED_YEARLY_YIELD_RATE] * ((dayNumber * yearNumber) + 1)
 
 # obtaining an array of corresponding daily interest rates which are 
 # 365th root of the yearly interest rate
@@ -160,6 +171,5 @@ if GENERATE_XLSV_FILE:
 	print(xlsxFilePathName + ' created')
 else:
 	print('\nFixed yield of {} % per year\n'.format(round((FIXED_YEARLY_YIELD_RATE - 1) * 100)))
-	#print(dfFixed)
 	dfFixed, dfFixedStr = computeYields(dfFixed)
 	print(dfFixedStr)
