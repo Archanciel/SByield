@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-GENERATE_XLSV_FILE = True
+GENERATE_XLSV_FILE = False
 RANDOM_YEARLY_YIELD_RATE_LOW = 1.15
 RANDOM_YEARLY_YIELD_RATE_HIGH = 1.25
 
@@ -25,13 +25,23 @@ TEST_DATA_PATH = 'D:\\Development\\Python\\SByield\\test\\testData\\'
 dayNumber = 365
 depWithdrArray = [0.0] * dayNumber
 
+# daily yield withdrawal --> TOTAL == 953.22624764737157
+#depWithdrArray = [-2.61157876067773] * dayNumber
+
+# monthly yield withdrawal --> TOTAL == 957.98000736447830
+idx = 29
+
+for i in range(12):
+	print('{}: {}'.format(i, idx))
+	depWithdrArray[idx] = -78.64477220619301
+	idx += 30
+
 depWithdrArray[0] = 10000
-depWithdrArray[59] = 10000
-depWithdrArray[90] = 1000
-depWithdrArray[120] = -500
-depWithdrArray[151] = -500
-depWithdrArray[181] = 1000
-depWithdrArray[304] = -22531
+# depWithdrArray[59] = -1000
+# depWithdrArray[120] = -500
+# depWithdrArray[151] = -500
+# depWithdrArray[181] = -1000
+#depWithdrArray[304] = -22531
 
 xlsxFilePathName = TEST_DATA_PATH + 'GENERATED_testDepositChsb_fiat_chf_pandas_avg_rate_explore.xlsx'
 
@@ -105,7 +115,11 @@ def computeYields(df):
 				# during the withdrawal date ! So, the capital amount minus the withdrawal
 				# amount is set to the next day (next row).
 				df.loc[i, CAPITAL] = capitalPlusYield
-				df.loc[i + 1, CAPITAL] = capitalPlusYield * df.loc[i + 1, RATE_DAILY]
+
+#				df.loc[i + 1, CAPITAL] = capitalPlusYield yield * df.loc[i + 1, RATE_DAILY]
+
+				# required if daily yield is withdrawn every day. Otherwise, computation is not correct
+				df.loc[i + 1, CAPITAL] = (capitalPlusYield + df.loc[i + 1, DEPWITHDR]) * df.loc[i + 1, RATE_DAILY]
 			elif i == lastRowIdx:
 				df.loc[i, CAPITAL] = capitalPlusYield
 
