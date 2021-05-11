@@ -32,7 +32,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		"""
 		From the deposit/withdrawal csv file and the Swissborg account statement sheet,
 		computes the yields for each owner. Returns the computed daily and yearly
-		Swissborg yield rates aswell as a summary and a detailed owner yield amount
+		Swissborg yield rates as well as a summary and a detailed owner yield amount
 		and total capital amount data frame.
 
 		Can raise InvalidDepositDateError in case the deposit csv file contains a deposit or withdrawal

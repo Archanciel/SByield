@@ -1,5 +1,6 @@
 import unittest
 import os,sys,inspect
+from io import StringIO
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
@@ -19,6 +20,7 @@ class TestProcessor(unittest.TestCase):
 								  sbAccountSheetFileName,
 								  depositSheetFileName,
 								  cryptoFiatCsvFileName,
+								  sbAccountSheetFiat='USD',
 								  language=GB):
 		self.language = language
 
@@ -35,8 +37,8 @@ class TestProcessor(unittest.TestCase):
 			depositSheetFilePathName = self.testDataPath + depositSheetFileName
 			self.cryptoFiatCsvFilePathName = dataPath + cryptoFiatCsvFileName
 		self.yieldRateComputer = SBYieldRateComputer(sbAccountSheetFilePathName=sbAccountSheetFilePathName,
-													 sbAccountSheetFiat='USD',
-		                                             depositSheetFilePathName=depositSheetFilePathName,
+													 sbAccountSheetFiat=sbAccountSheetFiat,
+													 depositSheetFilePathName=depositSheetFilePathName,
 													 language=self.language)
 		self.ownerDepositYieldComputer = OwnerDepositYieldComputer(self.yieldRateComputer,
 																   self.language)
@@ -4856,7 +4858,7 @@ G TOTAL          9,729.22            8,858.46                                   
 		USDC crypto, 2 owners with 2 deposit and 1 withdrawal, fixed yield rate,
 		USDC/CHF final rate of 1.5.
 		"""
-		PRINT = False
+		PRINT = True
 
 		sbAccountSheetFileName = 'testSBEarningUsdc_simple_values_multi_depwithdr_bug.xlsx'
 		depositSheetFileName = 'depositUsdc_fiat_chf_simple_values_depwithdr_bug.csv'
@@ -6481,6 +6483,132 @@ G TOTAL           1.09                  1.64                                    
 		else:
 			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
 
+	def testAddFiatConversionInfo_ETH_1_fiat_2_owners_1_and_2_deposits_french_language(self):
+		"""
+		ETH crypto, 2 owners, 1 with 1 deposit and the other with 2 deposits
+		"""
+		PRINT = False
+
+		sbAccountSheetFileName = 'test_ETH_SB_account_statement.xlsx'
+		depositSheetFileName = 'test_Eth_2_owners_1_and_2_deposits.csv'
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_ETH
+
+		print(depositSheetFileName)
+
+		self.initializeComputerClasses(sbAccountSheetFileName,
+									   depositSheetFileName,
+									   cryptoFiatCsvFileName,
+									   sbAccountSheetFiat='CHF')
+
+		self.processor = Processor(self.yieldRateComputer,
+								   self.ownerDepositYieldComputer,
+								   CryptoFiatRateComputer(PriceRequesterTestStub(),
+														  self.cryptoFiatCsvFilePathName),
+								   language=FR)
+
+		sbYieldRatesWithTotalDf, \
+		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDfActualStr, \
+		depositCrypto =	self.processor.addFiatConversionInfo()
+
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
+
+		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			sbEarningsTotalDf,
+			{
+				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
+
+		if PRINT:
+			if PRINT_SB_EARNING_TOTALS:
+				print(sbEarningsTotalDfActualStr)
+		else:
+			sbEarningsTotalDfExpectedStr = \
+'''                         Type Currency Net amount
+Local time                                       
+2021-03-20 09:00:00  Earnings      ETH 0.00220370
+2021-03-21 09:00:00  Earnings      ETH 0.00203130
+2021-03-22 09:00:00  Earnings      ETH 0.00193280
+2021-03-23 09:00:00  Earnings      ETH 0.00226800
+2021-03-24 09:00:00  Earnings      ETH 0.00189990
+2021-03-25 09:00:00  Earnings      ETH 0.00191610
+2021-03-26 09:00:00  Earnings      ETH 0.00180680
+2021-03-27 09:00:00  Earnings      ETH 0.00176530
+2021-03-28 10:00:00  Earnings      ETH 0.00192890
+2021-03-29 10:00:00  Earnings      ETH 0.00175700
+2021-03-30 10:00:00  Earnings      ETH 0.00178290
+2021-03-31 10:00:00  Earnings      ETH 0.00180040
+2021-04-01 10:00:00  Earnings      ETH 0.00170800
+2021-04-02 10:00:00  Earnings      ETH 0.00162350
+2021-04-03 10:00:00  Earnings      ETH 0.00155790
+2021-04-04 10:00:00  Earnings      ETH 0.00170240
+2021-04-05 10:00:00  Earnings      ETH 0.00151470
+2021-04-06 10:00:00  Earnings      ETH 0.00157290
+2021-04-07 10:00:00  Earnings      ETH 0.00147490
+2021-04-08 10:00:00  Earnings      ETH 0.00157140
+2021-04-09 10:00:00  Earnings      ETH 0.00156080
+2021-04-10 10:00:00  Earnings      ETH 0.00156500
+2021-04-11 10:00:00  Earnings      ETH 0.00145190
+2021-04-12 10:00:00  Earnings      ETH 0.00144000
+2021-04-13 10:00:00  Earnings      ETH 0.00158850
+2021-04-14 10:00:00  Earnings      ETH 0.00153360
+2021-04-15 10:00:00  Earnings      ETH 0.00149460
+2021-04-16 10:00:00  Earnings      ETH 0.00144050
+2021-04-17 10:00:00  Earnings      ETH 0.00145080
+2021-04-18 10:00:00  Earnings      ETH 0.00142640
+2021-04-19 10:00:00  Earnings      ETH 0.00134440
+2021-04-20 10:00:00  Earnings      ETH 0.00131590
+2021-04-21 10:00:00  Earnings      ETH 0.00133880
+2021-04-22 10:00:00  Earnings      ETH 0.00120430
+2021-04-23 10:00:00  Earnings      ETH 0.00119700
+2021-04-24 10:00:00  Earnings      ETH 0.00109550
+2021-04-25 10:00:00  Earnings      ETH 0.00107020
+2021-04-26 10:00:00  Earnings      ETH 0.00107680
+2021-04-27 10:00:00  Earnings      ETH 0.00119810
+2021-04-28 10:00:00  Earnings      ETH 0.00107730
+2021-04-29 10:00:00  Earnings      ETH 0.00107110
+2021-04-30 10:00:00  Earnings      ETH 0.00107780
+2021-05-01 10:00:00  Earnings      ETH 0.00107800
+2021-05-02 10:00:00  Earnings      ETH 0.00106670
+2021-05-03 10:00:00  Earnings      ETH 0.00096270
+2021-05-04 10:00:00  Earnings      ETH 0.00112980
+TOTAL                                  0.06907530
+'''
+			stdout = sys.stdout
+			capturedStdoutStr = StringIO()
+			sys.stdout = capturedStdoutStr
+
+			print(sbEarningsTotalDfActualStr)
+
+			sys.stdout = stdout
+
+			self.assertEqual(sbEarningsTotalDfExpectedStr, capturedStdoutStr.getvalue())
+
+		if PRINT:
+			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+		else:
+			yieldOwnerWithTotalsDetailDfExpectedStr = \
+'''                                                            DEPOTS/RETRAITS                                                                            
+                      ETH                                               CHF        CAPITAL                    DATE             INTERETS                
+        Tot incl intérêts TX DAT DEP    TX ACT PLUS-VAL CAP       P-V CAP %  ETH       CHF          DE           A  JOURS  ETH      CHF INT % INT ANN %
+PROPR                                                                                                                                                  
+Béa                  0.40     600.00  1,594.25       994.25          165.71 0.40  1,594.25  2021-03-20  2021-05-04     46 0.01    22.08  1.39     11.53
+TOTAL                0.40     600.00  1,616.34       994.25          165.71                                               0.01    22.08                
+Papa                 4.59   7,583.15 18,351.66    10,768.51          142.01 4.59 18,351.66  2021-03-20  2021-05-04     46 0.06   254.22  1.39     11.53
+TOTAL                4.65   7,583.15 18,605.88    10,768.51          142.01                                               0.06   254.22                
+G TOTAL              5.06            20,222.22                                                                            0.07   276.30                
+'''
+			stdout = sys.stdout
+			capturedStdoutStr = StringIO()
+			sys.stdout = capturedStdoutStr
+
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+
+			sys.stdout = stdout
+
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
+
 if __name__ == '__main__':
 	if os.name == 'posix':
 		unittest.main()
@@ -6488,7 +6616,7 @@ if __name__ == '__main__':
 		tst = TestProcessor()
 		# tst.testAddFiatConversionInfo_CHSB_2_fiats_2_owners()
 		# tst.testAddFiatConversionInfo_CHSB_2_fiats_2_owners_french_language()
-		tst.testAddFiatConversionInfo_USDC_1_fiat_4_owners()
+		# tst.testAddFiatConversionInfo_USDC_1_fiat_4_owners()
 		# tst.testAddFiatConversionInfo_1_fiat_simple_values_2_owners()
 		# tst.testAddFiatConversionInfo_1_fiat_simple_values_1_owner_withdrawal_gain()
 		# tst.testAddFiatConversionInfo_1_fiat_simple_values_1_owner_withdrawal_loss()
@@ -6497,7 +6625,8 @@ if __name__ == '__main__':
 		# tst.testAddFiatConversionInfo_1_fiat_simple_values_1_owner_1_deposit_gain()
 		# tst.testAddFiatConversionInfo_1_fiat_simple_values_2_owners_1_deposit()
 		# tst.testAddFiatConversionInfo_USDC_1_fiat_simple_values_2_owners_bug()
-		# tst.testAddFiatConversionInfo_USDC_1_fiat_simple_values_2_owners_2_deposits_bug_french_language()
+	 	# tst.testAddFiatConversionInfo_USDC_1_fiat_simple_values_2_owners_2_deposits_bug_french_language()
 		# tst.testAddFiatConversionInfo_USDC_2_fiats_simple_values_2_owners_2_deposits_bug_french_language()
 		# tst.testAddFiatConversionInfo_1_fiat_simple_values_1_owner_max_withdrawal_bug()
-		#tst.testDepositChsb_fiat_chf_pandas_avg_rate_explore()
+		# tst.testDepositChsb_fiat_chf_pandas_avg_rate_explore()
+		tst.testAddFiatConversionInfo_ETH_1_fiat_2_owners_1_and_2_deposits_french_language()
