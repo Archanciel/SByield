@@ -37,7 +37,7 @@ class Processor:
 		cryptoFiatRateDic = self._getCurrentCryptoFiatRateValues(depositCrypto, fiatLst)
 
 		dfNewColPosition = 0
-		levelTwoColNameSpace = ''
+		levelTwoUniqueColNameModifier = ''
 
 		helpStar = ''
 		helpStars = ''
@@ -58,7 +58,7 @@ class Processor:
 			yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf[yieldOwnerWithTotalsDetailColNameLst]
 
 			# renaming the fiat column
-			dateFromRateUniqueColName = levelTwoColNameSpace + helpStars + PROC_DATE_FROM_RATE[self.language]
+			dateFromRateUniqueColName = levelTwoUniqueColNameModifier + helpStars + PROC_DATE_FROM_RATE[self.language]
 			yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf.rename(columns={fiatColName: dateFromRateUniqueColName})
 
 			fiat = fiatColName.replace(' AMT', '')
@@ -69,7 +69,7 @@ class Processor:
 			cryptoFiatCurrentRate = cryptoFiatRateDic[fiat]
 			depositWithdrawalCryptoValueLst = yieldOwnerWithTotalsDetailDf[DATAFRAME_HEADER_DEPOSIT_WITHDRAW].tolist()
 			capitalCurrentFiatValueLst = list(map(lambda x: x * cryptoFiatCurrentRate, depositWithdrawalCryptoValueLst))
-			currentRateUniqueColName = levelTwoColNameSpace + helpStar + PROC_CURRENT_RATE[self.language]
+			currentRateUniqueColName = levelTwoUniqueColNameModifier + helpStar + PROC_CURRENT_RATE[self.language]
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=currentRateUniqueColName, value=capitalCurrentFiatValueLst)
 
 			# inserting DEP/WITHDR fiat capital gain column
@@ -78,7 +78,7 @@ class Processor:
 			depositWithdrawalDateFromFiatValueLst = yieldOwnerWithTotalsDetailDf[dateFromRateUniqueColName].tolist()
 			depositWithdrawalFiatCapitalGainLst = np.subtract(capitalCurrentFiatValueLst,
 															  depositWithdrawalDateFromFiatValueLst)
-			capitalGainUniqueColName = levelTwoColNameSpace + PROC_CAPITAL_GAIN[self.language]
+			capitalGainUniqueColName = levelTwoUniqueColNameModifier + PROC_CAPITAL_GAIN[self.language]
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=capitalGainUniqueColName, value=depositWithdrawalFiatCapitalGainLst)
 
 			# inserting DEP/WITHDR fiat capital gain % column
@@ -93,10 +93,10 @@ class Processor:
 			depositWithdrawalDateFromFiatVectorPositiveValues = depositWithdrawalDateFromFiatVector * depositWithdrawalDateFromFiatVectorSign
 			depositWithdrawalFiatCapitalGainPercentVector = ((capitalGainVector) / depositWithdrawalDateFromFiatVectorPositiveValues) * 100
 
-			capitalGainUniqueColName = levelTwoColNameSpace + PROC_CAPITAL_GAIN_PERCENT[self.language]
+			capitalGainUniqueColName = levelTwoUniqueColNameModifier + PROC_CAPITAL_GAIN_PERCENT[self.language]
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=capitalGainUniqueColName, value=depositWithdrawalFiatCapitalGainPercentVector.tolist())
 
-			levelTwoColNameSpace += ' '
+			levelTwoUniqueColNameModifier += '_'
 			yieldOwnerWithTotalsDetailColNameLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
 
 		# insert CAPITAL CUR RATE columns
@@ -114,13 +114,13 @@ class Processor:
 		# insert YIELD AMT CUR RATE columns
 
 		dfNewColPosition += 4
-		levelTwoColNameSpace = ' '
+		levelTwoUniqueColNameModifier = '_'
 
 		for fiat in fiatLst:
 			cryptoFiatCurrentRate = cryptoFiatRateDic[fiat]
 			yieldAmountValueLst = yieldOwnerWithTotalsDetailDf[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT].tolist()
 			yieldAmountllCurrentFiatValueLst = list(map(lambda x: x * cryptoFiatCurrentRate, yieldAmountValueLst))
-			fiatUniqueColName = levelTwoColNameSpace + fiat
+			fiatUniqueColName = levelTwoUniqueColNameModifier + fiat
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=fiatUniqueColName, value=yieldAmountllCurrentFiatValueLst)
 			dfNewColPosition += 1
 
@@ -128,7 +128,7 @@ class Processor:
 
 		formatDic = {DEPOSIT_YIELD_HEADER_CAPITAL: depositCrypto,
 					 DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER: PROC_YIELD_DAYS[self.language],
-					 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: ' ' + depositCrypto,
+					 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: levelTwoUniqueColNameModifier + depositCrypto,
 					 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT: PROC_YIELD_AMT_PERCENT[self.language],
 					 DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: PROC_YEAR_YIELD_PERCENT[self.language]
 					 }
@@ -171,7 +171,7 @@ class Processor:
 					capGainPercentTotal = yieldOwnerWithTotalsDetailDf.loc[index, colNameSpace + PROC_CAPITAL_GAIN[self.language]] / \
 										 yieldOwnerWithTotalsDetailDf.loc[index, colNameSpace + helpStars + PROC_DATE_FROM_RATE[self.language]] * 100
 					yieldOwnerWithTotalsDetailDf.loc[index, colNameSpace + PROC_CAPITAL_GAIN_PERCENT[self.language]] = capGainPercentTotal
-					colNameSpace += ' '
+					colNameSpace += '_'
 
 				yieldOwnerGroupTotalDfIndex += 1
 
@@ -188,11 +188,12 @@ class Processor:
 		levelOneDepWithdrFiatArray = []
 
 		for fiat in fiatLst:
-			levelOneDepWithdrFiatArray += [' '] * 3 + ['  ' + fiat]
+			levelOneDepWithdrFiatArray += [' '] * 3 + [fiat]
 
 		multiIndexLevelOneLst = [depositCrypto] + levelOneDepWithdrFiatArray + [' '] * capitalFiatColNb + [PROC_CAPITAL] + [' '] + ['DATE'] + [' '] * (fiatNb + 1) + [
 			PROC_YIELD[self.language]] + [' ', ' ', ' ', ' ']
 		multiIndexLevelTwoLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
+		multiIndexLevelTwoLst = [x.replace(levelTwoUniqueColNameModifier, '') for x in multiIndexLevelTwoLst]
 
 		multiIndexLevelTwoLst[0] = helpStar + PROC_TOTAL_INCLUDE_YIELD[self.language]
 
@@ -258,25 +259,21 @@ class Processor:
 		@param fiatNb:
 		@return:
 		"""
-		colNameSpace = ''
-
-		# prevents                  CAPITAL
-		#          CHSB       CHF       USD
-		# columns to be summed
-		fiatColNameSpace = ' '
-
 		colNameDic = {}
+		uniqueColNameModifier = ''
 
 		for i in range(0, fiatNb):
 			for colName in colNameLst:
-				colNameDic[colNameSpace + colName] = None
+				colNameDic[uniqueColNameModifier + colName] = None
 
-			colNameSpace += ' '
+			uniqueColNameModifier += '_'
 
 		# prevents                  CAPITAL
 		#          CHSB       CHF       USD
 		# columns to be summed
+		uniqueFiatColNameModifier = '_'
+
 		for fiatColName in fiatColNameLst:
-			colNameDic[fiatColNameSpace + fiatColName] = None
+			colNameDic[uniqueFiatColNameModifier + fiatColName] = None
 
 		return colNameDic
