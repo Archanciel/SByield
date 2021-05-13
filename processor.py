@@ -132,7 +132,7 @@ class Processor:
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=fiatUniqueColName, value=capitalCurrentFiatValueLst)
 			dfNewColPosition += 1
 
-		# insert YIELD AMT CUR RATE columns
+		# insert YIELD AMT FIAT CUR RATE columns
 
 		dfNewColPosition += 2
 		levelTwoUniqueColNameModifier = '_____'
@@ -165,7 +165,8 @@ class Processor:
 		# completing totals for fiat conversion columns
 
 #		fiatColNameDic = self._buildFiatColNameDic([helpStars + PROC_DATE_FROM_RATE[self.language], PROC_CAPITAL_GAIN[self.language]], fiatLst + [depositCrypto], len(fiatLst))
-		fiatColNameDic = self._buildFiatColNameDic(capitalGainUniqueColNameLst, fiatLst + [depositCrypto], len(fiatLst))
+#		fiatColNameDic = self._buildFiatColNameDic(capitalGainUniqueColNameLst, fiatLst + [depositCrypto], len(fiatLst))
+		fiatColNameDic = self._buildFiatColNameDic(capitalGainUniqueColNameLst, fiatLst, len(fiatLst))
 		fiatColNameSumDic = dict.fromkeys(fiatColNameDic, 'sum')
 
 		# removing total rows before groupby.agg application
