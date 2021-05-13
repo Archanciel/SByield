@@ -134,15 +134,15 @@ class Processor:
 
 		# insert YIELD AMT FIAT CUR RATE columns
 
-		dfNewColPosition += 2
+		dfNewColPosition = 5
 		levelTwoUniqueColNameModifier = '_____'
 
 		for fiat in fiatLst:
 			cryptoFiatCurrentRate = cryptoFiatRateDic[fiat]
 			yieldAmountValueLst = yieldOwnerWithTotalsDetailDf[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT].tolist()
-			yieldAmountllCurrentFiatValueLst = list(map(lambda x: x * cryptoFiatCurrentRate, yieldAmountValueLst))
-			fiatUniqueColName = levelTwoUniqueColNameModifier + fiat
-			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=fiatUniqueColName, value=yieldAmountllCurrentFiatValueLst)
+			yieldAmountCurrentFiatValueLst = list(map(lambda x: x * cryptoFiatCurrentRate, yieldAmountValueLst))
+			fiatUniqueColName = PROC_YIELD_SHORT[self.language] + fiat
+			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=fiatUniqueColName, value=yieldAmountCurrentFiatValueLst)
 			dfNewColPosition += 1
 			levelTwoUniqueColNameModifier += '_'
 
@@ -211,15 +211,27 @@ class Processor:
 
 		# defining multi level language dependent index rows
 
-		multiIndexLevelZeroLst = [' '] * (depWithdrFiatColNb + 1) + [PROC_DEP[self.language], PROC_WITHDR[self.language]] + [' '] * 11
-
+		if len(fiatLst) > 1:
+			multiIndexLevelZeroLst = [' '] * (depWithdrFiatColNb - 3) + [PROC_DEP[self.language], PROC_WITHDR[self.language]] + [' '] * 13
+		else:
+			multiIndexLevelZeroLst = [' '] * depWithdrFiatColNb + [PROC_DEP[self.language],
+																   PROC_WITHDR[self.language]] + [' '] * 11
 		levelOneDepWithdrFiatArray = []
 
-		for fiat in fiatLst:
-			levelOneDepWithdrFiatArray += [PROC_DATE_FROM_RATE[self.language], PROC_CURRENT_RATE[self.language]] + [PROC_CAPITAL_GAIN[self.language], ' ']
+		levelOneDepWithdrFiatArray = [PROC_DATE_FROM_RATE[self.language], PROC_CURRENT_RATE[self.language]]
 
+		if len(fiatLst) > 1:
+			putain = ' '
+		else:
+			putain = ''
+
+		for fiat in fiatLst:
+			levelOneDepWithdrFiatArray += [putain + PROC_CURRENT_RATE[self.language]]
+			putain += ' '
+#			levelOneDepWithdrFiatArray += [fiat + '     ' + fiat]
+		levelOneDepWithdrFiatArray += [PROC_CAPITAL_GAIN[self.language], ' ']
 		multiIndexLevelOneLst = [' ', ' ', PROC_AMOUNT[self.language]] + levelOneDepWithdrFiatArray + [' '] * capitalFiatColNb + [PROC_CAPITAL] + [' ', ' ', ' '] + [' '] * (fiatNb) + [
-			PROC_YIELD[self.language]] + [' ', ' ', ' ', ' ']
+			PROC_YIELD[self.language]] + [' ', ' ']
 		multiIndexLevelTwoLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
 		multiIndexLevelTwoLst = [x.replace('_', '') for x in multiIndexLevelTwoLst]
 
