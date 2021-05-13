@@ -97,7 +97,7 @@ class PriceRequesterTestStub(PriceRequester):
 		elif crypto == 'USD' and unit == 'CHF':
 			rate = 0.9105
 		elif crypto == 'USD' and unit == 'EUR':
-			rate = 1.4
+			rate = 0.8
 		elif crypto == 'USDC' and unit == 'CHF':
 			rate = 0.9105
 		else:
