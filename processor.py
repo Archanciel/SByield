@@ -134,7 +134,7 @@ class Processor:
 
 		# insert YIELD AMT CUR RATE columns
 
-		dfNewColPosition += 4
+		dfNewColPosition += 2
 		levelTwoUniqueColNameModifier = '_____'
 
 		for fiat in fiatLst:
