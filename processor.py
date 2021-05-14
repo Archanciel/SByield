@@ -75,8 +75,8 @@ class Processor:
 
 			dfNewColPosition += 1
 			cryptoFiatCurrentRate = cryptoFiatRateDic[fiat]
-			depositWithdrawalCryptoValueLst = yieldOwnerWithTotalsDetailDf[DATAFRAME_HEADER_DEPOSIT_WITHDRAW].tolist()
-			depWithdrCurrentFiatValueVector = list(map(lambda x: x * cryptoFiatCurrentRate, depositWithdrawalCryptoValueLst))
+			depositWithdrawalCryptoValueVector = np.array(yieldOwnerWithTotalsDetailDf[DATAFRAME_HEADER_DEPOSIT_WITHDRAW].tolist())
+			depWithdrCurrentFiatValueVector = depositWithdrawalCryptoValueVector * cryptoFiatCurrentRate
 			levelTwoUniqueColNameModifier += '_'
 			currentRateUniqueColName = levelTwoUniqueColNameModifier + fiat
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=currentRateUniqueColName, value=depWithdrCurrentFiatValueVector)
@@ -133,7 +133,7 @@ class Processor:
 			depWithdrPlusYieldCurrentFiatValueVector = depWithdrCurrentFiatValueVector + yieldAmountCurrentFiatValueVector
 			fiatUniqueColName = PROC_TOTAL + fiat
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=fiatUniqueColName, value=depWithdrPlusYieldCurrentFiatValueVector)
-			dfNewColPosition += 1
+			dfNewColPosition += 5
 
 		# renaming the yieldOwnerWithTotalsDetailDf columns
 
@@ -165,7 +165,6 @@ class Processor:
 
 		# setting the previously computed total values to the owners total row
 		yieldOwnerGroupTotalDfIndex = 0
-
 		yieldOwnerWithTotalsDetailDf.reset_index(inplace=True)
 
 		for index, row in yieldOwnerWithTotalsDetailDf.iterrows():
@@ -207,13 +206,14 @@ class Processor:
 		else:
 			levelOneUniqueColNameModifier = ''
 
-		for fiat in fiatLst:
+		for _ in fiatLst:
 			levelOneDepWithdrFiatArray += [levelOneUniqueColNameModifier + PROC_CURRENT_RATE[self.language]]
 			levelOneUniqueColNameModifier += ' '
 			levelOneDepWithdrFiatArray += [levelOneUniqueColNameModifier + PROC_CURRENT_RATE[self.language]]
 			levelOneUniqueColNameModifier += ' '
+			levelOneDepWithdrFiatArray += [PROC_CAPITAL_GAIN[self.language]]
+			levelOneDepWithdrFiatArray += [' ']
 
-		levelOneDepWithdrFiatArray += [PROC_CAPITAL_GAIN[self.language]]
 		multiIndexLevelOneLst = [' ', ' ', PROC_AMOUNT[self.language]] + levelOneDepWithdrFiatArray + [' '] * capitalFiatColNb + [' ', ' ', ' '] + [' '] * (fiatNb) + [
 			PROC_YIELD[self.language]] + [' ', ' ', ' ']
 		multiIndexLevelTwoLst = yieldOwnerWithTotalsDetailDf.columns.tolist()

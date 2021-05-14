@@ -51,7 +51,7 @@ class TestProcessorNewStructure(unittest.TestCase):
 		"""
 		ETH crypto, 2 owners, 1 with 1 deposit and the other with 2 deposits
 		"""
-		PRINT = True
+		PRINT = False
 
 		sbAccountSheetFileName = 'test_ETH_SB_account_statement.xlsx'
 		depositSheetFileName = 'test_Eth_2_owners_1_and_2_deposits.csv'
@@ -153,15 +153,15 @@ TOTAL                                  0.06907530
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
 			yieldOwnerWithTotalsDetailDfExpectedStr = \
-'''                                          DEPÔTS  /  RETRAITS                                                                          
-                                MONTANT VAL DAT DEP   VAL ACT VAL ACT   VAL ACT PLUS-VAL CAP                                   INTÉRÊTS
-                 DE           A     ETH         CHF       CHF INT CHF TOTAL CHF          CHF P-V CAP %  ETH  JOURS  ETH INT % INT ANN %
-PROPR                                                                                                                                  
-Béa      2021-03-20  2021-05-04    0.40      600.00  1,594.25   22.08  1,616.34       994.25    165.71 0.40     46 0.01  1.39     11.53
-TOTAL                              0.40      600.00  1,616.34   22.08                 994.25    165.71             0.01                
-Papa     2021-03-20  2021-05-04    4.59    7,583.15 18,351.66  254.22 18,605.88    10,768.51    142.01 4.59     46 0.06  1.39     11.53
-TOTAL                              4.65    7,583.15 18,605.88  254.22              10,768.51    142.01             0.06                
-G TOTAL                            5.06             20,222.22  276.30                                              0.07                
+'''                                          DEPÔTS  /  RETRAITS                                                                     
+                                MONTANT VAL DAT DEP   VAL ACT VAL ACT   VAL ACT PL-VAL CAP                                        
+                 DE           A     ETH         CHF       CHF INT CHF TOTAL CHF        CHF   EN %  ETH  JOURS  ETH INT % INT ANN %
+PROPR                                                                                                                             
+Béa      2021-03-20  2021-05-04    0.40      600.00  1,594.25   22.08  1,616.34     994.25 165.71 0.40     46 0.01  1.39     11.53
+TOTAL                              0.40      600.00  1,616.34   22.08               994.25 165.71             0.01                
+Papa     2021-03-20  2021-05-04    4.59    7,583.15 18,351.66  254.22 18,605.88  10,768.51 142.01 4.59     46 0.06  1.39     11.53
+TOTAL                              4.65    7,583.15 18,605.88  254.22            10,768.51 142.01             0.06                
+G TOTAL                            5.06             20,222.22  276.30                                         0.07                
 '''
 			stdout = sys.stdout
 			capturedStdoutStr = StringIO()
@@ -177,7 +177,7 @@ G TOTAL                            5.06             20,222.22  276.30           
 		"""
 		ETH crypto, 2 owners, 1 with 1 deposit and the other with 2 deposits
 		"""
-		PRINT = True
+		PRINT = False
 
 		sbAccountSheetFileName = 'test_ETH_SB_account_statement.xlsx'
 		depositSheetFileName = 'test_Eth_2_owners_1_and_2_deposits.csv'
@@ -279,15 +279,15 @@ TOTAL                                  0.06907530
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
 			yieldOwnerWithTotalsDetailDfExpectedStr = \
-'''                                       DEPOSITS   /   WITHDRAWALS                                                                   
-                                AMOUNT     DEP RATE      CUR RATE CUR RATE  CUR RATE  CAP GAIN                                 YIELD
-               FROM          TO    ETH          CHF           CHF  YLD CHF TOTAL CHF       CHF CAP GAIN %  ETH DAYS  ETH  Y % YR Y %
-OWNER                                                                                                                               
-Béa      2021-03-20  2021-05-04   0.40       600.00      1,594.25    22.08  1,616.34    994.25     165.71 0.40   46 0.01 1.39  11.53
-TOTAL                             0.40       600.00      1,616.34    22.08              994.25     165.71           0.01            
-Papa     2021-03-20  2021-05-04   4.59     7,583.15     18,351.66   254.22 18,605.88 10,768.51     142.01 4.59   46 0.06 1.39  11.53
-TOTAL                             4.65     7,583.15     18,605.88   254.22           10,768.51     142.01           0.06            
-G TOTAL                           5.06                  20,222.22   276.30                                          0.07            
+'''                                       DEPOSITS   /   WITHDRAWALS                                                               
+                                AMOUNT     DEP RATE      CUR RATE CUR RATE  CUR RATE  CAP GAIN                                  
+               FROM          TO    ETH          CHF           CHF  YLD CHF TOTAL CHF       CHF   IN %  ETH DAYS  ETH  Y % YR Y %
+OWNER                                                                                                                           
+Béa      2021-03-20  2021-05-04   0.40       600.00      1,594.25    22.08  1,616.34    994.25 165.71 0.40   46 0.01 1.39  11.53
+TOTAL                             0.40       600.00      1,616.34    22.08              994.25 165.71           0.01            
+Papa     2021-03-20  2021-05-04   4.59     7,583.15     18,351.66   254.22 18,605.88 10,768.51 142.01 4.59   46 0.06 1.39  11.53
+TOTAL                             4.65     7,583.15     18,605.88   254.22           10,768.51 142.01           0.06            
+G TOTAL                           5.06                  20,222.22   276.30                                      0.07            
 '''
 			stdout = sys.stdout
 			capturedStdoutStr = StringIO()
@@ -304,7 +304,7 @@ G TOTAL                           5.06                  20,222.22   276.30      
 		USDC crypto, 2 owners with 2 deposit and 1 withdrawal, fixed yield rate,
 		USDC/CHF final rate of 1.5 and USDC/EUR final rate of 1.4
 		"""
-		PRINT = True
+		PRINT = False
 
 		sbAccountSheetFileName = 'testSBEarningUsdc_simple_values_multi_depwithdr_bug.xlsx'
 		depositSheetFileName = 'depositUsdc_fiat_chf_eur_simple_values_depwithdr_bug.csv'
@@ -662,16 +662,16 @@ TOTAL                                  660.79363079'''
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'''                                            DEPÔTS  /  RETRAITS                                                                                                                                              
-                                  MONTANT VAL DAT DEP   VAL ACT  VAL ACT   VAL ACT    VAL ACT     VAL ACT PLUS-VAL CAP                                                               INTÉRÊTS                
-                 DE           A      USDC         CHF       CHF  INT CHF TOTAL CHF    INT EUR   TOTAL EUR          CHF P-V CAP %      EUR      EUR     EUR P-V CAP %     USDC  JOURS     USDC INT % INT ANN %
-PROPR                                                                                                                                                                                                        
-Béa      2021-02-20  2021-12-31  4,400.00    4,000.00  4,006.20   309.40  4,315.60     271.85    3,791.85         6.20      0.15 2,800.00 3,520.00  720.00     25.71 4,400.00    315   339.82  7.72      9.00
-TOTAL                            4,739.82    4,000.00  4,315.60   309.40               271.85                     6.20      0.15 2,800.00 3,791.85  720.00     25.71                   339.82                
-JPS      2021-03-22  2021-04-21  5,500.00    5,000.00  5,007.75    37.01  5,044.76      32.52    4,432.52         7.75      0.15 4,500.00 4,400.00 -100.00     -2.22 5,500.00     31    40.65  0.74      9.06
-JPS      2021-04-22  2021-12-31 -1,000.00   -1,200.00   -910.50   255.24  4,389.50     224.26    3,856.78       289.50     24.12  -800.00  -800.00    0.00      0.00 4,540.65    254   280.32  6.17      8.99
-TOTAL                            4,820.98    3,800.00  4,389.50   292.25               256.78                   297.25      7.82 3,700.00 3,856.78 -100.00     -2.70                   320.98                
-G TOTAL                          9,560.79              8,705.10   601.65               528.63                                             7,648.63                                     660.79                
+'''                                            DEPÔTS  /  RETRAITS                                                                                                                                     
+                                  MONTANT VAL DAT DEP   VAL ACT  VAL ACT   VAL ACT PL-VAL CAP          VAL ACT     VAL ACT PL-VAL CAP                                                               
+                 DE           A      USDC         CHF       CHF  INT CHF TOTAL CHF        CHF  EN %        EUR         EUR    INT EUR TOTAL EUR     EUR  EN %     USDC  JOURS   USDC INT % INT ANN %
+PROPR                                                                                                                                                                                               
+Béa      2021-02-20  2021-12-31  4,400.00    4,000.00  4,006.20   309.40  4,315.60       6.20  0.15   2,800.00    3,520.00     271.85  3,791.85  720.00 25.71 4,400.00    315 339.82  7.72      9.00
+TOTAL                            4,739.82    4,000.00  4,315.60   309.40                 6.20  0.15   2,800.00    3,791.85     271.85            720.00 25.71                 339.82                
+JPS      2021-03-22  2021-04-21  5,500.00    5,000.00  5,007.75    37.01  5,044.76       7.75  0.15   4,500.00    4,400.00      32.52  4,432.52 -100.00 -2.22 5,500.00     31  40.65  0.74      9.06
+JPS      2021-04-22  2021-12-31 -1,000.00   -1,200.00   -910.50   255.24  4,389.50     289.50 24.12    -800.00     -800.00     224.26  3,856.78    0.00  0.00 4,540.65    254 280.32  6.17      8.99
+TOTAL                            4,820.98    3,800.00  4,389.50   292.25               297.25  7.82   3,700.00    3,856.78     256.78           -100.00 -2.70                 320.98                
+G TOTAL                          9,560.79              8,705.10   601.65                                          7,648.63     528.63                                         660.79                
 '''
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
@@ -692,7 +692,7 @@ G TOTAL                          9,560.79              8,705.10   601.65        
 		USDC crypto, 2 owners with 2 deposit and 1 withdrawal, fixed yield rate,
 		USDC/CHF final rate of 1.5 and USDC/EUR final rate of 1.4
 		"""
-		PRINT = True
+		PRINT = False
 
 		sbAccountSheetFileName = 'testSBEarningUsdc_simple_values_multi_depwithdr_bug.xlsx'
 		depositSheetFileName = 'depositUsdc_fiat_chf_eur_simple_values_depwithdr_bug.csv'
@@ -1050,16 +1050,16 @@ TOTAL                                  660.79363079'''
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'''                                          DEPOSITS   /   WITHDRAWALS                                                                                                                                        
-                                   AMOUNT     DEP RATE      CUR RATE  CUR RATE   CUR RATE    CUR RATE     CUR RATE CAP GAIN                                                                YIELD            
-               FROM          TO      USDC          CHF           CHF   YLD CHF  TOTAL CHF     YLD EUR    TOTAL EUR      CHF CAP GAIN %      EUR      EUR     EUR CAP GAIN %     USDC DAYS   USDC  Y % YR Y %
-OWNER                                                                                                                                                                                                       
-Béa      2021-02-20  2021-12-31  4,400.00     4,000.00      4,006.20    309.40   4,315.60      271.85     3,791.85     6.20       0.15 2,800.00 3,520.00  720.00      25.71 4,400.00  315 339.82 7.72   9.00
-TOTAL                            4,739.82     4,000.00      4,315.60    309.40                 271.85                  6.20       0.15 2,800.00 3,791.85  720.00      25.71               339.82            
-JPS      2021-03-22  2021-04-21  5,500.00     5,000.00      5,007.75     37.01   5,044.76       32.52     4,432.52     7.75       0.15 4,500.00 4,400.00 -100.00      -2.22 5,500.00   31  40.65 0.74   9.06
-JPS      2021-04-22  2021-12-31 -1,000.00    -1,200.00       -910.50    255.24   4,389.50      224.26     3,856.78   289.50      24.12  -800.00  -800.00    0.00       0.00 4,540.65  254 280.32 6.17   8.99
-TOTAL                            4,820.98     3,800.00      4,389.50    292.25                 256.78                297.25       7.82 3,700.00 3,856.78 -100.00      -2.70               320.98            
-G TOTAL                          9,560.79                   8,705.10    601.65                 528.63                                           7,648.63                                  660.79            
+'''                                          DEPOSITS   /   WITHDRAWALS                                                                                                                               
+                                   AMOUNT     DEP RATE      CUR RATE  CUR RATE   CUR RATE CAP GAIN          CUR RATE     CUR RATE CAP GAIN                                                         
+               FROM          TO      USDC          CHF           CHF   YLD CHF  TOTAL CHF      CHF  IN %         EUR          EUR  YLD EUR TOTAL EUR     EUR  IN %     USDC DAYS   USDC  Y % YR Y %
+OWNER                                                                                                                                                                                              
+Béa      2021-02-20  2021-12-31  4,400.00     4,000.00      4,006.20    309.40   4,315.60     6.20  0.15    2,800.00     3,520.00   271.85  3,791.85  720.00 25.71 4,400.00  315 339.82 7.72   9.00
+TOTAL                            4,739.82     4,000.00      4,315.60    309.40                6.20  0.15    2,800.00     3,791.85   271.85            720.00 25.71               339.82            
+JPS      2021-03-22  2021-04-21  5,500.00     5,000.00      5,007.75     37.01   5,044.76     7.75  0.15    4,500.00     4,400.00    32.52  4,432.52 -100.00 -2.22 5,500.00   31  40.65 0.74   9.06
+JPS      2021-04-22  2021-12-31 -1,000.00    -1,200.00       -910.50    255.24   4,389.50   289.50 24.12     -800.00      -800.00   224.26  3,856.78    0.00  0.00 4,540.65  254 280.32 6.17   8.99
+TOTAL                            4,820.98     3,800.00      4,389.50    292.25              297.25  7.82    3,700.00     3,856.78   256.78           -100.00 -2.70               320.98            
+G TOTAL                          9,560.79                   8,705.10    601.65                                           7,648.63   528.63                                       660.79            
 '''
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
@@ -1080,7 +1080,7 @@ if __name__ == '__main__':
 		unittest.main()
 	else:
 		tst = TestProcessorNewStructure()
-		tst.testAddFiatConversionInfo_USDC_2_fiats_simple_values_2_owners_2_deposits_bug_french_language()
+		#tst.testAddFiatConversionInfo_USDC_2_fiats_simple_values_2_owners_2_deposits_bug_french_language()
 		tst.testAddFiatConversionInfo_USDC_2_fiats_simple_values_2_owners_2_deposits_bug_english_language()
 		tst.testAddFiatConversionInfo_ETH_1_fiat_2_owners_1_and_2_deposits_french_language()
-		tst.testAddFiatConversionInfo_ETH_1_fiat_2_owners_1_and_2_deposits_english_language()
+		#tst.testAddFiatConversionInfo_ETH_1_fiat_2_owners_1_and_2_deposits_english_language()
