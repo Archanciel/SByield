@@ -1,7 +1,5 @@
 from ownerdeposityieldcomputer import *
 
-PROC_CAPITAL = 'CAPITAL'
-
 
 class Processor:
 	def __init__(self,
@@ -88,7 +86,7 @@ class Processor:
 			depositWithdrawalFiatCapitalGainValuesVector = np.subtract(depWithdrCurrentFiatValueVector,
 															  depositWithdrawalDateFromFiatValueLst)
 			levelTwoUniqueColNameModifier += '_'
-			capitalGainUniqueColName = levelTwoUniqueColNameModifier + fiat
+			capitalGainUniqueColName = levelTwoUniqueColNameModifier + PROC_CAPITAL_SHORT[self.language] + fiat
 			capitalGainUniqueColNameLst.append(capitalGainUniqueColName)
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=capitalGainUniqueColName, value=depositWithdrawalFiatCapitalGainValuesVector)
 
@@ -131,14 +129,17 @@ class Processor:
 			depWithdrCryptoValueVector = np.array(yieldOwnerWithTotalsDetailDf[DEPOSIT_YIELD_HEADER_CAPITAL].tolist())
 			depWithdrCurrentFiatValueVector = depWithdrCryptoValueVector * cryptoFiatCurrentRate
 			depWithdrPlusYieldCurrentFiatValueVector = depWithdrCurrentFiatValueVector + yieldAmountCurrentFiatValueVector
-			fiatUniqueColName = PROC_TOTAL + fiat
+			fiatUniqueColName = PROC_TOTAL_SHORT + fiat
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=fiatUniqueColName, value=depWithdrPlusYieldCurrentFiatValueVector)
 			dfNewColPosition += 5
+
+		# removing no longer used DEPOSIT_YIELD_HEADER_CAPITAL column
+		yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf.drop(columns=[DEPOSIT_YIELD_HEADER_CAPITAL])
 
 		# renaming the yieldOwnerWithTotalsDetailDf columns
 
 		formatDic = {DEPOSIT_YIELD_HEADER_CAPITAL: depositCrypto,
-					 DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER: PROC_YIELD_DAYS[self.language],
+					 DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER: PROC_INTEREST,
 					 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: levelTwoUniqueColNameModifier + depositCrypto,
 					 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT: PROC_YIELD_AMT_PERCENT[self.language],
 					 DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: PROC_YEAR_YIELD_PERCENT[self.language]
@@ -199,7 +200,7 @@ class Processor:
 		else:
 			multiIndexLevelZeroLst = [' '] * (depWithdrFiatColNb - 1) + [PROC_DEP[self.language],
 																   PROC_WITHDR[self.language]] + [' '] * 11
-		levelOneDepWithdrFiatArray = [PROC_DATE_FROM_RATE[self.language], PROC_CURRENT_RATE[self.language]]
+		levelOneDepWithdrFiatArray = []
 
 		if len(fiatLst) > 1:
 			levelOneUniqueColNameModifier = ' '
@@ -207,6 +208,7 @@ class Processor:
 			levelOneUniqueColNameModifier = ''
 
 		for _ in fiatLst:
+			levelOneDepWithdrFiatArray += [PROC_DATE_FROM_RATE[self.language], PROC_CURRENT_RATE[self.language]]
 			levelOneDepWithdrFiatArray += [levelOneUniqueColNameModifier + PROC_CURRENT_RATE[self.language]]
 			levelOneUniqueColNameModifier += ' '
 			levelOneDepWithdrFiatArray += [levelOneUniqueColNameModifier + PROC_CURRENT_RATE[self.language]]
@@ -214,7 +216,7 @@ class Processor:
 			levelOneDepWithdrFiatArray += [PROC_CAPITAL_GAIN[self.language]]
 			levelOneDepWithdrFiatArray += [' ']
 
-		multiIndexLevelOneLst = [' ', ' ', PROC_AMOUNT[self.language]] + levelOneDepWithdrFiatArray + [' '] * capitalFiatColNb + [' ', ' ', ' '] + [' '] * (fiatNb) + [
+		multiIndexLevelOneLst = [' ', ' ', PROC_AMOUNT[self.language]] + levelOneDepWithdrFiatArray + [PROC_YIELD_DAYS[self.language]] + [PROC_INTEREST] + [' '] * (capitalFiatColNb - 2) + [' ', ' ', ' '] + [' '] * (fiatNb) + [
 			PROC_YIELD[self.language]] + [' ', ' ', ' ']
 		multiIndexLevelTwoLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
 		multiIndexLevelTwoLst = [x.replace('_', '') for x in multiIndexLevelTwoLst]

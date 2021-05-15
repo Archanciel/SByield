@@ -109,7 +109,7 @@ class SBYieldRateComputer(PandasDataComputer):
 										  'Net amount ({})'.format(self.sbAccountSheetFiat),
 										  'Note']
 
-		# drop unused columns
+		# remove unused columns
 		sbEarningsDf = sbEarningsDf.drop(columns=sbAccountSheetUnusedColumnsLst)
 		
 		# filter useful rows
