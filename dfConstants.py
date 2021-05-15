@@ -25,8 +25,8 @@ PROC_TOTAL_SHORT = 'TOT '
 PROC_YIELD_DAYS = ('DAYS', ' JOURS')
 PROC_INTEREST_SHORT = 'INT '
 PROC_INTEREST = 'INT'
-PROC_YIELD_AMT_PERCENT = ('Y %', 'INT %')
-PROC_YEAR_YIELD_PERCENT = ('YR Y %', 'INT ANN %')
+PROC_YIELD_AMT_PERCENT = ('IN %', 'EN %')
+PROC_YEAR_YIELD_PERCENT = ('YEARLY %', ' % ANNUEL')
 PROC_TOTAL_INCLUDE_YIELD = ('Tot incl yield', 'Tot incl intérêts')
 
 PROC_TOTAL_INCLUDE_YIELD_HELP = ('total in those 2 columns includes the generated yield total', 'le total dans ces 2 colonnes inclut le total des intérêts générés')
