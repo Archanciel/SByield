@@ -279,6 +279,7 @@ class Processor:
 
 		return sbYieldRatesWithTotalDf, \
 			   yieldOwnerWithTotalsSummaryDf, \
+			   yieldOwnerWithTotalsDetailDf, \
 			   yieldOwnerWithTotalsDetaiAndFiatlDfStr, \
 			   depositCrypto
 

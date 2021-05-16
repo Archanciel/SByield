@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-GENERATE_XLSV_FILE = False
+GENERATE_XLSV_FILE = True
 RANDOM_YEARLY_YIELD_RATE_LOW = 1.15
 RANDOM_YEARLY_YIELD_RATE_HIGH = 1.25
 
@@ -22,8 +22,8 @@ JPS,2021/01/03 00:00:00,-1001
 FIXED_YEARLY_YIELD_RATE = 1.1
 TEST_DATA_PATH = 'D:\\Development\\Python\\SByield\\test\\testData\\'
 
-dayNumber = 365
-yearNumber = 3
+dayNumber = 90
+yearNumber = 1
 depWithdrArray = [0.0] * ((dayNumber * yearNumber) + 1)
 
 
@@ -44,23 +44,23 @@ dayDates = pd.date_range("2021-01-01", periods=((dayNumber * yearNumber) + 1), f
 # 	depWithdrArray[idx] = withdrawAmount
 # 	idx += 30
 
-idx = 365
-withdrawAmount = -1002.61089670860747
+# idx = 365
+# withdrawAmount = -1002.61089670860747
 TOTAL_WITHDR = 'TOTAL YEARLY WITHDRAWALS'
+#
+# for i in range(yearNumber):
+# 	print('i = {}, index = {}, date = {}, withdrawal = {}'.format(i, idx, dayDates[idx], withdrawAmount))
+# 	depWithdrArray[idx] = withdrawAmount
+# 	idx += 365
 
-for i in range(yearNumber):
-	print('i = {}, index = {}, date = {}, withdrawal = {}'.format(i, idx, dayDates[idx], withdrawAmount))
-	depWithdrArray[idx] = withdrawAmount
-	idx += 365
-
-depWithdrArray[0] = 10000
+depWithdrArray[0] = 2
 # depWithdrArray[59] = -1000
 # depWithdrArray[120] = -500
 # depWithdrArray[151] = -500
 # depWithdrArray[181] = -1000
 #depWithdrArray[304] = -22531
 
-xlsxFilePathName = TEST_DATA_PATH + 'GENERATED_testDepositChsb_fiat_chf_pandas_avg_rate_explore.xlsx'
+xlsxFilePathName = TEST_DATA_PATH + 'GENERATED_test_ETH_SB_simplevalue_1_owner_1_deposit.xlsx'
 
 capitalArray = [0.0] * ((dayNumber * yearNumber) + 1)
 

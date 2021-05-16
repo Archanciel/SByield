@@ -66,6 +66,7 @@ if __name__ == '__main__':
 
 	sbYieldRatesWithTotalDf, \
 	yieldOwnerWithTotalsSummaryDf, \
+	yieldOwnerWithTotalsDetailDf, \
 	yieldOwnerWithTotalsDetaiAndFiatlDfStr, \
 	depositCrypto = ctr.computeYield(sbAccountSheetFileName,
 									 yieldCrypto,
