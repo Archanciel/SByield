@@ -9,6 +9,7 @@ DEPOSIT_YIELD_HEADER_YIELD_AMOUNT = 'YIELD AMT'
 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT = 'YIELD AMT %'
 DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT = 'Y YIELD %'
 
+ADD_YIELD_TO_TOTAL = False
 
 class OwnerDepositYieldComputer(PandasDataComputer):
 	"""
@@ -376,7 +377,8 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 				# owner
 				totalRow = ownerGroupTotalDf.loc[ownerGroupTotalIndex]
 				totalRow[DEPOSIT_SHEET_HEADER_OWNER[GB]] = DATAFRAME_HEADER_FINAL_TOTAL
-				totalRow[DATAFRAME_HEADER_DEPOSIT_WITHDRAW] += totalRow[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]
+				if ADD_YIELD_TO_TOTAL:
+					totalRow[DATAFRAME_HEADER_DEPOSIT_WITHDRAW] += totalRow[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]
 				yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf.append(totalRow, ignore_index=True)
 				ownerGroupTotalIndex += 1
 
@@ -388,12 +390,14 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		# appending last owner total row
 		totalRow = ownerGroupTotalDf.loc[ownerGroupTotalIndex]
 		totalRow[DEPOSIT_SHEET_HEADER_OWNER[GB]] = DATAFRAME_HEADER_FINAL_TOTAL
-		totalRow[DATAFRAME_HEADER_DEPOSIT_WITHDRAW] += totalRow[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]
+		if ADD_YIELD_TO_TOTAL:
+			totalRow[DATAFRAME_HEADER_DEPOSIT_WITHDRAW] += totalRow[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]
 		yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf.append(totalRow, ignore_index=True)
 
 		# appending grand total row
 		grandTotalRow = ownerGroupTotalDf.sum(numeric_only=True, axis=0)[[DATAFRAME_HEADER_DEPOSIT_WITHDRAW, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]]
-		grandTotalRow.loc[DATAFRAME_HEADER_DEPOSIT_WITHDRAW] += grandTotalRow.loc[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]
+		if ADD_YIELD_TO_TOTAL:
+			grandTotalRow.loc[DATAFRAME_HEADER_DEPOSIT_WITHDRAW] += grandTotalRow.loc[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT]
 		yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf.append(grandTotalRow, ignore_index=True)
 		yieldOwnerWithTotalsDetailDf.loc[len(yieldOwnerWithTotalsDetailDf) - 1, DEPOSIT_SHEET_HEADER_OWNER[GB]] = DATAFRAME_HEADER_GRAND_TOTAL
 

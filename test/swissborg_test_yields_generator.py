@@ -22,7 +22,7 @@ JPS,2021/01/03 00:00:00,-1001
 FIXED_YEARLY_YIELD_RATE = 1.1
 TEST_DATA_PATH = 'D:\\Development\\Python\\SByield\\test\\testData\\'
 
-dayNumber = 90
+dayNumber = 180
 yearNumber = 1
 depWithdrArray = [0.0] * ((dayNumber * yearNumber) + 1)
 
@@ -54,13 +54,14 @@ TOTAL_WITHDR = 'TOTAL YEARLY WITHDRAWALS'
 # 	idx += 365
 
 depWithdrArray[0] = 2
+depWithdrArray[90] = 1
 # depWithdrArray[59] = -1000
 # depWithdrArray[120] = -500
 # depWithdrArray[151] = -500
 # depWithdrArray[181] = -1000
 #depWithdrArray[304] = -22531
 
-xlsxFilePathName = TEST_DATA_PATH + 'GENERATED_test_ETH_SB_simplevalue_1_owner_1_deposit.xlsx'
+xlsxFilePathName = TEST_DATA_PATH + 'GENERATED_test_ETH_SB_simplevalue_1_owner_2_deposits.xlsx'
 
 capitalArray = [0.0] * ((dayNumber * yearNumber) + 1)
 
