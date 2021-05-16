@@ -153,15 +153,15 @@ TOTAL                                  0.06907530
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
 			yieldOwnerWithTotalsDetailDfExpectedStr = \
-'''                                          DEPÔTS  /  RETRAITS                                                              
-                                MONTANT VAL DAT DEP   VAL ACT VAL ACT   VAL ACT  PLUS-VAL         JOURS  INT               
-                 DE           A     ETH         CHF       CHF INT CHF   TOT CHF   CAP CHF   EN %    INT  ETH EN %  % ANNUEL
-PROPR                                                                                                                      
-Béa      2021-03-20  2021-05-04    0.40      600.00  1,594.25   22.08  1,616.34    994.25 165.71     46 0.01 1.39     11.53
-TOTAL                              0.40      600.00  1,616.34   22.08              994.25 165.71        0.01               
-Papa     2021-03-20  2021-05-04    4.59    7,583.15 18,351.66  254.22 18,605.88 10,768.51 142.01     46 0.06 1.39     11.53
-TOTAL                              4.65    7,583.15 18,605.88  254.22           10,768.51 142.01        0.06               
-G TOTAL                            5.06             20,222.22  276.30                                   0.07               
+'''                                          DÉPÔTS  /  RETRAITS                                                                                      
+                                MONTANT VAL DAT DÉP   VAL ACT VAL ACT  VAL ACT PLUS-VAL         JOURS  INT                 MONTANT INTÉRÊTS EN CHF 
+                 DE           A     ETH         CHF       CHF INT CHF  TOT CHF  CAP CHF   EN %    INT  ETH EN %  % ANNUEL PAR JOUR PAR MOIS  PAR AN
+PROPR                                                                                                                                              
+Béa      2021-03-23  2021-05-04    0.40      600.00   1594.25   20.09  1614.34   994.25 165.71     43 0.01 1.26     11.21     0.46    13.99  178.78
+TOTAL                              0.40      600.00   1614.34   20.09            994.25 165.71        0.01                                         
+Papa     2021-03-20  2021-05-04    4.59     7583.15  18351.66  256.21 18607.88 10768.51 142.01     46 0.06 1.40     11.63     5.53   166.69 2134.18
+TOTAL                              4.65     7583.15  18607.88  256.21          10768.51 142.01        0.06                                         
+G TOTAL                            5.06              20222.22  276.30                                 0.07                                         
 '''
 			stdout = sys.stdout
 			capturedStdoutStr = StringIO()
@@ -279,15 +279,15 @@ TOTAL                                  0.06907530
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
 			yieldOwnerWithTotalsDetailDfExpectedStr = \
-'''                                       DEPOSITS   /   WITHDRAWALS                                                            
-                                AMOUNT     DEP RATE      CUR RATE CUR RATE  CUR RATE  CAP GAIN        DAYS  INT              
-               FROM          TO    ETH          CHF           CHF  YLD CHF   TOT CHF  ONLY CHF   IN %  INT  ETH IN % YEARLY %
-OWNER                                                                                                                        
-Béa      2021-03-20  2021-05-04   0.40       600.00      1,594.25    22.08  1,616.34    994.25 165.71   46 0.01 1.39    11.53
-TOTAL                             0.40       600.00      1,616.34    22.08              994.25 165.71      0.01              
-Papa     2021-03-20  2021-05-04   4.59     7,583.15     18,351.66   254.22 18,605.88 10,768.51 142.01   46 0.06 1.39    11.53
-TOTAL                             4.65     7,583.15     18,605.88   254.22           10,768.51 142.01      0.06              
-G TOTAL                           5.06                  20,222.22   276.30                                 0.07              
+'''                                       DEPOSITS   /   WITHDRAWALS                                                                                   
+                                AMOUNT     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS  INT              AMOUNT INTERESTS IN CHF 
+               FROM          TO    ETH          CHF           CHF  YLD CHF   TOT CHF ONLY CHF   IN %  INT  ETH IN % YRLY % PER DAY PER MONTH  PER YR
+OWNER                                                                                                                                               
+Béa      2021-03-23  2021-05-04   0.40       600.00       1594.25    20.09   1614.34   994.25 165.71   43 0.01 1.26  11.21    0.46     13.99  178.78
+TOTAL                             0.40       600.00       1614.34    20.09             994.25 165.71      0.01                                      
+Papa     2021-03-20  2021-05-04   4.59      7583.15      18351.66   256.21  18607.88 10768.51 142.01   46 0.06 1.40  11.63    5.53    166.69 2134.18
+TOTAL                             4.65      7583.15      18607.88   256.21           10768.51 142.01      0.06                                      
+G TOTAL                           5.06                   20222.22   276.30                                0.07                                      
 '''
 			stdout = sys.stdout
 			capturedStdoutStr = StringIO()
@@ -662,16 +662,16 @@ TOTAL                                  660.79363079'''
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'''                                            DEPÔTS  /  RETRAITS                                                                                                                          
-                                  MONTANT VAL DAT DEP   VAL ACT  VAL ACT   VAL ACT PLUS-VAL       VAL DAT DEP  VAL ACT    VAL ACT     VAL ACT PLUS-VAL        JOURS    INT               
-                 DE           A      USDC         CHF       CHF  INT CHF   TOT CHF  CAP CHF  EN %         EUR      EUR    INT EUR     TOT EUR  CAP EUR  EN %    INT   USDC EN %  % ANNUEL
-PROPR                                                                                                                                                                                    
-Béa      2021-02-20  2021-12-31  4,400.00    4,000.00  4,006.20   309.40  4,315.60     6.20  0.15    2,800.00 3,520.00     271.85    3,791.85   720.00 25.71    315 339.82 7.72      9.00
-TOTAL                            4,739.82    4,000.00  4,315.60   309.40               6.20  0.15    2,800.00 3,791.85     271.85               720.00 25.71        339.82               
-JPS      2021-03-22  2021-04-21  5,500.00    5,000.00  5,007.75    37.01  5,044.76     7.75  0.15    4,500.00 4,400.00      32.52    4,432.52  -100.00 -2.22     31  40.65 0.74      9.06
-JPS      2021-04-22  2021-12-31 -1,000.00     -850.00   -910.50   255.24  4,389.50   -60.50 -7.12     -800.00  -800.00     224.26    3,856.78     0.00  0.00    254 280.32 6.17      8.99
-TOTAL                            4,820.98    4,150.00  4,389.50   292.25             -52.75 -1.27    3,700.00 3,856.78     256.78              -100.00 -2.70        320.98               
-G TOTAL                          9,560.79              8,705.10   601.65                                      7,648.63     528.63                                   660.79               
+'''                                           DÉPÔTS  /  RETRAITS                                                                                                                                                                             
+                                 MONTANT VAL DAT DÉP   VAL ACT  VAL ACT   VAL ACT PLUS-VAL       VAL DAT DÉP VAL ACT    VAL ACT     VAL ACT PLUS-VAL        JOURS    INT                 MONTANT INTÉRÊTS EN CHF   MONTANT INTÉRÊTS EN EUR 
+                 DE           A     USDC         CHF       CHF  INT CHF   TOT CHF  CAP CHF  EN %         EUR     EUR    INT EUR     TOT EUR  CAP EUR  EN %    INT   USDC EN %  % ANNUEL PAR JOUR PAR MOIS  PAR AN PAR JOUR PAR MOIS  PAR AN
+PROPR                                                                                                                                                                                                                                      
+Béa      2021-02-20  2021-12-31  4400.00     4000.00   4006.20   309.40   4315.60     6.20  0.15     2800.00 3520.00     271.85     3791.85   720.00 25.71    315 339.82 7.72      9.00     0.95    28.49  360.67     0.83    25.03  316.90
+TOTAL                            4739.82     4000.00   4315.60   309.40               6.20  0.15     2800.00 3791.85     271.85               720.00 25.71        339.82                                                                   
+JPS      2021-03-22  2021-04-21  5500.00     5000.00   5007.75    37.01   5044.76     7.75  0.15     4500.00 4400.00      32.52     4432.52  -100.00 -2.22     31  40.65 0.74      9.06     1.19    35.81  453.58     1.05    31.47  398.53
+JPS      2021-04-22  2021-12-31 -1000.00     -850.00   -910.50   255.24   4389.50   -60.50 -7.12     -800.00 -800.00     224.26     3856.78     0.00  0.00    254 280.32 6.17      8.99     0.98    29.36  371.67     0.86    25.79  326.56
+TOTAL                            4820.98     4150.00   4389.50   292.25             -52.75 -1.27     3700.00 3856.78     256.78              -100.00 -2.70        320.98                                                                   
+G TOTAL                          9560.79               8705.10   601.65                                      7648.63     528.63                                   660.79                                                                   
 '''
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
@@ -1050,16 +1050,16 @@ TOTAL                                  660.79363079'''
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'''                                          DEPOSITS   /   WITHDRAWALS                                                                                                                        
-                                   AMOUNT     DEP RATE      CUR RATE  CUR RATE   CUR RATE CAP GAIN       DEP RATE CUR RATE    CUR RATE     CUR RATE CAP GAIN       DAYS    INT              
-               FROM          TO      USDC          CHF           CHF   YLD CHF    TOT CHF ONLY CHF  IN %      EUR      EUR     YLD EUR      TOT EUR ONLY EUR  IN %  INT   USDC IN % YEARLY %
-OWNER                                                                                                                                                                                       
-Béa      2021-02-20  2021-12-31  4,400.00     4,000.00      4,006.20    309.40   4,315.60     6.20  0.15 2,800.00 3,520.00      271.85     3,791.85   720.00 25.71  315 339.82 7.72     9.00
-TOTAL                            4,739.82     4,000.00      4,315.60    309.40                6.20  0.15 2,800.00 3,791.85      271.85                720.00 25.71      339.82              
-JPS      2021-03-22  2021-04-21  5,500.00     5,000.00      5,007.75     37.01   5,044.76     7.75  0.15 4,500.00 4,400.00       32.52     4,432.52  -100.00 -2.22   31  40.65 0.74     9.06
-JPS      2021-04-22  2021-12-31 -1,000.00      -850.00       -910.50    255.24   4,389.50   -60.50 -7.12  -800.00  -800.00      224.26     3,856.78     0.00  0.00  254 280.32 6.17     8.99
-TOTAL                            4,820.98     4,150.00      4,389.50    292.25              -52.75 -1.27 3,700.00 3,856.78      256.78               -100.00 -2.70      320.98              
-G TOTAL                          9,560.79                   8,705.10    601.65                                    7,648.63      528.63                                  660.79              
+'''                                         DEPOSITS   /   WITHDRAWALS                                                                                                                                                                          
+                                  AMOUNT     DEP RATE      CUR RATE  CUR RATE   CUR RATE CAP GAIN       DEP RATE CUR RATE    CUR RATE     CUR RATE CAP GAIN       DAYS    INT              AMOUNT INTERESTS IN CHF   AMOUNT INTERESTS IN EUR 
+               FROM          TO     USDC          CHF           CHF   YLD CHF    TOT CHF ONLY CHF  IN %      EUR      EUR     YLD EUR      TOT EUR ONLY EUR  IN %  INT   USDC IN % YRLY % PER DAY PER MONTH  PER YR PER DAY PER MONTH  PER YR
+OWNER                                                                                                                                                                                                                                        
+Béa      2021-02-20  2021-12-31  4400.00      4000.00       4006.20    309.40    4315.60     6.20  0.15  2800.00  3520.00      271.85      3791.85   720.00 25.71  315 339.82 7.72   9.00    0.95     28.49  360.67    0.83     25.03  316.90
+TOTAL                            4739.82      4000.00       4315.60    309.40                6.20  0.15  2800.00  3791.85      271.85                720.00 25.71      339.82                                                                
+JPS      2021-03-22  2021-04-21  5500.00      5000.00       5007.75     37.01    5044.76     7.75  0.15  4500.00  4400.00       32.52      4432.52  -100.00 -2.22   31  40.65 0.74   9.06    1.19     35.81  453.58    1.05     31.47  398.53
+JPS      2021-04-22  2021-12-31 -1000.00      -850.00       -910.50    255.24    4389.50   -60.50 -7.12  -800.00  -800.00      224.26      3856.78     0.00  0.00  254 280.32 6.17   8.99    0.98     29.36  371.67    0.86     25.79  326.56
+TOTAL                            4820.98      4150.00       4389.50    292.25              -52.75 -1.27  3700.00  3856.78      256.78               -100.00 -2.70      320.98                                                                
+G TOTAL                          9560.79                    8705.10    601.65                                     7648.63      528.63                                  660.79                                                                
 '''
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')

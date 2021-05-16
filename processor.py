@@ -111,9 +111,9 @@ class Processor:
 
 		# insert YIELD AMT FIAT CUR RATE and DEP/WITHDR + YIELD AMT FIAT CUR RATE columns
 
-		dfNewColPosition += 2
-
 		dfNewColPosition = 5
+		uniqueColNameModifier = ''
+		#yieldPercent = yieldOwnerWithTotalsDetailDf[]
 
 		for fiat in fiatLst:
 			# insert YIELD AMT FIAT CUR RATE column
@@ -131,6 +131,32 @@ class Processor:
 			depWithdrPlusYieldCurrentFiatValueVector = depWithdrCurrentFiatValueVector + yieldAmountCurrentFiatValueVector
 			fiatUniqueColName = PROC_TOTAL_SHORT + fiat
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=fiatUniqueColName, value=depWithdrPlusYieldCurrentFiatValueVector)
+
+			# adding daily, monthly and yearly fiat interest amount columns
+			yieldDaysVector = np.array(yieldOwnerWithTotalsDetailDf[DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER].tolist())
+			yieldPercentVector = np.array(yieldOwnerWithTotalsDetailDf[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT].tolist())
+			yieldDailyFiatAmountVector = self._computeFiatYieldAmount(yieldPercentVector,
+																	  yieldDaysVector,
+																	  depWithdrCryptoValueVector,
+																	  cryptoFiatCurrentRate,
+																	  1)
+			yieldOwnerWithTotalsDetailDf[uniqueColNameModifier + PROC_PER_DAY[self.language]] = yieldDailyFiatAmountVector
+
+			yieldMonthlyFiatAmountVector = self._computeFiatYieldAmount(yieldPercentVector,
+																	  yieldDaysVector,
+																	  depWithdrCryptoValueVector,
+																	  cryptoFiatCurrentRate,
+																	  30)
+			yieldOwnerWithTotalsDetailDf[uniqueColNameModifier + PROC_PER_MONTH[self.language]] = yieldMonthlyFiatAmountVector
+
+			yieldYearlyFiatAmountVector = self._computeFiatYieldAmount(yieldPercentVector,
+																		yieldDaysVector,
+																		depWithdrCryptoValueVector,
+																		cryptoFiatCurrentRate,
+																		365)
+			yieldOwnerWithTotalsDetailDf[uniqueColNameModifier + PROC_PER_YEAR[self.language]] = yieldYearlyFiatAmountVector
+
+			uniqueColNameModifier += '_'
 			dfNewColPosition += 5
 
 		# removing no longer used DEPOSIT_YIELD_HEADER_CAPITAL column
@@ -148,6 +174,7 @@ class Processor:
 		yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf.rename(
 			columns=formatDic)
 
+		# adding daily, monthly and yearly fiat interest amount columns
 		fiatNb = len(fiatColLst)
 		depWithdrFiatColNb = 4 * fiatNb
 		capitalFiatColNb = fiatNb
@@ -196,10 +223,10 @@ class Processor:
 		# defining multi level language dependent index rows
 
 		if len(fiatLst) > 1:
-			multiIndexLevelZeroLst = [' '] * (depWithdrFiatColNb - 5) + [PROC_DEP[self.language], PROC_WITHDR[self.language]] + [' '] * 15
+			multiIndexLevelZeroLst = [' '] * (depWithdrFiatColNb - 5) + [PROC_DEP[self.language], PROC_WITHDR[self.language]] + [' '] * 20
 		else:
 			multiIndexLevelZeroLst = [' '] * (depWithdrFiatColNb - 1) + [PROC_DEP[self.language],
-																   PROC_WITHDR[self.language]] + [' '] * 11
+																   PROC_WITHDR[self.language]] + [' '] * 14
 		levelOneDepWithdrFiatArray = []
 
 		if len(fiatLst) > 1:
@@ -216,8 +243,11 @@ class Processor:
 			levelOneDepWithdrFiatArray += [PROC_CAPITAL_GAIN[self.language]]
 			levelOneDepWithdrFiatArray += [' ']
 
-		multiIndexLevelOneLst = [' ', ' ', PROC_AMOUNT[self.language]] + levelOneDepWithdrFiatArray + [PROC_YIELD_DAYS[self.language]] + [PROC_INTEREST] + [' '] * (capitalFiatColNb - 2) + [' ', ' ', ' '] + [' '] * (fiatNb) + [
-			PROC_YIELD[self.language]] + [' ', ' ', ' ']
+		multiIndexLevelOneLst = [' ', ' ', PROC_AMOUNT[self.language]] + levelOneDepWithdrFiatArray + [PROC_YIELD_DAYS[self.language]] + [PROC_INTEREST] + [' ', ' ',]
+
+		for fiat in fiatLst:
+			multiIndexLevelOneLst += [PROC_AMOUNT[self.language], PROC_YIELD[self.language], PROC_IN[self.language] + fiat.upper() + ' ']
+
 		multiIndexLevelTwoLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
 		multiIndexLevelTwoLst = [x.replace('_', '') for x in multiIndexLevelTwoLst]
 
@@ -238,7 +268,7 @@ class Processor:
 
 		# simple way of printing all float multi index columns with 2
 		# decimal places
-		pd.options.display.float_format = '{:,.2f}'.format
+		pd.options.display.float_format = '{:.2f}'.format
 
 		yieldOwnerWithTotalsDetaiAndFiatlDfStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			yieldOwnerWithTotalsDetailDf, {})
@@ -260,6 +290,15 @@ class Processor:
 		@return:
 		'''
 		self.addHelpStars = True
+
+	def _computeFiatYieldAmount(self,
+								yieldPercentVector,
+								yieldDaysVector,
+								capCryptoAmountVector,
+								fiatRate,
+								yieldDaysNumber):
+		return ((np.power(1 + (yieldPercentVector / 100), yieldDaysNumber / yieldDaysVector) * \
+				 capCryptoAmountVector) - capCryptoAmountVector) * fiatRate
 
 	def _getCurrentCryptoFiatRateValues(self,
 										crypto,
