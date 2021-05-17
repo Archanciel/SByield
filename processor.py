@@ -132,6 +132,29 @@ class Processor:
 			fiatUniqueColName = PROC_TOTAL_SHORT + fiat
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=fiatUniqueColName, value=depWithdrPlusYieldCurrentFiatValueVector)
 
+			# fill TOTAL['TOT' + fiat] with dep withdr + yield value
+			yieldOwnerWithTotalsDetailDf.reset_index(inplace=True)
+
+			for index, row in yieldOwnerWithTotalsDetailDf.iterrows():
+				if row[DEPOSIT_SHEET_HEADER_OWNER[GB]] == DATAFRAME_HEADER_FINAL_TOTAL:
+					depWithdrPlusYieldCurrentFiatValue = yieldOwnerWithTotalsDetailDf.iloc[index - 1][fiatUniqueColName]
+					yieldOwnerWithTotalsDetailDf.loc[index, fiatUniqueColName] = depWithdrPlusYieldCurrentFiatValue
+
+			# resetting index to OWNER column
+			yieldOwnerWithTotalsDetailDf.set_index(DEPOSIT_SHEET_HEADER_OWNER[GB], inplace=True)
+
+			# now, compute dep withdr + yield value G TOTAL with sum of dep withdr + yield value TOTAL's
+
+			# filtering the 'TOTAL' rows only
+			filterArray = yieldOwnerWithTotalsDetailDf.index.isin([DATAFRAME_HEADER_FINAL_TOTAL])
+			dfFiltered = yieldOwnerWithTotalsDetailDf.loc[filterArray]
+
+			# now summing the TOTAL fiatUniqueColName cells
+			aggDic = {fiatUniqueColName: 'sum'}
+			groupByDfFiltered = dfFiltered.groupby(level=0).agg(aggDic)
+
+			yieldOwnerWithTotalsDetailDf.loc[DATAFRAME_HEADER_GRAND_TOTAL, fiatUniqueColName] = groupByDfFiltered.iloc[0][fiatUniqueColName]
+
 			# adding daily, monthly and yearly fiat interest amount columns
 			yieldDaysVector = np.array(yieldOwnerWithTotalsDetailDf[DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER].tolist())
 			yieldPercentVector = np.array(yieldOwnerWithTotalsDetailDf[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT].tolist())
