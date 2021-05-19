@@ -113,10 +113,9 @@ class Processor:
 
 		dfNewColPosition = 5
 		uniqueColNameModifier = ''
-		#yieldPercent = yieldOwnerWithTotalsDetailDf[]
 
 		for fiat in fiatLst:
-			# insert YIELD AMT FIAT CUR RATE column
+			# insert YIELD AMT FIAT CUR RATE column + values
 
 			cryptoFiatCurrentRate = cryptoFiatRateDic[fiat]
 			yieldAmountValueVector = np.array(yieldOwnerWithTotalsDetailDf[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT].tolist())
@@ -125,7 +124,7 @@ class Processor:
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=fiatUniqueColName, value=yieldAmountCurrentFiatValueVector)
 			dfNewColPosition += 1
 
-			# insert DEP/WITHDR + YIELD AMT FIAT CUR RATE column
+			# insert DEP/WITHDR + YIELD AMT FIAT CUR RATE column + values
 			depWithdrCryptoValueVector = np.array(yieldOwnerWithTotalsDetailDf[DEPOSIT_YIELD_HEADER_CAPITAL].tolist())
 			depWithdrCurrentFiatValueVector = depWithdrCryptoValueVector * cryptoFiatCurrentRate
 			depWithdrPlusYieldCurrentFiatValueVector = depWithdrCurrentFiatValueVector + yieldAmountCurrentFiatValueVector
@@ -136,9 +135,17 @@ class Processor:
 			yieldOwnerWithTotalsDetailDf.reset_index(inplace=True)
 
 			for index, row in yieldOwnerWithTotalsDetailDf.iterrows():
-				if row[DEPOSIT_SHEET_HEADER_OWNER[GB]] == DATAFRAME_HEADER_FINAL_TOTAL:
+				if row[DEPOSIT_SHEET_HEADER_OWNER[GB]] == DATAFRAME_HEADER_TOTAL:
 					depWithdrPlusYieldCurrentFiatValue = yieldOwnerWithTotalsDetailDf.iloc[index - 1][fiatUniqueColName]
 					yieldOwnerWithTotalsDetailDf.loc[index, fiatUniqueColName] = depWithdrPlusYieldCurrentFiatValue
+					yieldYearlyAveragePercent = row[DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT]
+					yieldYearlyAverageRate = 1 + yieldYearlyAveragePercent / 100
+					generatedYieldAmountDaily = (np.power(yieldYearlyAverageRate, 1 / 365) - 1) * depWithdrPlusYieldCurrentFiatValue
+					yieldOwnerWithTotalsDetailDf.loc[index, PROC_PER_DAY[self.language]] = generatedYieldAmountDaily
+					generatedYieldAmountMonthly = (np.power(yieldYearlyAverageRate, 30 / 365) - 1) * depWithdrPlusYieldCurrentFiatValue
+					yieldOwnerWithTotalsDetailDf.loc[index, PROC_PER_MONTH[self.language]] = generatedYieldAmountMonthly
+					generatedYieldAmountYearly = (yieldYearlyAverageRate - 1) * depWithdrPlusYieldCurrentFiatValue
+					yieldOwnerWithTotalsDetailDf.loc[index, PROC_PER_YEAR[self.language]] = generatedYieldAmountYearly
 
 			# resetting index to OWNER column
 			yieldOwnerWithTotalsDetailDf.set_index(DEPOSIT_SHEET_HEADER_OWNER[GB], inplace=True)
@@ -146,38 +153,43 @@ class Processor:
 			# now, compute dep withdr + yield value G TOTAL with sum of dep withdr + yield value TOTAL's
 
 			# filtering the 'TOTAL' rows only
-			filterArray = yieldOwnerWithTotalsDetailDf.index.isin([DATAFRAME_HEADER_FINAL_TOTAL])
-			dfFiltered = yieldOwnerWithTotalsDetailDf.loc[filterArray]
+			filterTotalRowsOnlyArray = yieldOwnerWithTotalsDetailDf.index.isin([DATAFRAME_HEADER_TOTAL])
+			dfTotalRowsOnly = yieldOwnerWithTotalsDetailDf.loc[filterTotalRowsOnlyArray]
 
 			# now summing the TOTAL fiatUniqueColName cells
 			aggDic = {fiatUniqueColName: 'sum'}
-			groupByDfFiltered = dfFiltered.groupby(level=0).agg(aggDic)
+			groupByDfTotalRowsOnly = dfTotalRowsOnly.groupby(level=0).agg(aggDic)
 
-			yieldOwnerWithTotalsDetailDf.loc[DATAFRAME_HEADER_GRAND_TOTAL, fiatUniqueColName] = groupByDfFiltered.iloc[0][fiatUniqueColName]
-
-			# adding daily, monthly and yearly fiat interest amount columns
-			yieldDaysVector = np.array(yieldOwnerWithTotalsDetailDf[DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER].tolist())
-			yieldPercentVector = np.array(yieldOwnerWithTotalsDetailDf[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT].tolist())
-			yieldDailyFiatAmountVector = self._computeFiatYieldAmount(yieldPercentVector,
-																	  yieldDaysVector,
-																	  depWithdrCryptoValueVector,
-																	  cryptoFiatCurrentRate,
-																	  1)
-			yieldOwnerWithTotalsDetailDf[uniqueColNameModifier + PROC_PER_DAY[self.language]] = yieldDailyFiatAmountVector
-
-			yieldMonthlyFiatAmountVector = self._computeFiatYieldAmount(yieldPercentVector,
-																	  yieldDaysVector,
-																	  depWithdrCryptoValueVector,
-																	  cryptoFiatCurrentRate,
-																	  30)
-			yieldOwnerWithTotalsDetailDf[uniqueColNameModifier + PROC_PER_MONTH[self.language]] = yieldMonthlyFiatAmountVector
-
-			yieldYearlyFiatAmountVector = self._computeFiatYieldAmount(yieldPercentVector,
-																		yieldDaysVector,
-																		depWithdrCryptoValueVector,
-																		cryptoFiatCurrentRate,
-																		365)
-			yieldOwnerWithTotalsDetailDf[uniqueColNameModifier + PROC_PER_YEAR[self.language]] = yieldYearlyFiatAmountVector
+			yieldOwnerWithTotalsDetailDf.loc[DATAFRAME_HEADER_GRAND_TOTAL, fiatUniqueColName] = groupByDfTotalRowsOnly.iloc[0][fiatUniqueColName]
+			#
+			# # adding daily, monthly and yearly fiat interest amount columns with values
+			#
+			# yieldDaysVector = np.array(yieldOwnerWithTotalsDetailDf[DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER].tolist())
+			# yieldPercentVector = np.array(yieldOwnerWithTotalsDetailDf[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT].tolist())
+			#
+			# # daily fiat interest
+			# yieldDailyFiatAmountVector = self._computeFiatYieldAmount(yieldPercentVector,
+			# 														  yieldDaysVector,
+			# 														  depWithdrCryptoValueVector,
+			# 														  cryptoFiatCurrentRate,
+			# 														  1)
+			# yieldOwnerWithTotalsDetailDf[uniqueColNameModifier + PROC_PER_DAY[self.language]] = yieldDailyFiatAmountVector
+			#
+			# # monthly fiat interest
+			# yieldMonthlyFiatAmountVector = self._computeFiatYieldAmount(yieldPercentVector,
+			# 														  yieldDaysVector,
+			# 														  depWithdrCryptoValueVector,
+			# 														  cryptoFiatCurrentRate,
+			# 														  30)
+			# yieldOwnerWithTotalsDetailDf[uniqueColNameModifier + PROC_PER_MONTH[self.language]] = yieldMonthlyFiatAmountVector
+			#
+			# # yearly fiat interest
+			# yieldYearlyFiatAmountVector = self._computeFiatYieldAmount(yieldPercentVector,
+			# 															yieldDaysVector,
+			# 															depWithdrCryptoValueVector,
+			# 															cryptoFiatCurrentRate,
+			# 															365)
+			# yieldOwnerWithTotalsDetailDf[uniqueColNameModifier + PROC_PER_YEAR[self.language]] = yieldYearlyFiatAmountVector
 
 			uniqueColNameModifier += '_'
 			dfNewColPosition += 5
@@ -197,7 +209,7 @@ class Processor:
 		yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf.rename(
 			columns=formatDic)
 
-		# adding daily, monthly and yearly fiat interest amount columns
+		# adding TOTAL daily, monthly and yearly fiat interest amounts
 		fiatNb = len(fiatColLst)
 		depWithdrFiatColNb = 4 * fiatNb
 		capitalFiatColNb = fiatNb
@@ -314,15 +326,6 @@ class Processor:
 		@return:
 		'''
 		self.addHelpStars = True
-
-	def _computeFiatYieldAmount(self,
-								yieldPercentVector,
-								yieldDaysVector,
-								capCryptoAmountVector,
-								fiatRate,
-								yieldDaysNumber):
-		return ((np.power(1 + (yieldPercentVector / 100), yieldDaysNumber / yieldDaysVector) * \
-				 capCryptoAmountVector) - capCryptoAmountVector) * fiatRate
 
 	def _getCurrentCryptoFiatRateValues(self,
 										crypto,
