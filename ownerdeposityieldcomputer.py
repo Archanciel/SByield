@@ -294,8 +294,8 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		yieldAmountPercent = yieldAmount / capital * 100
 
 		if yieldAmount > 0:
-			yearlyYieldPercent = np.power((yieldAmount / capital) + 1, 365 / yieldDayNumber)
-			yearlyYieldPercent = (yearlyYieldPercent - 1) * 100
+			yearlyYieldRate= np.power((yieldAmount / capital) + 1, 365 / yieldDayNumber)
+			yearlyYieldPercent = (yearlyYieldRate - 1) * 100
 		else:
 			yearlyYieldPercent = 0
 

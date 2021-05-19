@@ -1505,7 +1505,7 @@ G TOTAL      10,365.10          15,547.64                                       
 		CHSB crypto, 3 owners with 1 deposit, fixed yield rate,
 		CHSB/CHF final rate of 1.5.
 		"""
-		PRINT = False
+		PRINT = True
 
 		sbAccountSheetFileName = 'testDepositCHSB_simple_values_2_owners_1_deposit.xlsx'
 		depositSheetFileName = 'testDepositChsb_fiat_chf_simple_values_3_owners_1_deposit.csv'
@@ -6925,9 +6925,10 @@ if __name__ == '__main__':
 		# tst.testAddFiatConversionInfo_1_fiat_simple_values_1_owner_no_withdrawal()
 		# tst.testAddFiatConversionInfo_1_fiat_simple_values_1_owner_2_fiats_no_withdrawal()
 		# tst.testAddFiatConversionInfo_1_fiat_simple_values_1_owner_1_deposit_gain()
-		tst.testAddFiatConversionInfo_1_fiat_simple_values_2_owners_1_deposit()
+#		tst.testAddFiatConversionInfo_1_fiat_simple_values_2_owners_1_deposit()
 		# tst.testAddFiatConversionInfo_USDC_1_fiat_simple_values_2_owners_bug()
 #		tst.testAddFiatConversionInfo_USDC_1_fiat_simple_values_2_owners_2_deposits_bug_french_language()
 		# tst.testAddFiatConversionInfo_USDC_2_fiats_simple_values_2_owners_2_deposits_bug_french_language()
 		# tst.testAddFiatConversionInfo_1_fiat_simple_values_1_owner_max_withdrawal_bug()
 		# tst.testDepositChsb_fiat_chf_pandas_avg_rate_explore()
+		tst.testAddFiatConversionInfo_1_fiat_simple_values_3_owners_1_deposit()
