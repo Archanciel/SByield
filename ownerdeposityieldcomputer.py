@@ -180,6 +180,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 						ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT] = yieldPercent
 						ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT] = yearlyYieldPercent
 				else:
+					# i == 1
 					ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO[self.language]] = lastYieldPaymentDate
 					dateToMinusDateFromTimeDelta = ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO[self.language]] - \
 												   currentRowDateFrom
