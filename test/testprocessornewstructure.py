@@ -1609,5 +1609,5 @@ if __name__ == '__main__':
 		#tst.testAddFiatConversionInfo_USDC_2_fiats_simple_values_2_owners_2_deposits_bug_english_language()
 		# tst.testAddFiatConversionInfo_ETH_1_fiat_2_owners_1_and_2_deposits_french_language()
 		#tst.testAddFiatConversionInfo_ETH_1_fiat_2_owners_1_and_2_deposits_english_language()
-		#tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_1_deposit_french_language()
-		tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_2_deposits_english_language()
+		tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_1_deposit_french_language()
+		#tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_2_deposits_english_language()
