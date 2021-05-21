@@ -1231,8 +1231,9 @@ TOTAL                                  0.04755894
 			self.assertEqual(sbEarningsTotalDfExpectedStr, capturedStdoutStr.getvalue())
 
 		if PRINT:
-			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
+			print('\nOwner detailed deposit/withdrawal yield totals and percents. All values checked !')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
+			print('\nAll values checked !')
 			yieldFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiat_CHF: ', yieldFiat_CHF)
 			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
@@ -1531,6 +1532,7 @@ TOTAL                                  0.12084309
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
+			print('\nAll values NOT checked !')
 			depWithdrTotal = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			print('depWithdrTotal: ', depWithdrTotal)
 			yieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
@@ -1716,129 +1718,129 @@ Local time
 2021-02-26 00:00:00  Earnings      ETH 0.00053001
 2021-02-27 00:00:00  Earnings      ETH 0.00053015
 2021-02-28 00:00:00  Earnings      ETH 0.00053029
-2021-03-01 00:00:00  Earnings      ETH 0.00053043
-2021-03-02 00:00:00  Earnings      ETH 0.00053056
-2021-03-03 00:00:00  Earnings      ETH 0.00053070
-2021-03-04 00:00:00  Earnings      ETH 0.00053084
-2021-03-05 00:00:00  Earnings      ETH 0.00053098
-2021-03-06 00:00:00  Earnings      ETH 0.00053112
-2021-03-07 00:00:00  Earnings      ETH 0.00053126
-2021-03-08 00:00:00  Earnings      ETH 0.00053140
-2021-03-09 00:00:00  Earnings      ETH 0.00053153
-2021-03-10 00:00:00  Earnings      ETH 0.00053167
-2021-03-11 00:00:00  Earnings      ETH 0.00053181
-2021-03-12 00:00:00  Earnings      ETH 0.00053195
-2021-03-13 00:00:00  Earnings      ETH 0.00053209
-2021-03-14 00:00:00  Earnings      ETH 0.00053223
-2021-03-15 00:00:00  Earnings      ETH 0.00053237
-2021-03-16 00:00:00  Earnings      ETH 0.00053251
-2021-03-17 00:00:00  Earnings      ETH 0.00053265
-2021-03-18 00:00:00  Earnings      ETH 0.00053278
-2021-03-19 00:00:00  Earnings      ETH 0.00053292
-2021-03-20 00:00:00  Earnings      ETH 0.00053306
-2021-03-21 00:00:00  Earnings      ETH 0.00053320
-2021-03-22 00:00:00  Earnings      ETH 0.00053334
-2021-03-23 00:00:00  Earnings      ETH 0.00053348
-2021-03-24 00:00:00  Earnings      ETH 0.00053362
-2021-03-25 00:00:00  Earnings      ETH 0.00053376
-2021-03-26 00:00:00  Earnings      ETH 0.00053390
-2021-03-27 00:00:00  Earnings      ETH 0.00053404
-2021-03-28 00:00:00  Earnings      ETH 0.00053418
-2021-03-29 00:00:00  Earnings      ETH 0.00053432
-2021-03-30 00:00:00  Earnings      ETH 0.00053446
-2021-03-31 00:00:00  Earnings      ETH 0.00053460
-2021-04-01 00:00:00  Earnings      ETH 0.00079589
-2021-04-02 00:00:00  Earnings      ETH 0.00079610
-2021-04-03 00:00:00  Earnings      ETH 0.00079631
-2021-04-04 00:00:00  Earnings      ETH 0.00079652
-2021-04-05 00:00:00  Earnings      ETH 0.00079673
-2021-04-06 00:00:00  Earnings      ETH 0.00079693
-2021-04-07 00:00:00  Earnings      ETH 0.00079714
-2021-04-08 00:00:00  Earnings      ETH 0.00079735
-2021-04-09 00:00:00  Earnings      ETH 0.00079756
-2021-04-10 00:00:00  Earnings      ETH 0.00079777
-2021-04-11 00:00:00  Earnings      ETH 0.00079798
-2021-04-12 00:00:00  Earnings      ETH 0.00079818
-2021-04-13 00:00:00  Earnings      ETH 0.00079839
-2021-04-14 00:00:00  Earnings      ETH 0.00079860
-2021-04-15 00:00:00  Earnings      ETH 0.00079881
-2021-04-16 00:00:00  Earnings      ETH 0.00079902
-2021-04-17 00:00:00  Earnings      ETH 0.00079923
-2021-04-18 00:00:00  Earnings      ETH 0.00079943
-2021-04-19 00:00:00  Earnings      ETH 0.00079964
-2021-04-20 00:00:00  Earnings      ETH 0.00079985
-2021-04-21 00:00:00  Earnings      ETH 0.00080006
-2021-04-22 00:00:00  Earnings      ETH 0.00080027
-2021-04-23 00:00:00  Earnings      ETH 0.00080048
-2021-04-24 00:00:00  Earnings      ETH 0.00080069
-2021-04-25 00:00:00  Earnings      ETH 0.00080090
-2021-04-26 00:00:00  Earnings      ETH 0.00080111
-2021-04-27 00:00:00  Earnings      ETH 0.00080132
-2021-04-28 00:00:00  Earnings      ETH 0.00080153
-2021-04-29 00:00:00  Earnings      ETH 0.00080173
-2021-04-30 00:00:00  Earnings      ETH 0.00080194
-2021-05-01 00:00:00  Earnings      ETH 0.00080215
-2021-05-02 00:00:00  Earnings      ETH 0.00080236
-2021-05-03 00:00:00  Earnings      ETH 0.00080257
-2021-05-04 00:00:00  Earnings      ETH 0.00080278
-2021-05-05 00:00:00  Earnings      ETH 0.00080299
-2021-05-06 00:00:00  Earnings      ETH 0.00080320
-2021-05-07 00:00:00  Earnings      ETH 0.00080341
-2021-05-08 00:00:00  Earnings      ETH 0.00080362
-2021-05-09 00:00:00  Earnings      ETH 0.00080383
-2021-05-10 00:00:00  Earnings      ETH 0.00080404
-2021-05-11 00:00:00  Earnings      ETH 0.00080425
-2021-05-12 00:00:00  Earnings      ETH 0.00080446
-2021-05-13 00:00:00  Earnings      ETH 0.00080467
-2021-05-14 00:00:00  Earnings      ETH 0.00080488
-2021-05-15 00:00:00  Earnings      ETH 0.00080509
-2021-05-16 00:00:00  Earnings      ETH 0.00080530
-2021-05-17 00:00:00  Earnings      ETH 0.00080551
-2021-05-18 00:00:00  Earnings      ETH 0.00080572
-2021-05-19 00:00:00  Earnings      ETH 0.00080593
-2021-05-20 00:00:00  Earnings      ETH 0.00080614
-2021-05-21 00:00:00  Earnings      ETH 0.00080635
-2021-05-22 00:00:00  Earnings      ETH 0.00080656
-2021-05-23 00:00:00  Earnings      ETH 0.00080677
-2021-05-24 00:00:00  Earnings      ETH 0.00080699
-2021-05-25 00:00:00  Earnings      ETH 0.00080720
-2021-05-26 00:00:00  Earnings      ETH 0.00080741
-2021-05-27 00:00:00  Earnings      ETH 0.00080762
-2021-05-28 00:00:00  Earnings      ETH 0.00080783
-2021-05-29 00:00:00  Earnings      ETH 0.00080804
-2021-05-30 00:00:00  Earnings      ETH 0.00080825
-2021-05-31 00:00:00  Earnings      ETH 0.00080846
-2021-06-01 00:00:00  Earnings      ETH 0.00080867
-2021-06-02 00:00:00  Earnings      ETH 0.00080888
-2021-06-03 00:00:00  Earnings      ETH 0.00080910
-2021-06-04 00:00:00  Earnings      ETH 0.00080931
-2021-06-05 00:00:00  Earnings      ETH 0.00080952
-2021-06-06 00:00:00  Earnings      ETH 0.00080973
-2021-06-07 00:00:00  Earnings      ETH 0.00080994
-2021-06-08 00:00:00  Earnings      ETH 0.00081015
-2021-06-09 00:00:00  Earnings      ETH 0.00081036
-2021-06-10 00:00:00  Earnings      ETH 0.00081058
-2021-06-11 00:00:00  Earnings      ETH 0.00081079
-2021-06-12 00:00:00  Earnings      ETH 0.00081100
-2021-06-13 00:00:00  Earnings      ETH 0.00081121
-2021-06-14 00:00:00  Earnings      ETH 0.00081142
-2021-06-15 00:00:00  Earnings      ETH 0.00081163
-2021-06-16 00:00:00  Earnings      ETH 0.00081185
-2021-06-17 00:00:00  Earnings      ETH 0.00081206
-2021-06-18 00:00:00  Earnings      ETH 0.00081227
-2021-06-19 00:00:00  Earnings      ETH 0.00081248
-2021-06-20 00:00:00  Earnings      ETH 0.00081270
-2021-06-21 00:00:00  Earnings      ETH 0.00081291
-2021-06-22 00:00:00  Earnings      ETH 0.00081312
-2021-06-23 00:00:00  Earnings      ETH 0.00081333
-2021-06-24 00:00:00  Earnings      ETH 0.00081354
-2021-06-25 00:00:00  Earnings      ETH 0.00081376
-2021-06-26 00:00:00  Earnings      ETH 0.00081397
-2021-06-27 00:00:00  Earnings      ETH 0.00081418
-2021-06-28 00:00:00  Earnings      ETH 0.00081439
-2021-06-29 00:00:00  Earnings      ETH 0.00081461
-2021-06-30 00:00:00  Earnings      ETH 0.00081482
-TOTAL                                  0.12084309
+2021-03-01 00:00:00  Earnings      ETH 0.00079158
+2021-03-02 00:00:00  Earnings      ETH 0.00079179
+2021-03-03 00:00:00  Earnings      ETH 0.00079200
+2021-03-04 00:00:00  Earnings      ETH 0.00079220
+2021-03-05 00:00:00  Earnings      ETH 0.00079241
+2021-03-06 00:00:00  Earnings      ETH 0.00079262
+2021-03-07 00:00:00  Earnings      ETH 0.00079282
+2021-03-08 00:00:00  Earnings      ETH 0.00079303
+2021-03-09 00:00:00  Earnings      ETH 0.00079324
+2021-03-10 00:00:00  Earnings      ETH 0.00079345
+2021-03-11 00:00:00  Earnings      ETH 0.00079365
+2021-03-12 00:00:00  Earnings      ETH 0.00079386
+2021-03-13 00:00:00  Earnings      ETH 0.00079407
+2021-03-14 00:00:00  Earnings      ETH 0.00079427
+2021-03-15 00:00:00  Earnings      ETH 0.00079448
+2021-03-16 00:00:00  Earnings      ETH 0.00079469
+2021-03-17 00:00:00  Earnings      ETH 0.00079490
+2021-03-18 00:00:00  Earnings      ETH 0.00079510
+2021-03-19 00:00:00  Earnings      ETH 0.00079531
+2021-03-20 00:00:00  Earnings      ETH 0.00079552
+2021-03-21 00:00:00  Earnings      ETH 0.00079573
+2021-03-22 00:00:00  Earnings      ETH 0.00079594
+2021-03-23 00:00:00  Earnings      ETH 0.00079614
+2021-03-24 00:00:00  Earnings      ETH 0.00079635
+2021-03-25 00:00:00  Earnings      ETH 0.00079656
+2021-03-26 00:00:00  Earnings      ETH 0.00079677
+2021-03-27 00:00:00  Earnings      ETH 0.00079698
+2021-03-28 00:00:00  Earnings      ETH 0.00079718
+2021-03-29 00:00:00  Earnings      ETH 0.00079739
+2021-03-30 00:00:00  Earnings      ETH 0.00079760
+2021-03-31 00:00:00  Earnings      ETH 0.00079781
+2021-04-01 00:00:00  Earnings      ETH 0.00105917
+2021-04-02 00:00:00  Earnings      ETH 0.00105945
+2021-04-03 00:00:00  Earnings      ETH 0.00105973
+2021-04-04 00:00:00  Earnings      ETH 0.00106000
+2021-04-05 00:00:00  Earnings      ETH 0.00106028
+2021-04-06 00:00:00  Earnings      ETH 0.00106056
+2021-04-07 00:00:00  Earnings      ETH 0.00106084
+2021-04-08 00:00:00  Earnings      ETH 0.00106111
+2021-04-09 00:00:00  Earnings      ETH 0.00106139
+2021-04-10 00:00:00  Earnings      ETH 0.00106167
+2021-04-11 00:00:00  Earnings      ETH 0.00106194
+2021-04-12 00:00:00  Earnings      ETH 0.00106222
+2021-04-13 00:00:00  Earnings      ETH 0.00106250
+2021-04-14 00:00:00  Earnings      ETH 0.00106278
+2021-04-15 00:00:00  Earnings      ETH 0.00106305
+2021-04-16 00:00:00  Earnings      ETH 0.00106333
+2021-04-17 00:00:00  Earnings      ETH 0.00106361
+2021-04-18 00:00:00  Earnings      ETH 0.00106389
+2021-04-19 00:00:00  Earnings      ETH 0.00106416
+2021-04-20 00:00:00  Earnings      ETH 0.00106444
+2021-04-21 00:00:00  Earnings      ETH 0.00106472
+2021-04-22 00:00:00  Earnings      ETH 0.00106500
+2021-04-23 00:00:00  Earnings      ETH 0.00106528
+2021-04-24 00:00:00  Earnings      ETH 0.00106555
+2021-04-25 00:00:00  Earnings      ETH 0.00106583
+2021-04-26 00:00:00  Earnings      ETH 0.00106611
+2021-04-27 00:00:00  Earnings      ETH 0.00106639
+2021-04-28 00:00:00  Earnings      ETH 0.00106667
+2021-04-29 00:00:00  Earnings      ETH 0.00106695
+2021-04-30 00:00:00  Earnings      ETH 0.00106723
+2021-05-01 00:00:00  Earnings      ETH 0.00106750
+2021-05-02 00:00:00  Earnings      ETH 0.00106778
+2021-05-03 00:00:00  Earnings      ETH 0.00106806
+2021-05-04 00:00:00  Earnings      ETH 0.00106834
+2021-05-05 00:00:00  Earnings      ETH 0.00106862
+2021-05-06 00:00:00  Earnings      ETH 0.00106890
+2021-05-07 00:00:00  Earnings      ETH 0.00106918
+2021-05-08 00:00:00  Earnings      ETH 0.00106946
+2021-05-09 00:00:00  Earnings      ETH 0.00106974
+2021-05-10 00:00:00  Earnings      ETH 0.00107002
+2021-05-11 00:00:00  Earnings      ETH 0.00107030
+2021-05-12 00:00:00  Earnings      ETH 0.00107058
+2021-05-13 00:00:00  Earnings      ETH 0.00107085
+2021-05-14 00:00:00  Earnings      ETH 0.00107113
+2021-05-15 00:00:00  Earnings      ETH 0.00107141
+2021-05-16 00:00:00  Earnings      ETH 0.00107169
+2021-05-17 00:00:00  Earnings      ETH 0.00107197
+2021-05-18 00:00:00  Earnings      ETH 0.00107225
+2021-05-19 00:00:00  Earnings      ETH 0.00107253
+2021-05-20 00:00:00  Earnings      ETH 0.00107281
+2021-05-21 00:00:00  Earnings      ETH 0.00107309
+2021-05-22 00:00:00  Earnings      ETH 0.00107337
+2021-05-23 00:00:00  Earnings      ETH 0.00107365
+2021-05-24 00:00:00  Earnings      ETH 0.00107393
+2021-05-25 00:00:00  Earnings      ETH 0.00107422
+2021-05-26 00:00:00  Earnings      ETH 0.00107450
+2021-05-27 00:00:00  Earnings      ETH 0.00107478
+2021-05-28 00:00:00  Earnings      ETH 0.00107506
+2021-05-29 00:00:00  Earnings      ETH 0.00107534
+2021-05-30 00:00:00  Earnings      ETH 0.00107562
+2021-05-31 00:00:00  Earnings      ETH 0.00107590
+2021-06-01 00:00:00  Earnings      ETH 0.00107618
+2021-06-02 00:00:00  Earnings      ETH 0.00107646
+2021-06-03 00:00:00  Earnings      ETH 0.00107674
+2021-06-04 00:00:00  Earnings      ETH 0.00107702
+2021-06-05 00:00:00  Earnings      ETH 0.00107731
+2021-06-06 00:00:00  Earnings      ETH 0.00107759
+2021-06-07 00:00:00  Earnings      ETH 0.00107787
+2021-06-08 00:00:00  Earnings      ETH 0.00107815
+2021-06-09 00:00:00  Earnings      ETH 0.00107843
+2021-06-10 00:00:00  Earnings      ETH 0.00107871
+2021-06-11 00:00:00  Earnings      ETH 0.00107899
+2021-06-12 00:00:00  Earnings      ETH 0.00107928
+2021-06-13 00:00:00  Earnings      ETH 0.00107956
+2021-06-14 00:00:00  Earnings      ETH 0.00107984
+2021-06-15 00:00:00  Earnings      ETH 0.00108012
+2021-06-16 00:00:00  Earnings      ETH 0.00108040
+2021-06-17 00:00:00  Earnings      ETH 0.00108069
+2021-06-18 00:00:00  Earnings      ETH 0.00108097
+2021-06-19 00:00:00  Earnings      ETH 0.00108125
+2021-06-20 00:00:00  Earnings      ETH 0.00108153
+2021-06-21 00:00:00  Earnings      ETH 0.00108182
+2021-06-22 00:00:00  Earnings      ETH 0.00108210
+2021-06-23 00:00:00  Earnings      ETH 0.00108238
+2021-06-24 00:00:00  Earnings      ETH 0.00108266
+2021-06-25 00:00:00  Earnings      ETH 0.00108295
+2021-06-26 00:00:00  Earnings      ETH 0.00108323
+2021-06-27 00:00:00  Earnings      ETH 0.00108351
+2021-06-28 00:00:00  Earnings      ETH 0.00108379
+2021-06-29 00:00:00  Earnings      ETH 0.00108408
+2021-06-30 00:00:00  Earnings      ETH 0.00108436
+TOTAL                                  0.15321306
 '''
 			stdout = sys.stdout
 			capturedStdoutStr = StringIO()
@@ -1935,10 +1937,10 @@ if __name__ == '__main__':
 		unittest.main()
 	else:
 		tst = TestProcessorNewStructure()
-		tst.testAddFiatConversionInfo_USDC_2_fiats_simple_values_2_owners_2_deposits_bug_french_language()
+		# tst.testAddFiatConversionInfo_USDC_2_fiats_simple_values_2_owners_2_deposits_bug_french_language()
 		# tst.testAddFiatConversionInfo_USDC_2_fiats_simple_values_2_owners_2_deposits_bug_english_language()
 		# tst.testAddFiatConversionInfo_ETH_1_fiat_2_owners_1_and_2_deposits_french_language()
 		# tst.testAddFiatConversionInfo_ETH_1_fiat_2_owners_1_and_2_deposits_english_language()
 		# tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_1_deposit_french_language()
-		#tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_2_deposits_english_language()
+		tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_2_deposits_english_language()
 		#tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_3_deposits_french_language()

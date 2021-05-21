@@ -131,19 +131,33 @@ class Processor:
 			fiatUniqueColName = PROC_TOTAL_SHORT + fiat
 			yieldOwnerWithTotalsDetailDf.insert(loc=dfNewColPosition, column=fiatUniqueColName, value=depWithdrPlusYieldCurrentFiatValueVector)
 
-			# fill TOTAL['TOT' + fiat] with dep withdr + yield value
+			# adding daily, monthly and yearly fiat interest amount columns with values
+
 			yieldOwnerWithTotalsDetailDf.reset_index(inplace=True)
 
 			for index, row in yieldOwnerWithTotalsDetailDf.iterrows():
 				if row[DEPOSIT_SHEET_HEADER_OWNER[GB]] == DATAFRAME_HEADER_TOTAL:
 					depWithdrPlusYieldCurrentFiatValue = yieldOwnerWithTotalsDetailDf.iloc[index - 1][fiatUniqueColName]
+
+					# adding the total deposit value + total generated yield taken
+					# from the previous row to the TOTAL row
 					yieldOwnerWithTotalsDetailDf.loc[index, fiatUniqueColName] = depWithdrPlusYieldCurrentFiatValue
+
+					# the yearly yield average % was computed in the
+					# OwnerDepositYieldComputer._createYieldOwnerWithTotalsDetailDf()
+					# method and set to the TOTAL row Y YIELD % cell !
 					yieldYearlyAveragePercent = row[DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT]
-					yieldYearlyAverageRate = 1 + yieldYearlyAveragePercent / 100
+					yieldYearlyAverageRate = 1 + (yieldYearlyAveragePercent / 100)
+
+					# daily fiat interest
 					generatedYieldAmountDaily = (np.power(yieldYearlyAverageRate, 1 / 365) - 1) * depWithdrPlusYieldCurrentFiatValue
 					yieldOwnerWithTotalsDetailDf.loc[index, PROC_PER_DAY[self.language]] = generatedYieldAmountDaily
+
+					# monthly fiat interest
 					generatedYieldAmountMonthly = (np.power(yieldYearlyAverageRate, 30 / 365) - 1) * depWithdrPlusYieldCurrentFiatValue
 					yieldOwnerWithTotalsDetailDf.loc[index, PROC_PER_MONTH[self.language]] = generatedYieldAmountMonthly
+
+					# yearly fiat interest
 					generatedYieldAmountYearly = (yieldYearlyAverageRate - 1) * depWithdrPlusYieldCurrentFiatValue
 					yieldOwnerWithTotalsDetailDf.loc[index, PROC_PER_YEAR[self.language]] = generatedYieldAmountYearly
 
@@ -161,35 +175,6 @@ class Processor:
 			groupByDfTotalRowsOnly = dfTotalRowsOnly.groupby(level=0).agg(aggDic)
 
 			yieldOwnerWithTotalsDetailDf.loc[DATAFRAME_HEADER_GRAND_TOTAL, fiatUniqueColName] = groupByDfTotalRowsOnly.iloc[0][fiatUniqueColName]
-			#
-			# # adding daily, monthly and yearly fiat interest amount columns with values
-			#
-			# yieldDaysVector = np.array(yieldOwnerWithTotalsDetailDf[DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER].tolist())
-			# yieldPercentVector = np.array(yieldOwnerWithTotalsDetailDf[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT].tolist())
-			#
-			# # daily fiat interest
-			# yieldDailyFiatAmountVector = self._computeFiatYieldAmount(yieldPercentVector,
-			# 														  yieldDaysVector,
-			# 														  depWithdrCryptoValueVector,
-			# 														  cryptoFiatCurrentRate,
-			# 														  1)
-			# yieldOwnerWithTotalsDetailDf[uniqueColNameModifier + PROC_PER_DAY[self.language]] = yieldDailyFiatAmountVector
-			#
-			# # monthly fiat interest
-			# yieldMonthlyFiatAmountVector = self._computeFiatYieldAmount(yieldPercentVector,
-			# 														  yieldDaysVector,
-			# 														  depWithdrCryptoValueVector,
-			# 														  cryptoFiatCurrentRate,
-			# 														  30)
-			# yieldOwnerWithTotalsDetailDf[uniqueColNameModifier + PROC_PER_MONTH[self.language]] = yieldMonthlyFiatAmountVector
-			#
-			# # yearly fiat interest
-			# yieldYearlyFiatAmountVector = self._computeFiatYieldAmount(yieldPercentVector,
-			# 															yieldDaysVector,
-			# 															depWithdrCryptoValueVector,
-			# 															cryptoFiatCurrentRate,
-			# 															365)
-			# yieldOwnerWithTotalsDetailDf[uniqueColNameModifier + PROC_PER_YEAR[self.language]] = yieldYearlyFiatAmountVector
 
 			uniqueColNameModifier += '_'
 			dfNewColPosition += 5
@@ -209,7 +194,6 @@ class Processor:
 		yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf.rename(
 			columns=formatDic)
 
-		# adding TOTAL daily, monthly and yearly fiat interest amounts
 		fiatNb = len(fiatColLst)
 		depWithdrFiatColNb = 4 * fiatNb
 		capitalFiatColNb = fiatNb
