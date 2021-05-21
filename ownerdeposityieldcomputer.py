@@ -156,27 +156,6 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 					ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT] = yieldAmount
 					ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT] = yieldPercent
 					ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT] = yearlyYieldPercent
-
-					# here, the owner has changed. This means that the previous owner capital
-					# remains the same till the end of SB yield earning payments
-
-					# setting yield dateTo as well as yield day number for previous owner
-					ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO[self.language]] = lastYieldPaymentDate
-					previousOwnerDateFrom = ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM[self.language]]
-					dateToMinusDateFromTimeDelta = lastYieldPaymentDate - \
-												   previousOwnerDateFrom
-					yieldDayNumber = dateToMinusDateFromTimeDelta.days + 1
-					ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
-					previousOwnerCapital = ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_CAPITAL]
-					yieldAmount, yieldPercent, yearlyYieldPercent = self._computeCapitalYieldAmount(
-						sbYieldRatesDf,
-						previousOwnerCapital,
-						previousOwnerDateFrom,
-						lastYieldPaymentDate,
-						yieldDayNumber)
-					ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT] = yieldAmount
-					ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT] = yieldPercent
-					ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT] = yearlyYieldPercent
 				else:
 					ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO[self.language]] = lastYieldPaymentDate
 					dateToMinusDateFromTimeDelta = ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO[self.language]] - \
