@@ -149,17 +149,24 @@ class Processor:
 					yieldYearlyAveragePercent = row[DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT]
 					yieldYearlyAverageRate = 1 + (yieldYearlyAveragePercent / 100)
 
+					# in order to differentiate by fiat the daily, monthly and
+					# yearly fiat interest columns, a low case fiat symbol is
+					# added to the added column names. Later, when the level 2
+					# multi index column names will be defined, this low case
+					# fiat symbol will be simply removed.
+					fiatLowCase = fiat.lower()
+
 					# daily fiat interest
 					generatedYieldAmountDaily = (np.power(yieldYearlyAverageRate, 1 / 365) - 1) * depWithdrPlusYieldCurrentFiatValue
-					yieldOwnerWithTotalsDetailDf.loc[index, PROC_PER_DAY[self.language]] = generatedYieldAmountDaily
+					yieldOwnerWithTotalsDetailDf.loc[index, PROC_PER_DAY[self.language] + fiatLowCase] = generatedYieldAmountDaily
 
 					# monthly fiat interest
 					generatedYieldAmountMonthly = (np.power(yieldYearlyAverageRate, 30 / 365) - 1) * depWithdrPlusYieldCurrentFiatValue
-					yieldOwnerWithTotalsDetailDf.loc[index, PROC_PER_MONTH[self.language]] = generatedYieldAmountMonthly
+					yieldOwnerWithTotalsDetailDf.loc[index, PROC_PER_MONTH[self.language] + fiatLowCase] = generatedYieldAmountMonthly
 
 					# yearly fiat interest
 					generatedYieldAmountYearly = (yieldYearlyAverageRate - 1) * depWithdrPlusYieldCurrentFiatValue
-					yieldOwnerWithTotalsDetailDf.loc[index, PROC_PER_YEAR[self.language]] = generatedYieldAmountYearly
+					yieldOwnerWithTotalsDetailDf.loc[index, PROC_PER_YEAR[self.language] + fiatLowCase] = generatedYieldAmountYearly
 
 			# resetting index to OWNER column
 			yieldOwnerWithTotalsDetailDf.set_index(DEPOSIT_SHEET_HEADER_OWNER[GB], inplace=True)
@@ -269,6 +276,17 @@ class Processor:
 
 		multiIndexLevelTwoLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
 		multiIndexLevelTwoLst = [x.replace('_', '') for x in multiIndexLevelTwoLst]
+
+		# in order to differentiate by fiat the daily, monthly and
+		# yearly fiat interest columns inserted inti the
+		# yieldOwnerWithTotalsDetailDf, a low case fiat symbol was
+		# added to the added column names. Now, when defining the
+		# level 2 multi index column names, this low case fiat symbol
+		# is simply removed, since the multi level indexes do not have
+		# to be unique.
+		for fiat in fiatLst:
+			fiatLowCase = fiat.lower()
+			multiIndexLevelTwoLst = [x.replace(fiatLowCase, '') for x in multiIndexLevelTwoLst]
 
 		# variables for debugging only ...
 		l1 = len(multiIndexLevelZeroLst)
