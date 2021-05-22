@@ -247,10 +247,12 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 
 		yieldOwnerWithTotalsSummaryDf = self._createYieldOwnerWithTotalsSummaryDf(ownerDateSortedDepositDf)
 
-		# creating yieldOwnerWithTotalsDetailDf column name list including
+		# creating the yieldOwnerWithTotalsDetailDf column name list including
 		# optional fiat amount column names
 		yieldOwnerWithTotalsDetailDfColNameLst, fiatAmountColNameLst = self._createYieldOwnerWithTotalsDetailDfColumnLst(ownerDateSortedDepositDf)
 
+		# creating yieldOwnerWithTotalsDetailDf with ownerDateSortedDepositDf
+		# rows and TOTAL rows and the G TOTAL row
 		yieldOwnerWithTotalsDetailDf = self._createYieldOwnerWithTotalsDetailDf(ownerDateSortedDepositDf,
 																				yieldOwnerWithTotalsDetailDfColNameLst,
 																				fiatAmountColNameLst)

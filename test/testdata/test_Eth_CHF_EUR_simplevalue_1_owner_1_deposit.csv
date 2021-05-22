@@ -45,15 +45,13 @@ Explanations:
 Test case info:
 
 Used to test crypto yield amount, crypto yield amount in percent, day, month
-and year interest in CHF. ETH/CHF curr rate == 4000.
+and year interest in CHF. ETH/CHF curr rate == 4000. ETH/EUR curr rate == 3520.
 Yield fixed rate of 10 % per year.
 
 Data:
 
 CRYPTO-ETH
 
-OWNER,DATE,DEP/WITHDR,CHF AMT
-Béa,2021/01/01 00:00:00,2,3000
-Béa,2021/04/01 00:00:00,1,2000
-Béa,2021/07/01 00:00:00,1,3000
+OWNER,DATE,DEP/WITHDR,CHF AMT,EUR AMT
+Béa,2021/01/01 00:00:00,2,3000,2800
 
