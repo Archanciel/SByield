@@ -56,10 +56,10 @@ if __name__ == '__main__':
 				 SB_ACCOUNT_SHEET_CURRENCY_CHSB: '.8f',
 	             SB_ACCOUNT_SHEET_CURRENCY_ETH: '.8f'}
 
-	sbAccountSheetFileName = 'Swissborg_account_statement_20201101_20210504.xlsx'
+	sbAccountSheetFileName = 'Swissborg_account_statement_20201101_20210523.xlsx'
 
-	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
-#	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
+#	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
 #	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_ETH
 	language = FR
 	ctr = Controller()

@@ -33,5 +33,10 @@ PROC_PER_MONTH = ('PER MONTH', 'PAR MOIS')
 PROC_PER_YEAR = ('PER YR', 'PAR AN')
 PROC_IN = ('IN ', 'EN ')
 
-PROC_TOTAL_INCLUDE_YIELD_HELP = ('total in those 2 columns includes the generated yield total', 'le total dans ces 2 colonnes inclut le total des intérêts générés')
-PROC_CURRENT_RATE_HELP = ('deposit/withdrawal value at the date from rate', 'valeur des dépôts/retraits au taux en vigeur à la date du dépôt/retrait')
+PROC_HELP_1 = '(1)  '
+PROC_HELP_2 = '(2)'
+PROC_HELP_3 = '(3)'
+PROC_HELP_4 = '(4)'
+
+PROC_TOTAL_INCLUDE_YIELD_HELP = ('total in those 2 columns includes the generated yield total', 'le total dans ces 2 colones inclut le total des intérêts générés')
+PROC_CURRENT_RATE_HELP = ('deposit/withdrawal value at the date from rate', 'valeur des dépôts/retraits au taux en vigueur à la date du dépôt/retrait')
