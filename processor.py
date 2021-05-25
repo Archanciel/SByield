@@ -249,10 +249,10 @@ class Processor:
 		# defining multi level language dependent index rows
 
 		if len(fiatLst) > 1:
-			multiIndexLevelZeroLst = [' '] * (depWithdrFiatColNb - 5) + [PROC_DEP[self.language], PROC_WITHDR[self.language]] + [' '] * 20
+			multiIndexLevelZeroLst = [' '] * (depWithdrFiatColNb - 5) + [PROC_DEP[self.language], PROC_WITHDR[self.language]] + [PROC_HELP_2, PROC_HELP_3, PROC_HELP_4] + [' '] * 17
 		else:
 			multiIndexLevelZeroLst = [' '] * (depWithdrFiatColNb - 1) + [PROC_DEP[self.language],
-																   PROC_WITHDR[self.language]] + [' '] * 14
+																   PROC_WITHDR[self.language]] + [PROC_HELP_2, PROC_HELP_3, PROC_HELP_4] + [' '] * 10
 		levelOneDepWithdrFiatArray = []
 
 		if len(fiatLst) > 1:
@@ -277,6 +277,7 @@ class Processor:
 		multiIndexLevelTwoLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
 		multiIndexLevelTwoLst = [x.replace('_', '') for x in multiIndexLevelTwoLst]
 
+		multiIndexLevelTwoLst[3] = PROC_HELP_1 + multiIndexLevelTwoLst[3]
 		# in order to differentiate by fiat the daily, monthly and
 		# yearly fiat interest columns inserted inti the
 		# yieldOwnerWithTotalsDetailDf, a low case fiat symbol was
