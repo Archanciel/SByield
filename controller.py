@@ -42,14 +42,16 @@ class Controller:
 													 cryptoFiatCsvFilePathName),
 							  language)
 
-		#processor.activateHelpStarsAddition()
+		processor.activateHelpNumbers()
 
 		return processor.addFiatConversionInfo()
 
 	def printHelpLines(self, language):
 		print()
-		print(' * ' + PROC_TOTAL_INCLUDE_YIELD_HELP[language])
-		print('** ' + PROC_CURRENT_RATE_HELP[language])
+		print('(1) ' + PROC_HELP_TXT_1[language])
+		print('(2) ' + PROC_HELP_TXT_2[language])
+		print('(3) ' + PROC_HELP_TXT_3[language])
+		print('(4) ' + PROC_HELP_TXT_4[language])
 
 if __name__ == '__main__':
 	formatDic = {SB_ACCOUNT_SHEET_CURRENCY_USDC: '.2f',
@@ -59,9 +61,9 @@ if __name__ == '__main__':
 	sbAccountSheetFileName = 'Swissborg_account_statement_20201101_20210523.xlsx'
 
 #	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
-	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
-#	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_ETH
-	language = FR
+#	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
+	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_ETH
+	language = GB
 	ctr = Controller()
 
 	sbYieldRatesWithTotalDf, \

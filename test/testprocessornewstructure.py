@@ -52,7 +52,7 @@ class TestProcessorNewStructure(unittest.TestCase):
 		"""
 		ETH crypto, 2 owners, 1 with 1 deposit and the other with 2 deposits
 		"""
-		PRINT = False
+		PRINT = True
 
 		sbAccountSheetFileName = 'test_ETH_SB_account_statement.xlsx'
 		depositSheetFileName = 'test_Eth_2_owners_1_and_2_deposits.csv'
@@ -73,6 +73,8 @@ class TestProcessorNewStructure(unittest.TestCase):
 								   CryptoFiatRateComputer(PriceRequesterTestStub(),
 														  self.cryptoFiatCsvFilePathName),
 								   language=FR)
+
+		self.processor.activateHelpNumbers()
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
@@ -174,9 +176,9 @@ TOTAL                                  0.06907530
 			print('depWithdrTotal_ETH_owner_2: ', depWithdrTotal_ETH_owner_2)
 			depWithdrGrandTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[4][' '][PROC_AMOUNT[testLanguage]]['ETH']
 			print('depWithdrGrandTotal_ETH: ', depWithdrGrandTotal_ETH)
-			depWithdr_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdr_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			print('depWithdr_CHF_owner_1: ', depWithdr_CHF_owner_1)
-			depWithdrTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdrTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			print('depWithdrTotal_CHF_owner_1: ', depWithdrTotal_CHF_owner_1)
 			depWithdrActualValue_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			print('depWithdrActualValue_CHF_owner_1: ', depWithdrActualValue_CHF_owner_1)
@@ -188,33 +190,33 @@ TOTAL                                  0.06907530
 			print('depWithdrActualValueTotal_CHF_owner_2: ', depWithdrActualValueTotal_CHF_owner_2)
 			depWithdrActualValueGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			print('depWithdrActualValueGrandTotal_CHF: ', depWithdrActualValueGrandTotal_CHF)
-			yieldFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiat_CHF_owner_1: ', yieldFiat_CHF_owner_1)
-			yieldFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiatTotal_CHF_owner_1: ', yieldFiatTotal_CHF_owner_1)
-			yieldFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiat_CHF_owner_2: ', yieldFiat_CHF_owner_2)
-			yieldFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiatTotal_CHF_owner_2: ', yieldFiatTotal_CHF_owner_2)
-			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiatGrandTotal_CHF: ', yieldFiatGrandTotal_CHF)
-			actValPlusYieldFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiat_CHF_owner_1: ', actValPlusYieldFiat_CHF_owner_1)
-			actValPlusYieldFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiatTotal_CHF_owner_1: ', actValPlusYieldFiatTotal_CHF_owner_1)
-			actValPlusYieldFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiat_CHF_owner_2: ', actValPlusYieldFiat_CHF_owner_2)
-			actValPlusYieldFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiatTotal_CHF_owner_2: ', actValPlusYieldFiatTotal_CHF_owner_2)
-			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiatGrandTotal_CHF: ', actValPlusYieldFiatGrandTotal_CHF)
-			capitalGainFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			print('capitalGainFiat_CHF_owner_1: ', capitalGainFiat_CHF_owner_1)
-			capitalGainFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			print('capitalGainFiatTotal_CHF_owner_1: ', capitalGainFiatTotal_CHF_owner_1)
-			capitalGainFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			print('capitalGainFiat_CHF_owner_2: ', capitalGainFiat_CHF_owner_2)
-			capitalGainFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			print('capitalGainFiatTotal_CHF_owner_2: ', capitalGainFiatTotal_CHF_owner_2)
 			capitalGainFiat_CHF_percent_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			print('capitalGainFiat_CHF_percent_owner_1: ', capitalGainFiat_CHF_percent_owner_1)
@@ -302,9 +304,9 @@ G TOTAL                            4.99              19945.92  276.30 20222.22  
 			self.assertEqual(4.5879162, depWithdrTotal_ETH_owner_2)
 			depWithdrGrandTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[4][' '][PROC_AMOUNT[testLanguage]]['ETH']
 			self.assertEqual(4.9864794, depWithdrGrandTotal_ETH)
-			depWithdr_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdr_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			self.assertEqual(600.0, depWithdr_CHF_owner_1)
-			depWithdrTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdrTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			self.assertEqual(600.0, depWithdrTotal_CHF_owner_1)
 			depWithdrActualValue_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			self.assertEqual(1594.2528, depWithdrActualValue_CHF_owner_1)
@@ -316,33 +318,33 @@ G TOTAL                            4.99              19945.92  276.30 20222.22  
 			self.assertEqual(18351.664800000002, depWithdrActualValueTotal_CHF_owner_2)
 			depWithdrActualValueGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			self.assertEqual(19945.9176, depWithdrActualValueGrandTotal_CHF)
-			yieldFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(20.087631670829165, yieldFiat_CHF_owner_1)
-			yieldFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(20.087631670829165, yieldFiatTotal_CHF_owner_1)
-			yieldFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(256.21356832915865, yieldFiat_CHF_owner_2)
-			yieldFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(256.21356832915865, yieldFiatTotal_CHF_owner_2)
-			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(276.30119999998783, yieldFiatGrandTotal_CHF)
-			actValPlusYieldFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(1614.340431670829, actValPlusYieldFiat_CHF_owner_1)
-			actValPlusYieldFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(1614.340431670829, actValPlusYieldFiatTotal_CHF_owner_1)
-			actValPlusYieldFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(18607.878368329162, actValPlusYieldFiat_CHF_owner_2)
-			actValPlusYieldFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(18607.878368329162, actValPlusYieldFiatTotal_CHF_owner_2)
-			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(20222.21879999999, actValPlusYieldFiatGrandTotal_CHF)
-			capitalGainFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			self.assertEqual(994.2528, capitalGainFiat_CHF_owner_1)
-			capitalGainFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			self.assertEqual(994.2528, capitalGainFiatTotal_CHF_owner_1)
-			capitalGainFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			self.assertEqual(10768.514800000003, capitalGainFiat_CHF_owner_2)
-			capitalGainFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			self.assertEqual(10768.514800000003, capitalGainFiatTotal_CHF_owner_2)
 			capitalGainFiat_CHF_percent_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			self.assertEqual(165.7088, capitalGainFiat_CHF_percent_owner_1)
@@ -517,9 +519,9 @@ TOTAL                                  0.06907530
 			print('depWithdrTotal_ETH_owner_2: ', depWithdrTotal_ETH_owner_2)
 			depWithdrGrandTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[4][' '][PROC_AMOUNT[testLanguage]]['ETH']
 			print('depWithdrGrandTotal_ETH: ', depWithdrGrandTotal_ETH)
-			depWithdr_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdr_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			print('depWithdr_CHF_owner_1: ', depWithdr_CHF_owner_1)
-			depWithdrTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdrTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			print('depWithdrTotal_CHF_owner_1: ', depWithdrTotal_CHF_owner_1)
 			depWithdrActualValue_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			print('depWithdrActualValue_CHF_owner_1: ', depWithdrActualValue_CHF_owner_1)
@@ -531,33 +533,33 @@ TOTAL                                  0.06907530
 			print('depWithdrActualValueTotal_CHF_owner_2: ', depWithdrActualValueTotal_CHF_owner_2)
 			depWithdrActualValueGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			print('depWithdrActualValueGrandTotal_CHF: ', depWithdrActualValueGrandTotal_CHF)
-			yieldFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiat_CHF_owner_1: ', yieldFiat_CHF_owner_1)
-			yieldFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiatTotal_CHF_owner_1: ', yieldFiatTotal_CHF_owner_1)
-			yieldFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiat_CHF_owner_2: ', yieldFiat_CHF_owner_2)
-			yieldFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiatTotal_CHF_owner_2: ', yieldFiatTotal_CHF_owner_2)
-			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiatGrandTotal_CHF: ', yieldFiatGrandTotal_CHF)
-			actValPlusYieldFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiat_CHF_owner_1: ', actValPlusYieldFiat_CHF_owner_1)
-			actValPlusYieldFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiatTotal_CHF_owner_1: ', actValPlusYieldFiatTotal_CHF_owner_1)
-			actValPlusYieldFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiat_CHF_owner_2: ', actValPlusYieldFiat_CHF_owner_2)
-			actValPlusYieldFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiatTotal_CHF_owner_2: ', actValPlusYieldFiatTotal_CHF_owner_2)
-			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiatGrandTotal_CHF: ', actValPlusYieldFiatGrandTotal_CHF)
-			capitalGainFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			print('capitalGainFiat_CHF_owner_1: ', capitalGainFiat_CHF_owner_1)
-			capitalGainFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			print('capitalGainFiatTotal_CHF_owner_1: ', capitalGainFiatTotal_CHF_owner_1)
-			capitalGainFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			print('capitalGainFiat_CHF_owner_2: ', capitalGainFiat_CHF_owner_2)
-			capitalGainFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			print('capitalGainFiatTotal_CHF_owner_2: ', capitalGainFiatTotal_CHF_owner_2)
 			capitalGainFiat_CHF_percent_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			print('capitalGainFiat_CHF_percent_owner_1: ', capitalGainFiat_CHF_percent_owner_1)
@@ -645,9 +647,9 @@ G TOTAL                           4.99                   19945.92   276.30  2022
 			self.assertEqual(4.5879162, depWithdrTotal_ETH_owner_2)
 			depWithdrGrandTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[4][' '][PROC_AMOUNT[testLanguage]]['ETH']
 			self.assertEqual(4.9864794, depWithdrGrandTotal_ETH)
-			depWithdr_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdr_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			self.assertEqual(600.0, depWithdr_CHF_owner_1)
-			depWithdrTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdrTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			self.assertEqual(600.0, depWithdrTotal_CHF_owner_1)
 			depWithdrActualValue_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			self.assertEqual(1594.2528, depWithdrActualValue_CHF_owner_1)
@@ -659,33 +661,33 @@ G TOTAL                           4.99                   19945.92   276.30  2022
 			self.assertEqual(18351.664800000002, depWithdrActualValueTotal_CHF_owner_2)
 			depWithdrActualValueGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			self.assertEqual(19945.9176, depWithdrActualValueGrandTotal_CHF)
-			yieldFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(20.087631670829165, yieldFiat_CHF_owner_1)
-			yieldFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(20.087631670829165, yieldFiatTotal_CHF_owner_1)
-			yieldFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(256.21356832915865, yieldFiat_CHF_owner_2)
-			yieldFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(256.21356832915865, yieldFiatTotal_CHF_owner_2)
-			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(276.30119999998783, yieldFiatGrandTotal_CHF)
-			actValPlusYieldFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(1614.340431670829, actValPlusYieldFiat_CHF_owner_1)
-			actValPlusYieldFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(1614.340431670829, actValPlusYieldFiatTotal_CHF_owner_1)
-			actValPlusYieldFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(18607.878368329162, actValPlusYieldFiat_CHF_owner_2)
-			actValPlusYieldFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(18607.878368329162, actValPlusYieldFiatTotal_CHF_owner_2)
-			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(20222.21879999999, actValPlusYieldFiatGrandTotal_CHF)
-			capitalGainFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			self.assertEqual(994.2528, capitalGainFiat_CHF_owner_1)
-			capitalGainFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiatTotal_CHF_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			self.assertEqual(994.2528, capitalGainFiatTotal_CHF_owner_1)
-			capitalGainFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			self.assertEqual(10768.514800000003, capitalGainFiat_CHF_owner_2)
-			capitalGainFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiatTotal_CHF_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			self.assertEqual(10768.514800000003, capitalGainFiatTotal_CHF_owner_2)
 			capitalGainFiat_CHF_percent_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			self.assertEqual(165.7088, capitalGainFiat_CHF_percent_owner_1)
@@ -739,7 +741,7 @@ G TOTAL                           4.99                   19945.92   276.30  2022
 		USDC crypto, 2 owners with 2 deposit and 1 withdrawal, fixed yield rate,
 		USDC/CHF final rate of 1.5 and USDC/EUR final rate of 1.4
 		"""
-		PRINT = False
+		PRINT = True
 
 		sbAccountSheetFileName = 'testSBEarningUsdc_simple_values_multi_depwithdr_bug.xlsx'
 		depositSheetFileName = 'depositUsdc_fiat_chf_eur_simple_values_depwithdr_bug.csv'
@@ -757,6 +759,8 @@ G TOTAL                           4.99                   19945.92   276.30  2022
 								   CryptoFiatRateComputer(PriceRequesterTestStub(),
 								   self.cryptoFiatCsvFilePathName),
 								   language=FR)
+
+		self.processor.activateHelpNumbers()
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
@@ -1128,7 +1132,7 @@ G TOTAL                          8900.00               8103.45   601.65   8705.1
 		USDC crypto, 2 owners with 2 deposit and 1 withdrawal, fixed yield rate,
 		USDC/CHF final rate of 1.5 and USDC/EUR final rate of 1.4
 		"""
-		PRINT = False
+		PRINT = True
 
 		sbAccountSheetFileName = 'testSBEarningUsdc_simple_values_multi_depwithdr_bug.xlsx'
 		depositSheetFileName = 'depositUsdc_fiat_chf_eur_simple_values_depwithdr_bug.csv'
@@ -1146,6 +1150,8 @@ G TOTAL                          8900.00               8103.45   601.65   8705.1
 								   CryptoFiatRateComputer(PriceRequesterTestStub(),
 														  self.cryptoFiatCsvFilePathName),
 								   language=GB)
+
+		self.processor.activateHelpNumbers()
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
@@ -1518,7 +1524,7 @@ G TOTAL                          8900.00                    8103.45    601.65   
 		crypto yield amount in percent, day, month and year yields in CHF.
 		ETH/CHF curr rate == 4000. Yield fixed rate of 10 % per year.
 		"""
-		PRINT = False
+		PRINT = True
 
 		sbAccountSheetFileName = 'test_ETH_SB_simplevalue_1_owner_1_deposit.xlsx'
 		depositSheetFileName = 'test_Eth_CHF_simplevalue_1_owner_1_deposit.csv'
@@ -1676,9 +1682,9 @@ TOTAL                                  0.04755894
 			print('depWithdrTotal_ETH: ', depWithdrTotal_ETH)
 			depWithdrGrandTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_AMOUNT[testLanguage]]['ETH']
 			print('depWithdrGrandTotal_ETH: ', depWithdrGrandTotal_ETH)
-			depWithdr_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdr_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			print('depWithdr_CHF: ', depWithdr_CHF)
-			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			print('depWithdrTotal_CHF: ', depWithdrTotal_CHF)
 			depWithdrActualValue_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			print('depWithdrActualValue_CHF: ', depWithdrActualValue_CHF)
@@ -1686,21 +1692,21 @@ TOTAL                                  0.04755894
 			print('depWithdrActualValueTotal_CHF: ', depWithdrActualValueTotal_CHF)
 			depWithdrActualValueGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			print('depWithdrActualValueGrandTotal_CHF: ', depWithdrActualValueGrandTotal_CHF)
-			yieldFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiat_CHF: ', yieldFiat_CHF)
-			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiatTotal_CHF: ', yieldFiatTotal_CHF)
-			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiatGrandTotal_CHF: ', yieldFiatGrandTotal_CHF)
-			actValPlusYieldFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiat_CHF: ', actValPlusYieldFiat_CHF)
-			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiatTotal_CHF: ', actValPlusYieldFiatTotal_CHF)
-			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiatGrandTotal_CHF: ', actValPlusYieldFiatGrandTotal_CHF)
-			capitalGainFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			print('capitalGainFiat_CHF: ', capitalGainFiat_CHF)
-			capitalGainFiat_CHF_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			print('capitalGainFiat_CHF_TOTAL: ', capitalGainFiat_CHF_TOTAL)
 			capitalGainFiat_CHF_percent = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			print('capitalGainFiat_CHF_percent: ', capitalGainFiat_CHF_percent)
@@ -1735,9 +1741,9 @@ TOTAL                                  0.04755894
 			self.assertEqual(2.0, depWithdrTotal_ETH)
 			depWithdrGrandTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_AMOUNT[testLanguage]]['ETH']
 			self.assertEqual(2.0, depWithdrGrandTotal_ETH)
-			depWithdr_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdr_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			self.assertEqual(3000, depWithdr_CHF)
-			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			self.assertEqual(3000, depWithdrTotal_CHF)
 			depWithdrActualValue_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			self.assertEqual(8000, depWithdrActualValue_CHF)
@@ -1745,21 +1751,21 @@ TOTAL                                  0.04755894
 			self.assertEqual(8000, depWithdrActualValueTotal_CHF)
 			depWithdrActualValueGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			self.assertEqual(8000, depWithdrActualValueGrandTotal_CHF)
-			yieldFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(190.2357446852143, yieldFiat_CHF)
-			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(190.2357446852143, yieldFiatTotal_CHF)
-			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(190.2357446852143, yieldFiatGrandTotal_CHF)
-			actValPlusYieldFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(8190.235744685215, actValPlusYieldFiat_CHF)
-			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(8190.235744685215,actValPlusYieldFiatTotal_CHF)
-			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(8190.235744685215,actValPlusYieldFiatGrandTotal_CHF)
-			capitalGainFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			self.assertEqual(5000.0, capitalGainFiat_CHF)
-			capitalGainFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			self.assertEqual(5000.0, capitalGainFiatTotal_CHF)
 			capitalGainFiat_CHF_percent = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			self.assertEqual(166.66666666666669, capitalGainFiat_CHF_percent)
@@ -1790,7 +1796,7 @@ TOTAL                                  0.04755894
 		crypto yield amount in percent, day, month and year yields in CHF.
 		ETH/CHF curr rate == 4000. Yield fixed rate of 10 % per year.
 		"""
-		PRINT = False
+		PRINT = True
 
 		sbAccountSheetFileName = 'test_ETH_SB_simplevalue_1_owner_1_deposit.xlsx'
 		depositSheetFileName = 'test_Eth_CHF_EUR_simplevalue_1_owner_1_deposit.csv'
@@ -1949,9 +1955,9 @@ TOTAL                                  0.04755894
 			print('depWithdrTotal_ETH: ', depWithdrTotal_ETH)
 			depWithdrGrandTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_AMOUNT[testLanguage]]['ETH']
 			print('depWithdrGrandTotal_ETH: ', depWithdrGrandTotal_ETH)
-			depWithdr_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdr_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			print('depWithdr_CHF: ', depWithdr_CHF)
-			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			print('depWithdrTotal_CHF: ', depWithdrTotal_CHF)
 			depWithdrActualValue_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			print('depWithdrActualValue_CHF: ', depWithdrActualValue_CHF)
@@ -1959,21 +1965,21 @@ TOTAL                                  0.04755894
 			print('depWithdrActualValueTotal_CHF: ', depWithdrActualValueTotal_CHF)
 			depWithdrActualValueGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			print('depWithdrActualValueGrandTotal_CHF: ', depWithdrActualValueGrandTotal_CHF)
-			yieldFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_2][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_2][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiat_CHF: ', yieldFiat_CHF)
-			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_2][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_2][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiatTotal_CHF: ', yieldFiatTotal_CHF)
-			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_2][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_2][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiatGrandTotal_CHF: ', yieldFiatGrandTotal_CHF)
-			actValPlusYieldFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_3]['  ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_3]['  ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiat_CHF: ', actValPlusYieldFiat_CHF)
-			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_3]['  ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_3]['  ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiatTotal_CHF: ', actValPlusYieldFiatTotal_CHF)
-			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_3]['  ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_3]['  ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiatGrandTotal_CHF: ', actValPlusYieldFiatGrandTotal_CHF)
-			capitalGainFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			print('capitalGainFiat_CHF: ', capitalGainFiat_CHF)
-			capitalGainFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			print('capitalGainFiatTotal_CHF: ', capitalGainFiatTotal_CHF)
 			capitalGainFiat_CHF_percent = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			print('capitalGainFiat_CHF_percent: ', capitalGainFiat_CHF_percent)
@@ -2044,9 +2050,9 @@ TOTAL                                  0.04755894
 			self.assertEqual(2.0, depWithdrTotal_ETH)
 			depWithdrGrandTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_AMOUNT[testLanguage]]['ETH']
 			self.assertEqual(2.0, depWithdrGrandTotal_ETH)
-			depWithdr_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdr_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			self.assertEqual(3000, depWithdr_CHF)
-			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			self.assertEqual(3000, depWithdrTotal_CHF)
 			depWithdrActualValue_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			self.assertEqual(8000, depWithdrActualValue_CHF)
@@ -2054,21 +2060,21 @@ TOTAL                                  0.04755894
 			self.assertEqual(8000, depWithdrActualValueTotal_CHF)
 			depWithdrActualValueGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			self.assertEqual(8000, depWithdrActualValueGrandTotal_CHF)
-			yieldFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_2][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_2][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(190.2357446852143, yieldFiat_CHF)
-			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_2][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_2][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(190.2357446852143, yieldFiatTotal_CHF)
-			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_2][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_2][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(190.2357446852143, yieldFiatGrandTotal_CHF)
-			actValPlusYieldFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_3]['  ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_3]['  ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(8190.235744685215, actValPlusYieldFiat_CHF)
-			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_3]['  ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_3]['  ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(8190.235744685215, actValPlusYieldFiatTotal_CHF)
-			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_3]['  ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_3]['  ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(8190.235744685215, actValPlusYieldFiatGrandTotal_CHF)
-			capitalGainFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			self.assertEqual(5000.0, capitalGainFiat_CHF)
-			capitalGainFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			self.assertEqual(5000.0, capitalGainFiatTotal_CHF)
 			capitalGainFiat_CHF_percent = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			self.assertEqual(166.66666666666669, capitalGainFiat_CHF_percent)
@@ -2135,7 +2141,7 @@ TOTAL                                  0.04755894
 		crypto yield amount in percent, day, month and year yields in CHF.
 		ETH/CHF curr rate == 4000. Yield fixed rate of 10 % per year.
 		"""
-		PRINT = False
+		PRINT = True
 
 		sbAccountSheetFileName = 'test_ETH_SB_simplevalue_1_owner_2_deposits.xlsx'
 		depositSheetFileName = 'test_Eth_CHF_simplevalue_1_owner_2_deposits.csv'
@@ -2390,11 +2396,11 @@ TOTAL                                  0.12084309
 			print('depWithdrTotal_ETH: ', depWithdrTotal_ETH)
 			depWithdrGrandTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[3][' '][PROC_AMOUNT[testLanguage]]['ETH']
 			print('depWithdrGrandTotal_ETH: ', depWithdrGrandTotal_ETH)
-			depWithdr_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdr_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			print('depWithdr_CHF_1: ', depWithdr_CHF_1)
-			depWithdr_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdr_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			print('depWithdr_CHF_2: ', depWithdr_CHF_2)
-			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			print('depWithdrTotal_CHF: ', depWithdrTotal_CHF)
 			depWithdrActualValue_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			print('depWithdrActualValue_CHF_1: ', depWithdrActualValue_CHF_1)
@@ -2404,31 +2410,31 @@ TOTAL                                  0.12084309
 			print('depWithdrActualValueTotal_CHF: ', depWithdrActualValueTotal_CHF)
 			depWithdrActualValueGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			print('depWithdrActualValueGrandTotal_CHF: ', depWithdrActualValueGrandTotal_CHF)
-			yieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiat_CHF_1: ', yieldFiat_CHF_1)
-			yieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiat_CHF_2: ', yieldFiat_CHF_2)
-			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiatTotal_CHF: ', yieldFiatTotal_CHF)
-			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiatGrandTotal_CHF: ', yieldFiatGrandTotal_CHF)
-			actValPlusYieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiat_CHF_1: ', actValPlusYieldFiat_CHF_1)
-			actValPlusYieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiat_CHF_2: ', actValPlusYieldFiat_CHF_2)
-			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiatTotal_CHF: ', actValPlusYieldFiatTotal_CHF)
-			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiatGrandTotal_CHF: ', actValPlusYieldFiatGrandTotal_CHF)
-			capitalGainFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			print('capitalGainFiat_CHF_1: ', capitalGainFiat_CHF_1)
 			capitalGainFiat_CHF_percent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			print('capitalGainFiat_CHF_percent_1: ', capitalGainFiat_CHF_percent_1)
-			capitalGainFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			print('capitalGainFiat_CHF_2: ', capitalGainFiat_CHF_2)
 			capitalGainFiat_CHF_percent_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			print('capitalGainFiat_CHF_percent_2: ', capitalGainFiat_CHF_percent_2)
-			capitalGainFiat_CHF_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			print('capitalGainFiat_CHF_TOTAL: ', capitalGainFiat_CHF_TOTAL)
 			capitalGainFiat_CHF_percent_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[2][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			print('capitalGainFiat_CHF_percent_TOTAL: ', capitalGainFiat_CHF_percent_TOTAL)
@@ -2479,11 +2485,11 @@ TOTAL                                  0.12084309
 			self.assertEqual(3.00, depWithdrTotal_ETH)
 			depWithdrGrandTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[3][' '][PROC_AMOUNT[testLanguage]]['ETH']
 			self.assertEqual(3.00, depWithdrGrandTotal_ETH)
-			depWithdr_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdr_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			self.assertEqual(3000, depWithdr_CHF_1)
-			depWithdr_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdr_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			self.assertEqual(2000, depWithdr_CHF_2)
-			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			self.assertEqual(5000, depWithdrTotal_CHF)
 			depWithdrActualValue_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			self.assertEqual(8000, depWithdrActualValue_CHF_1)
@@ -2493,31 +2499,31 @@ TOTAL                                  0.12084309
 			self.assertEqual(12000, depWithdrActualValueTotal_CHF)
 			depWithdrActualValueGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			self.assertEqual(12000, depWithdrActualValueGrandTotal_CHF)
-			yieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(190.2357446852143, yieldFiat_CHF_1)
-			yieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(293.13660166886103, yieldFiat_CHF_2)
-			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(483.3723463540753, yieldFiatTotal_CHF)
-			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(483.3723463540753, yieldFiatGrandTotal_CHF)
-			actValPlusYieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(8190.235744685215, actValPlusYieldFiat_CHF_1)
-			actValPlusYieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(12483.372346354075, actValPlusYieldFiat_CHF_2)
-			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(12483.372346354075,actValPlusYieldFiatTotal_CHF)
-			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(12483.372346354075,actValPlusYieldFiatGrandTotal_CHF)
-			capitalGainFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			self.assertEqual(5000.0, capitalGainFiat_CHF_1)
 			capitalGainFiat_CHF_percent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			self.assertEqual(166.66666666666669, capitalGainFiat_CHF_percent_1)
-			capitalGainFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			self.assertEqual(2000.0, capitalGainFiat_CHF_2)
 			capitalGainFiat_CHF_percent_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			self.assertEqual(100.0, capitalGainFiat_CHF_percent_2)
-			capitalGainFiat_CHF_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			self.assertEqual(7000.0, capitalGainFiat_CHF_TOTAL)
 			capitalGainFiat_CHF_percent_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[2][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			self.assertEqual(140.0, capitalGainFiat_CHF_percent_TOTAL)
@@ -2556,7 +2562,7 @@ TOTAL                                  0.12084309
 		crypto yield amount in percent, day, month and year yields in CHF.
 		ETH/CHF curr rate == 4000. Yield fixed rate of 10 % per year.
 		"""
-		PRINT = False
+		PRINT = True
 
 		sbAccountSheetFileName = 'test_ETH_SB_simplevalue_1_owner_3_deposits.xlsx'
 		depositSheetFileName = 'test_Eth_CHF_simplevalue_1_owner_3_deposits.csv'
@@ -2848,13 +2854,13 @@ TOTAL                                  0.15433602
 			print('depWithdrTotal_ETH: ', depWithdrTotal_ETH)
 			depWithdrGrandTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[4][' '][PROC_AMOUNT[testLanguage]]['ETH']
 			print('depWithdrGrandTotal_ETH: ', depWithdrGrandTotal_ETH)
-			depWithdr_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdr_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			print('depWithdr_CHF_1: ', depWithdr_CHF_1)
-			depWithdr_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdr_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			print('depWithdr_CHF_2: ', depWithdr_CHF_2)
-			depWithdr_CHF_3 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdr_CHF_3 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			print('depWithdr_CHF_3: ', depWithdr_CHF_3)
-			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			print('depWithdrTotal_CHF: ', depWithdrTotal_CHF)
 			depWithdrActualValue_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			print('depWithdrActualValue_CHF_1: ', depWithdrActualValue_CHF_1)
@@ -2866,39 +2872,39 @@ TOTAL                                  0.15433602
 			print('depWithdrActualValueTotal_CHF: ', depWithdrActualValueTotal_CHF)
 			depWithdrActualValueGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			print('depWithdrActualValueGrandTotal_CHF: ', depWithdrActualValueGrandTotal_CHF)
-			yieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiat_CHF_1: ', yieldFiat_CHF_1)
-			yieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiat_CHF_2: ', yieldFiat_CHF_2)
-			yieldFiat_CHF_3 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF_3 = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiat_CHF_3: ', yieldFiat_CHF_3)
-			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiatTotal_CHF: ', yieldFiatTotal_CHF)
-			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			print('yieldFiatGrandTotal_CHF: ', yieldFiatGrandTotal_CHF)
-			actValPlusYieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiat_CHF_1: ', actValPlusYieldFiat_CHF_1)
-			actValPlusYieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiat_CHF_2: ', actValPlusYieldFiat_CHF_2)
-			actValPlusYieldFiat_CHF_3 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF_3 = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiat_CHF_3: ',actValPlusYieldFiat_CHF_3)
-			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiatTotal_CHF: ', actValPlusYieldFiatTotal_CHF)
-			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiatGrandTotal_CHF: ', actValPlusYieldFiatGrandTotal_CHF)
-			capitalGainFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			print('capitalGainFiat_CHF_1: ', capitalGainFiat_CHF_1)
 			capitalGainFiat_CHF_percent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			print('capitalGainFiat_CHF_percent_1: ', capitalGainFiat_CHF_percent_1)
-			capitalGainFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			print('capitalGainFiat_CHF_2: ', capitalGainFiat_CHF_2)
 			capitalGainFiat_CHF_percent_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			print('capitalGainFiat_CHF_percent_2: ', capitalGainFiat_CHF_percent_2)
-			capitalGainFiat_CHF_3 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_3 = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			print('capitalGainFiat_CHF_3: ', capitalGainFiat_CHF_3)
 			capitalGainFiat_CHF_percent_3 = yieldOwnerWithTotalsDetailDf.iloc[2][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			print('capitalGainFiat_CHF_percent_3: ', capitalGainFiat_CHF_percent_3)
-			capitalGainFiat_CHF_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			print('capitalGainFiat_CHF_TOTAL: ', capitalGainFiat_CHF_TOTAL)
 			capitalGainFiat_CHF_percent_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[3][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			print('capitalGainFiat_CHF_percent_TOTAL: ', capitalGainFiat_CHF_percent_TOTAL)
@@ -2961,13 +2967,13 @@ TOTAL                                  0.15433602
 			self.assertEqual(4.00, depWithdrTotal_ETH)
 			depWithdrGrandTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[4][' '][PROC_AMOUNT[testLanguage]]['ETH']
 			self.assertEqual(4.00, depWithdrGrandTotal_ETH)
-			depWithdr_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdr_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			self.assertEqual(3000, depWithdr_CHF_1)
-			depWithdr_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdr_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			self.assertEqual(2000, depWithdr_CHF_2)
-			depWithdr_CHF_3 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdr_CHF_3 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			self.assertEqual(3000, depWithdr_CHF_3)
-			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][PROC_HELP_1 + fiat]
+			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			self.assertEqual(8000, depWithdrTotal_CHF)
 			depWithdrActualValue_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			self.assertEqual(8000, depWithdrActualValue_CHF_1)
@@ -2981,39 +2987,39 @@ TOTAL                                  0.15433602
 			self.assertEqual(16000, depWithdrActualValueGrandTotal_CHF)
 			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			self.assertEqual(16000, depWithdrTotal_CHF)
-			yieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(190.2357446852143, yieldFiat_CHF_1)
-			yieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(293.13660166886103, yieldFiat_CHF_2)
-			yieldFiat_CHF_3 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiat_CHF_3 = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(133.97172355601228, yieldFiat_CHF_3)
-			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(617.3440699100876, yieldFiatTotal_CHF)
-			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(617.3440699100876, yieldFiatGrandTotal_CHF)
-			actValPlusYieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(8190.235744685215, actValPlusYieldFiat_CHF_1)
-			actValPlusYieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(12483.372346354075, actValPlusYieldFiat_CHF_2)
-			actValPlusYieldFiat_CHF_3 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiat_CHF_3 = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(16617.344069910087,actValPlusYieldFiat_CHF_3)
-			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(16617.344069910087,actValPlusYieldFiatTotal_CHF)
-			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(16617.344069910087,actValPlusYieldFiatGrandTotal_CHF)
-			capitalGainFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			self.assertEqual(5000.0, capitalGainFiat_CHF_1)
 			capitalGainFiat_CHF_percent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			self.assertEqual(166.66666666666669, capitalGainFiat_CHF_percent_1)
-			capitalGainFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			self.assertEqual(2000.0, capitalGainFiat_CHF_2)
 			capitalGainFiat_CHF_percent_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			self.assertEqual(100.0, capitalGainFiat_CHF_percent_2)
-			capitalGainFiat_CHF_3 = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_3 = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			self.assertEqual(1000.0, capitalGainFiat_CHF_3)
 			capitalGainFiat_CHF_percent_3 = yieldOwnerWithTotalsDetailDf.iloc[2][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			self.assertEqual(33.33333333333333, capitalGainFiat_CHF_percent_3)
-			capitalGainFiat_CHF_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			capitalGainFiat_CHF_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			self.assertEqual(8000.0, capitalGainFiat_CHF_TOTAL)
 			capitalGainFiat_CHF_percent_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[3][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			self.assertEqual(100.0, capitalGainFiat_CHF_percent_TOTAL)
