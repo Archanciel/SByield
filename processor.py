@@ -291,10 +291,10 @@ class Processor:
 		# defining multi level language dependent index rows
 
 		if len(fiatLst) > 1:
-			multiIndexLevelZeroLst = [' '] * (depWithdrFiatColNb - 5) + [PROC_DEP[self.language], PROC_WITHDR[self.language]] + [self.PROC_HELP_2, self.PROC_HELP_3, self.PROC_HELP_4] + [' '] * 17
+			multiIndexLevelZeroLst = [' ', ' '] + [' '] * (depWithdrFiatColNb - 5) + [PROC_DEP[self.language], PROC_WITHDR[self.language]] + [self.PROC_HELP_2, self.PROC_HELP_3, self.PROC_HELP_4] + [' '] * 20
 		else:
-			multiIndexLevelZeroLst = [' ', ' '] + [' '] * (depWithdrFiatColNb - 1) + [PROC_DEP[self.language],
-																   PROC_WITHDR[self.language]] + [self.PROC_HELP_2, self.PROC_HELP_3, self.PROC_HELP_4] + [' '] * 9
+			multiIndexLevelZeroLst = [' ', ' '] + [' '] * (depWithdrFiatColNb - 1) + [PROC_DEP[self.language], PROC_WITHDR[self.language]] + [self.PROC_HELP_2, self.PROC_HELP_3, self.PROC_HELP_4] + [' '] * 9
+
 		levelOneDepWithdrFiatArray = []
 
 		if len(fiatLst) > 1:
@@ -311,7 +311,7 @@ class Processor:
 			levelOneDepWithdrFiatArray += [PROC_CAPITAL_GAIN[self.language]]
 			levelOneDepWithdrFiatArray += [' ']
 
-		multiIndexLevelOneLst = [' ', ' ', PROC_AMOUNT[self.language]] + [PROC_DEP_RATE[self.language], PROC_CUR_RATE[self.language]] + levelOneDepWithdrFiatArray + [PROC_YIELD_DAYS[self.language]] + [PROC_INTEREST] + [' ', ' ', ' ']
+		multiIndexLevelOneLst = [' ', ' ', PROC_AMOUNT[self.language]] + [PROC_DEP_RATE[self.language], PROC_CUR_RATE[self.language]] + levelOneDepWithdrFiatArray + [PROC_YIELD_DAYS[self.language]] + [PROC_INTEREST] + [' ', ' ', ' ', ' ', ' ']
 
 		for fiat in fiatLst:
 			multiIndexLevelOneLst += [PROC_AMOUNT[self.language], PROC_YIELD[self.language], PROC_IN[self.language] + fiat.upper() + ' ']

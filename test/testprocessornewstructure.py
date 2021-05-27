@@ -1798,7 +1798,7 @@ TOTAL                                  0.04755894
 		crypto yield amount in percent, day, month and year yields in CHF.
 		ETH/CHF curr rate == 4000. Yield fixed rate of 10 % per year.
 		"""
-		PRINT = False
+		PRINT = True
 
 		sbAccountSheetFileName = 'test_ETH_SB_simplevalue_1_owner_1_deposit.xlsx'
 		depositSheetFileName = 'test_Eth_CHF_EUR_simplevalue_1_owner_1_deposit.csv'
@@ -3075,8 +3075,8 @@ if __name__ == '__main__':
 		# tst.testAddFiatConversionInfo_ETH_1_fiat_2_owners_1_and_2_deposits_english_language()
 
 		# value testing ok for the tsts below
-		 #tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_1_deposit_french_language()
-		# tst.testAddFiatConversionInfo_ETH_2_fiats_1_owner_1_deposit_french_language()
+		# tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_1_deposit_french_language()
+		#tst.testAddFiatConversionInfo_ETH_2_fiats_1_owner_1_deposit_french_language()
 		# tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_2_deposits_english_language()
 		tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_3_deposits_french_language()
 
