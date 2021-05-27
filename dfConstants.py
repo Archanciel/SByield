@@ -45,3 +45,5 @@ PROC_HELP_TXT_4 = ("capital gain, i.e. current rate deposit/withdrawal value min
 
 LOCAL_TIME_ZONE = "Europe/Zurich"
 DATE_FORMAT = "YYYY-MM-DD"
+CRYPTO_USD_DATE_FROM_RATE = 'USD/{} DEP RATE'
+CRYPTO_USD_CURRENT_RATE = 'USD/{} CUR RATE'

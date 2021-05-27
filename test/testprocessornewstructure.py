@@ -3073,10 +3073,10 @@ if __name__ == '__main__':
 		# tst.testAddFiatConversionInfo_ETH_1_fiat_2_owners_1_and_2_deposits_english_language()
 
 		# value testing ok for the tsts below
-		tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_1_deposit_french_language()
+		 #tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_1_deposit_french_language()
 		# tst.testAddFiatConversionInfo_ETH_2_fiats_1_owner_1_deposit_french_language()
 		# tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_2_deposits_english_language()
-		# tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_3_deposits_french_language()
+		tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_3_deposits_french_language()
 
 		'''
 		  COURS   COURS   COURS   COURS

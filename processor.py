@@ -1,5 +1,5 @@
 from ownerdeposityieldcomputer import *
-import dfConstants
+
 
 class Processor:
 	def __init__(self,
@@ -44,7 +44,44 @@ class Processor:
 		cryptoFiatRateDic = self._getCurrentCryptoFiatRateValues(depositCrypto, fiatLst)
 
 		# inserting USD deposit/withdrawal date crypto rate column and USD current date
-		# crypto rate column
+		# crypto rate column if USD not in fiat list
+
+		cryptoUsdDateFromRateColName = CRYPTO_USD_DATE_FROM_RATE.format(depositCrypto)
+		cryptoUsdCurrentRateColName = CRYPTO_USD_CURRENT_RATE.format(depositCrypto)
+		cryptoUsdCurrentRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(depositCrypto,
+																				 'USD')
+		yieldOwnerWithTotalsDetailDf.reset_index(inplace=True)
+
+		for index, row in yieldOwnerWithTotalsDetailDf.iterrows():
+			if DATAFRAME_HEADER_TOTAL not in row[DEPOSIT_SHEET_HEADER_OWNER[GB]]:
+				# totals must be completed only on total rows
+				firstDepositFiatColName = fiatColLst[0]
+				fiat = firstDepositFiatColName.replace(' AMT', '')
+				depositDateFrom = str(row.loc[DEPOSIT_YIELD_HEADER_DATE_FROM[GB]])
+				depositCryptoAmount = row.loc[DATAFRAME_HEADER_DEPOSIT_WITHDRAW]
+				depositFiatAmount = row.loc[firstDepositFiatColName]
+				cryptoDateFromFiatRate = depositFiatAmount / depositCryptoAmount
+				usdDateFromFirstDepositFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate('USD',
+																									fiat,
+																									depositDateFrom)
+				cryptoUsdDateFromRate = cryptoDateFromFiatRate / usdDateFromFirstDepositFiatRate
+				yieldOwnerWithTotalsDetailDf.loc[index, cryptoUsdDateFromRateColName] = cryptoUsdDateFromRate
+				yieldOwnerWithTotalsDetailDf.loc[index, cryptoUsdCurrentRateColName] = cryptoUsdCurrentRate
+				# computing capital gain percent total
+				uniqueColNameModifier = ''
+
+				# for fiat, capitalGainUniqueColName, capitalGainPercentUniqueColName in zip(fiatLst, capitalGainUniqueColNameLst, capitalGainPercentUniqueColNameLst):
+				# 	capGainPercentTotal = yieldOwnerWithTotalsDetailDf.loc[index,capitalGainUniqueColName] / \
+				# 						  yieldOwnerWithTotalsDetailDf.loc[index, fiat] * 100
+				# 	yieldOwnerWithTotalsDetailDf.loc[index, capitalGainPercentUniqueColName] = capGainPercentTotal
+				# 	uniqueColNameModifier += '_'
+
+		# resetting index to OWNER column
+		yieldOwnerWithTotalsDetailDf.set_index(DEPOSIT_SHEET_HEADER_OWNER[GB], inplace=True)
+
+		# if 'USD' not in fiatLst:
+		# 	fiat = fiatLst[0]
+		# 	usdDepositFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate()
 #		cryptoUsdDepWithdrDateRate = self.cryptoFiatRateComputer.
 #		yieldOwnerWithTotalsDetailDf['USD DEP RATE'] =
 
