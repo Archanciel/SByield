@@ -43,6 +43,11 @@ class Processor:
 		# obtaining the current crypto/fiat rates as a crypto/fiat pair dic
 		cryptoFiatRateDic = self._getCurrentCryptoFiatRateValues(depositCrypto, fiatLst)
 
+		# inserting USD deposit/withdrawal date crypto rate column and USD current date
+		# crypto rate column
+		cryptoUsdDepWithdrDateRate = self.cryptoFiatRateComputer.
+#		yieldOwnerWithTotalsDetailDf['USD DEP RATE'] =
+
 		dfNewColPosition = 2
 		levelTwoUniqueColNameModifier = ''
 		capitalGainUniqueColNameLst = []
@@ -346,6 +351,10 @@ class Processor:
 		for fiat in fiatlLst:
 			cryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatCurrentRate(crypto, fiat)
 			cryptoFiatRateDic[fiat] = cryptoFiatRate
+
+		if not 'USD' in fiatlLst:
+			cryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatCurrentRate(crypto, 'USD')
+			cryptoFiatRateDic['USD'] = cryptoFiatRate
 
 		return cryptoFiatRateDic
 

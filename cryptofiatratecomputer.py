@@ -18,7 +18,7 @@ class CryptoFiatRateComputer(PandasDataComputer):
 		super().__init__()
 		self.cryptoFiatCsvFilePathName = cryptoFiatCsvFilePathName
 		self.cryptoFiatDf = self._loadCryptoFiatCsvFile(cryptoFiatCsvFilePathName)
-		self.priceReuester = priceRequester
+		self.priceRequester = priceRequester
 
 	def _loadCryptoFiatCsvFile(self, cryptoFiatCsvFilePathName):
 		"""
@@ -82,8 +82,8 @@ class CryptoFiatRateComputer(PandasDataComputer):
 				# like USDC/USD !
 				return 1
 			else:
-				resultData = self.priceReuester.getCurrentPrice(crypto, fiat, exchange)
-				if not self.checkIfProblem(resultData):
+				resultData = self.priceRequester.getCurrentPrice(crypto, fiat, exchange)
+				if not self._checkIfProblem(resultData):
 					return resultData.getValue(resultData.RESULT_KEY_PRICE)
 		elif rateRequestNumber == 2:
 				crypto = intermediateExchangeRateRequestLst[0][0]
@@ -93,20 +93,30 @@ class CryptoFiatRateComputer(PandasDataComputer):
 					resultData = ResultData()
 					resultData.setValue(resultData.RESULT_KEY_PRICE, 1)
 				else:
-					resultData = self.priceReuester.getCurrentPrice(crypto, unit, exchange)
-				if not self.checkIfProblem(resultData):
+					resultData = self.priceRequester.getCurrentPrice(crypto, unit, exchange)
+				if not self._checkIfProblem(resultData):
 					firstRate = resultData.getValue(resultData.RESULT_KEY_PRICE)
 					crypto = intermediateExchangeRateRequestLst[1][0]
 					fiat = intermediateExchangeRateRequestLst[1][1]
 					exchange = intermediateExchangeRateRequestLst[1][2]
-					resultData = self.priceReuester.getCurrentPrice(crypto, fiat, exchange)
-					if not self.checkIfProblem(resultData):
+					resultData = self.priceRequester.getCurrentPrice(crypto, fiat, exchange)
+					if not self._checkIfProblem(resultData):
 						secondRate = resultData.getValue(resultData.RESULT_KEY_PRICE)
 						return firstRate * secondRate
 
 		raise UnsupportedCryptoFiatPairError(crypto, fiat, self.cryptoFiatCsvFilePathName)
 
-	def checkIfProblem(self, resultData):
+	def getHistoricalRate(self, crypto, fiat, dateStr):
+		
+
+		return self.priceRequester.getHistoricalPriceAtUTCTimeStamp(crypto,
+																	fiat,
+																	timeStampLocalForHistoMinute,
+																	localTz,
+																	timeStampUTCNoHHMMForHistoDay,
+																	exchange)
+
+	def _checkIfProblem(self, resultData):
 		isProblem = False
 
 		if not resultData.noError():
