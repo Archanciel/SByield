@@ -10,6 +10,8 @@ sys.path.insert(0,currentdir) # this instruction is necessary for successful imp
 from cryptofiatratecomputer import CryptoFiatRateComputer
 from pricerequester import PriceRequester
 from unsupportedcryptofiatpairerror import UnsupportedCryptoFiatPairError
+from datetimeutil import DateTimeUtil
+from dfConstants import LOCAL_TIME_ZONE
 
 class TestCryptoFiatRateComputer(unittest.TestCase):
 	def initializeComputerClasses(self, cryptoFiatCsvFileName):
@@ -186,32 +188,64 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 			self.assertAlmostEqual(expectedCryptoFiatRate, actualCryptoFiatRate, 3)
 
 	def testComputeCryptoFiatRate_historical_CHSB_USD(self):
+		'''
+		Test obtaining historical rate for a date more than 7 days before.
+		'''
 		PRINT = False
 
 		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
 		self.initializeComputerClasses(cryptoFiatCsvFileName)
 
 		crypto = 'CHSB'
-		unit = 'BTC'
 		fiat = 'USD'
-		exchange1 = 'HitBTC'
-		exchange2 = 'Kraken'
 		dateStr = '2021-01-01'
 
-		priceRequester = PriceRequester()
-
-		actualCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat)
-
-		resultData = priceRequester.getCurrentPrice(crypto, unit, exchange1)
-		cryptoUnitRate = resultData.getValue(resultData.RESULT_KEY_PRICE)
-		resultData = priceRequester.getCurrentPrice(unit, fiat, exchange2)
-		unitFiatRate = resultData.getValue(resultData.RESULT_KEY_PRICE)
-		expectedCryptoFiatRate = cryptoUnitRate * unitFiatRate
+		actualCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat, dateStr)
 
 		if PRINT:
 			print(actualCryptoFiatRate)
 		else:
-			self.assertAlmostEqual(expectedCryptoFiatRate, actualCryptoFiatRate, 3)
+			self.assertAlmostEqual(0.260474254, actualCryptoFiatRate, 3)
+
+	def testComputeCryptoFiatRate_historical_1_day_before_CHSB_USD(self):
+		'''
+		Ensuring that getting historical rate for a one day ago date does work too.
+		'''
+		PRINT = False
+
+		now = DateTimeUtil.localNow(LOCAL_TIME_ZONE)
+		oneDaysBeforeArrowDate = now.shift(days=-1).date()
+
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+		self.initializeComputerClasses(cryptoFiatCsvFileName)
+
+		crypto = 'CHSB'
+		fiat = 'USD'
+		dateStr = str(oneDaysBeforeArrowDate)
+
+		actualCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat, dateStr)
+
+		if PRINT:
+			print(actualCryptoFiatRate)
+		else:
+			self.assertTrue(isinstance(actualCryptoFiatRate, float))
+
+	def testComputeCryptoFiatRate_historical_ETH_USD(self):
+		PRINT = False
+
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+		self.initializeComputerClasses(cryptoFiatCsvFileName)
+
+		crypto = 'ETH'
+		fiat = 'USD'
+		dateStr = '2021-01-01'
+
+		actualCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat, dateStr)
+
+		if PRINT:
+			print(actualCryptoFiatRate)
+		else:
+			self.assertAlmostEqual(730.85, actualCryptoFiatRate, 3)
 
 	def testComputeCryptoFiatRate_current_USDC_CHF(self):
 		PRINT = False
@@ -265,9 +299,47 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		self.assertEqual(
 			'{}/{} pair not supported. Add adequate information to {} and retry.'.format(crypto, fiat, self.cryptoFiatRateComputer.cryptoFiatCsvFilePathName), e.exception.message)
 
+	def testComputeCryptoFiatRate_historical_unsupported_cryptoFiatPair(self):
+		'''
+		Ensuring that getting historical rate for a one day ago for an unsupported crypto
+		fiat pair raises the expected exception.
+		'''
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+		self.initializeComputerClasses(cryptoFiatCsvFileName)
+
+		crypto = 'CHSB'
+		fiat = 'EUR'
+		dateStr = '2021-01-01'
+
+		with self.assertRaises(UnsupportedCryptoFiatPairError) as e:
+			self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat, dateStr)
+
+		self.assertEqual(
+			'{}/{} pair not supported. Add adequate information to {} and retry.'.format(crypto, fiat, self.cryptoFiatRateComputer.cryptoFiatCsvFilePathName), e.exception.message)
+
+	def testComputeCryptoFiatRate_historical_1_day_before_unsupported_cryptoFiatPair(self):
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+		self.initializeComputerClasses(cryptoFiatCsvFileName)
+
+		now = DateTimeUtil.localNow(LOCAL_TIME_ZONE)
+		oneDaysBeforeArrowDate = now.shift(days=-1).date()
+
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+		self.initializeComputerClasses(cryptoFiatCsvFileName)
+
+		crypto = 'CHSB'
+		fiat = 'EUR'
+		dateStr = str(oneDaysBeforeArrowDate)
+
+		with self.assertRaises(UnsupportedCryptoFiatPairError) as e:
+			self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat, dateStr)
+
+		self.assertEqual(
+			'{}/{} pair not supported. Add adequate information to {} and retry.'.format(crypto, fiat, self.cryptoFiatRateComputer.cryptoFiatCsvFilePathName), e.exception.message)
+
 if __name__ == '__main__':
 	if os.name == 'posix':
 		unittest.main()
 	else:	
 		tst = TestCryptoFiatRateComputer()
-		tst.testComputeCryptoFiatRate_current_CHSB_USD()
+		tst.testComputeCryptoFiatRate_historical_1_day_before_CHSB_USD()

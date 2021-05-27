@@ -106,7 +106,7 @@ class CryptoFiatRateComputer(PandasDataComputer):
 					resultData = ResultData()
 					resultData.setValue(resultData.RESULT_KEY_PRICE, 1)
 				else:
-					resultData = self._getCurrentOrHistoRate(crypto, dateStr, exchange, fiat)
+					resultData = self._getCurrentOrHistoRate(crypto, dateStr, exchange, unit)
 				if not self._checkIfProblem(resultData):
 					firstRate = resultData.getValue(resultData.RESULT_KEY_PRICE)
 					crypto = intermediateExchangeRateRequestLst[1][0]
