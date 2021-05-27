@@ -139,7 +139,7 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		else:
 			self.assertEqual(expectedIntermediateExchangeRateRequestLst, actualIntermediateExchangeRateRequestLst)
 
-	def testComputeCryptoFiatCurrentRate_ETH_USD(self):
+	def testComputeCryptoFiatRate_current_ETH_USD(self):
 		PRINT = False
 
 		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
@@ -150,7 +150,7 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		exchange = 'Kraken'
 		priceRequester = PriceRequester()
 
-		actualCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatCurrentRate(crypto, fiat)
+		actualCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat)
 		resultData = priceRequester.getCurrentPrice(crypto, fiat, exchange)
 		expectedCryptoFiatRate = resultData.getValue(resultData.RESULT_KEY_PRICE)
 
@@ -159,7 +159,7 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		else:
 			self.assertAlmostEqual(expectedCryptoFiatRate, actualCryptoFiatRate, 1)
 
-	def testComputeCryptoFiatCurrentRate_CHSB_USD(self):
+	def testComputeCryptoFiatRate_current_CHSB_USD(self):
 		PRINT = False
 
 		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
@@ -172,7 +172,7 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		exchange2 = 'Kraken'
 		priceRequester = PriceRequester()
 
-		actualCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatCurrentRate(crypto, fiat)
+		actualCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat)
 
 		resultData = priceRequester.getCurrentPrice(crypto, unit, exchange1)
 		cryptoUnitRate = resultData.getValue(resultData.RESULT_KEY_PRICE)
@@ -185,7 +185,35 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		else:
 			self.assertAlmostEqual(expectedCryptoFiatRate, actualCryptoFiatRate, 3)
 
-	def testComputeCryptoFiatCurrentRate_USDC_CHF(self):
+	def testComputeCryptoFiatRate_historical_CHSB_USD(self):
+		PRINT = False
+
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+		self.initializeComputerClasses(cryptoFiatCsvFileName)
+
+		crypto = 'CHSB'
+		unit = 'BTC'
+		fiat = 'USD'
+		exchange1 = 'HitBTC'
+		exchange2 = 'Kraken'
+		dateStr = '2021-01-01'
+
+		priceRequester = PriceRequester()
+
+		actualCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat)
+
+		resultData = priceRequester.getCurrentPrice(crypto, unit, exchange1)
+		cryptoUnitRate = resultData.getValue(resultData.RESULT_KEY_PRICE)
+		resultData = priceRequester.getCurrentPrice(unit, fiat, exchange2)
+		unitFiatRate = resultData.getValue(resultData.RESULT_KEY_PRICE)
+		expectedCryptoFiatRate = cryptoUnitRate * unitFiatRate
+
+		if PRINT:
+			print(actualCryptoFiatRate)
+		else:
+			self.assertAlmostEqual(expectedCryptoFiatRate, actualCryptoFiatRate, 3)
+
+	def testComputeCryptoFiatRate_current_USDC_CHF(self):
 		PRINT = False
 
 		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
@@ -197,7 +225,7 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		exchange2 = 'CCCAGG'
 		priceRequester = PriceRequester()
 
-		actualCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatCurrentRate(crypto, fiat)
+		actualCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat)
 		resultData = priceRequester.getCurrentPrice(unit, fiat, exchange2)
 		unitFiatRate = resultData.getValue(resultData.RESULT_KEY_PRICE)
 		expectedCryptoFiatRate = unitFiatRate
@@ -207,7 +235,7 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		else:
 			self.assertAlmostEqual(expectedCryptoFiatRate, actualCryptoFiatRate, 3)
 
-	def testComputeCryptoFiatCurrentRate_USDC_USD(self):
+	def testComputeCryptoFiatRate_current_USDC_USD(self):
 		PRINT = False
 
 		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
@@ -216,7 +244,7 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		crypto = 'USDC'
 		fiat = 'USD'
 
-		actualCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatCurrentRate(crypto, fiat)
+		actualCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat)
 		expectedCryptoFiatRate = 1
 
 		if PRINT:
@@ -224,7 +252,7 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		else:
 			self.assertEqual(expectedCryptoFiatRate, actualCryptoFiatRate)
 
-	def testComputeCryptoFiatCurrentRate_unsupported_cryptoFiatPair(self):
+	def testComputeCryptoFiatRate_current_unsupported_cryptoFiatPair(self):
 		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
 		self.initializeComputerClasses(cryptoFiatCsvFileName)
 
@@ -232,7 +260,7 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		fiat = 'EUR'
 
 		with self.assertRaises(UnsupportedCryptoFiatPairError) as e:
-			self.cryptoFiatRateComputer.computeCryptoFiatCurrentRate(crypto, fiat)
+			self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat)
 
 		self.assertEqual(
 			'{}/{} pair not supported. Add adequate information to {} and retry.'.format(crypto, fiat, self.cryptoFiatRateComputer.cryptoFiatCsvFilePathName), e.exception.message)
@@ -242,4 +270,4 @@ if __name__ == '__main__':
 		unittest.main()
 	else:	
 		tst = TestCryptoFiatRateComputer()
-		tst.testComputeCryptoFiatCurrentRate_USDC_CHF()
+		tst.testComputeCryptoFiatRate_current_CHSB_USD()
