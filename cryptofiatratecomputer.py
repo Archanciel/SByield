@@ -123,38 +123,19 @@ class CryptoFiatRateComputer(PandasDataComputer):
 		if dateStr is None:
 			resultData = self.priceRequester.getCurrentPrice(crypto, fiat, exchange)
 		else:
-			timeStampLocalMidDay = DateTimeUtil.dateTimeStringToTimeStamp(dateStr,
-																		  LOCAL_TIME_ZONE,
-																		  "YYYY-MM-DD")
+			timeStampLocalTimeZone = DateTimeUtil.dateTimeStringToTimeStamp(dateStr,
+																			LOCAL_TIME_ZONE,
+																			DATE_FORMAT)
 			timeStampUtcNoHHMM = DateTimeUtil.dateTimeStringToTimeStamp(dateStr,
 																		"UTC",
 																		DATE_FORMAT)
 			resultData = self.priceRequester.getHistoricalPriceAtUTCTimeStamp(crypto,
 																			  fiat,
-																			  timeStampLocalMidDay,
+																			  timeStampLocalTimeZone,
 																			  LOCAL_TIME_ZONE,
 																			  timeStampUtcNoHHMM,
 																			  exchange)
 		return resultData
-
-	def getHistoricalRate(self, crypto, fiat, dateStr):
-		timeStampLocalMidDay = DateTimeUtil.dateTimeStringToTimeStamp("2017/09/30 12:59:59", 'Europe/Zurich',
-																"YYYY/MM/DD HH:mm:ss")
-		timeStampUtcNoHHMM = DateTimeUtil.dateTimeStringToTimeStamp("2017/09/30 00:00:00", 'UTC',
-																	"YYYY/MM/DD HH:mm:ss")
-		resultData = self.priceRequester.getHistoricalPriceAtUTCTimeStamp(crypto, unit,
-																		  timeStampLocalMidDay,
-																		  'Europe/Zurich',
-																		  timeStampUtcNoHHMM,
-																		  exchange)
-
-
-		return self.priceRequester.getHistoricalPriceAtUTCTimeStamp(crypto,
-																	fiat,
-																	timeStampLocalForHistoMinute,
-																	localTz,
-																	timeStampUTCNoHHMMForHistoDay,
-																	exchange)
 
 	def _checkIfProblem(self, resultData):
 		isProblem = False

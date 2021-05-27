@@ -200,12 +200,32 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		fiat = 'USD'
 		dateStr = '2021-01-01'
 
-		actualCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat, dateStr)
+		histoCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat, dateStr)
 
 		if PRINT:
-			print(actualCryptoFiatRate)
+			print(histoCryptoFiatRate)
 		else:
-			self.assertAlmostEqual(0.260474254, actualCryptoFiatRate, 3)
+			self.assertAlmostEqual(0.260474254, histoCryptoFiatRate, 3)
+
+	def testComputeCryptoFiatRate_historical_USD_CHF(self):
+		'''
+		Test obtaining historical rate for a date more than 7 days before.
+		'''
+		PRINT = False
+
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+		self.initializeComputerClasses(cryptoFiatCsvFileName)
+
+		crypto = 'USD'
+		fiat = 'CHF'
+		dateStr = '2021-01-01'
+
+		histoCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat, dateStr)
+
+		if PRINT:
+			print(histoCryptoFiatRate)
+		else:
+			self.assertAlmostEqual(0.8906, histoCryptoFiatRate, 3)
 
 	def testComputeCryptoFiatRate_historical_1_day_before_CHSB_USD(self):
 		'''
@@ -223,12 +243,35 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		fiat = 'USD'
 		dateStr = str(oneDaysBeforeArrowDate)
 
-		actualCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat, dateStr)
+		histoCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat, dateStr)
 
 		if PRINT:
-			print(actualCryptoFiatRate)
+			print(histoCryptoFiatRate)
 		else:
-			self.assertTrue(isinstance(actualCryptoFiatRate, float))
+			self.assertTrue(isinstance(histoCryptoFiatRate, float))
+
+	def testComputeCryptoFiatRate_historical_1_day_before_USD_CHF(self):
+		'''
+		Ensuring that getting historical rate for a one day ago date does work too.
+		'''
+		PRINT = False
+
+		now = DateTimeUtil.localNow(LOCAL_TIME_ZONE)
+		oneDaysBeforeArrowDate = now.shift(days=-1).date()
+
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+		self.initializeComputerClasses(cryptoFiatCsvFileName)
+
+		crypto = 'USD'
+		fiat = 'CHF'
+		dateStr = str(oneDaysBeforeArrowDate)
+
+		histoCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat, dateStr)
+
+		if PRINT:
+			print(histoCryptoFiatRate)
+		else:
+			self.assertTrue(isinstance(histoCryptoFiatRate, float))
 
 	def testComputeCryptoFiatRate_historical_ETH_USD(self):
 		PRINT = False
@@ -240,12 +283,12 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		fiat = 'USD'
 		dateStr = '2021-01-01'
 
-		actualCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat, dateStr)
+		histoCryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat, dateStr)
 
 		if PRINT:
-			print(actualCryptoFiatRate)
+			print(histoCryptoFiatRate)
 		else:
-			self.assertAlmostEqual(730.85, actualCryptoFiatRate, 3)
+			self.assertAlmostEqual(730.85, histoCryptoFiatRate, 3)
 
 	def testComputeCryptoFiatRate_current_USDC_CHF(self):
 		PRINT = False
@@ -342,4 +385,4 @@ if __name__ == '__main__':
 		unittest.main()
 	else:	
 		tst = TestCryptoFiatRateComputer()
-		tst.testComputeCryptoFiatRate_historical_1_day_before_CHSB_USD()
+		tst.testComputeCryptoFiatRate_historical_1_day_before_USD_CHF()
