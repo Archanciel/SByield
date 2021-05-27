@@ -44,14 +44,15 @@ Explanations:
 
 Test case info:
 
-In order to verify the Processor fiat conversion added values, this depoit
-CSV file contains simplified deposit/withdrawal data for 2 owners.
+Used to test crypto yield amount, crypto yield amount in percent, day, month
+and year interest in CHF. ETH/CHF curr rate == 4000.
+Yield fixed rate of 10 % per year.
 
 Data:
 
-CRYPTO-USDC
+CRYPTO-ETH
 
-OWNER,DATE,DEP/WITHDR,CHF AMT,EUR AMT
-JPS,2021/03/22 00:00:01,5500,5000,4500
-Béa,2021/02/20 00:00:00,4400,4000,2800
-JPS,2021/04/22 00:00:01,-1000,-850,-800
+OWNER,DATE,DEP/WITHDR,CHF AMT
+Béa,2021/01/01 00:00:00,2,3000
+Béa,2021/04/01 00:00:00,1,2000
+

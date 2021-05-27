@@ -42,16 +42,11 @@ Explanations:
    col name format. Ex: USD AMT, CHF AMT, EUR AMT. Otherwise, the app will not
    convert the yields into the desired conversion fiats.
 
-Test case info:
-
-In order to verify the Processor fiat conversion added values, this depoit
-CSV file contains simplified deposit/withdrawal data for 2 owners.
-
 Data:
 
-CRYPTO-USDC
+CRYPTO-ETH
 
-OWNER,DATE,DEP/WITHDR,CHF AMT,EUR AMT
-JPS,2021/03/22 00:00:01,5500,5000,4500
-Béa,2021/02/20 00:00:00,4400,4000,2800
-JPS,2021/04/22 00:00:01,-1000,-850,-800
+OWNER,DATE,DEP/WITHDR,CHF AMT
+Papa,2021/03/20 00:00:00,4.5879162,7583.15
+Béa,2021/03/23 00:00:01,0.3985632,600
+
