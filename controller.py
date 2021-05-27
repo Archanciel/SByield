@@ -63,7 +63,7 @@ if __name__ == '__main__':
 #	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 #	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
 	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_ETH
-	language = GB
+	language = FR
 	ctr = Controller()
 
 	sbYieldRatesWithTotalDf, \

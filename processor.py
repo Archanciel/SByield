@@ -27,16 +27,10 @@ class Processor:
 		yieldOwnerWithTotalsDetailDf, \
 		depositCrypto = self.ownerDepositYieldComputer.computeDepositsYields()
 
-		yieldOwnerWithTotalsDetailColNameLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
-
-		# moving date from/to col names at list start position
-		yieldOwnerWithTotalsDetailColNameLst = yieldOwnerWithTotalsDetailColNameLst[2:4] + \
-											   yieldOwnerWithTotalsDetailColNameLst[:2] + \
-											   yieldOwnerWithTotalsDetailColNameLst[4:]
-
 		# if deposits/withdrawals defined in the deposit CSV file are
 		# completed by fiat values, then the yieldOwnerWithTotalsDetailDf
 		# is completed at its right side by fiat amount columns ...
+		yieldOwnerWithTotalsDetailColNameLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
 		fiatColLst = [col for col in yieldOwnerWithTotalsDetailColNameLst if 'AMT' in col and 'YIELD' not in col]
 		fiatLst = list(map(lambda x: x.replace(' AMT', ''), fiatColLst))
 
@@ -47,7 +41,9 @@ class Processor:
 		# crypto rate column if USD not in fiat list
 
 		cryptoUsdDateFromRateColName = CRYPTO_USD_DATE_FROM_RATE.format(depositCrypto)
+		yieldOwnerWithTotalsDetailDf.insert(loc=1, column=cryptoUsdDateFromRateColName, value=0.0)
 		cryptoUsdCurrentRateColName = CRYPTO_USD_CURRENT_RATE.format(depositCrypto)
+		yieldOwnerWithTotalsDetailDf.insert(loc=2, column=cryptoUsdCurrentRateColName, value=0.0)
 		cryptoUsdCurrentRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(depositCrypto,
 																				 'USD')
 		yieldOwnerWithTotalsDetailDf.reset_index(inplace=True)
@@ -85,7 +81,15 @@ class Processor:
 #		cryptoUsdDepWithdrDateRate = self.cryptoFiatRateComputer.
 #		yieldOwnerWithTotalsDetailDf['USD DEP RATE'] =
 
-		dfNewColPosition = 2
+
+		yieldOwnerWithTotalsDetailColNameLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
+
+		# moving date from/to col names at list start position
+		yieldOwnerWithTotalsDetailColNameLst = yieldOwnerWithTotalsDetailColNameLst[4:6] + \
+											   yieldOwnerWithTotalsDetailColNameLst[:4] + \
+											   yieldOwnerWithTotalsDetailColNameLst[5:]
+
+		dfNewColPosition = 4
 		levelTwoUniqueColNameModifier = ''
 		capitalGainUniqueColNameLst = []
 		capitalGainPercentUniqueColNameLst = []
@@ -149,7 +153,7 @@ class Processor:
 
 		# insert YIELD AMT FIAT CUR RATE and DEP/WITHDR + YIELD AMT FIAT CUR RATE columns
 
-		dfNewColPosition = 5
+		dfNewColPosition = 7
 		uniqueColNameModifier = ''
 
 		for fiat in fiatLst:
@@ -289,8 +293,8 @@ class Processor:
 		if len(fiatLst) > 1:
 			multiIndexLevelZeroLst = [' '] * (depWithdrFiatColNb - 5) + [PROC_DEP[self.language], PROC_WITHDR[self.language]] + [self.PROC_HELP_2, self.PROC_HELP_3, self.PROC_HELP_4] + [' '] * 17
 		else:
-			multiIndexLevelZeroLst = [' '] * (depWithdrFiatColNb - 1) + [PROC_DEP[self.language],
-																   PROC_WITHDR[self.language]] + [self.PROC_HELP_2, self.PROC_HELP_3, self.PROC_HELP_4] + [' '] * 10
+			multiIndexLevelZeroLst = [' ', ' '] + [' '] * (depWithdrFiatColNb - 1) + [PROC_DEP[self.language],
+																   PROC_WITHDR[self.language]] + [self.PROC_HELP_2, self.PROC_HELP_3, self.PROC_HELP_4] + [' '] * 9
 		levelOneDepWithdrFiatArray = []
 
 		if len(fiatLst) > 1:
@@ -307,7 +311,7 @@ class Processor:
 			levelOneDepWithdrFiatArray += [PROC_CAPITAL_GAIN[self.language]]
 			levelOneDepWithdrFiatArray += [' ']
 
-		multiIndexLevelOneLst = [' ', ' ', PROC_AMOUNT[self.language]] + levelOneDepWithdrFiatArray + [PROC_YIELD_DAYS[self.language]] + [PROC_INTEREST] + [' ', ' ',]
+		multiIndexLevelOneLst = [' ', ' ', PROC_AMOUNT[self.language]] + [PROC_DEP_RATE[self.language], PROC_CUR_RATE[self.language]] + levelOneDepWithdrFiatArray + [PROC_YIELD_DAYS[self.language]] + [PROC_INTEREST] + [' ', ' ', ' ']
 
 		for fiat in fiatLst:
 			multiIndexLevelOneLst += [PROC_AMOUNT[self.language], PROC_YIELD[self.language], PROC_IN[self.language] + fiat.upper() + ' ']
@@ -315,7 +319,7 @@ class Processor:
 		multiIndexLevelTwoLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
 		multiIndexLevelTwoLst = [x.replace('_', '') for x in multiIndexLevelTwoLst]
 
-		multiIndexLevelTwoLst[3] = self.PROC_HELP_1 + multiIndexLevelTwoLst[3]
+		multiIndexLevelTwoLst[5] = self.PROC_HELP_1 + multiIndexLevelTwoLst[5]
 		# in order to differentiate by fiat the daily, monthly and
 		# yearly fiat interest columns inserted inti the
 		# yieldOwnerWithTotalsDetailDf, a low case fiat symbol was
