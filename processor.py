@@ -231,6 +231,11 @@ class Processor:
 		# removing no longer used DEPOSIT_YIELD_HEADER_CAPITAL column
 		yieldOwnerWithTotalsDetailDf = yieldOwnerWithTotalsDetailDf.drop(columns=[DEPOSIT_YIELD_HEADER_CAPITAL])
 
+		# replace crypto/USD zero value rate in TotAL rows by np.nan since total in those
+		# columns has no sense
+		cryptoRateColNames = [cryptoUsdDateFromRateColName, cryptoUsdCurrentRateColName]
+		yieldOwnerWithTotalsDetailDf[cryptoRateColNames] = yieldOwnerWithTotalsDetailDf[cryptoRateColNames].replace({'0': np.nan, 0: np.nan})
+
 		# renaming the yieldOwnerWithTotalsDetailDf columns
 
 		formatDic = {DEPOSIT_YIELD_HEADER_CAPITAL: depositCrypto,
