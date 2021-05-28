@@ -61,8 +61,8 @@ if __name__ == '__main__':
 	sbAccountSheetFileName = 'Swissborg_account_statement_20201101_20210523.xlsx'
 
 #	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
-#	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
-	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_ETH
+	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
+#	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_ETH
 	language = FR
 	ctr = Controller()
 
