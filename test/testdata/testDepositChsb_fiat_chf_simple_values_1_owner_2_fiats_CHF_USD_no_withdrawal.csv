@@ -43,13 +43,13 @@ Explanations:
 Test case info:
 
 In order to verify the Processor fiat conversion added values, this depoit
-CSV file contains simplified deposit data for 1 owner, no withdrawal, 1 fiat
-(CHF).
+CSV file contains simplified deposit data for 1 owner, no withdrawal, 2 fiats,
+CHF first, then USD.
 
 Data:
 
 CRYPTO-CHSB
 
-OWNER,DATE,DEP/WITHDR,CHF AMT
-JPS,2021/01/01 00:00:00,10000,5000
-JPS,2021/01/06 00:00:00,1000,1000
+OWNER,DATE,DEP/WITHDR,CHF AMT,USD AMT
+JPS,2021/01/01 00:00:00,10000,5000,4800
+JPS,2021/01/06 00:00:00,1000,1000,980
