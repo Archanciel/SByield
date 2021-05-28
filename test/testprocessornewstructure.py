@@ -52,7 +52,7 @@ class TestProcessorNewStructure(unittest.TestCase):
 		"""
 		ETH crypto, 2 owners, 1 with 1 deposit and the other with 2 deposits
 		"""
-		PRINT = False
+		PRINT = True
 
 		sbAccountSheetFileName = 'test_ETH_SB_account_statement.xlsx'
 		depositSheetFileName = 'test_Eth_2_owners_1_and_2_deposits.csv'
@@ -397,7 +397,7 @@ G TOTAL                            4.99              19945.92  276.30 20222.22  
 		"""
 		ETH crypto, 2 owners, 1 with 1 deposit and the other with 2 deposits
 		"""
-		PRINT = False
+		PRINT = True
 
 		sbAccountSheetFileName = 'test_ETH_SB_account_statement.xlsx'
 		depositSheetFileName = 'test_Eth_2_owners_1_and_2_deposits.csv'
@@ -743,7 +743,7 @@ G TOTAL                           4.99                   19945.92   276.30  2022
 		USDC crypto, 2 owners with 2 deposit and 1 withdrawal, fixed yield rate,
 		USDC/CHF final rate of 1.5 and USDC/EUR final rate of 1.4
 		"""
-		PRINT = False
+		PRINT = True
 
 		sbAccountSheetFileName = 'testSBEarningUsdc_simple_values_multi_depwithdr_bug.xlsx'
 		depositSheetFileName = 'depositUsdc_fiat_chf_eur_simple_values_depwithdr_bug.csv'
@@ -1134,7 +1134,7 @@ G TOTAL                          8900.00               8103.45   601.65   8705.1
 		USDC crypto, 2 owners with 2 deposit and 1 withdrawal, fixed yield rate,
 		USDC/CHF final rate of 1.5 and USDC/EUR final rate of 1.4
 		"""
-		PRINT = False
+		PRINT = True
 
 		sbAccountSheetFileName = 'testSBEarningUsdc_simple_values_multi_depwithdr_bug.xlsx'
 		depositSheetFileName = 'depositUsdc_fiat_chf_eur_simple_values_depwithdr_bug.csv'
@@ -2143,7 +2143,7 @@ TOTAL                                  0.04755894
 		crypto yield amount in percent, day, month and year yields in CHF.
 		ETH/CHF curr rate == 4000. Yield fixed rate of 10 % per year.
 		"""
-		PRINT = False
+		PRINT = True
 
 		sbAccountSheetFileName = 'test_ETH_SB_simplevalue_1_owner_2_deposits.xlsx'
 		depositSheetFileName = 'test_Eth_CHF_simplevalue_1_owner_2_deposits.csv'
@@ -3076,7 +3076,7 @@ if __name__ == '__main__':
 
 		# value testing ok for the tsts below
 		# tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_1_deposit_french_language()
-		#tst.testAddFiatConversionInfo_ETH_2_fiats_1_owner_1_deposit_french_language()
+		tst.testAddFiatConversionInfo_ETH_2_fiats_1_owner_1_deposit_french_language()
 		# tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_2_deposits_english_language()
 		tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_3_deposits_french_language()
 

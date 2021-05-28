@@ -311,7 +311,7 @@ class Processor:
 			levelOneDepWithdrFiatArray += [PROC_CAPITAL_GAIN[self.language]]
 			levelOneDepWithdrFiatArray += [' ']
 
-		multiIndexLevelOneLst = [' ', ' ', PROC_AMOUNT[self.language]] + [PROC_DEP_RATE[self.language], PROC_CUR_RATE[self.language]] + levelOneDepWithdrFiatArray + [PROC_YIELD_DAYS[self.language]] + [PROC_INTEREST] + [' ', ' ', ' ', ' ', ' ']
+		multiIndexLevelOneLst = [' ', ' ', PROC_AMOUNT[self.language]] + [PROC_DEP_RATE[self.language], PROC_CUR_RATE[self.language]] + levelOneDepWithdrFiatArray + [PROC_YIELD_DAYS[self.language]] + [PROC_INTEREST] + [' ', ' ']
 
 		for fiat in fiatLst:
 			multiIndexLevelOneLst += [PROC_AMOUNT[self.language], PROC_YIELD[self.language], PROC_IN[self.language] + fiat.upper() + ' ']
