@@ -2586,7 +2586,7 @@ TOTAL                                  0.12084309
 														  self.cryptoFiatCsvFilePathName),
 								   language=testLanguage)
 
-		self.processor.activateHelpNumbers()
+		#self.processor.activateHelpNumbers()
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \

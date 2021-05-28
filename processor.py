@@ -87,7 +87,7 @@ class Processor:
 		# moving date from/to col names at list start position
 		yieldOwnerWithTotalsDetailColNameLst = yieldOwnerWithTotalsDetailColNameLst[4:6] + \
 											   yieldOwnerWithTotalsDetailColNameLst[:4] + \
-											   yieldOwnerWithTotalsDetailColNameLst[5:]
+											   yieldOwnerWithTotalsDetailColNameLst[6:]
 
 		dfNewColPosition = 4
 		levelTwoUniqueColNameModifier = ''
