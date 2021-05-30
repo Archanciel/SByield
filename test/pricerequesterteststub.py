@@ -103,7 +103,7 @@ class PriceRequesterTestStub(PriceRequester):
 		elif crypto == 'ETH' and unit == 'CHF':
 			rate = 4000
 		elif crypto == 'ETH' and unit == 'USD':
-			rate = 4400
+			rate = 4400 # coherent with USD/CHF value of 0.90909090
 		else:
 			raise ValueError('Crypto {}/{} pair not supported by PriceRequesterTestStub. Complete PriceRequesterTestStub.getCurrentPrice() method and retry !'.format(crypto, unit))
 
