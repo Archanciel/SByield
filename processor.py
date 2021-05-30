@@ -57,9 +57,12 @@ class Processor:
 				depositCryptoAmount = row.loc[DATAFRAME_HEADER_DEPOSIT_WITHDRAW]
 				depositFiatAmount = row.loc[firstDepositFiatColName]
 				cryptoDateFromFiatRate = depositFiatAmount / depositCryptoAmount
-				usdDateFromFirstDepositFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate('USD',
-																									fiat,
-																									depositDateFrom)
+				if fiat.upper() != 'USD':
+					usdDateFromFirstDepositFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate('USD',
+																										fiat,
+																										depositDateFrom)
+				else:
+					usdDateFromFirstDepositFiatRate = 1.0
 				cryptoUsdDateFromRate = cryptoDateFromFiatRate / usdDateFromFirstDepositFiatRate
 				yieldOwnerWithTotalsDetailDf.loc[index, cryptoUsdDateFromRateColName] = cryptoUsdDateFromRate
 				yieldOwnerWithTotalsDetailDf.loc[index, cryptoUsdCurrentRateColName] = cryptoUsdCurrentRate
