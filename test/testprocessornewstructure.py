@@ -789,7 +789,7 @@ G TOTAL                           4.99                                     19945
 		USDC crypto, 2 owners with 2 deposit and 1 withdrawal, fixed yield rate,
 		USDC/CHF final rate of 1.5 and USDC/EUR final rate of 1.4
 		"""
-		PRINT = False
+		PRINT = True
 
 		sbAccountSheetFileName = 'testSBEarningUsdc_simple_values_multi_depwithdr_bug.xlsx'
 		depositSheetFileName = 'depositUsdc_fiat_chf_eur_simple_values_depwithdr_bug.csv'
@@ -1179,7 +1179,7 @@ G TOTAL                          8900.00                                  8103.4
 		USDC crypto, 2 owners with 2 deposit and 1 withdrawal, fixed yield rate,
 		USDC/CHF final rate of 1.5 and USDC/EUR final rate of 1.4
 		"""
-		PRINT = False
+		PRINT = True
 
 		sbAccountSheetFileName = 'testSBEarningUsdc_simple_values_multi_depwithdr_bug.xlsx'
 		depositSheetFileName = 'depositUsdc_fiat_chf_eur_simple_values_depwithdr_bug.csv'
@@ -1727,6 +1727,12 @@ TOTAL                                  0.04755894
 			print('depWithdrTotal_ETH: ', depWithdrTotal_ETH)
 			depWithdrGrandTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_AMOUNT[testLanguage]]['ETH']
 			print('depWithdrGrandTotal_ETH: ', depWithdrGrandTotal_ETH)
+
+			datDepETH_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_USD_DATE_FROM_RATE.format('ETH')]
+			print('datDepETH_USD_1: ', datDepETH_USD_1)
+			datActETH_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_USD_CURRENT_RATE.format('ETH')]
+			print('datActETH_USD_1: ', datActETH_USD_1)
+
 			depWithdr_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			print('depWithdr_CHF: ', depWithdr_CHF)
 			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
@@ -1786,6 +1792,12 @@ TOTAL                                  0.04755894
 			self.assertEqual(2.0, depWithdrTotal_ETH)
 			depWithdrGrandTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_AMOUNT[testLanguage]]['ETH']
 			self.assertEqual(2.0, depWithdrGrandTotal_ETH)
+
+			datDepETH_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_USD_DATE_FROM_RATE.format('ETH')]
+			self.assertEqual(1684.257803727824, datDepETH_USD_1)
+			datActETH_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_USD_CURRENT_RATE.format('ETH')]
+			self.assertEqual(4400.0, datActETH_USD_1)
+
 			depWithdr_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			self.assertEqual(3000, depWithdr_CHF)
 			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
@@ -3700,6 +3712,16 @@ TOTAL                                  1,098.56475635
 			print('depWithdrTotal_CHSB: ', depWithdrTotal_CHSB)
 			depWithdrGrandTotal_CHSB = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_AMOUNT[testLanguage]]['CHSB']
 			print('depWithdrGrandTotal_CHSB: ', depWithdrGrandTotal_CHSB)
+
+			datDepCHSB_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_USD_DATE_FROM_RATE.format('CHSB')]
+			print('datDepCHSB_USD_1: ', datDepCHSB_USD_1)
+			datActCHSB_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_USD_CURRENT_RATE.format('CHSB')]
+			print('datActCHSB_USD_1: ', datActCHSB_USD_1)
+			datDepCHSB_USD_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_USD_DATE_FROM_RATE.format('CHSB')]
+			print('datDepCHSB_USD_2: ', datDepCHSB_USD_2)
+			datActCHSB_USD_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_USD_CURRENT_RATE.format('CHSB')]
+			print('datActCHSB_USD_2: ', datActCHSB_USD_2)
+
 			depWithdr_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			print('depWithdr_CHF_1: ', depWithdr_CHF_1)
 			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
@@ -3761,6 +3783,16 @@ TOTAL                                  1,098.56475635
 			self.assertEqual(11000.0, depWithdrTotal_CHSB)
 			depWithdrGrandTotal_CHSB = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_AMOUNT[testLanguage]]['CHSB']
 			self.assertEqual(11000.0, depWithdrGrandTotal_CHSB)
+
+			datDepCHSB_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_USD_DATE_FROM_RATE.format('CHSB')]
+			self.assertEqual(0.5614192679092747, datDepCHSB_USD_1)
+			datActCHSB_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_USD_CURRENT_RATE.format('CHSB')]
+			self.assertEqual(1.6999999995, datActCHSB_USD_1)
+			datDepCHSB_USD_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_USD_DATE_FROM_RATE.format('CHSB')]
+			self.assertEqual(1.1344299489506524, datDepCHSB_USD_2)
+			datActCHSB_USD_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_USD_CURRENT_RATE.format('CHSB')]
+			self.assertEqual(1.6999999995, datActCHSB_USD_2)
+
 			depWithdr_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			self.assertEqual(5000.0, depWithdr_CHF_1)
 			depWithdr_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
@@ -3990,6 +4022,12 @@ TOTAL                                  0.04755894
 			print('depWithdrTotal_ETH: ', depWithdrTotal_ETH)
 			depWithdrGrandTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_AMOUNT[testLanguage]]['ETH']
 			print('depWithdrGrandTotal_ETH: ', depWithdrGrandTotal_ETH)
+
+			datDepETH_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_USD_DATE_FROM_RATE.format('ETH')]
+			print('datDepETH_USD_1: ', datDepETH_USD_1)
+			datActETH_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_USD_CURRENT_RATE.format('ETH')]
+			print('datActETH_USD_1: ', datActETH_USD_1)
+
 			depWithdr_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			print('depWithdr_CHF_1: ', depWithdr_CHF)
 			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
@@ -4085,6 +4123,12 @@ TOTAL                                  0.04755894
 			self.assertEqual(2.0, depWithdrTotal_ETH)
 			depWithdrGrandTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_AMOUNT[testLanguage]]['ETH']
 			self.assertEqual(2.0, depWithdrGrandTotal_ETH)
+
+			datDepETH_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_USD_DATE_FROM_RATE.format('ETH')]
+			self.assertEqual(1684.257803727824, datDepETH_USD_1)
+			datActETH_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_USD_CURRENT_RATE.format('ETH')]
+			self.assertEqual(4400.0, datActETH_USD_1)
+
 			depWithdr_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			self.assertEqual(3000, depWithdr_CHF)
 			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
@@ -4430,6 +4474,16 @@ TOTAL                                  0.12084309
 			print('depWithdrTotal_ETH: ', depWithdrTotal_ETH)
 			depWithdrGrandTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[3][' '][PROC_AMOUNT[testLanguage]]['ETH']
 			print('depWithdrGrandTotal_ETH: ', depWithdrGrandTotal_ETH)
+
+			datDepETH_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_USD_DATE_FROM_RATE.format('ETH')]
+			print('datDepETH_USD_1: ', datDepETH_USD_1)
+			datActETH_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_USD_CURRENT_RATE.format('ETH')]
+			print('datActETH_USD_1: ', datActETH_USD_1)
+			datDepETH_USD_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_USD_DATE_FROM_RATE.format('ETH')]
+			print('datDepETH_USD_2: ', datDepETH_USD_2)
+			datActETH_USD_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_USD_CURRENT_RATE.format('ETH')]
+			print('datActETH_USD_2: ', datActETH_USD_2)
+
 			depWithdr_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			print('depWithdr_CHF_1: ', depWithdr_CHF_1)
 			depWithdr_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
@@ -4518,6 +4572,16 @@ TOTAL                                  0.12084309
 			depWithdrTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_AMOUNT[testLanguage]]['ETH']
 			self.assertEqual(3.00, depWithdrTotal_ETH)
 			depWithdrGrandTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[3][' '][PROC_AMOUNT[testLanguage]]['ETH']
+
+			datDepETH_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_USD_DATE_FROM_RATE.format('ETH')]
+			self.assertEqual(1684.257803727824, datDepETH_USD_1)
+			datActETH_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_USD_CURRENT_RATE.format('ETH')]
+			self.assertEqual(4400.0, datActETH_USD_1)
+			datDepETH_USD_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_USD_DATE_FROM_RATE.format('ETH')]
+			self.assertEqual(2109.482122139015, datDepETH_USD_2)
+			datActETH_USD_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_USD_CURRENT_RATE.format('ETH')]
+			self.assertEqual(4400.0, datActETH_USD_2)
+
 			self.assertEqual(3.00, depWithdrGrandTotal_ETH)
 			depWithdr_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			self.assertEqual(3000, depWithdr_CHF_1)
@@ -4889,6 +4953,20 @@ TOTAL                                  0.15433602
 			print('depWithdrTotal_ETH: ', depWithdrTotal_ETH)
 			depWithdrGrandTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[4][' '][PROC_AMOUNT[testLanguage]]['ETH']
 			print('depWithdrGrandTotal_ETH: ', depWithdrGrandTotal_ETH)
+
+			datDepETH_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_USD_DATE_FROM_RATE.format('ETH')]
+			print('datDepETH_USD_1: ', datDepETH_USD_1)
+			datActETH_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_USD_CURRENT_RATE.format('ETH')]
+			print('datActETH_USD_1: ', datActETH_USD_1)
+			datDepETH_USD_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_USD_DATE_FROM_RATE.format('ETH')]
+			print('datDepETH_USD_2: ', datDepETH_USD_2)
+			datActETH_USD_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_USD_CURRENT_RATE.format('ETH')]
+			print('datActETH_USD_2: ', datActETH_USD_2)
+			datDepETH_USD_3 = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_USD_DATE_FROM_RATE.format('ETH')]
+			print('datDepETH_USD_3: ', datDepETH_USD_3)
+			datActETH_USD_3 = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_USD_CURRENT_RATE.format('ETH')]
+			print('datActETH_USD_3: ', datActETH_USD_3)
+
 			depWithdr_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			print('depWithdr_CHF_1: ', depWithdr_CHF_1)
 			depWithdr_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
@@ -5001,6 +5079,20 @@ TOTAL                                  0.15433602
 			depWithdrTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[3][' '][PROC_AMOUNT[testLanguage]]['ETH']
 			self.assertEqual(4.00, depWithdrTotal_ETH)
 			depWithdrGrandTotal_ETH = yieldOwnerWithTotalsDetailDf.iloc[4][' '][PROC_AMOUNT[testLanguage]]['ETH']
+
+			datDepETH_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_USD_DATE_FROM_RATE.format('ETH')]
+			self.assertEqual(1684.257803727824, datDepETH_USD_1)
+			datActETH_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_USD_CURRENT_RATE.format('ETH')]
+			self.assertEqual(4400.0, datActETH_USD_1)
+			datDepETH_USD_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_USD_DATE_FROM_RATE.format('ETH')]
+			self.assertEqual(2109.482122139015, datDepETH_USD_2)
+			datActETH_USD_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_USD_CURRENT_RATE.format('ETH')]
+			self.assertEqual(4400.0, datActETH_USD_2)
+			datDepETH_USD_3 = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_USD_DATE_FROM_RATE.format('ETH')]
+			self.assertEqual(3323.731442499446, datDepETH_USD_3)
+			datActETH_USD_3 = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_USD_CURRENT_RATE.format('ETH')]
+			self.assertEqual(4400.0, datActETH_USD_3)
+
 			self.assertEqual(4.00, depWithdrGrandTotal_ETH)
 			depWithdr_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			self.assertEqual(3000, depWithdr_CHF_1)
