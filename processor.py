@@ -12,10 +12,10 @@ class Processor:
 		self.cryptoFiatRateComputer = cryptoFiatRateComputer
 		self.language = language
 
-		self.PROC_HELP_1 = ' '
-		self.PROC_HELP_2 = ' '
-		self.PROC_HELP_3 = ' '
-		self.PROC_HELP_4 = ' '
+		self.PROC_HELP_1 = ''
+		self.PROC_HELP_2 = ''
+		self.PROC_HELP_3 = ''
+		self.PROC_HELP_4 = ''
 
 	def addFiatConversionInfo(self):
 		"""
