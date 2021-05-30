@@ -2197,8 +2197,10 @@ TOTAL                                  0.04755894
 			#yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			yieldFiatGrandTotal_USD = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]]['USD']
 			print('yieldFiatGrandTotal_USD: ', yieldFiatGrandTotal_USD)
-			actValPlusYieldFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
-			print('actValPlusYieldFiat_CHF: ', actValPlusYieldFiat_CHF)
+			depWithdrActualValue_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
+			self.assertEqual(15000.0, depWithdrActualValue_CHF_1)
+
+			print('actValPlusYieldFiat_CHF: ', depWithdrActualValue_CHF_1)
 			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiatTotal_CHF: ', actValPlusYieldFiatTotal_CHF)
 			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
@@ -2722,8 +2724,6 @@ TOTAL                                  1,098.56475635
 			print('yearlyYieldAmount: ', yearlyYieldAmount)
 		else:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents. All values checked !')
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-			print('\nAll values checked !')
 			depWithdrDateFrom = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][DEPOSIT_YIELD_HEADER_DATE_FROM[testLanguage]]
 			self.assertEqual('2021-01-01', str(depWithdrDateFrom))
 			depWithdrDateTo = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][DEPOSIT_YIELD_HEADER_DATE_TO[testLanguage]]
@@ -4088,7 +4088,7 @@ if __name__ == '__main__':
 		# tst.testAddFiatConversionInfo_ETH_2_fiats_1_owner_1_deposit_french_language()
 		# tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_2_deposits_english_language()
 		# tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_3_deposits_french_language()
-		#tst.testAddFiatConversionInfo_CHSB_2_fiats_1_owner_2_deposit_french_language()
+		#tst.testAddFiatConversionInfo_CHSB_2_fiats_CHF_USD_1_owner_2_deposit_french_language()
 		tst.testAddFiatConversionInfo_CHSB_1_fiat_1_owner_2_deposit_french_language()
 
 	'''
