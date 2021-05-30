@@ -2018,7 +2018,7 @@ TOTAL                                  0.04755894
 		crypto yield amount in percent, day, month and year yields in CHF.
 		CHSB/CHF curr rate == 1,70. Yield fixed rate of 10 % per year.
 		"""
-		PRINT = True
+		PRINT = False
 
 		sbAccountSheetFileName = 'testDepositCHSB_simple_values_1_owner_no_withdrawal.xlsx'
 		depositSheetFileName = 'testDepositChsb_fiat_chf_simple_values_1_owner_2_fiats_CHF_USD_no_withdrawal.csv'
@@ -2059,99 +2059,374 @@ TOTAL                                  0.04755894
 				print(sbEarningsTotalDfActualStr)
 		else:
 			sbEarningsTotalDfExpectedStr = \
-'''                         Type Currency Net amount
-Local time                                       
-2021-01-01 00:00:00  Earnings      ETH 0.00052232
-2021-01-02 00:00:00  Earnings      ETH 0.00052245
-2021-01-03 00:00:00  Earnings      ETH 0.00052259
-2021-01-04 00:00:00  Earnings      ETH 0.00052273
-2021-01-05 00:00:00  Earnings      ETH 0.00052286
-2021-01-06 00:00:00  Earnings      ETH 0.00052300
-2021-01-07 00:00:00  Earnings      ETH 0.00052313
-2021-01-08 00:00:00  Earnings      ETH 0.00052327
-2021-01-09 00:00:00  Earnings      ETH 0.00052341
-2021-01-10 00:00:00  Earnings      ETH 0.00052354
-2021-01-11 00:00:00  Earnings      ETH 0.00052368
-2021-01-12 00:00:00  Earnings      ETH 0.00052382
-2021-01-13 00:00:00  Earnings      ETH 0.00052395
-2021-01-14 00:00:00  Earnings      ETH 0.00052409
-2021-01-15 00:00:00  Earnings      ETH 0.00052423
-2021-01-16 00:00:00  Earnings      ETH 0.00052437
-2021-01-17 00:00:00  Earnings      ETH 0.00052450
-2021-01-18 00:00:00  Earnings      ETH 0.00052464
-2021-01-19 00:00:00  Earnings      ETH 0.00052478
-2021-01-20 00:00:00  Earnings      ETH 0.00052491
-2021-01-21 00:00:00  Earnings      ETH 0.00052505
-2021-01-22 00:00:00  Earnings      ETH 0.00052519
-2021-01-23 00:00:00  Earnings      ETH 0.00052532
-2021-01-24 00:00:00  Earnings      ETH 0.00052546
-2021-01-25 00:00:00  Earnings      ETH 0.00052560
-2021-01-26 00:00:00  Earnings      ETH 0.00052574
-2021-01-27 00:00:00  Earnings      ETH 0.00052587
-2021-01-28 00:00:00  Earnings      ETH 0.00052601
-2021-01-29 00:00:00  Earnings      ETH 0.00052615
-2021-01-30 00:00:00  Earnings      ETH 0.00052629
-2021-01-31 00:00:00  Earnings      ETH 0.00052642
-2021-02-01 00:00:00  Earnings      ETH 0.00052656
-2021-02-02 00:00:00  Earnings      ETH 0.00052670
-2021-02-03 00:00:00  Earnings      ETH 0.00052684
-2021-02-04 00:00:00  Earnings      ETH 0.00052697
-2021-02-05 00:00:00  Earnings      ETH 0.00052711
-2021-02-06 00:00:00  Earnings      ETH 0.00052725
-2021-02-07 00:00:00  Earnings      ETH 0.00052739
-2021-02-08 00:00:00  Earnings      ETH 0.00052752
-2021-02-09 00:00:00  Earnings      ETH 0.00052766
-2021-02-10 00:00:00  Earnings      ETH 0.00052780
-2021-02-11 00:00:00  Earnings      ETH 0.00052794
-2021-02-12 00:00:00  Earnings      ETH 0.00052808
-2021-02-13 00:00:00  Earnings      ETH 0.00052821
-2021-02-14 00:00:00  Earnings      ETH 0.00052835
-2021-02-15 00:00:00  Earnings      ETH 0.00052849
-2021-02-16 00:00:00  Earnings      ETH 0.00052863
-2021-02-17 00:00:00  Earnings      ETH 0.00052877
-2021-02-18 00:00:00  Earnings      ETH 0.00052890
-2021-02-19 00:00:00  Earnings      ETH 0.00052904
-2021-02-20 00:00:00  Earnings      ETH 0.00052918
-2021-02-21 00:00:00  Earnings      ETH 0.00052932
-2021-02-22 00:00:00  Earnings      ETH 0.00052946
-2021-02-23 00:00:00  Earnings      ETH 0.00052959
-2021-02-24 00:00:00  Earnings      ETH 0.00052973
-2021-02-25 00:00:00  Earnings      ETH 0.00052987
-2021-02-26 00:00:00  Earnings      ETH 0.00053001
-2021-02-27 00:00:00  Earnings      ETH 0.00053015
-2021-02-28 00:00:00  Earnings      ETH 0.00053029
-2021-03-01 00:00:00  Earnings      ETH 0.00053043
-2021-03-02 00:00:00  Earnings      ETH 0.00053056
-2021-03-03 00:00:00  Earnings      ETH 0.00053070
-2021-03-04 00:00:00  Earnings      ETH 0.00053084
-2021-03-05 00:00:00  Earnings      ETH 0.00053098
-2021-03-06 00:00:00  Earnings      ETH 0.00053112
-2021-03-07 00:00:00  Earnings      ETH 0.00053126
-2021-03-08 00:00:00  Earnings      ETH 0.00053140
-2021-03-09 00:00:00  Earnings      ETH 0.00053153
-2021-03-10 00:00:00  Earnings      ETH 0.00053167
-2021-03-11 00:00:00  Earnings      ETH 0.00053181
-2021-03-12 00:00:00  Earnings      ETH 0.00053195
-2021-03-13 00:00:00  Earnings      ETH 0.00053209
-2021-03-14 00:00:00  Earnings      ETH 0.00053223
-2021-03-15 00:00:00  Earnings      ETH 0.00053237
-2021-03-16 00:00:00  Earnings      ETH 0.00053251
-2021-03-17 00:00:00  Earnings      ETH 0.00053265
-2021-03-18 00:00:00  Earnings      ETH 0.00053278
-2021-03-19 00:00:00  Earnings      ETH 0.00053292
-2021-03-20 00:00:00  Earnings      ETH 0.00053306
-2021-03-21 00:00:00  Earnings      ETH 0.00053320
-2021-03-22 00:00:00  Earnings      ETH 0.00053334
-2021-03-23 00:00:00  Earnings      ETH 0.00053348
-2021-03-24 00:00:00  Earnings      ETH 0.00053362
-2021-03-25 00:00:00  Earnings      ETH 0.00053376
-2021-03-26 00:00:00  Earnings      ETH 0.00053390
-2021-03-27 00:00:00  Earnings      ETH 0.00053404
-2021-03-28 00:00:00  Earnings      ETH 0.00053418
-2021-03-29 00:00:00  Earnings      ETH 0.00053432
-2021-03-30 00:00:00  Earnings      ETH 0.00053446
-2021-03-31 00:00:00  Earnings      ETH 0.00053460
-TOTAL                                  0.04755894
+'''                         Type Currency     Net amount
+Local time                                           
+2021-01-01 00:00:00  Earnings     CHSB     2.61157876
+2021-01-02 00:00:00  Earnings     CHSB     2.61226080
+2021-01-03 00:00:00  Earnings     CHSB     2.61294301
+2021-01-04 00:00:00  Earnings     CHSB     2.61362540
+2021-01-05 00:00:00  Earnings     CHSB     2.61430797
+2021-01-06 00:00:00  Earnings     CHSB     2.87614859
+2021-01-07 00:00:00  Earnings     CHSB     2.87689972
+2021-01-08 00:00:00  Earnings     CHSB     2.87765104
+2021-01-09 00:00:00  Earnings     CHSB     2.87840257
+2021-01-10 00:00:00  Earnings     CHSB     2.87915428
+2021-01-11 00:00:00  Earnings     CHSB     2.87990620
+2021-01-12 00:00:00  Earnings     CHSB     2.88065831
+2021-01-13 00:00:00  Earnings     CHSB     2.88141061
+2021-01-14 00:00:00  Earnings     CHSB     2.88216312
+2021-01-15 00:00:00  Earnings     CHSB     2.88291582
+2021-01-16 00:00:00  Earnings     CHSB     2.88366871
+2021-01-17 00:00:00  Earnings     CHSB     2.88442181
+2021-01-18 00:00:00  Earnings     CHSB     2.88517509
+2021-01-19 00:00:00  Earnings     CHSB     2.88592858
+2021-01-20 00:00:00  Earnings     CHSB     2.88668226
+2021-01-21 00:00:00  Earnings     CHSB     2.88743614
+2021-01-22 00:00:00  Earnings     CHSB     2.88819022
+2021-01-23 00:00:00  Earnings     CHSB     2.88894449
+2021-01-24 00:00:00  Earnings     CHSB     2.88969896
+2021-01-25 00:00:00  Earnings     CHSB     2.89045363
+2021-01-26 00:00:00  Earnings     CHSB     2.89120850
+2021-01-27 00:00:00  Earnings     CHSB     2.89196356
+2021-01-28 00:00:00  Earnings     CHSB     2.89271882
+2021-01-29 00:00:00  Earnings     CHSB     2.89347427
+2021-01-30 00:00:00  Earnings     CHSB     2.89422993
+2021-01-31 00:00:00  Earnings     CHSB     2.89498578
+2021-02-01 00:00:00  Earnings     CHSB     2.89574183
+2021-02-02 00:00:00  Earnings     CHSB     2.89649807
+2021-02-03 00:00:00  Earnings     CHSB     2.89725452
+2021-02-04 00:00:00  Earnings     CHSB     2.89801116
+2021-02-05 00:00:00  Earnings     CHSB     2.89876800
+2021-02-06 00:00:00  Earnings     CHSB     2.89952503
+2021-02-07 00:00:00  Earnings     CHSB     2.90028227
+2021-02-08 00:00:00  Earnings     CHSB     2.90103970
+2021-02-09 00:00:00  Earnings     CHSB     2.90179733
+2021-02-10 00:00:00  Earnings     CHSB     2.90255515
+2021-02-11 00:00:00  Earnings     CHSB     2.90331318
+2021-02-12 00:00:00  Earnings     CHSB     2.90407140
+2021-02-13 00:00:00  Earnings     CHSB     2.90482982
+2021-02-14 00:00:00  Earnings     CHSB     2.90558844
+2021-02-15 00:00:00  Earnings     CHSB     2.90634726
+2021-02-16 00:00:00  Earnings     CHSB     2.90710627
+2021-02-17 00:00:00  Earnings     CHSB     2.90786549
+2021-02-18 00:00:00  Earnings     CHSB     2.90862490
+2021-02-19 00:00:00  Earnings     CHSB     2.90938451
+2021-02-20 00:00:00  Earnings     CHSB     2.91014432
+2021-02-21 00:00:00  Earnings     CHSB     2.91090433
+2021-02-22 00:00:00  Earnings     CHSB     2.91166453
+2021-02-23 00:00:00  Earnings     CHSB     2.91242494
+2021-02-24 00:00:00  Earnings     CHSB     2.91318554
+2021-02-25 00:00:00  Earnings     CHSB     2.91394634
+2021-02-26 00:00:00  Earnings     CHSB     2.91470734
+2021-02-27 00:00:00  Earnings     CHSB     2.91546854
+2021-02-28 00:00:00  Earnings     CHSB     2.91622994
+2021-03-01 00:00:00  Earnings     CHSB     2.91699153
+2021-03-02 00:00:00  Earnings     CHSB     2.91775333
+2021-03-03 00:00:00  Earnings     CHSB     2.91851532
+2021-03-04 00:00:00  Earnings     CHSB     2.91927752
+2021-03-05 00:00:00  Earnings     CHSB     2.92003991
+2021-03-06 00:00:00  Earnings     CHSB     2.92080250
+2021-03-07 00:00:00  Earnings     CHSB     2.92156529
+2021-03-08 00:00:00  Earnings     CHSB     2.92232828
+2021-03-09 00:00:00  Earnings     CHSB     2.92309147
+2021-03-10 00:00:00  Earnings     CHSB     2.92385486
+2021-03-11 00:00:00  Earnings     CHSB     2.92461845
+2021-03-12 00:00:00  Earnings     CHSB     2.92538223
+2021-03-13 00:00:00  Earnings     CHSB     2.92614622
+2021-03-14 00:00:00  Earnings     CHSB     2.92691040
+2021-03-15 00:00:00  Earnings     CHSB     2.92767479
+2021-03-16 00:00:00  Earnings     CHSB     2.92843938
+2021-03-17 00:00:00  Earnings     CHSB     2.92920416
+2021-03-18 00:00:00  Earnings     CHSB     2.92996915
+2021-03-19 00:00:00  Earnings     CHSB     2.93073433
+2021-03-20 00:00:00  Earnings     CHSB     2.93149971
+2021-03-21 00:00:00  Earnings     CHSB     2.93226530
+2021-03-22 00:00:00  Earnings     CHSB     2.93303108
+2021-03-23 00:00:00  Earnings     CHSB     2.93379707
+2021-03-24 00:00:00  Earnings     CHSB     2.93456325
+2021-03-25 00:00:00  Earnings     CHSB     2.93532964
+2021-03-26 00:00:00  Earnings     CHSB     2.93609622
+2021-03-27 00:00:00  Earnings     CHSB     2.93686300
+2021-03-28 00:00:00  Earnings     CHSB     2.93762999
+2021-03-29 00:00:00  Earnings     CHSB     2.93839717
+2021-03-30 00:00:00  Earnings     CHSB     2.93916456
+2021-03-31 00:00:00  Earnings     CHSB     2.93993215
+2021-04-01 00:00:00  Earnings     CHSB     2.94069993
+2021-04-02 00:00:00  Earnings     CHSB     2.94146792
+2021-04-03 00:00:00  Earnings     CHSB     2.94223611
+2021-04-04 00:00:00  Earnings     CHSB     2.94300450
+2021-04-05 00:00:00  Earnings     CHSB     2.94377308
+2021-04-06 00:00:00  Earnings     CHSB     2.94454187
+2021-04-07 00:00:00  Earnings     CHSB     2.94531086
+2021-04-08 00:00:00  Earnings     CHSB     2.94608006
+2021-04-09 00:00:00  Earnings     CHSB     2.94684945
+2021-04-10 00:00:00  Earnings     CHSB     2.94761904
+2021-04-11 00:00:00  Earnings     CHSB     2.94838883
+2021-04-12 00:00:00  Earnings     CHSB     2.94915883
+2021-04-13 00:00:00  Earnings     CHSB     2.94992903
+2021-04-14 00:00:00  Earnings     CHSB     2.95069942
+2021-04-15 00:00:00  Earnings     CHSB     2.95147002
+2021-04-16 00:00:00  Earnings     CHSB     2.95224082
+2021-04-17 00:00:00  Earnings     CHSB     2.95301182
+2021-04-18 00:00:00  Earnings     CHSB     2.95378302
+2021-04-19 00:00:00  Earnings     CHSB     2.95455443
+2021-04-20 00:00:00  Earnings     CHSB     2.95532603
+2021-04-21 00:00:00  Earnings     CHSB     2.95609784
+2021-04-22 00:00:00  Earnings     CHSB     2.95686985
+2021-04-23 00:00:00  Earnings     CHSB     2.95764206
+2021-04-24 00:00:00  Earnings     CHSB     2.95841447
+2021-04-25 00:00:00  Earnings     CHSB     2.95918708
+2021-04-26 00:00:00  Earnings     CHSB     2.95995990
+2021-04-27 00:00:00  Earnings     CHSB     2.96073291
+2021-04-28 00:00:00  Earnings     CHSB     2.96150613
+2021-04-29 00:00:00  Earnings     CHSB     2.96227955
+2021-04-30 00:00:00  Earnings     CHSB     2.96305318
+2021-05-01 00:00:00  Earnings     CHSB     2.96382700
+2021-05-02 00:00:00  Earnings     CHSB     2.96460103
+2021-05-03 00:00:00  Earnings     CHSB     2.96537526
+2021-05-04 00:00:00  Earnings     CHSB     2.96614969
+2021-05-05 00:00:00  Earnings     CHSB     2.96692432
+2021-05-06 00:00:00  Earnings     CHSB     2.96769916
+2021-05-07 00:00:00  Earnings     CHSB     2.96847419
+2021-05-08 00:00:00  Earnings     CHSB     2.96924943
+2021-05-09 00:00:00  Earnings     CHSB     2.97002488
+2021-05-10 00:00:00  Earnings     CHSB     2.97080052
+2021-05-11 00:00:00  Earnings     CHSB     2.97157637
+2021-05-12 00:00:00  Earnings     CHSB     2.97235242
+2021-05-13 00:00:00  Earnings     CHSB     2.97312867
+2021-05-14 00:00:00  Earnings     CHSB     2.97390513
+2021-05-15 00:00:00  Earnings     CHSB     2.97468179
+2021-05-16 00:00:00  Earnings     CHSB     2.97545865
+2021-05-17 00:00:00  Earnings     CHSB     2.97623572
+2021-05-18 00:00:00  Earnings     CHSB     2.97701298
+2021-05-19 00:00:00  Earnings     CHSB     2.97779045
+2021-05-20 00:00:00  Earnings     CHSB     2.97856813
+2021-05-21 00:00:00  Earnings     CHSB     2.97934600
+2021-05-22 00:00:00  Earnings     CHSB     2.98012408
+2021-05-23 00:00:00  Earnings     CHSB     2.98090237
+2021-05-24 00:00:00  Earnings     CHSB     2.98168085
+2021-05-25 00:00:00  Earnings     CHSB     2.98245954
+2021-05-26 00:00:00  Earnings     CHSB     2.98323843
+2021-05-27 00:00:00  Earnings     CHSB     2.98401753
+2021-05-28 00:00:00  Earnings     CHSB     2.98479683
+2021-05-29 00:00:00  Earnings     CHSB     2.98557633
+2021-05-30 00:00:00  Earnings     CHSB     2.98635604
+2021-05-31 00:00:00  Earnings     CHSB     2.98713595
+2021-06-01 00:00:00  Earnings     CHSB     2.98791606
+2021-06-02 00:00:00  Earnings     CHSB     2.98869638
+2021-06-03 00:00:00  Earnings     CHSB     2.98947690
+2021-06-04 00:00:00  Earnings     CHSB     2.99025763
+2021-06-05 00:00:00  Earnings     CHSB     2.99103856
+2021-06-06 00:00:00  Earnings     CHSB     2.99181969
+2021-06-07 00:00:00  Earnings     CHSB     2.99260103
+2021-06-08 00:00:00  Earnings     CHSB     2.99338257
+2021-06-09 00:00:00  Earnings     CHSB     2.99416432
+2021-06-10 00:00:00  Earnings     CHSB     2.99494627
+2021-06-11 00:00:00  Earnings     CHSB     2.99572842
+2021-06-12 00:00:00  Earnings     CHSB     2.99651078
+2021-06-13 00:00:00  Earnings     CHSB     2.99729334
+2021-06-14 00:00:00  Earnings     CHSB     2.99807611
+2021-06-15 00:00:00  Earnings     CHSB     2.99885908
+2021-06-16 00:00:00  Earnings     CHSB     2.99964225
+2021-06-17 00:00:00  Earnings     CHSB     3.00042563
+2021-06-18 00:00:00  Earnings     CHSB     3.00120922
+2021-06-19 00:00:00  Earnings     CHSB     3.00199301
+2021-06-20 00:00:00  Earnings     CHSB     3.00277700
+2021-06-21 00:00:00  Earnings     CHSB     3.00356120
+2021-06-22 00:00:00  Earnings     CHSB     3.00434560
+2021-06-23 00:00:00  Earnings     CHSB     3.00513021
+2021-06-24 00:00:00  Earnings     CHSB     3.00591503
+2021-06-25 00:00:00  Earnings     CHSB     3.00670004
+2021-06-26 00:00:00  Earnings     CHSB     3.00748527
+2021-06-27 00:00:00  Earnings     CHSB     3.00827070
+2021-06-28 00:00:00  Earnings     CHSB     3.00905633
+2021-06-29 00:00:00  Earnings     CHSB     3.00984217
+2021-06-30 00:00:00  Earnings     CHSB     3.01062821
+2021-07-01 00:00:00  Earnings     CHSB     3.01141446
+2021-07-02 00:00:00  Earnings     CHSB     3.01220092
+2021-07-03 00:00:00  Earnings     CHSB     3.01298758
+2021-07-04 00:00:00  Earnings     CHSB     3.01377444
+2021-07-05 00:00:00  Earnings     CHSB     3.01456151
+2021-07-06 00:00:00  Earnings     CHSB     3.01534879
+2021-07-07 00:00:00  Earnings     CHSB     3.01613627
+2021-07-08 00:00:00  Earnings     CHSB     3.01692396
+2021-07-09 00:00:00  Earnings     CHSB     3.01771185
+2021-07-10 00:00:00  Earnings     CHSB     3.01849995
+2021-07-11 00:00:00  Earnings     CHSB     3.01928826
+2021-07-12 00:00:00  Earnings     CHSB     3.02007677
+2021-07-13 00:00:00  Earnings     CHSB     3.02086549
+2021-07-14 00:00:00  Earnings     CHSB     3.02165441
+2021-07-15 00:00:00  Earnings     CHSB     3.02244354
+2021-07-16 00:00:00  Earnings     CHSB     3.02323287
+2021-07-17 00:00:00  Earnings     CHSB     3.02402241
+2021-07-18 00:00:00  Earnings     CHSB     3.02481216
+2021-07-19 00:00:00  Earnings     CHSB     3.02560211
+2021-07-20 00:00:00  Earnings     CHSB     3.02639227
+2021-07-21 00:00:00  Earnings     CHSB     3.02718264
+2021-07-22 00:00:00  Earnings     CHSB     3.02797321
+2021-07-23 00:00:00  Earnings     CHSB     3.02876399
+2021-07-24 00:00:00  Earnings     CHSB     3.02955498
+2021-07-25 00:00:00  Earnings     CHSB     3.03034617
+2021-07-26 00:00:00  Earnings     CHSB     3.03113757
+2021-07-27 00:00:00  Earnings     CHSB     3.03192917
+2021-07-28 00:00:00  Earnings     CHSB     3.03272099
+2021-07-29 00:00:00  Earnings     CHSB     3.03351300
+2021-07-30 00:00:00  Earnings     CHSB     3.03430523
+2021-07-31 00:00:00  Earnings     CHSB     3.03509766
+2021-08-01 00:00:00  Earnings     CHSB     3.03589030
+2021-08-02 00:00:00  Earnings     CHSB     3.03668315
+2021-08-03 00:00:00  Earnings     CHSB     3.03747620
+2021-08-04 00:00:00  Earnings     CHSB     3.03826946
+2021-08-05 00:00:00  Earnings     CHSB     3.03906293
+2021-08-06 00:00:00  Earnings     CHSB     3.03985661
+2021-08-07 00:00:00  Earnings     CHSB     3.04065049
+2021-08-08 00:00:00  Earnings     CHSB     3.04144458
+2021-08-09 00:00:00  Earnings     CHSB     3.04223888
+2021-08-10 00:00:00  Earnings     CHSB     3.04303338
+2021-08-11 00:00:00  Earnings     CHSB     3.04382809
+2021-08-12 00:00:00  Earnings     CHSB     3.04462301
+2021-08-13 00:00:00  Earnings     CHSB     3.04541814
+2021-08-14 00:00:00  Earnings     CHSB     3.04621348
+2021-08-15 00:00:00  Earnings     CHSB     3.04700902
+2021-08-16 00:00:00  Earnings     CHSB     3.04780477
+2021-08-17 00:00:00  Earnings     CHSB     3.04860073
+2021-08-18 00:00:00  Earnings     CHSB     3.04939689
+2021-08-19 00:00:00  Earnings     CHSB     3.05019327
+2021-08-20 00:00:00  Earnings     CHSB     3.05098985
+2021-08-21 00:00:00  Earnings     CHSB     3.05178664
+2021-08-22 00:00:00  Earnings     CHSB     3.05258364
+2021-08-23 00:00:00  Earnings     CHSB     3.05338084
+2021-08-24 00:00:00  Earnings     CHSB     3.05417826
+2021-08-25 00:00:00  Earnings     CHSB     3.05497588
+2021-08-26 00:00:00  Earnings     CHSB     3.05577371
+2021-08-27 00:00:00  Earnings     CHSB     3.05657175
+2021-08-28 00:00:00  Earnings     CHSB     3.05737000
+2021-08-29 00:00:00  Earnings     CHSB     3.05816845
+2021-08-30 00:00:00  Earnings     CHSB     3.05896712
+2021-08-31 00:00:00  Earnings     CHSB     3.05976599
+2021-09-01 00:00:00  Earnings     CHSB     3.06056507
+2021-09-02 00:00:00  Earnings     CHSB     3.06136437
+2021-09-03 00:00:00  Earnings     CHSB     3.06216386
+2021-09-04 00:00:00  Earnings     CHSB     3.06296357
+2021-09-05 00:00:00  Earnings     CHSB     3.06376349
+2021-09-06 00:00:00  Earnings     CHSB     3.06456362
+2021-09-07 00:00:00  Earnings     CHSB     3.06536395
+2021-09-08 00:00:00  Earnings     CHSB     3.06616449
+2021-09-09 00:00:00  Earnings     CHSB     3.06696525
+2021-09-10 00:00:00  Earnings     CHSB     3.06776621
+2021-09-11 00:00:00  Earnings     CHSB     3.06856738
+2021-09-12 00:00:00  Earnings     CHSB     3.06936876
+2021-09-13 00:00:00  Earnings     CHSB     3.07017035
+2021-09-14 00:00:00  Earnings     CHSB     3.07097215
+2021-09-15 00:00:00  Earnings     CHSB     3.07177416
+2021-09-16 00:00:00  Earnings     CHSB     3.07257638
+2021-09-17 00:00:00  Earnings     CHSB     3.07337880
+2021-09-18 00:00:00  Earnings     CHSB     3.07418144
+2021-09-19 00:00:00  Earnings     CHSB     3.07498429
+2021-09-20 00:00:00  Earnings     CHSB     3.07578734
+2021-09-21 00:00:00  Earnings     CHSB     3.07659061
+2021-09-22 00:00:00  Earnings     CHSB     3.07739409
+2021-09-23 00:00:00  Earnings     CHSB     3.07819777
+2021-09-24 00:00:00  Earnings     CHSB     3.07900167
+2021-09-25 00:00:00  Earnings     CHSB     3.07980577
+2021-09-26 00:00:00  Earnings     CHSB     3.08061009
+2021-09-27 00:00:00  Earnings     CHSB     3.08141461
+2021-09-28 00:00:00  Earnings     CHSB     3.08221935
+2021-09-29 00:00:00  Earnings     CHSB     3.08302430
+2021-09-30 00:00:00  Earnings     CHSB     3.08382945
+2021-10-01 00:00:00  Earnings     CHSB     3.08463482
+2021-10-02 00:00:00  Earnings     CHSB     3.08544040
+2021-10-03 00:00:00  Earnings     CHSB     3.08624618
+2021-10-04 00:00:00  Earnings     CHSB     3.08705218
+2021-10-05 00:00:00  Earnings     CHSB     3.08785839
+2021-10-06 00:00:00  Earnings     CHSB     3.08866481
+2021-10-07 00:00:00  Earnings     CHSB     3.08947144
+2021-10-08 00:00:00  Earnings     CHSB     3.09027828
+2021-10-09 00:00:00  Earnings     CHSB     3.09108533
+2021-10-10 00:00:00  Earnings     CHSB     3.09189259
+2021-10-11 00:00:00  Earnings     CHSB     3.09270006
+2021-10-12 00:00:00  Earnings     CHSB     3.09350774
+2021-10-13 00:00:00  Earnings     CHSB     3.09431564
+2021-10-14 00:00:00  Earnings     CHSB     3.09512374
+2021-10-15 00:00:00  Earnings     CHSB     3.09593206
+2021-10-16 00:00:00  Earnings     CHSB     3.09674058
+2021-10-17 00:00:00  Earnings     CHSB     3.09754932
+2021-10-18 00:00:00  Earnings     CHSB     3.09835827
+2021-10-19 00:00:00  Earnings     CHSB     3.09916743
+2021-10-20 00:00:00  Earnings     CHSB     3.09997680
+2021-10-21 00:00:00  Earnings     CHSB     3.10078639
+2021-10-22 00:00:00  Earnings     CHSB     3.10159618
+2021-10-23 00:00:00  Earnings     CHSB     3.10240619
+2021-10-24 00:00:00  Earnings     CHSB     3.10321641
+2021-10-25 00:00:00  Earnings     CHSB     3.10402684
+2021-10-26 00:00:00  Earnings     CHSB     3.10483748
+2021-10-27 00:00:00  Earnings     CHSB     3.10564833
+2021-10-28 00:00:00  Earnings     CHSB     3.10645939
+2021-10-29 00:00:00  Earnings     CHSB     3.10727067
+2021-10-30 00:00:00  Earnings     CHSB     3.10808216
+2021-10-31 00:00:00  Earnings     CHSB     3.10889386
+2021-11-01 00:00:00  Earnings     CHSB     3.10970577
+2021-11-02 00:00:00  Earnings     CHSB     3.11051790
+2021-11-03 00:00:00  Earnings     CHSB     3.11133023
+2021-11-04 00:00:00  Earnings     CHSB     3.11214278
+2021-11-05 00:00:00  Earnings     CHSB     3.11295554
+2021-11-06 00:00:00  Earnings     CHSB     3.11376851
+2021-11-07 00:00:00  Earnings     CHSB     3.11458170
+2021-11-08 00:00:00  Earnings     CHSB     3.11539510
+2021-11-09 00:00:00  Earnings     CHSB     3.11620871
+2021-11-10 00:00:00  Earnings     CHSB     3.11702253
+2021-11-11 00:00:00  Earnings     CHSB     3.11783656
+2021-11-12 00:00:00  Earnings     CHSB     3.11865081
+2021-11-13 00:00:00  Earnings     CHSB     3.11946527
+2021-11-14 00:00:00  Earnings     CHSB     3.12027994
+2021-11-15 00:00:00  Earnings     CHSB     3.12109483
+2021-11-16 00:00:00  Earnings     CHSB     3.12190993
+2021-11-17 00:00:00  Earnings     CHSB     3.12272524
+2021-11-18 00:00:00  Earnings     CHSB     3.12354076
+2021-11-19 00:00:00  Earnings     CHSB     3.12435650
+2021-11-20 00:00:00  Earnings     CHSB     3.12517245
+2021-11-21 00:00:00  Earnings     CHSB     3.12598862
+2021-11-22 00:00:00  Earnings     CHSB     3.12680499
+2021-11-23 00:00:00  Earnings     CHSB     3.12762158
+2021-11-24 00:00:00  Earnings     CHSB     3.12843838
+2021-11-25 00:00:00  Earnings     CHSB     3.12925540
+2021-11-26 00:00:00  Earnings     CHSB     3.13007263
+2021-11-27 00:00:00  Earnings     CHSB     3.13089007
+2021-11-28 00:00:00  Earnings     CHSB     3.13170773
+2021-11-29 00:00:00  Earnings     CHSB     3.13252560
+2021-11-30 00:00:00  Earnings     CHSB     3.13334368
+2021-12-01 00:00:00  Earnings     CHSB     3.13416198
+2021-12-02 00:00:00  Earnings     CHSB     3.13498049
+2021-12-03 00:00:00  Earnings     CHSB     3.13579922
+2021-12-04 00:00:00  Earnings     CHSB     3.13661816
+2021-12-05 00:00:00  Earnings     CHSB     3.13743731
+2021-12-06 00:00:00  Earnings     CHSB     3.13825668
+2021-12-07 00:00:00  Earnings     CHSB     3.13907626
+2021-12-08 00:00:00  Earnings     CHSB     3.13989605
+2021-12-09 00:00:00  Earnings     CHSB     3.14071606
+2021-12-10 00:00:00  Earnings     CHSB     3.14153628
+2021-12-11 00:00:00  Earnings     CHSB     3.14235672
+2021-12-12 00:00:00  Earnings     CHSB     3.14317737
+2021-12-13 00:00:00  Earnings     CHSB     3.14399824
+2021-12-14 00:00:00  Earnings     CHSB     3.14481931
+2021-12-15 00:00:00  Earnings     CHSB     3.14564061
+2021-12-16 00:00:00  Earnings     CHSB     3.14646212
+2021-12-17 00:00:00  Earnings     CHSB     3.14728384
+2021-12-18 00:00:00  Earnings     CHSB     3.14810578
+2021-12-19 00:00:00  Earnings     CHSB     3.14892793
+2021-12-20 00:00:00  Earnings     CHSB     3.14975030
+2021-12-21 00:00:00  Earnings     CHSB     3.15057288
+2021-12-22 00:00:00  Earnings     CHSB     3.15139568
+2021-12-23 00:00:00  Earnings     CHSB     3.15221869
+2021-12-24 00:00:00  Earnings     CHSB     3.15304192
+2021-12-25 00:00:00  Earnings     CHSB     3.15386536
+2021-12-26 00:00:00  Earnings     CHSB     3.15468902
+2021-12-27 00:00:00  Earnings     CHSB     3.15551289
+2021-12-28 00:00:00  Earnings     CHSB     3.15633697
+2021-12-29 00:00:00  Earnings     CHSB     3.15716128
+2021-12-30 00:00:00  Earnings     CHSB     3.15798579
+2021-12-31 00:00:00  Earnings     CHSB     3.15881053
+TOTAL                                  1,098.56475635
 '''
 			stdout = sys.stdout
 			capturedStdoutStr = StringIO()
@@ -2170,25 +2445,24 @@ TOTAL                                  0.04755894
 			depWithdrDateFrom = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][DEPOSIT_YIELD_HEADER_DATE_FROM[testLanguage]]
 			print('depWithdrDateFrom: ', str(depWithdrDateFrom))
 			depWithdrDateTo = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][DEPOSIT_YIELD_HEADER_DATE_TO[testLanguage]]
-			print('depWithdrDateTo: ', depWithdrDateTo)
-			depWithdr_CHSB = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_AMOUNT[testLanguage]]['CHSB']
-			print('depWithdr_CHSB: ', depWithdr_CHSB)
+			print('depWithdrDateTo: ', str(depWithdrDateTo))
+			depWithdr_CHSB_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_AMOUNT[testLanguage]]['CHSB']
+			print('depWithdr_CHSB_1: ', depWithdr_CHSB_1)
 			depWithdrTotal_CHSB = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_AMOUNT[testLanguage]]['CHSB']
 			print('depWithdrTotal_CHSB: ', depWithdrTotal_CHSB)
 			depWithdrGrandTotal_CHSB = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_AMOUNT[testLanguage]]['CHSB']
 			print('depWithdrGrandTotal_CHSB: ', depWithdrGrandTotal_CHSB)
-			#depWithdr_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
-			depWithdr_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][' ' + fiat]
-			print('depWithdr_CHF: ', depWithdr_CHF)
+			depWithdr_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
+			print('depWithdr_CHF_1: ', depWithdr_CHF_1)
 			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
 			print('depWithdrTotal_CHF: ', depWithdrTotal_CHF)
-			depWithdrActualValue_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
-			print('depWithdrActualValue_CHF: ', depWithdrActualValue_CHF)
+			depWithdrActualValue_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
+			print('depWithdrActualValue_CHF_1: ', depWithdrActualValue_CHF_1)
 			depWithdrActualValueTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			print('depWithdrActualValueTotal_CHF: ', depWithdrActualValueTotal_CHF)
 			depWithdrActualValueGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
 			print('depWithdrActualValueGrandTotal_CHF: ', depWithdrActualValueGrandTotal_CHF)
-			#yieldFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+
 			yieldFiat_USD = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]]['USD']
 			print('yieldFiat_USD: ', yieldFiat_USD)
 			#yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
@@ -2201,38 +2475,143 @@ TOTAL                                  0.04755894
 			self.assertEqual(15000.0, depWithdrActualValue_CHF_1)
 
 			print('actValPlusYieldFiat_CHF: ', depWithdrActualValue_CHF_1)
+
+
+			yieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			print('yieldFiat_CHF_1: ', yieldFiat_CHF_1)
+			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			print('yieldFiatTotal_CHF: ', yieldFiatTotal_CHF)
+			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			print('yieldFiatGrandTotal_CHF: ', yieldFiatGrandTotal_CHF)
+			actValPlusYieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			print('actValPlusYieldFiat_CHF_1: ', actValPlusYieldFiat_CHF_1)
 			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiatTotal_CHF: ', actValPlusYieldFiatTotal_CHF)
 			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			print('actValPlusYieldFiatGrandTotal_CHF: ', actValPlusYieldFiatGrandTotal_CHF)
-			capitalGainFiat_CHF = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
-			print('capitalGainFiat_CHF: ', capitalGainFiat_CHF)
+			capitalGainFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			print('capitalGainFiat_CHF_1: ', capitalGainFiat_CHF_1)
 			capitalGainFiat_CHF_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			print('capitalGainFiat_CHF_TOTAL: ', capitalGainFiat_CHF_TOTAL)
-			capitalGainFiat_CHF_percent = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
-			print('capitalGainFiat_CHF_percent: ', capitalGainFiat_CHF_percent)
+			capitalGainFiat_CHF_percent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
+			print('capitalGainFiat_CHF_percent_1: ', capitalGainFiat_CHF_percent_1)
 			capitalGainFiat_CHF_percent_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
 			print('capitalGainFiat_CHF_percent_TOTAL: ', capitalGainFiat_CHF_percent_TOTAL)
-			yieldDays = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_YIELD_DAYS[testLanguage]][PROC_INTEREST]
-			print('yieldDays: ', yieldDays)
-			yieldCrypto = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_INTEREST][depositCrypto]
-			print('yieldCrypto: ', yieldCrypto)
+			yieldDays_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_YIELD_DAYS[testLanguage]][PROC_INTEREST]
+			print('yieldDays_1: ', yieldDays_1)
+			yieldCrypto_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_INTEREST][depositCrypto]
+			print('yieldCrypto_1: ', yieldCrypto_1)
 			yieldCryptoTotal = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_INTEREST][depositCrypto]
 			print('yieldCryptoTotal: ', yieldCryptoTotal)
-			yieldPercent = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
-			print('yieldPercent: ', yieldPercent)
+			yieldPercent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
+			print('yieldPercent_1: ', yieldPercent_1)
 			yearlyYieldPercent = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_YEAR_YIELD_PERCENT[testLanguage]]
 			print('yearlyYieldPercent: ', yearlyYieldPercent)
 			averageYearlyYieldPercent = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][PROC_YEAR_YIELD_PERCENT[testLanguage]]
 			print('averageYearlyYieldPercent: ', averageYearlyYieldPercent)
-			dailyYieldAmount = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_AMOUNT[testLanguage]][PROC_PER_DAY[testLanguage]]
-			print('dailyYieldAmount_owner_1: ', dailyYieldAmount)
-			monthlyYieldAmount = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_YIELD[testLanguage]][PROC_PER_MONTH[testLanguage]]
-			print('monthlyYieldAmount_owner_1: ', monthlyYieldAmount)
-			yearlyYieldAmount = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_IN[testLanguage] + fiat + ' '][PROC_PER_YEAR[testLanguage]]
-			print('yearlyYieldAmount_owner_1: ', yearlyYieldAmount)
+			dailyYieldAmount_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_AMOUNT[testLanguage]][PROC_PER_DAY[testLanguage]]
+			print('dailyYieldAmount_CHF: ', dailyYieldAmount_CHF)
+			monthlyYieldAmount_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_YIELD[testLanguage]][PROC_PER_MONTH[testLanguage]]
+			print('monthlyYieldAmount_CHF: ', monthlyYieldAmount_CHF)
+			yearlyYieldAmount_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_IN[testLanguage] + fiat + ' '][PROC_PER_YEAR[testLanguage]]
+			print('yearlyYieldAmount_CHF: ', yearlyYieldAmount_CHF)
 		else:
-			pass
+			print('\nOwner detailed deposit/withdrawal yield totals and percents. All values checked !')
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+			depWithdrDateFrom = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][DEPOSIT_YIELD_HEADER_DATE_FROM[testLanguage]]
+			self.assertEqual('2021-01-01', str(depWithdrDateFrom))
+			depWithdrDateTo = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][DEPOSIT_YIELD_HEADER_DATE_TO[testLanguage]]
+			self.assertEqual('2021-01-05', str(depWithdrDateTo))
+			depWithdr_CHSB_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_AMOUNT[testLanguage]]['CHSB']
+			self.assertEqual(10000.0, depWithdr_CHSB_1)
+			depWithdr_CHSB_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_AMOUNT[testLanguage]]['CHSB']
+			self.assertEqual(1000.0, depWithdr_CHSB_2)
+			depWithdrTotal_CHSB = yieldOwnerWithTotalsDetailDf.iloc[3][' '][PROC_AMOUNT[testLanguage]]['CHSB']
+			self.assertEqual(11000.0, depWithdrTotal_CHSB)
+			depWithdrGrandTotal_CHSB = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_AMOUNT[testLanguage]]['CHSB']
+			self.assertEqual(11000.0, depWithdrGrandTotal_CHSB)
+			depWithdr_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
+			self.assertEqual(5000.0, depWithdr_CHF_1)
+			depWithdr_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
+			self.assertEqual(1000.0, depWithdr_CHF_2)
+			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
+			self.assertEqual(6000.0, depWithdrTotal_CHF)
+			depWithdrActualValue_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
+			self.assertEqual(15000.0, depWithdrActualValue_CHF_1)
+			depWithdrActualValue_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
+			self.assertEqual(1500.0, depWithdrActualValue_CHF_2)
+			depWithdrActualValueTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
+			self.assertEqual(16500.0, depWithdrActualValueTotal_CHF)
+			depWithdrActualValueGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
+			self.assertEqual(16500.0, depWithdrActualValueGrandTotal_CHF)
+			yieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_2][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			self.assertEqual(19.59707389264895, yieldFiat_CHF_1)
+			yieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_2][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			self.assertEqual(1628.250060636914, yieldFiat_CHF_2)
+			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_2][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			self.assertEqual(1647.847134529563, yieldFiatTotal_CHF)
+			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_2][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			self.assertEqual(1647.847134529563, yieldFiatGrandTotal_CHF)
+			actValPlusYieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_3]['  ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			self.assertEqual(15019.597073892648, actValPlusYieldFiat_CHF_1)
+			actValPlusYieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_3]['  ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			self.assertEqual(18147.847134529562, actValPlusYieldFiat_CHF_2)
+			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_3]['  ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			self.assertEqual(18147.847134529562, actValPlusYieldFiatTotal_CHF)
+			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_3]['  ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			self.assertEqual(18147.847134529562, actValPlusYieldFiatGrandTotal_CHF)
+			capitalGainFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			self.assertEqual(10000.0, capitalGainFiat_CHF_1)
+			capitalGainFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			self.assertEqual(500.0, capitalGainFiat_CHF_2)
+			capitalGainFiat_CHF_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			self.assertEqual(10500.0, capitalGainFiat_CHF_TOTAL)
+			capitalGainFiat_CHF_percent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
+			self.assertEqual(200, capitalGainFiat_CHF_percent_1)
+			capitalGainFiat_CHF_percent_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
+			self.assertEqual(50, capitalGainFiat_CHF_percent_2)
+			capitalGainFiat_CHF_percent_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[2][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
+			self.assertEqual(175.0, capitalGainFiat_CHF_percent_TOTAL)
+			yieldDays_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_YIELD_DAYS[testLanguage]][PROC_INTEREST]
+			self.assertEqual(5, yieldDays_1)
+			yieldDays_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_YIELD_DAYS[testLanguage]][PROC_INTEREST]
+			self.assertEqual(360, yieldDays_2)
+			yieldCrypto_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_INTEREST][depositCrypto]
+			self.assertEqual(13.064715928432634, yieldCrypto_1)
+			yieldCrypto_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_INTEREST][depositCrypto]
+			self.assertEqual(1085.5000404246093, yieldCrypto_2)
+			yieldCryptoTotal = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_INTEREST][depositCrypto]
+			self.assertEqual(1098.564756353042, yieldCryptoTotal)
+
+			capitalGainFiat_USD_percent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
+			self.assertEqual(254.16666656249998, capitalGainFiat_USD_percent_1)
+			capitalGainFiat_USD_percent_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
+			self.assertEqual(73.46938770408161, capitalGainFiat_USD_percent_2)
+			capitalGainFiat_USD_percent_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[2][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
+			self.assertEqual(223.52941166955014, capitalGainFiat_USD_percent_TOTAL)
+
+
+			yearlyYieldPercent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_YEAR_YIELD_PERCENT[testLanguage]]
+			self.assertEqual(9.999999999999698, yearlyYieldPercent_1)
+			yearlyYieldPercent_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][PROC_YEAR_YIELD_PERCENT[testLanguage]]
+			self.assertEqual(10.000000000001075, yearlyYieldPercent_2)
+			averageYearlyYieldPercent = yieldOwnerWithTotalsDetailDf.iloc[2][' '][' '][PROC_YEAR_YIELD_PERCENT[testLanguage]]
+			self.assertEqual(10.000000000001057, averageYearlyYieldPercent)
+
+			dailyYieldAmount_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_AMOUNT[testLanguage]][PROC_PER_DAY[testLanguage]][0]
+			self.assertEqual(4.739453212857599, dailyYieldAmount_CHF)
+			monthlyYieldAmount_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_YIELD[testLanguage]][PROC_PER_MONTH[testLanguage]][0]
+			self.assertEqual(142.72333039279368, monthlyYieldAmount_CHF)
+			yearlyYieldAmount_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_IN[testLanguage] + fiat + ' '][PROC_PER_YEAR[testLanguage]]
+			self.assertEqual(1814.784713453147, yearlyYieldAmount_CHF)
+
+			dailyYieldAmount_USD = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_AMOUNT[testLanguage]][PROC_PER_DAY[testLanguage]][1]
+			self.assertEqual(5.371380306325461, dailyYieldAmount_USD)
+			monthlyYieldAmount_USD = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_YIELD[testLanguage]][PROC_PER_MONTH[testLanguage]][1]
+			self.assertEqual(161.75310773092505, monthlyYieldAmount_USD)
+			print(yieldOwnerWithTotalsDetailDf.iloc[2][' '])
+			yearlyYieldAmount_USD = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_IN[testLanguage] + 'USD '][PROC_PER_YEAR[testLanguage]]
+			self.assertEqual(2056.7560079753052, yearlyYieldAmount_USD)
 
 	def testAddFiatConversionInfo_CHSB_1_fiat_1_owner_2_deposit_french_language(self):
 		"""
@@ -4088,8 +4467,8 @@ if __name__ == '__main__':
 		# tst.testAddFiatConversionInfo_ETH_2_fiats_1_owner_1_deposit_french_language()
 		# tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_2_deposits_english_language()
 		# tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_3_deposits_french_language()
-		#tst.testAddFiatConversionInfo_CHSB_2_fiats_CHF_USD_1_owner_2_deposit_french_language()
-		tst.testAddFiatConversionInfo_CHSB_1_fiat_1_owner_2_deposit_french_language()
+		tst.testAddFiatConversionInfo_CHSB_2_fiats_CHF_USD_1_owner_2_deposit_french_language()
+		# tst.testAddFiatConversionInfo_CHSB_1_fiat_1_owner_2_deposit_french_language()
 
 	'''
 		  COURS   COURS   COURS   COURS
