@@ -50,30 +50,24 @@ class Processor:
 
 		for index, row in yieldOwnerWithTotalsDetailDf.iterrows():
 			if DATAFRAME_HEADER_TOTAL not in row[DEPOSIT_SHEET_HEADER_OWNER[GB]]:
-				# totals must be completed only on total rows
-				firstDepositFiatColName = fiatColLst[0]
-				fiat = firstDepositFiatColName.replace(' AMT', '')
+				# obtaining the first fiat symbol specified in the deposit csv file
+				firstFiatColNameInDepositFile = fiatColLst[0]
+				fiat = firstFiatColNameInDepositFile.replace(' AMT', '')
+
 				depositDateFrom = str(row.loc[DEPOSIT_YIELD_HEADER_DATE_FROM[GB]])
 				depositCryptoAmount = row.loc[DATAFRAME_HEADER_DEPOSIT_WITHDRAW]
-				depositFiatAmount = row.loc[firstDepositFiatColName]
+				depositFiatAmount = row.loc[firstFiatColNameInDepositFile]
 				cryptoDateFromFiatRate = depositFiatAmount / depositCryptoAmount
 				if fiat.upper() != 'USD':
-					usdDateFromFirstDepositFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate('USD',
-																										fiat,
-																										depositDateFrom)
+					usdDateFromRateForFirstFiatColNameInDepositFile = \
+						self.cryptoFiatRateComputer.computeCryptoFiatRate('USD',
+																		  fiat,
+																		  depositDateFrom)
 				else:
-					usdDateFromFirstDepositFiatRate = 1.0
-				cryptoUsdDateFromRate = cryptoDateFromFiatRate / usdDateFromFirstDepositFiatRate
+					usdDateFromRateForFirstFiatColNameInDepositFile = 1.0
+				cryptoUsdDateFromRate = cryptoDateFromFiatRate / usdDateFromRateForFirstFiatColNameInDepositFile
 				yieldOwnerWithTotalsDetailDf.loc[index, cryptoUsdDateFromRateColName] = cryptoUsdDateFromRate
 				yieldOwnerWithTotalsDetailDf.loc[index, cryptoUsdCurrentRateColName] = cryptoUsdCurrentRate
-				# computing capital gain percent total
-				uniqueColNameModifier = ''
-
-				# for fiat, capitalGainUniqueColName, capitalGainPercentUniqueColName in zip(fiatLst, capitalGainUniqueColNameLst, capitalGainPercentUniqueColNameLst):
-				# 	capGainPercentTotal = yieldOwnerWithTotalsDetailDf.loc[index,capitalGainUniqueColName] / \
-				# 						  yieldOwnerWithTotalsDetailDf.loc[index, fiat] * 100
-				# 	yieldOwnerWithTotalsDetailDf.loc[index, capitalGainPercentUniqueColName] = capGainPercentTotal
-				# 	uniqueColNameModifier += '_'
 
 		# resetting index to OWNER column
 		yieldOwnerWithTotalsDetailDf.set_index(DEPOSIT_SHEET_HEADER_OWNER[GB], inplace=True)

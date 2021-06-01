@@ -7,6 +7,7 @@ from resultdata import ResultData
 from pricerequester import PriceRequester
 from datetimeutil import DateTimeUtil
 from unsupportedcryptofiatpairerror import UnsupportedCryptoFiatPairError
+from afternowpricerequestdatetimeerror import AfterNowPriceRequestDateError
 
 
 class CryptoFiatRateComputer(PandasDataComputer):
@@ -75,6 +76,8 @@ class CryptoFiatRateComputer(PandasDataComputer):
 		:raise UnsupportedCryptoFiatPairError in case the crypto fiat exchange
 		 	   CSV file does not have the necessary information to compute the
 		 	   crypto/fiat pair rate.
+		:raise AfterNowPriceRequestDateError in case the passed dateStr is after
+			   now.
 
 		@param crypto:
 		@param fiat:
@@ -83,6 +86,12 @@ class CryptoFiatRateComputer(PandasDataComputer):
 
 		:return crypto/fiat pair current rate
 		'''
+		if dateStr is not None:
+			nowDateArrow = DateTimeUtil.localNow(LOCAL_TIME_ZONE)
+			requestDateArrow = DateTimeUtil.dateTimeStringToArrowLocalDate(dateStr, LOCAL_TIME_ZONE, DATE_FORMAT)
+			if DateTimeUtil.isAfter(requestDateArrow, nowDateArrow):
+				raise AfterNowPriceRequestDateError(dateStr)
+
 		intermediateExchangeRateRequestLst = self._getIntermediateExchangeRateRequests(crypto, fiat)
 
 		rateRequestNumber = len(intermediateExchangeRateRequestLst)

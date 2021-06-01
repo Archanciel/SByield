@@ -1,5 +1,7 @@
 import unittest
 import os, sys, inspect
+from dfConstants import *
+from afternowpricerequestdatetimeerror import AfterNowPriceRequestDateError
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
@@ -359,6 +361,26 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 
 		self.assertEqual(
 			'{}/{} pair not supported. Add adequate information to {} and retry.'.format(crypto, fiat, self.cryptoFiatRateComputer.cryptoFiatCsvFilePathName), e.exception.message)
+
+	def testComputeCryptoFiatRate_requestDateAfterNow(self):
+		'''
+		Ensuring that asking a rate for a date in the future raises the expected
+		exception.
+		'''
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+		self.initializeComputerClasses(cryptoFiatCsvFileName)
+
+		crypto = 'CHSB'
+		fiat = 'EUR'
+		now = DateTimeUtil.localNow(LOCAL_TIME_ZONE)
+		oneDayAfterNow = now.shift(days=1)
+		oneDayAfterNowDateStr = oneDayAfterNow.format(DATE_FORMAT)
+
+		with self.assertRaises(AfterNowPriceRequestDateError) as e:
+			self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat, oneDayAfterNowDateStr)
+
+		self.assertEqual(
+			'Price request date {} is after now, which is not acceptable !'.format(oneDayAfterNowDateStr), e.exception.message)
 
 	def testComputeCryptoFiatRate_historical_1_day_before_unsupported_cryptoFiatPair(self):
 		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'

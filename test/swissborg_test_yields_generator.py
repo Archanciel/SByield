@@ -55,7 +55,7 @@ TOTAL_WITHDR = 'TOTAL YEARLY WITHDRAWALS'
 
 depWithdrArray[0] = 2
 depWithdrArray[90] = 1
-depWithdrArray[181] = 1
+depWithdrArray[120] = 1
 # depWithdrArray[59] = -1000
 # depWithdrArray[120] = -500
 # depWithdrArray[151] = -500

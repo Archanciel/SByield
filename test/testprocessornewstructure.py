@@ -4698,8 +4698,8 @@ TOTAL                                  0.12084309
 				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
 
 		if PRINT:
-			if PRINT_SB_EARNING_TOTALS:
-				print(sbEarningsTotalDfActualStr)
+			#if PRINT_SB_EARNING_TOTALS:
+			print(sbEarningsTotalDfActualStr)
 		else:
 			sbEarningsTotalDfExpectedStr = \
 '''                         Type Currency Net amount
@@ -4824,99 +4824,99 @@ Local time
 2021-04-28 00:00:00  Earnings      ETH 0.00080153
 2021-04-29 00:00:00  Earnings      ETH 0.00080173
 2021-04-30 00:00:00  Earnings      ETH 0.00080194
-2021-05-01 00:00:00  Earnings      ETH 0.00080215
-2021-05-02 00:00:00  Earnings      ETH 0.00080236
-2021-05-03 00:00:00  Earnings      ETH 0.00080257
-2021-05-04 00:00:00  Earnings      ETH 0.00080278
-2021-05-05 00:00:00  Earnings      ETH 0.00080299
-2021-05-06 00:00:00  Earnings      ETH 0.00080320
-2021-05-07 00:00:00  Earnings      ETH 0.00080341
-2021-05-08 00:00:00  Earnings      ETH 0.00080362
-2021-05-09 00:00:00  Earnings      ETH 0.00080383
-2021-05-10 00:00:00  Earnings      ETH 0.00080404
-2021-05-11 00:00:00  Earnings      ETH 0.00080425
-2021-05-12 00:00:00  Earnings      ETH 0.00080446
-2021-05-13 00:00:00  Earnings      ETH 0.00080467
-2021-05-14 00:00:00  Earnings      ETH 0.00080488
-2021-05-15 00:00:00  Earnings      ETH 0.00080509
-2021-05-16 00:00:00  Earnings      ETH 0.00080530
-2021-05-17 00:00:00  Earnings      ETH 0.00080551
-2021-05-18 00:00:00  Earnings      ETH 0.00080572
-2021-05-19 00:00:00  Earnings      ETH 0.00080593
-2021-05-20 00:00:00  Earnings      ETH 0.00080614
-2021-05-21 00:00:00  Earnings      ETH 0.00080635
-2021-05-22 00:00:00  Earnings      ETH 0.00080656
-2021-05-23 00:00:00  Earnings      ETH 0.00080677
-2021-05-24 00:00:00  Earnings      ETH 0.00080699
-2021-05-25 00:00:00  Earnings      ETH 0.00080720
-2021-05-26 00:00:00  Earnings      ETH 0.00080741
-2021-05-27 00:00:00  Earnings      ETH 0.00080762
-2021-05-28 00:00:00  Earnings      ETH 0.00080783
-2021-05-29 00:00:00  Earnings      ETH 0.00080804
-2021-05-30 00:00:00  Earnings      ETH 0.00080825
-2021-05-31 00:00:00  Earnings      ETH 0.00080846
-2021-06-01 00:00:00  Earnings      ETH 0.00080867
-2021-06-02 00:00:00  Earnings      ETH 0.00080888
-2021-06-03 00:00:00  Earnings      ETH 0.00080910
-2021-06-04 00:00:00  Earnings      ETH 0.00080931
-2021-06-05 00:00:00  Earnings      ETH 0.00080952
-2021-06-06 00:00:00  Earnings      ETH 0.00080973
-2021-06-07 00:00:00  Earnings      ETH 0.00080994
-2021-06-08 00:00:00  Earnings      ETH 0.00081015
-2021-06-09 00:00:00  Earnings      ETH 0.00081036
-2021-06-10 00:00:00  Earnings      ETH 0.00081058
-2021-06-11 00:00:00  Earnings      ETH 0.00081079
-2021-06-12 00:00:00  Earnings      ETH 0.00081100
-2021-06-13 00:00:00  Earnings      ETH 0.00081121
-2021-06-14 00:00:00  Earnings      ETH 0.00081142
-2021-06-15 00:00:00  Earnings      ETH 0.00081163
-2021-06-16 00:00:00  Earnings      ETH 0.00081185
-2021-06-17 00:00:00  Earnings      ETH 0.00081206
-2021-06-18 00:00:00  Earnings      ETH 0.00081227
-2021-06-19 00:00:00  Earnings      ETH 0.00081248
-2021-06-20 00:00:00  Earnings      ETH 0.00081270
-2021-06-21 00:00:00  Earnings      ETH 0.00081291
-2021-06-22 00:00:00  Earnings      ETH 0.00081312
-2021-06-23 00:00:00  Earnings      ETH 0.00081333
-2021-06-24 00:00:00  Earnings      ETH 0.00081354
-2021-06-25 00:00:00  Earnings      ETH 0.00081376
-2021-06-26 00:00:00  Earnings      ETH 0.00081397
-2021-06-27 00:00:00  Earnings      ETH 0.00081418
-2021-06-28 00:00:00  Earnings      ETH 0.00081439
-2021-06-29 00:00:00  Earnings      ETH 0.00081461
-2021-06-30 00:00:00  Earnings      ETH 0.00081482
-2021-07-01 00:00:00  Earnings      ETH 0.00107619
-2021-07-02 00:00:00  Earnings      ETH 0.00107647
-2021-07-03 00:00:00  Earnings      ETH 0.00107675
-2021-07-04 00:00:00  Earnings      ETH 0.00107703
-2021-07-05 00:00:00  Earnings      ETH 0.00107732
-2021-07-06 00:00:00  Earnings      ETH 0.00107760
-2021-07-07 00:00:00  Earnings      ETH 0.00107788
-2021-07-08 00:00:00  Earnings      ETH 0.00107816
-2021-07-09 00:00:00  Earnings      ETH 0.00107844
-2021-07-10 00:00:00  Earnings      ETH 0.00107872
-2021-07-11 00:00:00  Earnings      ETH 0.00107900
-2021-07-12 00:00:00  Earnings      ETH 0.00107929
-2021-07-13 00:00:00  Earnings      ETH 0.00107957
-2021-07-14 00:00:00  Earnings      ETH 0.00107985
-2021-07-15 00:00:00  Earnings      ETH 0.00108013
-2021-07-16 00:00:00  Earnings      ETH 0.00108041
-2021-07-17 00:00:00  Earnings      ETH 0.00108070
-2021-07-18 00:00:00  Earnings      ETH 0.00108098
-2021-07-19 00:00:00  Earnings      ETH 0.00108126
-2021-07-20 00:00:00  Earnings      ETH 0.00108154
-2021-07-21 00:00:00  Earnings      ETH 0.00108183
-2021-07-22 00:00:00  Earnings      ETH 0.00108211
-2021-07-23 00:00:00  Earnings      ETH 0.00108239
-2021-07-24 00:00:00  Earnings      ETH 0.00108267
-2021-07-25 00:00:00  Earnings      ETH 0.00108296
-2021-07-26 00:00:00  Earnings      ETH 0.00108324
-2021-07-27 00:00:00  Earnings      ETH 0.00108352
-2021-07-28 00:00:00  Earnings      ETH 0.00108380
-2021-07-29 00:00:00  Earnings      ETH 0.00108409
-2021-07-30 00:00:00  Earnings      ETH 0.00108437
-2021-07-31 00:00:00  Earnings      ETH 0.00108465
-TOTAL                                  0.15433602
+2021-05-01 00:00:00  Earnings      ETH 0.00106331
+2021-05-02 00:00:00  Earnings      ETH 0.00106359
+2021-05-03 00:00:00  Earnings      ETH 0.00106387
+2021-05-04 00:00:00  Earnings      ETH 0.00106414
+2021-05-05 00:00:00  Earnings      ETH 0.00106442
+2021-05-06 00:00:00  Earnings      ETH 0.00106470
+2021-05-07 00:00:00  Earnings      ETH 0.00106498
+2021-05-08 00:00:00  Earnings      ETH 0.00106526
+2021-05-09 00:00:00  Earnings      ETH 0.00106553
+2021-05-10 00:00:00  Earnings      ETH 0.00106581
+2021-05-11 00:00:00  Earnings      ETH 0.00106609
+2021-05-12 00:00:00  Earnings      ETH 0.00106637
+2021-05-13 00:00:00  Earnings      ETH 0.00106665
+2021-05-14 00:00:00  Earnings      ETH 0.00106693
+2021-05-15 00:00:00  Earnings      ETH 0.00106721
+2021-05-16 00:00:00  Earnings      ETH 0.00106748
+2021-05-17 00:00:00  Earnings      ETH 0.00106776
+2021-05-18 00:00:00  Earnings      ETH 0.00106804
+2021-05-19 00:00:00  Earnings      ETH 0.00106832
+2021-05-20 00:00:00  Earnings      ETH 0.00106860
+2021-05-21 00:00:00  Earnings      ETH 0.00106888
+2021-05-22 00:00:00  Earnings      ETH 0.00106916
+2021-05-23 00:00:00  Earnings      ETH 0.00106944
+2021-05-24 00:00:00  Earnings      ETH 0.00106972
+2021-05-25 00:00:00  Earnings      ETH 0.00107000
+2021-05-26 00:00:00  Earnings      ETH 0.00107028
+2021-05-27 00:00:00  Earnings      ETH 0.00107055
+2021-05-28 00:00:00  Earnings      ETH 0.00107083
+2021-05-29 00:00:00  Earnings      ETH 0.00107111
+2021-05-30 00:00:00  Earnings      ETH 0.00107139
+2021-05-31 00:00:00  Earnings      ETH 0.00107167
+2021-06-01 00:00:00  Earnings      ETH 0.00107195
+2021-06-02 00:00:00  Earnings      ETH 0.00107223
+2021-06-03 00:00:00  Earnings      ETH 0.00107251
+2021-06-04 00:00:00  Earnings      ETH 0.00107279
+2021-06-05 00:00:00  Earnings      ETH 0.00107307
+2021-06-06 00:00:00  Earnings      ETH 0.00107335
+2021-06-07 00:00:00  Earnings      ETH 0.00107363
+2021-06-08 00:00:00  Earnings      ETH 0.00107391
+2021-06-09 00:00:00  Earnings      ETH 0.00107420
+2021-06-10 00:00:00  Earnings      ETH 0.00107448
+2021-06-11 00:00:00  Earnings      ETH 0.00107476
+2021-06-12 00:00:00  Earnings      ETH 0.00107504
+2021-06-13 00:00:00  Earnings      ETH 0.00107532
+2021-06-14 00:00:00  Earnings      ETH 0.00107560
+2021-06-15 00:00:00  Earnings      ETH 0.00107588
+2021-06-16 00:00:00  Earnings      ETH 0.00107616
+2021-06-17 00:00:00  Earnings      ETH 0.00107644
+2021-06-18 00:00:00  Earnings      ETH 0.00107672
+2021-06-19 00:00:00  Earnings      ETH 0.00107700
+2021-06-20 00:00:00  Earnings      ETH 0.00107729
+2021-06-21 00:00:00  Earnings      ETH 0.00107757
+2021-06-22 00:00:00  Earnings      ETH 0.00107785
+2021-06-23 00:00:00  Earnings      ETH 0.00107813
+2021-06-24 00:00:00  Earnings      ETH 0.00107841
+2021-06-25 00:00:00  Earnings      ETH 0.00107869
+2021-06-26 00:00:00  Earnings      ETH 0.00107897
+2021-06-27 00:00:00  Earnings      ETH 0.00107926
+2021-06-28 00:00:00  Earnings      ETH 0.00107954
+2021-06-29 00:00:00  Earnings      ETH 0.00107982
+2021-06-30 00:00:00  Earnings      ETH 0.00108010
+2021-07-01 00:00:00  Earnings      ETH 0.00108038
+2021-07-02 00:00:00  Earnings      ETH 0.00108067
+2021-07-03 00:00:00  Earnings      ETH 0.00108095
+2021-07-04 00:00:00  Earnings      ETH 0.00108123
+2021-07-05 00:00:00  Earnings      ETH 0.00108151
+2021-07-06 00:00:00  Earnings      ETH 0.00108180
+2021-07-07 00:00:00  Earnings      ETH 0.00108208
+2021-07-08 00:00:00  Earnings      ETH 0.00108236
+2021-07-09 00:00:00  Earnings      ETH 0.00108264
+2021-07-10 00:00:00  Earnings      ETH 0.00108293
+2021-07-11 00:00:00  Earnings      ETH 0.00108321
+2021-07-12 00:00:00  Earnings      ETH 0.00108349
+2021-07-13 00:00:00  Earnings      ETH 0.00108377
+2021-07-14 00:00:00  Earnings      ETH 0.00108406
+2021-07-15 00:00:00  Earnings      ETH 0.00108434
+2021-07-16 00:00:00  Earnings      ETH 0.00108462
+2021-07-17 00:00:00  Earnings      ETH 0.00108491
+2021-07-18 00:00:00  Earnings      ETH 0.00108519
+2021-07-19 00:00:00  Earnings      ETH 0.00108547
+2021-07-20 00:00:00  Earnings      ETH 0.00108576
+2021-07-21 00:00:00  Earnings      ETH 0.00108604
+2021-07-22 00:00:00  Earnings      ETH 0.00108632
+2021-07-23 00:00:00  Earnings      ETH 0.00108661
+2021-07-24 00:00:00  Earnings      ETH 0.00108689
+2021-07-25 00:00:00  Earnings      ETH 0.00108718
+2021-07-26 00:00:00  Earnings      ETH 0.00108746
+2021-07-27 00:00:00  Earnings      ETH 0.00108774
+2021-07-28 00:00:00  Earnings      ETH 0.00108803
+2021-07-29 00:00:00  Earnings      ETH 0.00108831
+2021-07-30 00:00:00  Earnings      ETH 0.00108860
+2021-07-31 00:00:00  Earnings      ETH 0.00108888
+TOTAL                                  0.17052260
 '''
 			stdout = sys.stdout
 			capturedStdoutStr = StringIO()
@@ -5063,11 +5063,11 @@ TOTAL                                  0.15433602
 			depWithdrDateFrom_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][DEPOSIT_YIELD_HEADER_DATE_FROM[testLanguage]]
 			self.assertEqual('2021-04-01', str(depWithdrDateFrom_2))
 			depWithdrDateFrom_3 = yieldOwnerWithTotalsDetailDf.iloc[2][' '][' '][DEPOSIT_YIELD_HEADER_DATE_FROM[testLanguage]]
-			self.assertEqual('2021-07-01', str(depWithdrDateFrom_3))
+			self.assertEqual('2021-05-01', str(depWithdrDateFrom_3))
 			depWithdrDateTo_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][DEPOSIT_YIELD_HEADER_DATE_TO[testLanguage]]
 			self.assertEqual('2021-03-31', str(depWithdrDateTo_1))
 			depWithdrDateTo_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][DEPOSIT_YIELD_HEADER_DATE_TO[testLanguage]]
-			self.assertEqual('2021-06-30', str(depWithdrDateTo_2))
+			self.assertEqual('2021-04-30', str(depWithdrDateTo_2))
 			depWithdrDateTo_3 = yieldOwnerWithTotalsDetailDf.iloc[2][' '][' '][DEPOSIT_YIELD_HEADER_DATE_TO[testLanguage]]
 			self.assertEqual('2021-07-31', str(depWithdrDateTo_3))
 			depWithdr_ETH_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_AMOUNT[testLanguage]]['ETH']
@@ -5089,7 +5089,7 @@ TOTAL                                  0.15433602
 			datActETH_USD_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_USD_CURRENT_RATE.format('ETH')]
 			self.assertEqual(4400.0, datActETH_USD_2)
 			datDepETH_USD_3 = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_USD_DATE_FROM_RATE.format('ETH')]
-			self.assertEqual(3323.731442499446, datDepETH_USD_3)
+			self.assertEqual(3295.254833040422, datDepETH_USD_3)
 			datActETH_USD_3 = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_USD_CURRENT_RATE.format('ETH')]
 			self.assertEqual(4400.0, datActETH_USD_3)
 
@@ -5117,23 +5117,23 @@ TOTAL                                  0.15433602
 			yieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
 			self.assertEqual(190.2357446852143, yieldFiat_CHF_1)
 			yieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
-			self.assertEqual(293.13660166886103, yieldFiat_CHF_2)
+			self.assertEqual(95.86983132806282, yieldFiat_CHF_2)
 			yieldFiat_CHF_3 = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
-			self.assertEqual(133.97172355601228, yieldFiat_CHF_3)
+			self.assertEqual(395.9848342446932, yieldFiat_CHF_3)
 			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
-			self.assertEqual(617.3440699100876, yieldFiatTotal_CHF)
+			self.assertEqual(682.0904102579703, yieldFiatTotal_CHF)
 			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
-			self.assertEqual(617.3440699100876, yieldFiatGrandTotal_CHF)
+			self.assertEqual(682.0904102579703, yieldFiatGrandTotal_CHF)
 			actValPlusYieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
 			self.assertEqual(8190.235744685215, actValPlusYieldFiat_CHF_1)
 			actValPlusYieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
-			self.assertEqual(12483.372346354075, actValPlusYieldFiat_CHF_2)
+			self.assertEqual(12286.105576013277, actValPlusYieldFiat_CHF_2)
 			actValPlusYieldFiat_CHF_3 = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
-			self.assertEqual(16617.344069910087,actValPlusYieldFiat_CHF_3)
+			self.assertEqual(16682.09041025797,actValPlusYieldFiat_CHF_3)
 			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
-			self.assertEqual(16617.344069910087,actValPlusYieldFiatTotal_CHF)
+			self.assertEqual(16682.09041025797,actValPlusYieldFiatTotal_CHF)
 			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[4][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
-			self.assertEqual(16617.344069910087,actValPlusYieldFiatGrandTotal_CHF)
+			self.assertEqual(16682.09041025797,actValPlusYieldFiatGrandTotal_CHF)
 			capitalGainFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
 			self.assertEqual(5000.0, capitalGainFiat_CHF_1)
 			capitalGainFiat_CHF_percent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
@@ -5153,39 +5153,39 @@ TOTAL                                  0.15433602
 			yieldDays_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_YIELD_DAYS[testLanguage]][PROC_INTEREST]
 			self.assertEqual(90, yieldDays_1)
 			yieldDays_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_YIELD_DAYS[testLanguage]][PROC_INTEREST]
-			self.assertEqual(91, yieldDays_2)
+			self.assertEqual(30, yieldDays_2)
 			yieldDays_3 = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_YIELD_DAYS[testLanguage]][PROC_INTEREST]
-			self.assertEqual(31, yieldDays_3)
+			self.assertEqual(92, yieldDays_3)
 			yieldCrypto_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_INTEREST][depositCrypto]
 			self.assertEqual(0.04755893617130358, yieldCrypto_1)
 			yieldPercent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
 			self.assertEqual(2.377946808565179, yieldPercent_1)
 			yieldCrypto_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_INTEREST][depositCrypto]
-			self.assertEqual(0.07328415041721525, yieldCrypto_2)
+			self.assertEqual(0.023967457832015704, yieldCrypto_2)
 			yieldPercent_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
-			self.assertEqual(2.4046836157099327, yieldPercent_2)
+			self.assertEqual(0.7864477220619858, yieldPercent_2)
 			yieldCrypto_3 = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_INTEREST][depositCrypto]
-			self.assertEqual(0.03349293088900307, yieldCrypto_3)
+			self.assertEqual(0.0989962085611733, yieldCrypto_3)
 			yieldPercent_3 = yieldOwnerWithTotalsDetailDf.iloc[2][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
-			self.assertEqual(0.812768896685424, yieldPercent_3)
+			self.assertEqual(2.4314274053823706, yieldPercent_3)
 			yieldCryptoTotal = yieldOwnerWithTotalsDetailDf.iloc[3][' '][PROC_INTEREST][depositCrypto]
-			self.assertEqual(0.1543360174775219, yieldCryptoTotal)
+			self.assertEqual(0.1705226025644926, yieldCryptoTotal)
 			yieldCryptoGrandTotal = yieldOwnerWithTotalsDetailDf.iloc[4][' '][PROC_INTEREST][depositCrypto]
-			self.assertEqual(0.1543360174775219, yieldCryptoGrandTotal)
+			self.assertEqual(0.1705226025644926, yieldCryptoGrandTotal)
 			yearlyYieldPercent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_YEAR_YIELD_PERCENT[testLanguage]]
 			self.assertEqual(10.000000000001275, yearlyYieldPercent_1)
 			yearlyYieldPercent_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][PROC_YEAR_YIELD_PERCENT[testLanguage]]
-			self.assertEqual(10.000000000001453, yearlyYieldPercent_2)
+			self.assertEqual(10.000000000001252, yearlyYieldPercent_2)
 			yearlyYieldPercent_3 = yieldOwnerWithTotalsDetailDf.iloc[2][' '][' '][PROC_YEAR_YIELD_PERCENT[testLanguage]]
-			self.assertEqual(10.00000000000032, yearlyYieldPercent_3)
+			self.assertEqual(10.000000000001318, yearlyYieldPercent_3)
 			averageYearlyYieldPercent = yieldOwnerWithTotalsDetailDf.iloc[3][' '][' '][PROC_YEAR_YIELD_PERCENT[testLanguage]]
-			self.assertEqual(10.000000000001211, averageYearlyYieldPercent)
+			self.assertEqual(10.000000000001291, averageYearlyYieldPercent)
 			dailyYieldAmount = yieldOwnerWithTotalsDetailDf.iloc[3][' '][PROC_AMOUNT[testLanguage]][PROC_PER_DAY[testLanguage]]
-			self.assertEqual(4.339750283186255, dailyYieldAmount)
+			self.assertEqual(4.356659299914674, dailyYieldAmount)
 			monthlyYieldAmount = yieldOwnerWithTotalsDetailDf.iloc[3][' '][PROC_YIELD[testLanguage]][PROC_PER_MONTH[testLanguage]]
-			self.assertEqual(130.68672390500907, monthlyYieldAmount)
+			self.assertEqual(131.1959200237935, monthlyYieldAmount)
 			yearlyYieldAmount = yieldOwnerWithTotalsDetailDf.iloc[3][' '][PROC_IN[testLanguage] + fiat + ' '][PROC_PER_YEAR[testLanguage]]
-			self.assertEqual(1661.7344069912094, yearlyYieldAmount)
+			self.assertEqual(1668.2090410260132, yearlyYieldAmount)
 
 if __name__ == '__main__':
 	if os.name == 'posix':
@@ -5194,14 +5194,14 @@ if __name__ == '__main__':
 		tst = TestProcessorNewStructure()
 		# tst.testAddFiatConversionInfo_USDC_2_fiats_simple_values_2_owners_2_deposits_bug_french_language()
 		# tst.testAddFiatConversionInfo_USDC_2_fiats_simple_values_2_owners_2_deposits_bug_english_language()
-		tst.testAddFiatConversionInfo_ETH_1_fiat_2_owners_1_and_1_deposit_french_language()
-		tst.testAddFiatConversionInfo_ETH_1_fiat_2_owners_1_and_1_deposit_english_language()
+		# tst.testAddFiatConversionInfo_ETH_1_fiat_2_owners_1_and_1_deposit_french_language()
+		# tst.testAddFiatConversionInfo_ETH_1_fiat_2_owners_1_and_1_deposit_english_language()
 
 		# value testing ok for the tsts below
 		# tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_1_deposit_french_language()
 		# tst.testAddFiatConversionInfo_ETH_2_fiats_1_owner_1_deposit_french_language()
 		# tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_2_deposits_english_language()
-		# tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_3_deposits_french_language()
+		tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_3_deposits_french_language()
 		# tst.testAddFiatConversionInfo_CHSB_2_fiats_CHF_USD_1_owner_2_deposit_french_language()
 		# tst.testAddFiatConversionInfo_CHSB_2_fiats_USD_CHF_1_owner_2_deposit_french_language()
 		# tst.testAddFiatConversionInfo_CHSB_1_fiat_1_owner_2_deposit_french_language()
