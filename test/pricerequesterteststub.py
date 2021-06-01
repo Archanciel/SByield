@@ -94,8 +94,12 @@ class PriceRequesterTestStub(PriceRequester):
 			rate = 100000 # causes CHSB/CHF to be 1.5
 		elif crypto == 'BTC' and unit == 'USD':
 			rate = 113333.3333  # causes CHSB/USD to be 1.7
+		elif crypto == 'BTC' and unit == 'EUR':
+			rate = 44250  # causes CHSB/EUR to be 0.66 since CHSB/BTC is set to 0.000015, a value which is not conform to reality but causes CHSB/CHF to be 1.5 !
 		elif crypto == 'USD' and unit == 'CHF':
 			rate = 0.9105
+		elif crypto == 'CHF' and unit == 'USD':
+			rate = 1 / 0.9105
 		elif crypto == 'USD' and unit == 'EUR':
 			rate = 0.8
 		elif crypto == 'USDC' and unit == 'CHF':

@@ -42,11 +42,11 @@ class Processor:
 		# inserting deposit/withdrawal date cryptoRateFiat column and current date
 		# cryptoRateFiat column
 
-		cryptoUsdDateFromRateColName = CRYPTO_FIAT_DATE_FROM_RATE.format(depositCrypto, self.cryptoRateFiat)
-		yieldOwnerWithTotalsDetailDf.insert(loc=1, column=cryptoUsdDateFromRateColName, value=0.0)
-		cryptoUsdCurrentRateColName = CRYPTO_FIAT_CURRENT_RATE.format(depositCrypto, self.cryptoRateFiat)
-		yieldOwnerWithTotalsDetailDf.insert(loc=2, column=cryptoUsdCurrentRateColName, value=0.0)
-		cryptoUsdCurrentRate = cryptoFiatRateDic[self.cryptoRateFiat]
+		cryptoFiatDateFromRateColName = CRYPTO_FIAT_DATE_FROM_RATE.format(depositCrypto, self.cryptoRateFiat)
+		yieldOwnerWithTotalsDetailDf.insert(loc=1, column=cryptoFiatDateFromRateColName, value=0.0)
+		cryptoFiatCurrentRateColName = CRYPTO_FIAT_CURRENT_RATE.format(depositCrypto, self.cryptoRateFiat)
+		yieldOwnerWithTotalsDetailDf.insert(loc=2, column=cryptoFiatCurrentRateColName, value=0.0)
+		cryptoFiatCurrentRate = cryptoFiatRateDic[self.cryptoRateFiat]
 
 		yieldOwnerWithTotalsDetailDf.reset_index(inplace=True)
 
@@ -60,16 +60,20 @@ class Processor:
 				depositCryptoAmount = row.loc[DATAFRAME_HEADER_DEPOSIT_WITHDRAW]
 				depositFiatAmount = row.loc[firstFiatColNameInDepositFile]
 				cryptoDateFromFiatRate = depositFiatAmount / depositCryptoAmount
-				if fiat.upper() != self.cryptoRateFiat:
-					usdDateFromRateForFirstFiatColNameInDepositFile = \
+				if self.cryptoRateFiat in fiatLst:
+					cryptoRateFiatIndex = fiatLst.index(self.cryptoRateFiat)
+					depositFiatAmount = row.loc[fiatColLst[cryptoRateFiatIndex]]
+					cryptoFiatDateFromRate = depositFiatAmount / depositCryptoAmount
+				else:
+					cryptoFiatRate = \
 						self.cryptoFiatRateComputer.computeCryptoFiatRate(self.cryptoRateFiat,
 																		  fiat,
 																		  depositDateFrom)
-				else:
-					usdDateFromRateForFirstFiatColNameInDepositFile = 1.0
-				cryptoUsdDateFromRate = cryptoDateFromFiatRate / usdDateFromRateForFirstFiatColNameInDepositFile
-				yieldOwnerWithTotalsDetailDf.loc[index, cryptoUsdDateFromRateColName] = cryptoUsdDateFromRate
-				yieldOwnerWithTotalsDetailDf.loc[index, cryptoUsdCurrentRateColName] = cryptoUsdCurrentRate
+
+
+					cryptoFiatDateFromRate = cryptoDateFromFiatRate / cryptoFiatRate
+				yieldOwnerWithTotalsDetailDf.loc[index, cryptoFiatDateFromRateColName] = cryptoFiatDateFromRate
+				yieldOwnerWithTotalsDetailDf.loc[index, cryptoFiatCurrentRateColName] = cryptoFiatCurrentRate
 
 		# resetting index to OWNER column
 		yieldOwnerWithTotalsDetailDf.set_index(DEPOSIT_SHEET_HEADER_OWNER[GB], inplace=True)
@@ -225,7 +229,7 @@ class Processor:
 
 		# replace crypto/USD zero value rate in TotAL rows by np.nan since total in those
 		# columns has no sense
-		cryptoRateColNames = [cryptoUsdDateFromRateColName, cryptoUsdCurrentRateColName]
+		cryptoRateColNames = [cryptoFiatDateFromRateColName, cryptoFiatCurrentRateColName]
 		yieldOwnerWithTotalsDetailDf[cryptoRateColNames] = yieldOwnerWithTotalsDetailDf[cryptoRateColNames].replace({'0': np.nan, 0: np.nan})
 
 		# renaming the yieldOwnerWithTotalsDetailDf columns
