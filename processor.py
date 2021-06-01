@@ -6,10 +6,12 @@ class Processor:
 				 sbYieldRateComputer,
 				 ownerDepositYieldComputer,
 				 cryptoFiatRateComputer,
+				 cryptoRateFiat='USD',
 				 language=GB):
 		self.sbYieldRateComputer = sbYieldRateComputer
 		self.ownerDepositYieldComputer = ownerDepositYieldComputer
 		self.cryptoFiatRateComputer = cryptoFiatRateComputer
+		self.cryptoRateFiat = cryptoRateFiat
 		self.language = language
 
 		self.PROC_HELP_1 = ''
@@ -37,15 +39,15 @@ class Processor:
 		# obtaining the current crypto/fiat rates as a crypto/fiat pair dic
 		cryptoFiatRateDic = self._getCurrentCryptoFiatRateValues(depositCrypto, fiatLst)
 
-		# inserting USD deposit/withdrawal date crypto rate column and USD current date
-		# crypto rate column if USD not in fiat list
+		# inserting deposit/withdrawal date cryptoRateFiat column and current date
+		# cryptoRateFiat column
 
-		cryptoUsdDateFromRateColName = CRYPTO_USD_DATE_FROM_RATE.format(depositCrypto)
+		cryptoUsdDateFromRateColName = CRYPTO_FIAT_DATE_FROM_RATE.format(depositCrypto, self.cryptoRateFiat)
 		yieldOwnerWithTotalsDetailDf.insert(loc=1, column=cryptoUsdDateFromRateColName, value=0.0)
-		cryptoUsdCurrentRateColName = CRYPTO_USD_CURRENT_RATE.format(depositCrypto)
+		cryptoUsdCurrentRateColName = CRYPTO_FIAT_CURRENT_RATE.format(depositCrypto, self.cryptoRateFiat)
 		yieldOwnerWithTotalsDetailDf.insert(loc=2, column=cryptoUsdCurrentRateColName, value=0.0)
-		cryptoUsdCurrentRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(depositCrypto,
-																				 'USD')
+		cryptoUsdCurrentRate = cryptoFiatRateDic[self.cryptoRateFiat]
+
 		yieldOwnerWithTotalsDetailDf.reset_index(inplace=True)
 
 		for index, row in yieldOwnerWithTotalsDetailDf.iterrows():
@@ -58,9 +60,9 @@ class Processor:
 				depositCryptoAmount = row.loc[DATAFRAME_HEADER_DEPOSIT_WITHDRAW]
 				depositFiatAmount = row.loc[firstFiatColNameInDepositFile]
 				cryptoDateFromFiatRate = depositFiatAmount / depositCryptoAmount
-				if fiat.upper() != 'USD':
+				if fiat.upper() != self.cryptoRateFiat:
 					usdDateFromRateForFirstFiatColNameInDepositFile = \
-						self.cryptoFiatRateComputer.computeCryptoFiatRate('USD',
+						self.cryptoFiatRateComputer.computeCryptoFiatRate(self.cryptoRateFiat,
 																		  fiat,
 																		  depositDateFrom)
 				else:
@@ -71,13 +73,6 @@ class Processor:
 
 		# resetting index to OWNER column
 		yieldOwnerWithTotalsDetailDf.set_index(DEPOSIT_SHEET_HEADER_OWNER[GB], inplace=True)
-
-		# if 'USD' not in fiatLst:
-		# 	fiat = fiatLst[0]
-		# 	usdDepositFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate()
-#		cryptoUsdDepWithdrDateRate = self.cryptoFiatRateComputer.
-#		yieldOwnerWithTotalsDetailDf['USD DEP RATE'] =
-
 
 		yieldOwnerWithTotalsDetailColNameLst = yieldOwnerWithTotalsDetailDf.columns.tolist()
 
@@ -395,9 +390,12 @@ class Processor:
 			cryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, fiat)
 			cryptoFiatRateDic[fiat] = cryptoFiatRate
 
-		if not 'USD' in fiatlLst:
-			cryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, 'USD')
-			cryptoFiatRateDic['USD'] = cryptoFiatRate
+		if not self.cryptoRateFiat in fiatlLst:
+			# since the cryptoRateFiat current rate will be used for inserting the
+			# current crypto/fiat rate column, it is added to the returned
+			# cryptoFiatRateDic
+			cryptoFiatRate = self.cryptoFiatRateComputer.computeCryptoFiatRate(crypto, self.cryptoRateFiat)
+			cryptoFiatRateDic[self.cryptoRateFiat] = cryptoFiatRate
 
 		return cryptoFiatRateDic
 
