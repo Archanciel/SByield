@@ -21,6 +21,10 @@ class Processor:
 
 	def addFiatConversionInfo(self):
 		"""
+		This method add fiat information to the deposits/withdrawals and yields dataframe.
+		For the method to work correctly, the deposit csv file must contain fiat deposit
+		amounts. At least one fiat must be specified in the deposit csv file. More than
+		one fiat can be added to the deposit/withdrawal lines.
 
 		@return:
 		"""
@@ -39,14 +43,16 @@ class Processor:
 		# obtaining the current crypto/fiat rates as a crypto/fiat pair dic
 		cryptoFiatRateDic = self._getCurrentCryptoFiatRateValues(depositCrypto, fiatLst)
 
-		# inserting deposit/withdrawal date cryptoRateFiat column and current date
-		# cryptoRateFiat column
+		# inserting deposit/withdrawal date crypto/fiat rate column and current date
+		# crypto/fiat rate column
 
 		cryptoFiatDateFromRateColName = CRYPTO_FIAT_DATE_FROM_RATE.format(depositCrypto, self.cryptoRateFiat)
 		yieldOwnerWithTotalsDetailDf.insert(loc=1, column=cryptoFiatDateFromRateColName, value=0.0)
 		cryptoFiatCurrentRateColName = CRYPTO_FIAT_CURRENT_RATE.format(depositCrypto, self.cryptoRateFiat)
 		yieldOwnerWithTotalsDetailDf.insert(loc=2, column=cryptoFiatCurrentRateColName, value=0.0)
 		cryptoFiatCurrentRate = cryptoFiatRateDic[self.cryptoRateFiat]
+
+		# now computing the values of the crypto/fiat rate columns
 
 		yieldOwnerWithTotalsDetailDf.reset_index(inplace=True)
 
@@ -60,6 +66,7 @@ class Processor:
 				depositCryptoAmount = row.loc[DATAFRAME_HEADER_DEPOSIT_WITHDRAW]
 				depositFiatAmount = row.loc[firstFiatColNameInDepositFile]
 				cryptoDateFromFiatRate = depositFiatAmount / depositCryptoAmount
+
 				if self.cryptoRateFiat in fiatLst:
 					cryptoRateFiatIndex = fiatLst.index(self.cryptoRateFiat)
 					depositFiatAmount = row.loc[fiatColLst[cryptoRateFiatIndex]]
@@ -70,8 +77,8 @@ class Processor:
 																		  fiat,
 																		  depositDateFrom)
 
-
 					cryptoFiatDateFromRate = cryptoDateFromFiatRate / cryptoFiatRate
+
 				yieldOwnerWithTotalsDetailDf.loc[index, cryptoFiatDateFromRateColName] = cryptoFiatDateFromRate
 				yieldOwnerWithTotalsDetailDf.loc[index, cryptoFiatCurrentRateColName] = cryptoFiatCurrentRate
 
@@ -322,7 +329,7 @@ class Processor:
 
 		multiIndexLevelTwoLst[5] = self.PROC_HELP_1 + multiIndexLevelTwoLst[5]
 		# in order to differentiate by fiat the daily, monthly and
-		# yearly fiat interest columns inserted inti the
+		# yearly fiat interest columns inserted into the
 		# yieldOwnerWithTotalsDetailDf, a low case fiat symbol was
 		# added to the added column names. Now, when defining the
 		# level 2 multi index column names, this low case fiat symbol
@@ -332,10 +339,10 @@ class Processor:
 			fiatLowCase = fiat.lower()
 			multiIndexLevelTwoLst = [x.replace(fiatLowCase, '') for x in multiIndexLevelTwoLst]
 
-		# variables for debugging only ...
-		l1 = len(multiIndexLevelZeroLst)
-		l2 = len(multiIndexLevelOneLst)
-		l3 = len(multiIndexLevelTwoLst)
+		# variables for debugging purpose only ...
+		# l1 = len(multiIndexLevelZeroLst)
+		# l2 = len(multiIndexLevelOneLst)
+		# l3 = len(multiIndexLevelTwoLst)
 
 		arrays = [
 			np.array(multiIndexLevelZeroLst),

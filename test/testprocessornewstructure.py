@@ -1155,7 +1155,8 @@ TOTAL                                  660.79363079'''
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'''                                                              DÉPÔTS  /  RETRAITS      (2)       (3)      (4)                                                                                                                                                 
+'''
+                                                              DÉPÔTS  /  RETRAITS      (2)       (3)      (4)                                                                                                                                                 
                                  MONTANT  DAT DÉP   DAT ACT VAL DAT DÉP   VAL ACT  VAL ACT   VAL ACT PLUS-VAL       VAL DAT DÉP VAL ACT    VAL ACT     VAL ACT PLUS-VAL        JOURS    INT                 MONTANT INTÉRÊTS EN CHF   MONTANT INTÉRÊTS EN EUR 
                  DE           A     USDC USDC/EUR  USDC/EUR    (1)  CHF       CHF  INT CHF   TOT CHF  CAP CHF  EN %         EUR     EUR    INT EUR     TOT EUR  CAP EUR  EN %    INT   USDC EN %  % ANNUEL PAR JOUR PAR MOIS  PAR AN PAR JOUR PAR MOIS  PAR AN
 PROPR                                                                                                                                                                                                                                                         
@@ -1173,6 +1174,7 @@ G TOTAL                          8900.00                                  8103.4
 			capturedStdoutStr = StringIO()
 			sys.stdout = capturedStdoutStr
 
+			print()
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 
 			sys.stdout = stdout

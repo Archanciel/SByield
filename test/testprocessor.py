@@ -75,6 +75,7 @@ class TestProcessor(unittest.TestCase):
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto = self.processor.addFiatConversionInfo()
 
@@ -188,7 +189,16 @@ G TOTAL         32,453.43            55,170.84                                  
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+			stdout = sys.stdout
+			capturedStdoutStr = StringIO()
+			sys.stdout = capturedStdoutStr
+
+			print()
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+
+			sys.stdout = stdout
+
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
 
 	def testAddFiatConversionInfo_CHSB_2_fiats_2_owners(self):
 		"""
@@ -215,6 +225,7 @@ G TOTAL         32,453.43            55,170.84                                  
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto = self.processor.addFiatConversionInfo()
 
@@ -328,7 +339,16 @@ G TOTAL      32,453.43           55,170.84                                48,680
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+			stdout = sys.stdout
+			capturedStdoutStr = StringIO()
+			sys.stdout = capturedStdoutStr
+
+			print()
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+
+			sys.stdout = stdout
+
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
 
 	def testAddFiatConversionInfo_USDC_1_fiat_4_owners(self):
 		"""
@@ -356,6 +376,7 @@ G TOTAL      32,453.43           55,170.84                                48,680
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto = self.processor.addFiatConversionInfo()
 
@@ -635,7 +656,16 @@ G TOTAL       4,556.56             4,148.75                                     
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+			stdout = sys.stdout
+			capturedStdoutStr = StringIO()
+			sys.stdout = capturedStdoutStr
+
+			print()
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+
+			sys.stdout = stdout
+
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
 
 	def testAddFiatConversionInfo_1_fiat_simple_values_2_owners(self):
 		"""
@@ -661,6 +691,7 @@ G TOTAL       4,556.56             4,148.75                                     
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
 
@@ -1048,28 +1079,36 @@ TOTAL                                  2,631.86967354'''
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'                                                     DEP/WITHDR                                                                                \n' + \
-'                  CHSB                                      CHF             CAPITAL                    DATE                  YIELD             \n' + \
-'        Tot incl yield   DF RATE  CUR RATE  CAP GAIN CAP GAIN %      CHSB       CHF        FROM          TO DAYS     CHSB      CHF   Y % YR Y %\n' + \
-'OWNER                                                                                                                                          ' + \
 '''
-JPS          10,000.00  5,000.00 15,000.00 10,000.00     200.00 10,000.00 15,000.00  2021-01-01  2021-01-04    4    10.45    15.68  0.10  10.00
-JPS          10,000.00 10,000.00 15,000.00  5,000.00      50.00 20,010.45 30,015.68  2021-01-05  2021-01-05    1     5.23     7.84  0.03  10.00
-JPS           1,000.00  2,000.00  1,500.00   -500.00     -25.00 21,015.68 31,523.51  2021-01-06  2021-01-09    4    24.71    37.06  0.12  11.32
-JPS            -500.00   -500.00   -750.00   -250.00     -50.00 20,540.38 30,810.57  2021-01-10  2021-12-31  356 2,256.55 3,384.82 10.99  11.28
-TOTAL        22,796.93 16,500.00 34,195.39 14,250.00      86.36                                                  2,296.93 3,445.39             ''' + \
+                                                            DEPOSITS   /   WITHDRAWALS                                                                                       
+                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS     INT               AMOUNT INTERESTS IN CHF 
+               FROM          TO     CHSB CHSB/USD  CHSB/USD          CHF           CHF  YLD CHF   TOT CHF ONLY CHF   IN %  INT    CHSB  IN % YRLY % PER DAY PER MONTH  PER YR
+OWNER                                                                                                                                                                        
+JPS      2021-01-01  2021-01-04 10000.00     0.56      1.70      5000.00      15000.00    15.68  15015.68 10000.00 200.00    4   10.45  0.10  10.00                          
+JPS      2021-01-05  2021-01-05 10000.00     1.13      1.70     10000.00      15000.00     7.84  30023.51  5000.00  50.00    1    5.23  0.03  10.00                          
+JPS      2021-01-06  2021-01-09  1000.00     2.27      1.70      2000.00       1500.00    37.06  31560.57  -500.00 -25.00    4   24.71  0.12  11.32                          
+JPS      2021-01-10  2021-12-31  -500.00     1.12      1.70      -500.00       -750.00  3384.82  34195.39  -250.00 -50.00  356 2256.55 10.99  11.28                          
+TOTAL                           20500.00                        16500.00      30750.00  3445.39  34195.39 14250.00  86.36      2296.93        11.26   10.00    301.25 3850.96
+Papa     2021-01-01  2021-01-05  1000.00     0.56      1.70       500.00       1500.00     1.96   1501.96  1000.00 200.00    5    1.31  0.13  10.00                          
+Papa     2021-01-06  2021-12-31  2000.00     2.27      1.70      4000.00       3000.00   500.45   5002.41 -1000.00 -25.00  360  333.64 11.12  11.28                          
+TOTAL                            3000.00                         4500.00       4500.00   502.41   5002.41     0.00   0.00       334.94        11.27    1.46     44.10  563.79
+G TOTAL                         23500.00                                      35250.00  3947.80  39197.80                      2631.87                                       
 '''
-Papa          1,000.00    500.00  1,500.00  1,000.00     200.00  1,000.00  1,500.00  2021-01-01  2021-01-05    5     1.31     1.96  0.13  10.00
-Papa          2,000.00  4,000.00  3,000.00 -1,000.00     -25.00  3,001.31  4,501.96  2021-01-06  2021-12-31  360   333.64   500.45 11.12  11.28
-TOTAL         3,334.94  4,500.00  5,002.41      0.00       0.00                                                    334.94   502.41             ''' + \
-'''
-G TOTAL      26,131.87           39,197.80                                                                       2,631.87 3,947.80             '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+			stdout = sys.stdout
+			capturedStdoutStr = StringIO()
+			sys.stdout = capturedStdoutStr
+
+			print()
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+
+			sys.stdout = stdout
+
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
 
 	def testAddFiatConversionInfo_1_fiat_simple_values_2_owners_1_deposit(self):
 		"""
@@ -1095,6 +1134,7 @@ G TOTAL      26,131.87           39,197.80                                      
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto = self.processor.addFiatConversionInfo()
 
@@ -1482,24 +1522,32 @@ TOTAL                                  365.09532262'''
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'                                                   DEP/WITHDR                                                                          \n' + \
-'                  CHSB                                    CHF            CAPITAL                    DATE              YIELD            \n' + \
-'        Tot incl yield  DF RATE  CUR RATE CAP GAIN CAP GAIN %     CHSB       CHF        FROM          TO DAYS   CHSB    CHF  Y % YR Y %\n' + \
-'OWNER                                                                                                                                  ' + \
 '''
-JPS           9,000.00 4,500.00 13,500.00 9,000.00     200.00 9,000.00 13,500.00  2021-01-01  2021-12-31  365 328.59 492.88 3.65   3.65
-TOTAL         9,328.59 4,500.00 13,992.88 9,000.00     200.00                                                 328.59 492.88            ''' + \
+                                                            DEPOSITS   /   WITHDRAWALS                                                                                     
+                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS    INT              AMOUNT INTERESTS IN CHF 
+               FROM          TO     CHSB CHSB/USD  CHSB/USD          CHF           CHF  YLD CHF   TOT CHF ONLY CHF   IN %  INT   CHSB IN % YRLY % PER DAY PER MONTH  PER YR
+OWNER                                                                                                                                                                      
+JPS      2021-01-01  2021-12-31  9000.00     0.56      1.70      4500.00      13500.00   492.88  13992.88  9000.00 200.00  365 328.59 3.65   3.65                          
+TOTAL                            9000.00                         4500.00      13500.00   492.88  13992.88  9000.00 200.00      328.59        3.65    1.37     41.30  510.87
+Papa     2021-01-01  2021-12-31  1000.00     0.56      1.70       500.00       1500.00    54.76   1554.76  1000.00 200.00  365  36.51 3.65   3.65                          
+TOTAL                            1000.00                          500.00       1500.00    54.76   1554.76  1000.00 200.00       36.51        3.65    0.15      4.59   56.76
+G TOTAL                         10000.00                                      15000.00   547.64  15547.64                      365.10                                      
 '''
-Papa          1,000.00   500.00  1,500.00 1,000.00     200.00 1,000.00  1,500.00  2021-01-01  2021-12-31  365  36.51  54.76 3.65   3.65
-TOTAL         1,036.51   500.00  1,554.76 1,000.00     200.00                                                  36.51  54.76            ''' + \
-'''
-G TOTAL      10,365.10          15,547.64                                                                     365.10 547.64            '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+			stdout = sys.stdout
+			capturedStdoutStr = StringIO()
+			sys.stdout = capturedStdoutStr
+
+			print()
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+
+			sys.stdout = stdout
+
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
 
 	def testAddFiatConversionInfo_1_fiat_simple_values_3_owners_1_deposit(self):
 		"""
@@ -1525,6 +1573,7 @@ G TOTAL      10,365.10          15,547.64                                       
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto = self.processor.addFiatConversionInfo()
 
@@ -1923,22 +1972,24 @@ TOTAL                                  365.09532262
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
 			yieldOwnerWithTotalsDetailDfExpectedStr = \
-'''                                                   DEP/WITHDR                                                                          
-                  CHSB                                    CHF            CAPITAL                    DATE              YIELD            
-        Tot incl yield  DF RATE  CUR RATE CAP GAIN CAP GAIN %     CHSB       CHF        FROM          TO DAYS   CHSB    CHF  Y % YR Y %
-OWNER                                                                                                                                  
-Béa             800.00   360.00  1,200.00   840.00     233.33   800.00  1,200.00  2021-01-01  2021-12-31  365  27.04  40.57 3.38   3.38
-TOTAL           827.04   360.00  1,240.57   840.00     233.33                                                  27.04  40.57            
-JPS           9,000.00 4,100.00 13,500.00 9,400.00     229.27 9,000.00 13,500.00  2021-01-01  2021-12-31  365 304.25 456.37 3.38   3.38
-TOTAL         9,304.25 4,100.00 13,956.37 9,400.00     229.27                                                 304.25 456.37            
-Papa          1,000.00   500.00  1,500.00 1,000.00     200.00 1,000.00  1,500.00  2021-01-01  2021-12-31  365  33.81  50.71 3.38   3.38
-TOTAL         1,033.81   500.00  1,550.71 1,000.00     200.00                                                  33.81  50.71            
-G TOTAL      11,165.10          16,747.64                                                                     365.10 547.64            
+'''
+                                                            DEPOSITS   /   WITHDRAWALS                                                                                     
+                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS    INT              AMOUNT INTERESTS IN CHF 
+               FROM          TO     CHSB CHSB/USD  CHSB/USD          CHF           CHF  YLD CHF   TOT CHF ONLY CHF   IN %  INT   CHSB IN % YRLY % PER DAY PER MONTH  PER YR
+OWNER                                                                                                                                                                      
+Béa      2021-01-01  2021-12-31   800.00     0.51      1.70       360.00       1200.00    40.57   1240.57   840.00 233.33  365  27.04 3.38   3.38                          
+TOTAL                             800.00                          360.00       1200.00    40.57   1240.57   840.00 233.33       27.04        3.38    0.11      3.39   41.94
+JPS      2021-01-01  2021-12-31  9000.00     0.51      1.70      4100.00      13500.00   456.37  13956.37  9400.00 229.27  365 304.25 3.38   3.38                          
+TOTAL                            9000.00                         4100.00      13500.00   456.37  13956.37  9400.00 229.27      304.25        3.38    1.27     38.19  471.80
+Papa     2021-01-01  2021-12-31  1000.00     0.56      1.70       500.00       1500.00    50.71   1550.71  1000.00 200.00  365  33.81 3.38   3.38                          
+TOTAL                            1000.00                          500.00       1500.00    50.71   1550.71  1000.00 200.00       33.81        3.38    0.14      4.24   52.42
+G TOTAL                         10800.00                                      16200.00   547.64  16747.64                      365.10                                      
 '''
 			stdout = sys.stdout
 			capturedStdoutStr = StringIO()
 			sys.stdout = capturedStdoutStr
 
+			print()
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 
 			sys.stdout = stdout
@@ -1969,6 +2020,7 @@ G TOTAL      11,165.10          16,747.64                                       
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto = self.processor.addFiatConversionInfo()
 
@@ -2367,23 +2419,25 @@ TOTAL                                  365.09532262
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
 			yieldOwnerWithTotalsDetailDfExpectedStr = \
-'''                                                   DEP/WITHDR                                                                          
-                  CHSB                                    CHF            CAPITAL                    DATE              YIELD            
-        Tot incl yield  DF RATE  CUR RATE CAP GAIN CAP GAIN %     CHSB       CHF        FROM          TO DAYS   CHSB    CHF  Y % YR Y %
-OWNER                                                                                                                                  
-Béa             800.00   360.00  1,200.00   840.00     233.33   800.00  1,200.00  2021-01-01  2021-12-31  365  27.05  40.58 3.38   3.38
-TOTAL           827.05   360.00  1,240.58   840.00     233.33                                                  27.05  40.58            
-JPS           8,000.00 3,650.00 12,000.00 8,350.00     228.77 8,000.00 12,000.00  2021-01-01  2021-01-01    1   0.82   1.22 0.01   3.80
-JPS           1,000.00   450.00  1,500.00 1,050.00     233.33 9,000.82 13,501.22  2021-01-02  2021-12-31  364 303.41 455.12 3.37   3.38
-TOTAL         9,304.23 4,100.00 13,956.34 9,400.00     229.27                                                 304.23 456.34            
-Papa          1,000.00   500.00  1,500.00 1,000.00     200.00 1,000.00  1,500.00  2021-01-01  2021-12-31  365  33.81  50.72 3.38   3.38
-TOTAL         1,033.81   500.00  1,550.72 1,000.00     200.00                                                  33.81  50.72            
-G TOTAL      11,165.10          16,747.64                                                                     365.10 547.64            
+'''
+                                                            DEPOSITS   /   WITHDRAWALS                                                                                     
+                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS    INT              AMOUNT INTERESTS IN CHF 
+               FROM          TO     CHSB CHSB/USD  CHSB/USD          CHF           CHF  YLD CHF   TOT CHF ONLY CHF   IN %  INT   CHSB IN % YRLY % PER DAY PER MONTH  PER YR
+OWNER                                                                                                                                                                      
+Béa      2021-01-01  2021-12-31   800.00     0.51      1.70       360.00       1200.00    40.58   1240.58   840.00 233.33  365  27.05 3.38   3.38                          
+TOTAL                             800.00                          360.00       1200.00    40.58   1240.58   840.00 233.33       27.05        3.38    0.11      3.40   41.95
+JPS      2021-01-01  2021-01-01  8000.00     0.51      1.70      3650.00      12000.00     1.22  12001.22  8350.00 228.77    1   0.82 0.01   3.80                          
+JPS      2021-01-02  2021-12-31  1000.00     0.51      1.70       450.00       1500.00   455.12  13956.34  1050.00 233.33  364 303.41 3.37   3.38                          
+TOTAL                            9000.00                         4100.00      13500.00   456.34  13956.34  9400.00 229.27      304.23        3.38    1.27     38.19  471.85
+Papa     2021-01-01  2021-12-31  1000.00     0.56      1.70       500.00       1500.00    50.72   1550.72  1000.00 200.00  365  33.81 3.38   3.38                          
+TOTAL                            1000.00                          500.00       1500.00    50.72   1550.72  1000.00 200.00       33.81        3.38    0.14      4.24   52.43
+G TOTAL                         10800.00                                      16200.00   547.64  16747.64                      365.10                                      
 '''
 			stdout = sys.stdout
 			capturedStdoutStr = StringIO()
 			sys.stdout = capturedStdoutStr
 
+			print()
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 
 			sys.stdout = stdout
@@ -2416,6 +2470,7 @@ G TOTAL      11,165.10          16,747.64                                       
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
 
@@ -2804,30 +2859,38 @@ TOTAL                                  1,050.12284407'''
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'                                                     DEP/WITHDR                                                                               \n' + \
-'                  CHSB                                      CHF             CAPITAL                    DATE                  YIELD            \n' + \
-'        Tot incl yield   DF RATE  CUR RATE  CAP GAIN CAP GAIN %      CHSB       CHF        FROM          TO DAYS     CHSB      CHF  Y % YR Y %\n' + \
-'OWNER                                                                                                                                         ' + \
 '''
-JPS          10,000.00  5,000.00 15,000.00 10,000.00     200.00 10,000.00 15,000.00  2021-01-01  2021-01-05    5    13.06    19.60 0.13  10.00
-JPS           1,000.00  1,000.00  1,500.00    500.00      50.00 11,013.06 16,519.60  2021-01-06  2021-01-09    4    11.51    17.26 0.10  10.00
-JPS            -500.00 -2,000.00   -750.00  1,250.00      62.50 10,524.57 15,786.86  2021-01-10  2021-12-31  356 1,025.55 1,538.32 9.74  10.00
-TOTAL        11,550.12  4,000.00 17,325.18 11,750.00     293.75                                                  1,050.12 1,575.18            ''' + \
+                                                            DEPOSITS   /   WITHDRAWALS                                                                                      
+                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS     INT              AMOUNT INTERESTS IN CHF 
+               FROM          TO     CHSB CHSB/USD  CHSB/USD          CHF           CHF  YLD CHF   TOT CHF ONLY CHF   IN %  INT    CHSB IN % YRLY % PER DAY PER MONTH  PER YR
+OWNER                                                                                                                                                                       
+JPS      2021-01-01  2021-01-05 10000.00     0.56      1.70      5000.00      15000.00    19.60  15019.60 10000.00 200.00    5   13.06 0.13  10.00                          
+JPS      2021-01-06  2021-01-09  1000.00     1.13      1.70      1000.00       1500.00    17.26  16536.86   500.00  50.00    4   11.51 0.10  10.00                          
+JPS      2021-01-10  2021-12-31  -500.00     4.50      1.70     -2000.00       -750.00  1538.32  17325.18  1250.00  62.50  356 1025.55 9.74  10.00                          
+TOTAL                           10500.00                         4000.00      15750.00  1575.18  17325.18 11750.00 293.75      1050.12       10.00    4.53    136.29 1732.96
+G TOTAL                         10500.00                                      15750.00  1575.18  17325.18                      1050.12                                      
 '''
-G TOTAL      11,550.12           17,325.18                                                                       1,050.12 1,575.18            '''
-
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+			stdout = sys.stdout
+			capturedStdoutStr = StringIO()
+			sys.stdout = capturedStdoutStr
+
+			print()
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+
+			sys.stdout = stdout
+
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
 
 	def testAddFiatConversionInfo_1_fiat_simple_values_1_owner_1_deposit_gain(self):
 		"""
 		CHSB crypto, 1 owner with 1 deposit, fixed yield rate, CHSB/CHF final
 		rate of 1.5.
 		"""
-		PRINT = False
+		PRINT = True
 
 		sbAccountSheetFileName = 'testDepositCHSB_simple_values_1_owner_1_deposit.xlsx'
 		depositSheetFileName = 'testDepositChsb_fiat_chf_simple_values_1_owner_1_deposit_gain.csv'
@@ -2846,6 +2909,7 @@ G TOTAL      11,550.12           17,325.18                                      
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto = self.processor.addFiatConversionInfo()
 
@@ -3234,21 +3298,29 @@ TOTAL                                  365.09532262'''
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'                                                    DEP/WITHDR                                                                           \n' + \
-'                  CHSB                                     CHF             CAPITAL                    DATE              YIELD            \n' + \
-'        Tot incl yield  DF RATE  CUR RATE  CAP GAIN CAP GAIN %      CHSB       CHF        FROM          TO DAYS   CHSB    CHF  Y % YR Y %\n' + \
-'OWNER                                                                                                                                    ' + \
 '''
-JPS          10,000.00 5,000.00 15,000.00 10,000.00     200.00 10,000.00 15,000.00  2021-01-01  2021-12-31  365 365.10 547.64 3.65   3.65
-TOTAL        10,365.10 5,000.00 15,547.64 10,000.00     200.00                                                  365.10 547.64            ''' + \
+                                                            DEPOSITS   /   WITHDRAWALS                                                                                     
+                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS    INT              AMOUNT INTERESTS IN CHF 
+               FROM          TO     CHSB CHSB/USD  CHSB/USD          CHF           CHF  YLD CHF   TOT CHF ONLY CHF   IN %  INT   CHSB IN % YRLY % PER DAY PER MONTH  PER YR
+OWNER                                                                                                                                                                      
+JPS      2021-01-01  2021-12-31 10000.00     0.56      1.70      5000.00      15000.00   547.64  15547.64 10000.00 200.00  365 365.10 3.65   3.65                          
+TOTAL                           10000.00                         5000.00      15000.00   547.64  15547.64 10000.00 200.00      365.10        3.65    1.53     45.89  567.64
+G TOTAL                         10000.00                                      15000.00   547.64  15547.64                      365.10                                      
 '''
-G TOTAL      10,365.10          15,547.64                                                                       365.10 547.64            '''
-
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+			stdout = sys.stdout
+			capturedStdoutStr = StringIO()
+			sys.stdout = capturedStdoutStr
+
+			print()
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+
+			sys.stdout = stdout
+
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
 
 	def testAddFiatConversionInfo_1_fiat_simple_values_1_owner_withdrawal_loss(self):
 		"""
@@ -3276,6 +3348,7 @@ G TOTAL      10,365.10          15,547.64                                       
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
 
@@ -3664,23 +3737,31 @@ TOTAL                                  1,050.12284407'''
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'                                                    DEP/WITHDR                                                                               \n' + \
-'                  CHSB                                     CHF             CAPITAL                    DATE                  YIELD            \n' + \
-'        Tot incl yield  DF RATE  CUR RATE  CAP GAIN CAP GAIN %      CHSB       CHF        FROM          TO DAYS     CHSB      CHF  Y % YR Y %\n' + \
-'OWNER                                                                                                                                        ' + \
 '''
-JPS          10,000.00 5,000.00 15,000.00 10,000.00     200.00 10,000.00 15,000.00  2021-01-01  2021-01-05    5    13.06    19.60 0.13  10.00
-JPS           1,000.00 1,000.00  1,500.00    500.00      50.00 11,013.06 16,519.60  2021-01-06  2021-01-09    4    11.51    17.26 0.10  10.00
-JPS            -500.00  -600.00   -750.00   -150.00     -25.00 10,524.57 15,786.86  2021-01-10  2021-12-31  356 1,025.55 1,538.32 9.74  10.00
-TOTAL        11,550.12 5,400.00 17,325.18 10,350.00     191.67                                                  1,050.12 1,575.18            ''' + \
+                                                            DEPOSITS   /   WITHDRAWALS                                                                                      
+                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS     INT              AMOUNT INTERESTS IN CHF 
+               FROM          TO     CHSB CHSB/USD  CHSB/USD          CHF           CHF  YLD CHF   TOT CHF ONLY CHF   IN %  INT    CHSB IN % YRLY % PER DAY PER MONTH  PER YR
+OWNER                                                                                                                                                                       
+JPS      2021-01-01  2021-01-05 10000.00     0.56      1.70      5000.00      15000.00    19.60  15019.60 10000.00 200.00    5   13.06 0.13  10.00                          
+JPS      2021-01-06  2021-01-09  1000.00     1.13      1.70      1000.00       1500.00    17.26  16536.86   500.00  50.00    4   11.51 0.10  10.00                          
+JPS      2021-01-10  2021-12-31  -500.00     1.35      1.70      -600.00       -750.00  1538.32  17325.18  -150.00 -25.00  356 1025.55 9.74  10.00                          
+TOTAL                           10500.00                         5400.00      15750.00  1575.18  17325.18 10350.00 191.67      1050.12       10.00    4.53    136.29 1732.96
+G TOTAL                         10500.00                                      15750.00  1575.18  17325.18                      1050.12                                      
 '''
-G TOTAL      11,550.12          17,325.18                                                                       1,050.12 1,575.18            '''
-
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+			stdout = sys.stdout
+			capturedStdoutStr = StringIO()
+			sys.stdout = capturedStdoutStr
+
+			print()
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+
+			sys.stdout = stdout
+
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
 
 	def testAddFiatConversionInfo_1_fiat_simple_values_1_owner_withdrawal_loss_big(self):
 		"""
@@ -3708,6 +3789,7 @@ G TOTAL      11,550.12          17,325.18                                       
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
 
@@ -4096,23 +4178,31 @@ TOTAL                                  1,050.12284407'''
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'                                                    DEP/WITHDR                                                                               \n' + \
-'                  CHSB                                     CHF             CAPITAL                    DATE                  YIELD            \n' + \
-'        Tot incl yield  DF RATE  CUR RATE  CAP GAIN CAP GAIN %      CHSB       CHF        FROM          TO DAYS     CHSB      CHF  Y % YR Y %\n' + \
-'OWNER                                                                                                                                        ' + \
 '''
-JPS          10,000.00 5,000.00 15,000.00 10,000.00     200.00 10,000.00 15,000.00  2021-01-01  2021-01-05    5    13.06    19.60 0.13  10.00
-JPS           1,000.00 1,000.00  1,500.00    500.00      50.00 11,013.06 16,519.60  2021-01-06  2021-01-09    4    11.51    17.26 0.10  10.00
-JPS            -500.00  -250.00   -750.00   -500.00    -200.00 10,524.57 15,786.86  2021-01-10  2021-12-31  356 1,025.55 1,538.32 9.74  10.00
-TOTAL        11,550.12 5,750.00 17,325.18 10,000.00     173.91                                                  1,050.12 1,575.18            ''' + \
+                                                            DEPOSITS   /   WITHDRAWALS                                                                                       
+                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN         DAYS     INT              AMOUNT INTERESTS IN CHF 
+               FROM          TO     CHSB CHSB/USD  CHSB/USD          CHF           CHF  YLD CHF   TOT CHF ONLY CHF    IN %  INT    CHSB IN % YRLY % PER DAY PER MONTH  PER YR
+OWNER                                                                                                                                                                        
+JPS      2021-01-01  2021-01-05 10000.00     0.56      1.70      5000.00      15000.00    19.60  15019.60 10000.00  200.00    5   13.06 0.13  10.00                          
+JPS      2021-01-06  2021-01-09  1000.00     1.13      1.70      1000.00       1500.00    17.26  16536.86   500.00   50.00    4   11.51 0.10  10.00                          
+JPS      2021-01-10  2021-12-31  -500.00     0.56      1.70      -250.00       -750.00  1538.32  17325.18  -500.00 -200.00  356 1025.55 9.74  10.00                          
+TOTAL                           10500.00                         5750.00      15750.00  1575.18  17325.18 10000.00  173.91      1050.12       10.00    4.53    136.29 1732.96
+G TOTAL                         10500.00                                      15750.00  1575.18  17325.18                       1050.12                                      
 '''
-G TOTAL      11,550.12          17,325.18                                                                       1,050.12 1,575.18            '''
-
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+			stdout = sys.stdout
+			capturedStdoutStr = StringIO()
+			sys.stdout = capturedStdoutStr
+
+			print()
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+
+			sys.stdout = stdout
+
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
 
 	def testAddFiatConversionInfo_1_fiat_simple_values_1_owner_no_withdrawal(self):
 		"""
@@ -4138,6 +4228,7 @@ G TOTAL      11,550.12          17,325.18                                       
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
 
@@ -4526,22 +4617,30 @@ TOTAL                                  1,098.56475635'''
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'                                                    DEP/WITHDR                                                                               \n' + \
-'                  CHSB                                     CHF             CAPITAL                    DATE                  YIELD            \n' + \
-'        Tot incl yield  DF RATE  CUR RATE  CAP GAIN CAP GAIN %      CHSB       CHF        FROM          TO DAYS     CHSB      CHF  Y % YR Y %\n' + \
-'OWNER                                                                                                                                        ' + \
 '''
-JPS          10,000.00 5,000.00 15,000.00 10,000.00     200.00 10,000.00 15,000.00  2021-01-01  2021-01-05    5    13.06    19.60 0.13  10.00
-JPS           1,000.00 1,000.00  1,500.00    500.00      50.00 11,013.06 16,519.60  2021-01-06  2021-12-31  360 1,085.50 1,628.25 9.86  10.00
-TOTAL        12,098.56 6,000.00 18,147.85 10,500.00     175.00                                                  1,098.56 1,647.85            ''' + \
+                                                            DEPOSITS   /   WITHDRAWALS                                                                                      
+                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS     INT              AMOUNT INTERESTS IN CHF 
+               FROM          TO     CHSB CHSB/USD  CHSB/USD          CHF           CHF  YLD CHF   TOT CHF ONLY CHF   IN %  INT    CHSB IN % YRLY % PER DAY PER MONTH  PER YR
+OWNER                                                                                                                                                                       
+JPS      2021-01-01  2021-01-05 10000.00     0.56      1.70      5000.00      15000.00    19.60  15019.60 10000.00 200.00    5   13.06 0.13  10.00                          
+JPS      2021-01-06  2021-12-31  1000.00     1.13      1.70      1000.00       1500.00  1628.25  18147.85   500.00  50.00  360 1085.50 9.86  10.00                          
+TOTAL                           11000.00                         6000.00      16500.00  1647.85  18147.85 10500.00 175.00      1098.56       10.00    4.74    142.72 1814.78
+G TOTAL                         11000.00                                      16500.00  1647.85  18147.85                      1098.56                                      
 '''
-G TOTAL      12,098.56          18,147.85                                                                       1,098.56 1,647.85            '''
-
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+			stdout = sys.stdout
+			capturedStdoutStr = StringIO()
+			sys.stdout = capturedStdoutStr
+
+			print()
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+
+			sys.stdout = stdout
+
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
 
 	def testAddFiatConversionInfo_1_fiat_simple_values_1_owner_2_fiats_no_withdrawal(self):
 		"""
@@ -4551,7 +4650,7 @@ G TOTAL      12,098.56          18,147.85                                       
 		PRINT = False
 
 		sbAccountSheetFileName = 'testDepositCHSB_simple_values_1_owner_no_withdrawal.xlsx'
-		depositSheetFileName = 'testDepositChsb_fiat_chf_simple_values_1_owner_2_fiats_no_withdrawal.csv'
+		depositSheetFileName = 'testDepositChsb_fiat_chf_simple_values_1_owner_2_fiats_USD_CHF_no_withdrawal.csv'
 		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
 		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
 
@@ -4567,6 +4666,7 @@ G TOTAL      12,098.56          18,147.85                                       
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
 
@@ -4955,22 +5055,30 @@ TOTAL                                  1,098.56475635'''
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'                                                                                             DEP/WITHDR                                                                                                  \n' + \
-'                  CHSB                                     CHF                                      USD                       CAPITAL                    DATE                           YIELD            \n' + \
-'        Tot incl yield  DF RATE  CUR RATE  CAP GAIN CAP GAIN %  DF RATE  CUR RATE  CAP GAIN  CAP GAIN %      CHSB       CHF       USD        FROM          TO DAYS     CHSB      CHF      USD  Y % YR Y %\n' + \
-'OWNER                                                                                                                                                                                                    ' + \
 '''
-JPS          10,000.00 5,000.00 15,000.00 10,000.00     200.00 4,800.00 17,000.00 12,200.00      254.17 10,000.00 15,000.00 17,000.00  2021-01-01  2021-01-05    5    13.06    19.60    22.21 0.13  10.00
-JPS           1,000.00 1,000.00  1,500.00    500.00      50.00   980.00  1,700.00    720.00       73.47 11,013.06 16,519.60 18,722.21  2021-01-06  2021-12-31  360 1,085.50 1,628.25 1,845.35 9.86  10.00
-TOTAL        12,098.56 6,000.00 18,147.85 10,500.00     175.00 5,780.00 20,567.56 12,920.00      223.53                                                            1,098.56 1,647.85 1,867.56            ''' + \
+                                                            DEPOSITS   /   WITHDRAWALS                                                                                                                                                                             
+                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE  CUR RATE   CUR RATE CAP GAIN        DEP RATE CUR RATE    CUR RATE     CUR RATE CAP GAIN        DAYS     INT              AMOUNT INTERESTS IN USD   AMOUNT INTERESTS IN CHF 
+               FROM          TO     CHSB CHSB/USD  CHSB/USD          USD           USD   YLD USD    TOT USD ONLY USD   IN %      CHF      CHF     YLD CHF      TOT CHF ONLY CHF   IN %  INT    CHSB IN % YRLY % PER DAY PER MONTH  PER YR PER DAY PER MONTH  PER YR
+OWNER                                                                                                                                                                                                                                                              
+JPS      2021-01-01  2021-01-05 10000.00     0.48      1.70      4800.00      17000.00     22.21   17022.21 12200.00 254.17  5000.00 15000.00       19.60     15019.60 10000.00 200.00    5   13.06 0.13  10.00                                                    
+JPS      2021-01-06  2021-12-31  1000.00     0.98      1.70       980.00       1700.00   1845.35   20567.56   720.00  73.47  1000.00  1500.00     1628.25     18147.85   500.00  50.00  360 1085.50 9.86  10.00                                                    
+TOTAL                           11000.00                         5780.00      18700.00   1867.56   20567.56 12920.00 223.53  6000.00 16500.00     1647.85     18147.85 10500.00 175.00      1098.56       10.00    5.37    161.75 2056.76    4.74    142.72 1814.78
+G TOTAL                         11000.00                                      18700.00   1867.56   20567.56                          16500.00     1647.85     18147.85                      1098.56                                                                
 '''
-G TOTAL      12,098.56          18,147.85                               20,567.56                                                                                  1,098.56 1,647.85 1,867.56            '''
-
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+			stdout = sys.stdout
+			capturedStdoutStr = StringIO()
+			sys.stdout = capturedStdoutStr
+
+			print()
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+
+			sys.stdout = stdout
+
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
 
 	def testAddFiatConversionInfo_USDC_1_fiat_simple_values_2_owners_bug(self):
 		"""
@@ -5000,6 +5108,7 @@ G TOTAL      12,098.56          18,147.85                               20,567.5
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
 
@@ -5354,7 +5463,16 @@ G TOTAL      10,629.22          9,677.91                                        
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+			stdout = sys.stdout
+			capturedStdoutStr = StringIO()
+			sys.stdout = capturedStdoutStr
+
+			print()
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+
+			sys.stdout = stdout
+
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
 
 	def testAddFiatConversionInfo_USDC_1_fiat_simple_values_2_owners_bug_french_language(self):
 		"""
@@ -5385,6 +5503,7 @@ G TOTAL      10,629.22          9,677.91                                        
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
 
@@ -5739,7 +5858,16 @@ G TOTAL         10,629.22            9,677.91                                   
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+			stdout = sys.stdout
+			capturedStdoutStr = StringIO()
+			sys.stdout = capturedStdoutStr
+
+			print()
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+
+			sys.stdout = stdout
+
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
 
 	def testAddFiatConversionInfo_USDC_1_fiat_simple_values_2_owners_2_deposits_bug_french_language(self):
 		"""
@@ -5767,6 +5895,7 @@ G TOTAL         10,629.22            9,677.91                                   
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
 
@@ -6122,7 +6251,16 @@ G TOTAL          9,560.79            8,705.10                                   
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+			stdout = sys.stdout
+			capturedStdoutStr = StringIO()
+			sys.stdout = capturedStdoutStr
+
+			print()
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+
+			sys.stdout = stdout
+
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
 
 	def testAddFiatConversionInfo_USDC_2_fiats_simple_values_2_owners_2_deposits_bug_french_language(self):
 		"""
@@ -6150,6 +6288,7 @@ G TOTAL          9,560.79            8,705.10                                   
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
 
@@ -6505,7 +6644,16 @@ G TOTAL          9,560.79            8,705.10                                   
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+			stdout = sys.stdout
+			capturedStdoutStr = StringIO()
+			sys.stdout = capturedStdoutStr
+
+			print()
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+
+			sys.stdout = stdout
+
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
 
 	def testAddFiatConversionInfo_1_fiat_simple_values_1_owner_max_withdrawal_bug(self):
 		"""
@@ -6531,6 +6679,7 @@ G TOTAL          9,560.79            8,705.10                                   
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
 
@@ -6919,23 +7068,31 @@ TOTAL                                  24.57418987'''
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'                                                       DEP/WITHDR                                                                         \n' + \
-'                  CHSB                                        CHF             CAPITAL                    DATE            YIELD            \n' + \
-'        Tot incl yield    DF RATE   CUR RATE  CAP GAIN CAP GAIN %      CHSB       CHF        FROM          TO DAYS  CHSB   CHF  Y % YR Y %\n' + \
-'OWNER                                                                                                                                     ' + \
 '''
-JPS          10,000.00   5,000.00  15,000.00 10,000.00     200.00 10,000.00 15,000.00  2021-01-01  2021-01-05    5 13.06 19.60 0.13  10.00
-JPS           1,000.00   1,000.00   1,500.00    500.00      50.00 11,013.06 16,519.60  2021-01-06  2021-01-09    4 11.51 17.26 0.10  10.00
-JPS         -11,024.57 -22,036.85 -16,536.85  5,500.00      24.96      0.00      0.01  2021-01-10  2021-12-31  356  0.00  0.00 9.74  10.00
-TOTAL             0.00 -16,036.85       0.01 16,000.00     -99.77                                                  24.57 36.86            ''' + \
+                                                             DEPOSITS   /   WITHDRAWALS                                                                                    
+                                   AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS   INT              AMOUNT INTERESTS IN CHF 
+               FROM          TO      CHSB CHSB/USD  CHSB/USD          CHF           CHF  YLD CHF   TOT CHF ONLY CHF   IN %  INT  CHSB IN % YRLY % PER DAY PER MONTH  PER YR
+OWNER                                                                                                                                                                      
+JPS      2021-01-01  2021-01-05  10000.00     0.56      1.70      5000.00      15000.00    19.60  15019.60 10000.00 200.00    5 13.06 0.13  10.00                          
+JPS      2021-01-06  2021-01-09   1000.00     1.13      1.70      1000.00       1500.00    17.26  16536.86   500.00  50.00    4 11.51 0.10  10.00                          
+JPS      2021-01-10  2021-12-31 -11024.57     2.25      1.70    -22036.85     -16536.85     0.00      0.01  5500.00  24.96  356  0.00 9.74  10.00                          
+TOTAL                              -24.57                       -16036.85        -36.85    36.86      0.01 16000.00 -99.77      24.57       10.00    0.00      0.00    0.00
+G TOTAL                            -24.57                                        -36.85    36.86      0.01                      24.57                                      
 '''
-G TOTAL           0.00                  0.01                                                                       24.57 36.86            '''
-
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+			stdout = sys.stdout
+			capturedStdoutStr = StringIO()
+			sys.stdout = capturedStdoutStr
+
+			print()
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+
+			sys.stdout = stdout
+
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
 
 	def testDepositChsb_fiat_chf_pandas_avg_rate_explore(self):
 		"""
@@ -6961,6 +7118,7 @@ G TOTAL           0.00                  0.01                                    
 
 		sbYieldRatesWithTotalDf, \
 		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
 		yieldOwnerWithTotalsDetailDfActualStr, \
 		depositCrypto =	self.processor.addFiatConversionInfo()
 
@@ -7392,4 +7550,5 @@ if __name__ == '__main__':
 		# tst.testAddFiatConversionInfo_1_fiat_simple_values_1_owner_max_withdrawal_bug()
 		# tst.testDepositChsb_fiat_chf_pandas_avg_rate_explore()
 		#tst.testAddFiatConversionInfo_1_fiat_simple_values_3_owners_1_and_2_deposit()
+		#tst.testAddFiatConversionInfo_1_fiat_simple_values_3_owners_1_deposit()
 		tst.testAddFiatConversionInfo_1_fiat_simple_values_3_owners_1_deposit()
