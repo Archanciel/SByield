@@ -21,7 +21,6 @@ class TestProcessorNewStructure(unittest.TestCase):
 								  depositSheetFileName,
 								  cryptoFiatCsvFileName,
 								  sbAccountSheetFiat='USD',
-								  cryptoRateFiat='USD',
 								  language=GB):
 		self.language = language
 
@@ -1543,7 +1542,8 @@ TOTAL                                  660.79363079'''
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'''                                                            DEPOSITS   /   WITHDRAWALS       (2)        (3)      (4)                                                                                                                                            
+'''
+                                                            DEPOSITS   /   WITHDRAWALS       (2)        (3)      (4)                                                                                                                                            
                                   AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE  CUR RATE   CUR RATE CAP GAIN       DEP RATE CUR RATE    CUR RATE     CUR RATE CAP GAIN       DAYS    INT              AMOUNT INTERESTS IN CHF   AMOUNT INTERESTS IN EUR 
                FROM          TO     USDC USDC/CHF  USDC/CHF     (1)  CHF           CHF   YLD CHF    TOT CHF ONLY CHF  IN %      EUR      EUR     YLD EUR      TOT EUR ONLY EUR  IN %  INT   USDC IN % YRLY % PER DAY PER MONTH  PER YR PER DAY PER MONTH  PER YR
 OWNER                                                                                                                                                                                                                                                           
@@ -1808,6 +1808,7 @@ G TOTAL                          8900.00                                       8
 			capturedStdoutStr = StringIO()
 			sys.stdout = capturedStdoutStr
 
+			print()
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 
 			sys.stdout = stdout
@@ -2365,8 +2366,7 @@ TOTAL                                  0.04755894
 		self.initializeComputerClasses(sbAccountSheetFileName,
 									   depositSheetFileName,
 									   cryptoFiatCsvFileName,
-									   sbAccountSheetFiat=sbAccountSheetFiat,
-									   cryptoRateFiat=fiat)
+									   sbAccountSheetFiat=sbAccountSheetFiat)
 
 		self.processor = Processor(self.yieldRateComputer,
 								   self.ownerDepositYieldComputer,
@@ -3081,8 +3081,7 @@ TOTAL                                  1,098.56475635
 		self.initializeComputerClasses(sbAccountSheetFileName,
 									   depositSheetFileName,
 									   cryptoFiatCsvFileName,
-									   sbAccountSheetFiat=sbAccountSheetFiat,
-									   cryptoRateFiat=fiat)
+									   sbAccountSheetFiat=sbAccountSheetFiat)
 
 		self.processor = Processor(self.yieldRateComputer,
 								   self.ownerDepositYieldComputer,
@@ -3797,8 +3796,7 @@ TOTAL                                  1,098.56475635
 		self.initializeComputerClasses(sbAccountSheetFileName,
 									   depositSheetFileName,
 									   cryptoFiatCsvFileName,
-									   sbAccountSheetFiat=sbAccountSheetFiat,
-									   cryptoRateFiat='EUR')
+									   sbAccountSheetFiat=sbAccountSheetFiat)
 
 		self.processor = Processor(self.yieldRateComputer,
 								   self.ownerDepositYieldComputer,
@@ -5777,16 +5775,533 @@ TOTAL                                  1,098.56475635
 			self.assertEqual(1098.564756353042, yieldCryptoTotal)
 			yieldPercent = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
 			self.assertEqual(0.13064715928432635, yieldPercent)
-			yearlyYieldPercent = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_YEAR_YIELD_PERCENT[testLanguage]]
-			self.assertEqual(9.999999999999698, yearlyYieldPercent)
-			averageYearlyYieldPercent = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][PROC_YEAR_YIELD_PERCENT[testLanguage]]
-			self.assertEqual(10.000000000001075, averageYearlyYieldPercent)
+			yearlyYieldPercent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_YEAR_YIELD_PERCENT[testLanguage]]
+			self.assertEqual(9.999999999999698, yearlyYieldPercent_1)
+			yearlyYieldPercent_2= yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][PROC_YEAR_YIELD_PERCENT[testLanguage]]
+			self.assertEqual(10.000000000001075, yearlyYieldPercent_2)
+			averageYearlyYieldPercent = yieldOwnerWithTotalsDetailDf.iloc[2][' '][' '][PROC_YEAR_YIELD_PERCENT[testLanguage]]
+			self.assertEqual(10.000000000001057, averageYearlyYieldPercent)
 			dailyYieldAmount = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_AMOUNT[testLanguage]][PROC_PER_DAY[testLanguage]]
 			self.assertEqual(4.739453212857599, dailyYieldAmount)
 			monthlyYieldAmount = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_YIELD[testLanguage]][PROC_PER_MONTH[testLanguage]]
 			self.assertEqual(142.72333039279368, monthlyYieldAmount)
 			yearlyYieldAmount = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_IN[testLanguage] + fiat + ' '][PROC_PER_YEAR[testLanguage]]
 			self.assertEqual(1814.784713453147, yearlyYieldAmount)
+
+	def testAddFiatConversionInfo_CHSB_1_fiat_1_owner_2_deposit_1_day_diff_french_language(self):
+		"""
+		CHSB crypto, 1 owner with 2 deposits. Testing crypto yield amount,
+		crypto yield amount in percent, day, month and year yields in USD.
+		CHSB/USD curr rate == 1.70. Yield fixed rate of 10 % per year.
+		The 2 deposits are done with an interval of 1 day.
+		"""
+		PRINT = False
+
+		sbAccountSheetFileName = 'testDepositCHSB_simple_values_1_owner_1_day_diff.xlsx'
+		depositSheetFileName = 'testDepositChsb_fiat_chf_simple_values_1_owner_1_fiat_2_deposits_1_day_diff.csv'
+		cryptoFiatCsvFileName = 'cryptoFiatExchange.csv'
+		expectedYieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
+		testLanguage = FR
+		sbAccountSheetFiat = 'USD'
+		fiat = 'CHF'
+
+		print(depositSheetFileName)
+
+		self.initializeComputerClasses(sbAccountSheetFileName,
+									   depositSheetFileName,
+									   cryptoFiatCsvFileName,
+									   sbAccountSheetFiat=sbAccountSheetFiat)
+
+		self.processor = Processor(self.yieldRateComputer,
+								   self.ownerDepositYieldComputer,
+								   CryptoFiatRateComputer(PriceRequesterTestStub(),
+														  self.cryptoFiatCsvFilePathName),
+								   cryptoRateFiat='USD',
+								   language=testLanguage)
+
+		sbYieldRatesWithTotalDf, \
+		yieldOwnerWithTotalsSummaryDf, \
+		yieldOwnerWithTotalsDetailDf, \
+		yieldOwnerWithTotalsDetailDfActualStr, \
+		depositCrypto = self.processor.addFiatConversionInfo()
+
+		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
+
+		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
+			sbEarningsTotalDf,
+			{
+				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
+
+		if PRINT:
+			if PRINT_SB_EARNING_TOTALS:
+				print(sbEarningsTotalDfActualStr)
+		else:
+			sbEarningsTotalDfExpectedStr = \
+'''                         Type Currency   Net amount
+Local time                                         
+2021-01-01 00:00:00  Earnings     CHSB   2.61157876
+2021-01-02 00:00:00  Earnings     CHSB   3.91805018
+2021-01-03 00:00:00  Earnings     CHSB   3.91907341
+2021-01-04 00:00:00  Earnings     CHSB   3.92009690
+2021-01-05 00:00:00  Earnings     CHSB   3.92112067
+2021-01-06 00:00:00  Earnings     CHSB   3.92214470
+2021-01-07 00:00:00  Earnings     CHSB   3.92316900
+2021-01-08 00:00:00  Earnings     CHSB   3.92419356
+2021-01-09 00:00:00  Earnings     CHSB   3.92521840
+2021-01-10 00:00:00  Earnings     CHSB   3.92624350
+2021-01-11 00:00:00  Earnings     CHSB   3.92726887
+2021-01-12 00:00:00  Earnings     CHSB   3.92829451
+2021-01-13 00:00:00  Earnings     CHSB   3.92932041
+2021-01-14 00:00:00  Earnings     CHSB   3.93034658
+2021-01-15 00:00:00  Earnings     CHSB   3.93137302
+2021-01-16 00:00:00  Earnings     CHSB   3.93239973
+2021-01-17 00:00:00  Earnings     CHSB   3.93342671
+2021-01-18 00:00:00  Earnings     CHSB   3.93445396
+2021-01-19 00:00:00  Earnings     CHSB   3.93548147
+2021-01-20 00:00:00  Earnings     CHSB   3.93650925
+2021-01-21 00:00:00  Earnings     CHSB   3.93753730
+2021-01-22 00:00:00  Earnings     CHSB   3.93856562
+2021-01-23 00:00:00  Earnings     CHSB   3.93959421
+2021-01-24 00:00:00  Earnings     CHSB   3.94062306
+2021-01-25 00:00:00  Earnings     CHSB   3.94165219
+2021-01-26 00:00:00  Earnings     CHSB   3.94268158
+2021-01-27 00:00:00  Earnings     CHSB   3.94371125
+2021-01-28 00:00:00  Earnings     CHSB   3.94474118
+2021-01-29 00:00:00  Earnings     CHSB   3.94577138
+2021-01-30 00:00:00  Earnings     CHSB   3.94680185
+2021-01-31 00:00:00  Earnings     CHSB   3.94783258
+2021-02-01 00:00:00  Earnings     CHSB   3.94886359
+2021-02-02 00:00:00  Earnings     CHSB   3.94989487
+2021-02-03 00:00:00  Earnings     CHSB   3.95092641
+2021-02-04 00:00:00  Earnings     CHSB   3.95195823
+2021-02-05 00:00:00  Earnings     CHSB   3.95299032
+2021-02-06 00:00:00  Earnings     CHSB   3.95402267
+2021-02-07 00:00:00  Earnings     CHSB   3.95505529
+2021-02-08 00:00:00  Earnings     CHSB   3.95608819
+2021-02-09 00:00:00  Earnings     CHSB   3.95712135
+2021-02-10 00:00:00  Earnings     CHSB   3.95815478
+2021-02-11 00:00:00  Earnings     CHSB   3.95918849
+2021-02-12 00:00:00  Earnings     CHSB   3.96022246
+2021-02-13 00:00:00  Earnings     CHSB   3.96125670
+2021-02-14 00:00:00  Earnings     CHSB   3.96229122
+2021-02-15 00:00:00  Earnings     CHSB   3.96332600
+2021-02-16 00:00:00  Earnings     CHSB   3.96436106
+2021-02-17 00:00:00  Earnings     CHSB   3.96539638
+2021-02-18 00:00:00  Earnings     CHSB   3.96643197
+2021-02-19 00:00:00  Earnings     CHSB   3.96746784
+2021-02-20 00:00:00  Earnings     CHSB   3.96850397
+2021-02-21 00:00:00  Earnings     CHSB   3.96954038
+2021-02-22 00:00:00  Earnings     CHSB   3.97057706
+2021-02-23 00:00:00  Earnings     CHSB   3.97161400
+2021-02-24 00:00:00  Earnings     CHSB   3.97265122
+2021-02-25 00:00:00  Earnings     CHSB   3.97368871
+2021-02-26 00:00:00  Earnings     CHSB   3.97472647
+2021-02-27 00:00:00  Earnings     CHSB   3.97576450
+2021-02-28 00:00:00  Earnings     CHSB   3.97680281
+2021-03-01 00:00:00  Earnings     CHSB   3.97784138
+2021-03-02 00:00:00  Earnings     CHSB   3.97888022
+2021-03-03 00:00:00  Earnings     CHSB   3.97991934
+2021-03-04 00:00:00  Earnings     CHSB   3.98095873
+2021-03-05 00:00:00  Earnings     CHSB   3.98199839
+2021-03-06 00:00:00  Earnings     CHSB   3.98303832
+2021-03-07 00:00:00  Earnings     CHSB   3.98407852
+2021-03-08 00:00:00  Earnings     CHSB   3.98511899
+2021-03-09 00:00:00  Earnings     CHSB   3.98615974
+2021-03-10 00:00:00  Earnings     CHSB   3.98720075
+2021-03-11 00:00:00  Earnings     CHSB   3.98824204
+2021-03-12 00:00:00  Earnings     CHSB   3.98928360
+2021-03-13 00:00:00  Earnings     CHSB   3.99032544
+2021-03-14 00:00:00  Earnings     CHSB   3.99136754
+2021-03-15 00:00:00  Earnings     CHSB   3.99240992
+2021-03-16 00:00:00  Earnings     CHSB   3.99345257
+2021-03-17 00:00:00  Earnings     CHSB   3.99449549
+2021-03-18 00:00:00  Earnings     CHSB   3.99553868
+2021-03-19 00:00:00  Earnings     CHSB   3.99658215
+2021-03-20 00:00:00  Earnings     CHSB   3.99762589
+2021-03-21 00:00:00  Earnings     CHSB   3.99866990
+2021-03-22 00:00:00  Earnings     CHSB   3.99971418
+2021-03-23 00:00:00  Earnings     CHSB   4.00075874
+2021-03-24 00:00:00  Earnings     CHSB   4.00180357
+2021-03-25 00:00:00  Earnings     CHSB   4.00284867
+2021-03-26 00:00:00  Earnings     CHSB   4.00389405
+2021-03-27 00:00:00  Earnings     CHSB   4.00493970
+2021-03-28 00:00:00  Earnings     CHSB   4.00598562
+2021-03-29 00:00:00  Earnings     CHSB   4.00703181
+2021-03-30 00:00:00  Earnings     CHSB   4.00807828
+2021-03-31 00:00:00  Earnings     CHSB   4.00912502
+2021-04-01 00:00:00  Earnings     CHSB   4.01017204
+2021-04-02 00:00:00  Earnings     CHSB   4.01121932
+2021-04-03 00:00:00  Earnings     CHSB   4.01226689
+2021-04-04 00:00:00  Earnings     CHSB   4.01331472
+2021-04-05 00:00:00  Earnings     CHSB   4.01436283
+2021-04-06 00:00:00  Earnings     CHSB   4.01541121
+2021-04-07 00:00:00  Earnings     CHSB   4.01645987
+2021-04-08 00:00:00  Earnings     CHSB   4.01750880
+2021-04-09 00:00:00  Earnings     CHSB   4.01855800
+2021-04-10 00:00:00  Earnings     CHSB   4.01960748
+2021-04-11 00:00:00  Earnings     CHSB   4.02065723
+2021-04-12 00:00:00  Earnings     CHSB   4.02170726
+2021-04-13 00:00:00  Earnings     CHSB   4.02275756
+2021-04-14 00:00:00  Earnings     CHSB   4.02380813
+2021-04-15 00:00:00  Earnings     CHSB   4.02485898
+2021-04-16 00:00:00  Earnings     CHSB   4.02591011
+2021-04-17 00:00:00  Earnings     CHSB   4.02696151
+2021-04-18 00:00:00  Earnings     CHSB   4.02801318
+2021-04-19 00:00:00  Earnings     CHSB   4.02906513
+2021-04-20 00:00:00  Earnings     CHSB   4.03011735
+2021-04-21 00:00:00  Earnings     CHSB   4.03116984
+2021-04-22 00:00:00  Earnings     CHSB   4.03222262
+2021-04-23 00:00:00  Earnings     CHSB   4.03327566
+2021-04-24 00:00:00  Earnings     CHSB   4.03432898
+2021-04-25 00:00:00  Earnings     CHSB   4.03538258
+2021-04-26 00:00:00  Earnings     CHSB   4.03643645
+2021-04-27 00:00:00  Earnings     CHSB   4.03749060
+2021-04-28 00:00:00  Earnings     CHSB   4.03854502
+2021-04-29 00:00:00  Earnings     CHSB   4.03959972
+2021-04-30 00:00:00  Earnings     CHSB   4.04065469
+2021-05-01 00:00:00  Earnings     CHSB   4.04170994
+2021-05-02 00:00:00  Earnings     CHSB   4.04276547
+2021-05-03 00:00:00  Earnings     CHSB   4.04382127
+2021-05-04 00:00:00  Earnings     CHSB   4.04487734
+2021-05-05 00:00:00  Earnings     CHSB   4.04593369
+2021-05-06 00:00:00  Earnings     CHSB   4.04699032
+2021-05-07 00:00:00  Earnings     CHSB   4.04804723
+2021-05-08 00:00:00  Earnings     CHSB   4.04910441
+2021-05-09 00:00:00  Earnings     CHSB   4.05016186
+2021-05-10 00:00:00  Earnings     CHSB   4.05121959
+2021-05-11 00:00:00  Earnings     CHSB   4.05227760
+2021-05-12 00:00:00  Earnings     CHSB   4.05333588
+2021-05-13 00:00:00  Earnings     CHSB   4.05439445
+2021-05-14 00:00:00  Earnings     CHSB   4.05545328
+2021-05-15 00:00:00  Earnings     CHSB   4.05651240
+2021-05-16 00:00:00  Earnings     CHSB   4.05757179
+2021-05-17 00:00:00  Earnings     CHSB   4.05863145
+2021-05-18 00:00:00  Earnings     CHSB   4.05969140
+2021-05-19 00:00:00  Earnings     CHSB   4.06075162
+2021-05-20 00:00:00  Earnings     CHSB   4.06181211
+2021-05-21 00:00:00  Earnings     CHSB   4.06287289
+2021-05-22 00:00:00  Earnings     CHSB   4.06393394
+2021-05-23 00:00:00  Earnings     CHSB   4.06499527
+2021-05-24 00:00:00  Earnings     CHSB   4.06605687
+2021-05-25 00:00:00  Earnings     CHSB   4.06711876
+2021-05-26 00:00:00  Earnings     CHSB   4.06818092
+2021-05-27 00:00:00  Earnings     CHSB   4.06924335
+2021-05-28 00:00:00  Earnings     CHSB   4.07030607
+2021-05-29 00:00:00  Earnings     CHSB   4.07136906
+2021-05-30 00:00:00  Earnings     CHSB   4.07243233
+2021-05-31 00:00:00  Earnings     CHSB   4.07349588
+2021-06-01 00:00:00  Earnings     CHSB   4.07455970
+2021-06-02 00:00:00  Earnings     CHSB   4.07562381
+2021-06-03 00:00:00  Earnings     CHSB   4.07668819
+2021-06-04 00:00:00  Earnings     CHSB   4.07775285
+2021-06-05 00:00:00  Earnings     CHSB   4.07881779
+2021-06-06 00:00:00  Earnings     CHSB   4.07988300
+2021-06-07 00:00:00  Earnings     CHSB   4.08094849
+2021-06-08 00:00:00  Earnings     CHSB   4.08201427
+2021-06-09 00:00:00  Earnings     CHSB   4.08308032
+2021-06-10 00:00:00  Earnings     CHSB   4.08414665
+2021-06-11 00:00:00  Earnings     CHSB   4.08521325
+2021-06-12 00:00:00  Earnings     CHSB   4.08628014
+2021-06-13 00:00:00  Earnings     CHSB   4.08734730
+2021-06-14 00:00:00  Earnings     CHSB   4.08841474
+2021-06-15 00:00:00  Earnings     CHSB   4.08948247
+2021-06-16 00:00:00  Earnings     CHSB   4.09055047
+2021-06-17 00:00:00  Earnings     CHSB   4.09161875
+2021-06-18 00:00:00  Earnings     CHSB   4.09268731
+2021-06-19 00:00:00  Earnings     CHSB   4.09375614
+2021-06-20 00:00:00  Earnings     CHSB   4.09482526
+2021-06-21 00:00:00  Earnings     CHSB   4.09589466
+2021-06-22 00:00:00  Earnings     CHSB   4.09696433
+2021-06-23 00:00:00  Earnings     CHSB   4.09803428
+2021-06-24 00:00:00  Earnings     CHSB   4.09910452
+2021-06-25 00:00:00  Earnings     CHSB   4.10017503
+2021-06-26 00:00:00  Earnings     CHSB   4.10124583
+2021-06-27 00:00:00  Earnings     CHSB   4.10231690
+2021-06-28 00:00:00  Earnings     CHSB   4.10338825
+2021-06-29 00:00:00  Earnings     CHSB   4.10445988
+2021-06-30 00:00:00  Earnings     CHSB   4.10553179
+2021-07-01 00:00:00  Earnings     CHSB   4.10660399
+2021-07-02 00:00:00  Earnings     CHSB   4.10767646
+2021-07-03 00:00:00  Earnings     CHSB   4.10874921
+2021-07-04 00:00:00  Earnings     CHSB   4.10982224
+2021-07-05 00:00:00  Earnings     CHSB   4.11089556
+2021-07-06 00:00:00  Earnings     CHSB   4.11196915
+2021-07-07 00:00:00  Earnings     CHSB   4.11304302
+2021-07-08 00:00:00  Earnings     CHSB   4.11411717
+2021-07-09 00:00:00  Earnings     CHSB   4.11519161
+2021-07-10 00:00:00  Earnings     CHSB   4.11626632
+2021-07-11 00:00:00  Earnings     CHSB   4.11734132
+2021-07-12 00:00:00  Earnings     CHSB   4.11841659
+2021-07-13 00:00:00  Earnings     CHSB   4.11949215
+2021-07-14 00:00:00  Earnings     CHSB   4.12056799
+2021-07-15 00:00:00  Earnings     CHSB   4.12164411
+2021-07-16 00:00:00  Earnings     CHSB   4.12272051
+2021-07-17 00:00:00  Earnings     CHSB   4.12379719
+2021-07-18 00:00:00  Earnings     CHSB   4.12487415
+2021-07-19 00:00:00  Earnings     CHSB   4.12595139
+2021-07-20 00:00:00  Earnings     CHSB   4.12702892
+2021-07-21 00:00:00  Earnings     CHSB   4.12810673
+2021-07-22 00:00:00  Earnings     CHSB   4.12918481
+2021-07-23 00:00:00  Earnings     CHSB   4.13026318
+2021-07-24 00:00:00  Earnings     CHSB   4.13134183
+2021-07-25 00:00:00  Earnings     CHSB   4.13242077
+2021-07-26 00:00:00  Earnings     CHSB   4.13349998
+2021-07-27 00:00:00  Earnings     CHSB   4.13457948
+2021-07-28 00:00:00  Earnings     CHSB   4.13565925
+2021-07-29 00:00:00  Earnings     CHSB   4.13673931
+2021-07-30 00:00:00  Earnings     CHSB   4.13781966
+2021-07-31 00:00:00  Earnings     CHSB   4.13890028
+TOTAL                                  852.40793286
+'''
+			stdout = sys.stdout
+			capturedStdoutStr = StringIO()
+			sys.stdout = capturedStdoutStr
+
+			print(sbEarningsTotalDfActualStr)
+
+			sys.stdout = stdout
+			self.maxDiff = None
+			self.assertEqual(sbEarningsTotalDfExpectedStr, capturedStdoutStr.getvalue())
+
+		yieldOwnerWithTotalsDetailDfExpectedStr = \
+'''
+                                                              DÉPÔTS  /  RETRAITS                                                                                        
+                                 MONTANT  DAT DÉP   DAT ACT VAL DAT DÉP   VAL ACT VAL ACT  VAL ACT PLUS-VAL         JOURS    INT                 MONTANT INTÉRÊTS EN CHF 
+                 DE           A     CHSB CHSB/USD  CHSB/USD         CHF       CHF INT CHF  TOT CHF  CAP CHF   EN %    INT   CHSB EN %  % ANNUEL PAR JOUR PAR MOIS  PAR AN
+PROPR                                                                                                                                                                    
+JPS      2021-01-01  2021-01-01 10000.00     0.56      1.70     5000.00  15000.00    3.92 15003.92 10000.00 200.00      1   2.61 0.03     10.00                          
+JPS      2021-01-02  2021-07-31  5000.00     0.56      1.70     2500.00   7500.00 1274.69 23778.61  5000.00 200.00    211 849.80 5.66     10.00                          
+TOTAL                           15000.00                        7500.00  22500.00 1278.61 23778.61 15000.00 200.00        852.41          10.00     6.21   187.01 2377.86
+G TOTAL                         15000.00                                 22500.00 1278.61 23778.61                        852.41                                         
+'''
+
+		if PRINT:
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+			print('\nAll values checked !')
+			depWithdrDateFrom_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][DEPOSIT_YIELD_HEADER_DATE_FROM[testLanguage]]
+			print('depWithdrDateFrom_1: ', str(depWithdrDateFrom_1))
+			depWithdrDateTo_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][DEPOSIT_YIELD_HEADER_DATE_TO[testLanguage]]
+			print('depWithdrDateTo_1: ', str(depWithdrDateTo_1))
+			depWithdrDateFrom_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][DEPOSIT_YIELD_HEADER_DATE_FROM[testLanguage]]
+			print('depWithdrDateFrom_2: ', str(depWithdrDateFrom_2))
+			depWithdrDateTo_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][DEPOSIT_YIELD_HEADER_DATE_TO[testLanguage]]
+			print('depWithdrDateTo_2: ', str(depWithdrDateTo_2))
+			print()
+			depWithdr_CHSB_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_AMOUNT[testLanguage]]['CHSB']
+			print('depWithdr_CHSB_1: ', depWithdr_CHSB_1)
+			depWithdr_CHSB_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_AMOUNT[testLanguage]]['CHSB']
+			print('depWithdr_CHSB_2: ', depWithdr_CHSB_2)
+			depWithdrTotal_CHSB = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_AMOUNT[testLanguage]]['CHSB']
+			print('depWithdrTotal_CHSB: ', depWithdrTotal_CHSB)
+			depWithdrGrandTotal_CHSB = yieldOwnerWithTotalsDetailDf.iloc[3][' '][PROC_AMOUNT[testLanguage]]['CHSB']
+			print('depWithdrGrandTotal_CHSB: ', depWithdrGrandTotal_CHSB)
+			print()
+			datDepCHSB_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_FIAT_DATE_FROM_RATE.format('CHSB', 'USD')]
+			print('datDepCHSB_USD_1: ', datDepCHSB_USD_1)
+			datActCHSB_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_FIAT_CURRENT_RATE.format('CHSB', 'USD')]
+			print('datActCHSB_USD_1: ', datActCHSB_USD_1)
+			datDepCHSB_USD_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_FIAT_DATE_FROM_RATE.format('CHSB', 'USD')]
+			print('datDepCHSB_USD_2: ', datDepCHSB_USD_2)
+			datActCHSB_USD_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_FIAT_CURRENT_RATE.format('CHSB', 'USD')]
+			print('datActCHSB_USD_2: ', datActCHSB_USD_2)
+			print()
+			depWithdr_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
+			print('depWithdr_CHF_1: ', depWithdr_CHF_1)
+			depWithdr_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
+			print('depWithdr_CHF_2: ', depWithdr_CHF_2)
+			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
+			print('depWithdrTotal_CHF: ', depWithdrTotal_CHF)
+			print()
+			depWithdrActualValue_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
+			print('depWithdrActualValue_CHF_1: ', depWithdrActualValue_CHF_1)
+			depWithdrActualValue_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
+			print('depWithdrActualValue_CHF_2: ', depWithdrActualValue_CHF_2)
+			depWithdrActualValueTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
+			print('depWithdrActualValueTotal_CHF: ', depWithdrActualValueTotal_CHF)
+			depWithdrActualValueGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
+			print('depWithdrActualValueGrandTotal_CHF: ', depWithdrActualValueGrandTotal_CHF)
+			print()
+			yieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			print('yieldFiat_CHF_1: ', yieldFiat_CHF_1)
+			yieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			print('yieldFiat_CHF_2: ', yieldFiat_CHF_2)
+			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			print('yieldFiatTotal_CHF: ', yieldFiatTotal_CHF)
+			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			print('yieldFiatGrandTotal_CHF: ', yieldFiatGrandTotal_CHF)
+			print()
+			actValPlusYieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			print('actValPlusYieldFiat_CHF_1: ', actValPlusYieldFiat_CHF_1)
+			actValPlusYieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			print('actValPlusYieldFiat_CHF_2: ', actValPlusYieldFiat_CHF_2)
+			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			print('actValPlusYieldFiatTotal_CHF: ', actValPlusYieldFiatTotal_CHF)
+			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			print('actValPlusYieldFiatGrandTotal_CHF: ', actValPlusYieldFiatGrandTotal_CHF)
+			print()
+			capitalGainFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			print('capitalGainFiat_CHF_1: ', capitalGainFiat_CHF_1)
+			capitalGainFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			print('capitalGainFiat_CHF_2: ', capitalGainFiat_CHF_2)
+			capitalGainFiat_CHF_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			print('capitalGainFiat_CHF_TOTAL: ', capitalGainFiat_CHF_TOTAL)
+			print()
+			capitalGainFiat_CHF_percent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
+			print('capitalGainFiat_CHF_percent_1: ', capitalGainFiat_CHF_percent_1)
+			capitalGainFiat_CHF_percent_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
+			print('capitalGainFiat_CHF_percent_2: ', capitalGainFiat_CHF_percent_2)
+			capitalGainFiat_CHF_percent_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[2][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
+			print('capitalGainFiat_CHF_percent_TOTAL: ', capitalGainFiat_CHF_percent_TOTAL)
+			print()
+			yieldDays_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_YIELD_DAYS[testLanguage]][PROC_INTEREST]
+			print('yieldDays_1: ', yieldDays_1)
+			yieldDays_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_YIELD_DAYS[testLanguage]][PROC_INTEREST]
+			print('yieldDays_2: ', yieldDays_2)
+			print()
+			yieldCrypto_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_INTEREST][depositCrypto]
+			print('yieldCrypto_1: ', yieldCrypto_1)
+			yieldCrypto_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_INTEREST][depositCrypto]
+			print('yieldCrypto_2: ', yieldCrypto_2)
+			yieldCryptoTotal = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_INTEREST][depositCrypto]
+			print('yieldCryptoTotal: ', yieldCryptoTotal)
+			yieldCryptoGrandTotal = yieldOwnerWithTotalsDetailDf.iloc[3][' '][PROC_INTEREST][depositCrypto]
+			print('yieldCryptoGrandTotal: ', yieldCryptoGrandTotal)
+			print()
+			yieldPercent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
+			print('yieldPercent_1: ', yieldPercent_1)
+			yieldPercent_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
+			print('yieldPercent_2: ', yieldPercent_2)
+			print()
+			yearlyYieldPercent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_YEAR_YIELD_PERCENT[testLanguage]]
+			print('yearlyYieldPercent_1: ', yearlyYieldPercent_1)
+			yearlyYieldPercent_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][PROC_YEAR_YIELD_PERCENT[testLanguage]]
+			print('yearlyYieldPercent_2: ', yearlyYieldPercent_2)
+			averageYearlyYieldPercent = yieldOwnerWithTotalsDetailDf.iloc[2][' '][' '][PROC_YEAR_YIELD_PERCENT[testLanguage]]
+			print('averageYearlyYieldPercent: ', averageYearlyYieldPercent)
+			print()
+			dailyYieldAmount = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_AMOUNT[testLanguage]][PROC_PER_DAY[testLanguage]]
+			print('dailyYieldAmount: ', dailyYieldAmount)
+			monthlyYieldAmount = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_YIELD[testLanguage]][PROC_PER_MONTH[testLanguage]]
+			print('monthlyYieldAmount: ', monthlyYieldAmount)
+			yearlyYieldAmount = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_IN[testLanguage] + fiat + ' '][PROC_PER_YEAR[testLanguage]]
+			print('yearlyYieldAmount: ', yearlyYieldAmount)
+		else:
+			stdout = sys.stdout
+			capturedStdoutStr = StringIO()
+			sys.stdout = capturedStdoutStr
+
+			print()
+			print(yieldOwnerWithTotalsDetailDfActualStr)
+
+			sys.stdout = stdout
+
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
+
+			depWithdrDateFrom_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][DEPOSIT_YIELD_HEADER_DATE_FROM[testLanguage]]
+			self.assertEqual('2021-01-01', str(depWithdrDateFrom_1))
+			depWithdrDateTo_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][DEPOSIT_YIELD_HEADER_DATE_TO[testLanguage]]
+			self.assertEqual('2021-01-01', str(depWithdrDateTo_1))
+			depWithdrDateFrom_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][DEPOSIT_YIELD_HEADER_DATE_FROM[testLanguage]]
+			self.assertEqual('2021-01-02', str(depWithdrDateFrom_2))
+			depWithdrDateTo_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][DEPOSIT_YIELD_HEADER_DATE_TO[testLanguage]]
+			self.assertEqual('2021-07-31', str(depWithdrDateTo_2))
+
+			depWithdr_CHSB_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_AMOUNT[testLanguage]]['CHSB']
+			self.assertEqual(10000.0, depWithdr_CHSB_1)
+			depWithdr_CHSB_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_AMOUNT[testLanguage]]['CHSB']
+			self.assertEqual(5000.0, depWithdr_CHSB_2)
+			depWithdrTotal_CHSB = yieldOwnerWithTotalsDetailDf.iloc[3][' '][PROC_AMOUNT[testLanguage]]['CHSB']
+			self.assertEqual(15000.0, depWithdrTotal_CHSB)
+			depWithdrGrandTotal_CHSB = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_AMOUNT[testLanguage]]['CHSB']
+			self.assertEqual(15000.0, depWithdrGrandTotal_CHSB)
+
+			datDepCHSB_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_FIAT_DATE_FROM_RATE.format('CHSB', 'USD')]
+			self.assertEqual(0.5614192679092747, datDepCHSB_USD_1)
+			datActCHSB_USD_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_FIAT_CURRENT_RATE.format('CHSB', 'USD')]
+			self.assertEqual(1.6999999995, datActCHSB_USD_1)
+			datDepCHSB_USD_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_DEP_RATE[testLanguage]][CRYPTO_FIAT_DATE_FROM_RATE.format('CHSB', 'USD')]
+			self.assertEqual(0.5649079200090386, datDepCHSB_USD_2)
+			datActCHSB_USD_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_CUR_RATE[testLanguage]][CRYPTO_FIAT_CURRENT_RATE.format('CHSB', 'USD')]
+			self.assertEqual(1.6999999995, datActCHSB_USD_2)
+
+			depWithdr_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
+			self.assertEqual(5000.0, depWithdr_CHF_1)
+			depWithdr_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
+			self.assertEqual(2500.0, depWithdr_CHF_2)
+			depWithdrTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_DEP[testLanguage]][PROC_DATE_FROM_RATE[testLanguage]][self.processor.PROC_HELP_1 + fiat]
+			self.assertEqual(7500.0, depWithdrTotal_CHF)
+
+			depWithdrActualValue_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
+			self.assertEqual(15000.0, depWithdrActualValue_CHF_1)
+			depWithdrActualValue_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
+			self.assertEqual(7500.0, depWithdrActualValue_CHF_2)
+			depWithdrActualValueTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
+			self.assertEqual(22500.0, depWithdrActualValueTotal_CHF)
+			depWithdrActualValueGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][PROC_WITHDR[testLanguage]][PROC_CURRENT_RATE[testLanguage]][fiat]
+			self.assertEqual(22500.0, depWithdrActualValueGrandTotal_CHF)
+
+			yieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			self.assertEqual(3.9173681410165955, yieldFiat_CHF_1)
+			yieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			self.assertEqual(1274.6945311444897, yieldFiat_CHF_2)
+			yieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			self.assertEqual(1278.6118992855063, yieldFiatTotal_CHF)
+			yieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_2][PROC_CURRENT_RATE[testLanguage]][PROC_YIELD_SHORT[testLanguage] + fiat]
+			self.assertEqual(1278.6118992855063, yieldFiatGrandTotal_CHF)
+
+			actValPlusYieldFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			self.assertEqual(15003.917368141018, actValPlusYieldFiat_CHF_1)
+			actValPlusYieldFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			self.assertEqual(23778.611899285508, actValPlusYieldFiat_CHF_2)
+			actValPlusYieldFiatTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			self.assertEqual(23778.611899285508, actValPlusYieldFiatTotal_CHF)
+			actValPlusYieldFiatGrandTotal_CHF = yieldOwnerWithTotalsDetailDf.iloc[3][self.processor.PROC_HELP_3][' ' + PROC_CURRENT_RATE[testLanguage]][PROC_TOTAL_SHORT + fiat]
+			self.assertEqual(23778.611899285508, actValPlusYieldFiatGrandTotal_CHF)
+
+			capitalGainFiat_CHF_1 = yieldOwnerWithTotalsDetailDf.iloc[0][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			self.assertEqual(10000.0, capitalGainFiat_CHF_1)
+			capitalGainFiat_CHF_2 = yieldOwnerWithTotalsDetailDf.iloc[1][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			self.assertEqual(5000.0, capitalGainFiat_CHF_2)
+			capitalGainFiat_CHF_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[2][self.processor.PROC_HELP_4][PROC_CAPITAL_GAIN[testLanguage]][PROC_CAPITAL_SHORT[testLanguage] + fiat]
+			self.assertEqual(15000.0, capitalGainFiat_CHF_TOTAL)
+
+			capitalGainFiat_CHF_percent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
+			self.assertEqual(200, capitalGainFiat_CHF_percent_1)
+			capitalGainFiat_CHF_percent_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
+			self.assertEqual(200, capitalGainFiat_CHF_percent_2)
+			capitalGainFiat_CHF_percent_TOTAL = yieldOwnerWithTotalsDetailDf.iloc[2][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][0]
+			self.assertEqual(200.0, capitalGainFiat_CHF_percent_TOTAL)
+
+			yieldDays_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_YIELD_DAYS[testLanguage]][PROC_INTEREST]
+			self.assertEqual(1, yieldDays_1)
+			yieldDays_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_YIELD_DAYS[testLanguage]][PROC_INTEREST]
+			self.assertEqual(211, yieldDays_2)
+
+			yieldCrypto_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][PROC_INTEREST][depositCrypto]
+			self.assertEqual(2.6115787606777303, yieldCrypto_1)
+			yieldCrypto_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][PROC_INTEREST][depositCrypto]
+			self.assertEqual(849.7963540963265, yieldCrypto_2)
+			yieldCryptoTotal = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_INTEREST][depositCrypto]
+			self.assertEqual(852.4079328570042, yieldCryptoTotal)
+
+			yieldPercent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
+			self.assertEqual(0.026115787606777303, yieldPercent_1)
+			yieldPercent_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
+			self.assertEqual(5.664322838960853, yieldPercent_2)
+
+			yearlyYieldPercent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_YEAR_YIELD_PERCENT[testLanguage]]
+			self.assertEqual(10.000000000001164, yearlyYieldPercent_1)
+			yearlyYieldPercent_2= yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][PROC_YEAR_YIELD_PERCENT[testLanguage]]
+			self.assertEqual(10.00000000000123, yearlyYieldPercent_2)
+			averageYearlyYieldPercent = yieldOwnerWithTotalsDetailDf.iloc[2][' '][' '][PROC_YEAR_YIELD_PERCENT[testLanguage]]
+			self.assertEqual(10.00000000000123, averageYearlyYieldPercent)
+
+			dailyYieldAmount = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_AMOUNT[testLanguage]][PROC_PER_DAY[testLanguage]]
+			self.assertEqual(6.2099717794588996, dailyYieldAmount)
+			monthlyYieldAmount = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_YIELD[testLanguage]][PROC_PER_MONTH[testLanguage]]
+			self.assertEqual(187.00635161988936, monthlyYieldAmount)
+			yearlyYieldAmount = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_IN[testLanguage] + fiat + ' '][PROC_PER_YEAR[testLanguage]]
+			self.assertEqual(2377.8611899288435, yearlyYieldAmount)
 
 	def testAddFiatConversionInfo_ETH_2_fiats_1_owner_1_deposit_french_language(self):
 		"""
@@ -7117,12 +7632,12 @@ TOTAL                                  0.17052260
 			yearlyYieldAmount = yieldOwnerWithTotalsDetailDf.iloc[3][' '][PROC_IN[testLanguage] + fiat + ' '][PROC_PER_YEAR[testLanguage]]
 			self.assertEqual(1668.2090410260132, yearlyYieldAmount)
 
+
 if __name__ == '__main__':
 	if os.name == 'posix':
 		unittest.main()
 	else:
 		tst = TestProcessorNewStructure()
-		# tst.testAddFiatConversionInfo_USDC_2_fiats_simple_values_2_owners_2_deposits_bug_french_language()
 		# tst.testAddFiatConversionInfo_USDC_2_fiats_simple_values_2_owners_2_deposits_bug_english_language()
 		# tst.testAddFiatConversionInfo_ETH_1_fiat_2_owners_1_and_1_deposit_french_language()
 		# tst.testAddFiatConversionInfo_ETH_1_fiat_2_owners_1_and_1_deposit_english_language()
@@ -7134,13 +7649,9 @@ if __name__ == '__main__':
 		#tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_3_deposits_french_language()
 		#tst.testAddFiatConversionInfo_CHSB_2_fiats_CHF_USD_1_owner_2_deposit_french_language()
 		#tst.testAddFiatConversionInfo_CHSB_2_fiats_USD_CHF_1_owner_2_deposit_french_language()
-		tst.testAddFiatConversionInfo_CHSB_2_fiats_USD_CHF_1_owner_2_deposit_french_language_cryptoRateFiat_CHF()
-		# tst.testAddFiatConversionInfo_CHSB_2_fiats_USD_CHF_1_owner_2_deposit_french_language_cryptoRateFiat_EUR()
-		tst.testAddFiatConversionInfo_USDC_2_fiats_simple_values_2_owners_2_deposits_bug_english_language_cryptoRteFiat_CHF()
+		#tst.testAddFiatConversionInfo_CHSB_2_fiats_USD_CHF_1_owner_2_deposit_french_language_cryptoRateFiat_CHF()
+		#tst.testAddFiatConversionInfo_CHSB_2_fiats_USD_CHF_1_owner_2_deposit_french_language_cryptoRateFiat_EUR()
+		# tst.testAddFiatConversionInfo_USDC_2_fiats_simple_values_2_owners_2_deposits_bug_english_language_cryptoRteFiat_CHF()
 		#tst.testAddFiatConversionInfo_ETH_1_fiat_1_owner_2_deposits_english_language()
 		# tst.testAddFiatConversionInfo_CHSB_1_fiat_1_owner_2_deposit_french_language()
-
-	'''
-		  COURS   COURS   COURS   COURS
-		DEP USD ACT USD DEP CHF ACT CHF
-		'''
+		tst.testAddFiatConversionInfo_CHSB_1_fiat_1_owner_2_deposit_1_day_diff_french_language()

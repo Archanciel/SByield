@@ -6,20 +6,20 @@ Explanations:
 2/ Deposits are positive and withdrawals negative
 
 3/ The deposits or withdrawals must be defined with a date which is equal to the first.
-   respectively the last, SB earning payment date for this deposit/withdrawal with
+   respectively the last + 1 day, SB earning payment date for this deposit/withdrawal with
    00:00:00 for the time component.
-
+ 
    To describe it differently, the csv file deposit date is equal to the yield subscription
-   activation date + 1 day. Once a yield subscription is active, it starts to generate
+   activation date + 1 day. Once a yield subscription is active, it starts generating
    daily revenues. The first of those revenues is paid 1 day AFTER the activation date.
    This justifies the fact that the csv file deposit date is 1 day after the activation
    day.
 
    For withdrawals, the csv file withdrawal date is equal to the yield redemption
-   fulfilment date. Once a yield redemption is fulfilled, it stops generating
-   daily revenues the day after the fulfilment date. So, since the withdrawal
-   amount still generates a revenue on the redemption fulfilment date, this date
-   IS the csv file withdrawal date.
+   fulfilment date + 1 day. Once a yield redemption is fulfilled, it stops generating
+   daily revenues the day AFTER the fulfilment date. So, since the withdrawal
+   amount still generates a revenue on the redemption fulfilment date, its csv file
+   withdrawal date is 1 day after the yield redemption fulfilment date.
 
    If an owner makes several deposits/withdrawals for the same yield farming currency on
    the same date, only one row for this owner with a value equal to the sum of those
@@ -36,17 +36,20 @@ Explanations:
    Béa,2021/02/23 00:00:01,4000
    Papa,2020/02/23 00:00:02,-500
 
-CRYPTO-USDC
+4/ Adding deposit/withdrawal fiat converted columns must respect the FIAT AMT
+   col name format. Ex: USD AMT, CHF AMT, EUR AMT. Otherwise, the app will not
+   convert the yields into the desired conversion fiats.
+
+Test case info:
+
+In order to verify the Processor fiat conversion added values, this depoit
+CSV file contains simplified deposit data for 1 owner, no withdrawal, 1 fiat
+(CHF).
 
 Data:
 
-CRYPTO-USDC
+CRYPTO-CHSB
 
-OWNER,DATE,DEP/WITHDR,USD AMT
-JPS,2020/12/21 00:00:00,2000,2000
-JPS,2020/12/22 00:00:00,100,100
-Papa,2020/12/21 00:00:01,4000,4000
-Béa,2020/12/29 00:00:00,1000,1000
-Papa,2020/12/22 00:00:01,500,500
-JPS,2020/12/27 00:00:00,3000,3000
-Papa,2020/12/28 00:00:00,300.300
+OWNER,DATE,DEP/WITHDR,CHF AMT
+JPS,2021/01/01 00:00:00,10000,5000
+JPS,2021/01/02 00:00:00,5000,2500

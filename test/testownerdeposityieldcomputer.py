@@ -2827,7 +2827,7 @@ G TOTAL  19,658.01                                              86.32182439     
 		to end with an owner having only one deposit. The other owners have each one two
 		deposits.
 		"""
-		PRINT = False
+		PRINT = True
 
 		sbAccountSheetFileName = 'testSBEarningUsdc_analysis.xlsx'
 		depositSheetFileName = 'testDepositUsdc_analysis.csv'
