@@ -67,8 +67,7 @@ class SBYieldRateComputer(PandasDataComputer):
 	def __init__(self,
 				 sbAccountSheetFilePathName,
 				 sbAccountSheetFiat,
-				 depositSheetFilePathName,
-				 language=GB):
+				 depositSheetFilePathName):
 		"""
 		Currently, the configMgr is not used. Constants are used in place.
 		
@@ -79,8 +78,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		self.sbAccountSheetFilePathName = sbAccountSheetFilePathName
 		self.sbAccountSheetFiat = sbAccountSheetFiat
 		self.depositSheetFilePathName = depositSheetFilePathName
-		self.language = language
-	
+
 	def _loadSBEarningSheet(self,
 							yieldCrypto):
 		"""
@@ -198,7 +196,7 @@ class SBYieldRateComputer(PandasDataComputer):
 
 		if badDateTimeLstIndex is not None:
 			raise InvalidDepositDateTimeError(self.depositSheetFilePathName,
-											  depositsDf.loc[badDateTimeLstIndex, DEPOSIT_SHEET_HEADER_OWNER[self.language]],
+											  depositsDf.loc[badDateTimeLstIndex, DEPOSIT_SHEET_HEADER_OWNER[GB]],
 											  depositsDf.loc[badDateTimeLstIndex, DEPOSIT_SHEET_HEADER_DATE],
 											  depositsDf.loc[badDateTimeLstIndex, DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
 											  invalidDateTimeFormat)
@@ -219,7 +217,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		
 		if duplDatetimeIndex is not None:
 			raise DuplicateDepositDateTimeError(self.depositSheetFilePathName,
-												depositsDf.loc[duplDatetimeIndex, DEPOSIT_SHEET_HEADER_OWNER[self.language]],
+												depositsDf.loc[duplDatetimeIndex, DEPOSIT_SHEET_HEADER_OWNER[GB]],
 												depositsDf.loc[duplDatetimeIndex, DEPOSIT_SHEET_HEADER_DATE],
 												depositsDf.loc[duplDatetimeIndex, DATAFRAME_HEADER_DEPOSIT_WITHDRAW])
 	
@@ -295,7 +293,7 @@ class SBYieldRateComputer(PandasDataComputer):
 				mergedDf.loc[i, MERGED_SHEET_HEADER_DAILY_YIELD_RATE] = dailyYieldRate
 				mergedDf.loc[i, MERGED_SHEET_HEADER_YEARLY_YIELD_RATE] = np.power(dailyYieldRate, 365)
 
-		mergedDf = mergedDf.rename(columns={MERGED_SHEET_HEADER_DATE: MERGED_SHEET_HEADER_DATE_NEW_NAME, MERGED_SHEET_HEADER_EARNING: MERGED_SHEET_HEADER_EARNING_NEW_NAME[self.language]})
+		mergedDf = mergedDf.rename(columns={MERGED_SHEET_HEADER_DATE: MERGED_SHEET_HEADER_DATE_NEW_NAME, MERGED_SHEET_HEADER_EARNING: MERGED_SHEET_HEADER_EARNING_NEW_NAME[GB]})
 		#print(self.getDataframeStrWithFormattedColumns(mergedDf, {MERGED_SHEET_HEADER_DAILY_YIELD_RATE: '.8f', MERGED_SHEET_HEADER_YEARLY_YIELD_RATE: '.8f'}))
 
 		return mergedDf
@@ -338,7 +336,7 @@ class SBYieldRateComputer(PandasDataComputer):
 		# MERGED_SHEET_HEADER_DAILY_YIELD_RATE and MERGED_SHEET_HEADER_YEARLY_YIELD_RATE columns
 		dateColIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_DATE_NEW_NAME)
 		earningCapitalColIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_EARNING_CAPITAL)
-		dailyEarningColIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_EARNING_NEW_NAME[self.language])
+		dailyEarningColIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_EARNING_NEW_NAME[GB])
 		dailyYieldRateColIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_DAILY_YIELD_RATE)
 		yearlyYieldRateColIdx = mergedEarningDepositDf.columns.get_loc(MERGED_SHEET_HEADER_YEARLY_YIELD_RATE)
 		dailyYieldRatesDf = mergedEarningDepositDf[mergedEarningDepositDf.columns[[dateColIdx, earningCapitalColIdx, dailyEarningColIdx, dailyYieldRateColIdx, yearlyYieldRateColIdx]]]

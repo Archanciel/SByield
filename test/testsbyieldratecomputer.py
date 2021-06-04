@@ -352,7 +352,7 @@ TOTAL                                          2.1'''
 		PRINT = False
 		self.maxDiff=None
 		sbAccountSheetFileName = 'testDepositCHSB_simple_values_1_owner_no_withdrawal.xlsx'
-		depositSheetFileName = 'testDepositChsb_fiat_chf_simple_values_1_owner_2_fiats_no_withdrawal.csv'
+		depositSheetFileName = 'testDepositChsb_fiat_chf_simple_values_1_owner_2_fiats_CHF_USD_no_withdrawal.csv'
 
 		self.initializeComputerClasses(sbAccountSheetFileName, depositSheetFileName)
 

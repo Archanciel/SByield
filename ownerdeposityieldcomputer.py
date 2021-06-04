@@ -16,8 +16,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 	amounts owners.
 	"""
 	def __init__(self,
-				 sbYieldRateComputer,
-				 language=0):
+				 sbYieldRateComputer):
 		"""
 		Currently, the configMgr is not used. Constants are used in place.
 		
@@ -25,7 +24,6 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		"""
 		super().__init__()
 		self.sbYieldRateComputer = sbYieldRateComputer
-		self.language = language
 
 	def computeDepositsYields(self):
 		"""
@@ -88,15 +86,15 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 									  [DEPOSIT_YIELD_HEADER_CAPITAL])
 
 		# rename date column
-		ownerDateSortedDepositDf = ownerDateSortedDepositDf.rename(columns={DEPOSIT_SHEET_HEADER_DATE: DEPOSIT_YIELD_HEADER_DATE_FROM[self.language]})
+		ownerDateSortedDepositDf = ownerDateSortedDepositDf.rename(columns={DEPOSIT_SHEET_HEADER_DATE: DEPOSIT_YIELD_HEADER_DATE_FROM[GB]})
 
 		# remove time component
-		ownerDateSortedDepositDf[DEPOSIT_YIELD_HEADER_DATE_FROM[self.language]] = pd.to_datetime(ownerDateSortedDepositDf[
-																					  DEPOSIT_YIELD_HEADER_DATE_FROM[self.language]]).dt.date
+		ownerDateSortedDepositDf[DEPOSIT_YIELD_HEADER_DATE_FROM[GB]] = pd.to_datetime(ownerDateSortedDepositDf[
+																					  DEPOSIT_YIELD_HEADER_DATE_FROM[GB]]).dt.date
 
 		# insert empty columns
 		self._appendEmptyColumns(ownerDateSortedDepositDf,
-								 [DEPOSIT_YIELD_HEADER_DATE_TO[self.language], DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER])
+								 [DEPOSIT_YIELD_HEADER_DATE_TO[GB], DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER])
 
 		self._insertEmptyFloatColumns(ownerDateSortedDepositDf,
 									  None,
@@ -112,12 +110,12 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 
 		for i in range(1, maxIdxValue + 1):
 			currentRowOwner = ownerDateSortedDepositDf.loc[i, DEPOSIT_SHEET_HEADER_OWNER[GB]]
-			currentRowDateFrom = ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM[self.language]]
+			currentRowDateFrom = ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM[GB]]
 			if currentRowDateFrom > lastYieldPaymentDate:
 				# the case if an erroneous deposit/withdrawal date which is greater than
 				# the Swissborg last payment date was defined in the deposit csv file
 				raise DepositDateAfterLastYieldPaymentError(self.sbYieldRateComputer.depositSheetFilePathName,
-															ownerDateSortedDepositDf.loc[i, DEPOSIT_SHEET_HEADER_OWNER[self.language]],
+															ownerDateSortedDepositDf.loc[i, DEPOSIT_SHEET_HEADER_OWNER[GB]],
 															currentRowDateFrom,
 															ownerDateSortedDepositDf.loc[i, DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
 															lastYieldPaymentDate)
@@ -126,7 +124,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 				# with specifying a start date later than the first deposits dates. This does not cause
 				# any problem
 				currentRowDateFrom = firstYieldPaymentDate
-				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM[self.language]] = currentRowDateFrom
+				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_FROM[GB]] = currentRowDateFrom
 			if currentRowOwner != previousRowOwner:
 				previousRowOwner = currentRowOwner
 				currentRowCapital = ownerDateSortedDepositDf.loc[i, DATAFRAME_HEADER_DEPOSIT_WITHDRAW]
@@ -137,7 +135,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 				# in the deposit csv file ! Otherwise, this value will be
 				# overwritten when handling the next deposit for the same
 				# owner...
-				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO[self.language]] = lastYieldPaymentDate
+				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO[GB]] = lastYieldPaymentDate
 				previousRowDateToMinusPreviousRowDateFromTimeDelta = lastYieldPaymentDate - currentRowDateFrom
 				yieldDayNumber = previousRowDateToMinusPreviousRowDateFromTimeDelta.days + 1
 				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
@@ -147,8 +145,8 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 					# number, yield percent, yearly yield percent will be
 					# recalculated and overwritten if the current owner has
 					# more than 1 deposit !
-					ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO[self.language]] = lastYieldPaymentDate
-					previousRowDateToMinusPreviousRowDateFromTimeDelta = ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO[self.language]] - \
+					ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO[GB]] = lastYieldPaymentDate
+					previousRowDateToMinusPreviousRowDateFromTimeDelta = ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO[GB]] - \
 												   currentRowDateFrom
 					yieldDayNumber = previousRowDateToMinusPreviousRowDateFromTimeDelta.days + 1
 					ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
@@ -168,8 +166,8 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 					# number, yield percent, yearly yield percent will be
 					# recalculated and overwritten if the first owner has more
 					# than 1 deposit !
-					ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO[self.language]] = lastYieldPaymentDate
-					previousRowDateToMinusPreviousRowDateFromTimeDelta = ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO[self.language]] - \
+					ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO[GB]] = lastYieldPaymentDate
+					previousRowDateToMinusPreviousRowDateFromTimeDelta = ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO[GB]] - \
 												   currentRowDateFrom
 					yieldDayNumber = previousRowDateToMinusPreviousRowDateFromTimeDelta.days + 1
 					ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
@@ -189,8 +187,8 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 				# percent and yearly yield percent for previous deposit of
 				# current owner
 				previousRowDateTo = currentRowDateFrom - timedelta(days=1)
-				ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO[self.language]] = previousRowDateTo
-				previousRowDateFrom = ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM[self.language]]
+				ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_TO[GB]] = previousRowDateTo
+				previousRowDateFrom = ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM[GB]]
 				previousRowDateToMinusPreviousRowDateFromTimeDelta = previousRowDateTo - \
 																	 previousRowDateFrom
 				previousRowYieldDayNumber = previousRowDateToMinusPreviousRowDateFromTimeDelta.days + 1
@@ -207,8 +205,8 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 					# JPS,2020/11/19 00:00:00,200
 					# JPS,2020/12/22 00:00:00,100
 					# JPS,2020/12/23 00:00:00,50
-					ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM[self.language]] = \
-						ownerDateSortedDepositBeforeUpdateDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM[self.language]]
+					ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM[GB]] = \
+						ownerDateSortedDepositBeforeUpdateDf.loc[i - 1, DEPOSIT_YIELD_HEADER_DATE_FROM[GB]]
 
 				ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = previousRowYieldDayNumber
 				previousRowCapital = ownerDateSortedDepositDf.loc[i - 1, DEPOSIT_YIELD_HEADER_CAPITAL]
@@ -232,7 +230,7 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 				# number, yield percent, yearly yield percent will be
 				# recalculated and overwritten if the current owner has
 				# additional deposits !
-				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO[self.language]] = lastYieldPaymentDate
+				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_DATE_TO[GB]] = lastYieldPaymentDate
 				dateToMinusDateFromTimeDelta = lastYieldPaymentDate - currentRowDateFrom
 				yieldDayNumber = dateToMinusDateFromTimeDelta.days + 1
 				ownerDateSortedDepositDf.loc[i, DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER] = yieldDayNumber
@@ -260,14 +258,14 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		sbYieldRatesWithTotalDf = sbYieldRatesDf.copy()
 
 		lastRowCapitalPlusEarningValue = sbYieldRatesWithTotalDf.iloc[-1][MERGED_SHEET_HEADER_EARNING_CAPITAL] + \
-										 sbYieldRatesWithTotalDf.iloc[-1][MERGED_SHEET_HEADER_EARNING_NEW_NAME[self.language]]
+										 sbYieldRatesWithTotalDf.iloc[-1][MERGED_SHEET_HEADER_EARNING_NEW_NAME[GB]]
 
 		# removing 00:00:00 time component from the sbYieldRatesDf index.
 		sbYieldRatesWithTotalDf.index = pd.to_datetime(sbYieldRatesWithTotalDf.index).strftime('%Y-%m-%d')
 
 		# adding TOTAL row to SB yield rates data frame for MERGED_SHEET_HEADER_EARNING_NEW_NAME column only
 		sbYieldRatesWithTotalDf.loc[DATAFRAME_HEADER_TOTAL] = \
-			sbYieldRatesWithTotalDf[[MERGED_SHEET_HEADER_EARNING_NEW_NAME[self.language]]].sum(numeric_only=True)
+			sbYieldRatesWithTotalDf[[MERGED_SHEET_HEADER_EARNING_NEW_NAME[GB]]].sum(numeric_only=True)
 
 		sbYieldRatesWithTotalDf.loc[DATAFRAME_HEADER_TOTAL, MERGED_SHEET_HEADER_EARNING_CAPITAL] = lastRowCapitalPlusEarningValue
 
@@ -380,8 +378,8 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 			appendDic = {DEPOSIT_SHEET_HEADER_OWNER[GB]: row[DEPOSIT_SHEET_HEADER_OWNER[GB]],
 						 DATAFRAME_HEADER_DEPOSIT_WITHDRAW: row[DATAFRAME_HEADER_DEPOSIT_WITHDRAW],
 						 DEPOSIT_YIELD_HEADER_CAPITAL: row[DEPOSIT_YIELD_HEADER_CAPITAL],
-						 DEPOSIT_YIELD_HEADER_DATE_FROM[self.language]: row[DEPOSIT_YIELD_HEADER_DATE_FROM[self.language]],
-						 DEPOSIT_YIELD_HEADER_DATE_TO[self.language]: row[DEPOSIT_YIELD_HEADER_DATE_TO[self.language]],
+						 DEPOSIT_YIELD_HEADER_DATE_FROM[GB]: row[DEPOSIT_YIELD_HEADER_DATE_FROM[GB]],
+						 DEPOSIT_YIELD_HEADER_DATE_TO[GB]: row[DEPOSIT_YIELD_HEADER_DATE_TO[GB]],
 						 DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER: row[
 							DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER],
 						 DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: row[DEPOSIT_YIELD_HEADER_YIELD_AMOUNT],
@@ -455,8 +453,8 @@ class OwnerDepositYieldComputer(PandasDataComputer):
 		yieldOwnerWithTotalsDetailDfColNameLst = [DEPOSIT_SHEET_HEADER_OWNER[GB],
 												  DATAFRAME_HEADER_DEPOSIT_WITHDRAW,
 												  DEPOSIT_YIELD_HEADER_CAPITAL,
-												  DEPOSIT_YIELD_HEADER_DATE_FROM[self.language],
-												  DEPOSIT_YIELD_HEADER_DATE_TO[self.language],
+												  DEPOSIT_YIELD_HEADER_DATE_FROM[GB],
+												  DEPOSIT_YIELD_HEADER_DATE_TO[GB],
 												  DEPOSIT_YIELD_HEADER_YIELD_DAY_NUMBER,
 												  DEPOSIT_YIELD_HEADER_YIELD_AMOUNT,
 												  DEPOSIT_YIELD_HEADER_YIELD_AMOUNT_PERCENT,

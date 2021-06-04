@@ -37,15 +37,8 @@ class TestProcessor(unittest.TestCase):
 			self.cryptoFiatCsvFilePathName = dataPath + cryptoFiatCsvFileName
 		self.yieldRateComputer = SBYieldRateComputer(sbAccountSheetFilePathName=sbAccountSheetFilePathName,
 													 sbAccountSheetFiat='USD',
-		                                             depositSheetFilePathName=depositSheetFilePathName,
-													 language=self.language)
-		self.ownerDepositYieldComputer = OwnerDepositYieldComputer(self.yieldRateComputer,
-																   self.language)
-		self.processor = Processor(self.yieldRateComputer,
-								   self.ownerDepositYieldComputer,
-								   CryptoFiatRateComputer(PriceRequester(),
-														  self.cryptoFiatCsvFilePathName),
-								   self.language)
+		                                             depositSheetFilePathName=depositSheetFilePathName)
+		self.ownerDepositYieldComputer = OwnerDepositYieldComputer(self.yieldRateComputer)
 
 	def testAddFiatConversionInfo_CHSB_2_fiats_2_owners_french_language(self):
 		"""
@@ -168,23 +161,21 @@ TOTAL                                  255.96400000'''
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'                                                                                                          DEPOTS/RETRAITS                                                                                                    \n' + \
-'                     CHSB                                         USD                                                 CHF                       CAPITAL                    DATE                      INTERETS                \n' + \
-'        Tot incl intérêts TX DAT DEP    TX ACT PLUS-VAL CAP P-V CAP %  TX DAT DEP    TX ACT  PLUS-VAL CAP       P-V CAP %      CHSB       USD       CHF          DE           A  JOURS   CHSB    USD      CHF INT % INT ANN %\n' + \
-'PROPR                                                                                                                                                                                                                        ' + \
 '''
-JPS              4,422.80   2,479.76  7,518.77     5,039.01    203.21    2,212.10  6,634.20      4,422.10          199.91  4,422.80  7,518.77  6,634.20  2021-01-30  2021-02-18     20  14.75  25.07    22.12  0.33      6.26
-JPS                511.33     456.60    869.26       412.66     90.38      408.04    767.00        358.95           87.97  4,948.88  8,413.10  7,423.32  2021-02-19  2021-03-07     17  12.81  21.78    19.22  0.26      5.71
-JPS              2,047.89   2,401.13  3,481.41     1,080.28     44.99    2,239.89  3,071.84        831.95           37.14  7,009.58 11,916.29 10,514.37  2021-03-08  2021-03-10      3   2.66   4.51     3.98  0.04      4.72
-JPS                300.48     430.55    510.82        80.27     18.64      397.92    450.72         52.80           13.27  7,312.72 12,431.62 10,969.08  2021-03-11  2021-04-08     29  27.26  46.35    40.89  0.37      4.79
-TOTAL            7,339.98   5,768.04 12,477.97     6,612.22    114.64    5,257.95 11,009.97      5,665.80          107.76                                                               57.48  97.71    86.21                ''' + \
+                                                              DÉPÔTS  /  RETRAITS                                                                                                                                                                                
+                                 MONTANT  DAT DÉP   DAT ACT VAL DAT DÉP   VAL ACT  VAL ACT   VAL ACT PLUS-VAL        VAL DAT DÉP  VAL ACT    VAL ACT     VAL ACT PLUS-VAL         JOURS    INT                 MONTANT INTÉRÊTS EN USD   MONTANT INTÉRÊTS EN CHF 
+                 DE           A     CHSB CHSB/USD  CHSB/USD         USD       USD  INT USD   TOT USD  CAP USD   EN %         CHF      CHF    INT CHF     TOT CHF  CAP CHF   EN %    INT   CHSB EN %  % ANNUEL PAR JOUR PAR MOIS  PAR AN PAR JOUR PAR MOIS  PAR AN
+PROPR                                                                                                                                                                                                                                                            
+JPS      2021-01-30  2021-02-18  4422.80     0.56      1.70     2479.76   7518.77    25.07   7543.84  5039.01 203.21     2212.10  6634.20      22.12     6656.33  4422.10 199.91     20  14.75 0.33      6.26                                                    
+JPS      2021-02-19  2021-03-07   511.33     0.89      1.70      456.60    869.26    21.78   8434.88   412.66  90.38      408.04   767.00      19.22     7442.54   358.95  87.97     17  12.81 0.26      5.71                                                    
+JPS      2021-03-08  2021-03-10  2047.89     1.17      1.70     2401.13   3481.41     4.51  11920.80  1080.28  44.99     2239.89  3071.84       3.98    10518.36   831.95  37.14      3   2.66 0.04      4.72                                                    
+JPS      2021-03-11  2021-04-08   300.48     1.43      1.70      430.55    510.82    46.35  12477.97    80.27  18.64      397.92   450.72      40.89    11009.97    52.80  13.27     29  27.26 0.37      4.79                                                    
+TOTAL                            7282.50                        5768.04  12380.26    97.71  12477.97  6612.22 114.64     5257.95 10923.75      86.21    11009.97  5665.80 107.76         57.48           5.44     1.81    54.47  679.06     1.60    48.06  599.17
+Papa     2021-01-30  2021-03-06 15941.63     0.56      1.70     8938.09  27100.76   157.19  27257.95 18162.67 203.21     7973.32 23912.44     138.69    24051.13 15939.12 199.91     36  92.46 0.58      6.04                                                    
+Papa     2021-03-07  2021-04-08  8973.34     1.16      1.70    10421.37  15254.68   180.24  42692.87  4833.31  46.38     9712.37 13460.01     159.04    37670.18  3747.64  38.59     33 106.02 0.42      4.79                                                    
+TOTAL                           24914.97                       19359.46  42355.44   337.43  42692.87 22995.98 118.78    17685.69 37372.45     297.73    37670.18 19686.76 111.31        198.49           5.23     5.96   179.30 2233.41     5.26   158.21 1970.66
+G TOTAL                         32197.47                                 54735.70   435.14  55170.84                             48296.20     383.95    48680.15                        255.96                                                                   
 '''
-Papa            15,941.63   8,938.09 27,100.76    18,162.67    203.21    7,973.32 23,912.44     15,939.12          199.91 15,941.63 27,100.76 23,912.44  2021-01-30  2021-03-06     36  92.46 157.19   138.69  0.58      6.04
-Papa             8,973.34  10,421.37 15,254.68     4,833.31     46.38    9,712.37 13,460.01      3,747.64           38.59 25,007.43 42,512.63 37,511.14  2021-03-07  2021-04-08     33 106.02 180.24   159.04  0.42      4.79
-TOTAL           25,113.45  19,359.46 42,692.87    22,995.98    118.78   17,685.69 37,670.18     19,686.76          111.31                                                              198.49 337.43   297.73                ''' + \
-'''
-G TOTAL         32,453.43            55,170.84                                    48,680.15                                                                                            255.96 435.14   383.95                '''
-
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)

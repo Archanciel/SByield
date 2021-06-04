@@ -159,7 +159,7 @@ G TOTAL   9,519.56                                             19.56000000      
 		to start with an owner having only one deposit. The second owner also has 1 deposit.
 		"""
 		PRINT = False
-
+		self.maxDiff=None
 		sbAccountSheetFileName = 'testSBEarningUsdc_simple_values_bug.xlsx'
 		depositSheetFileName = 'depositUsdc_fiat_chf_simple_values_bug.csv'
 
@@ -179,9 +179,8 @@ G TOTAL   9,519.56                                             19.56000000      
 			{
 				SB_ACCOUNT_SHEET_HEADER_EARNING: '.8f'})
 		sbEarningsTotalDfExpectedStr = \
-'                         Type Currency   Net amount\n' + \
-'Local time                                         ' + \
-'''
+'''                         Type Currency   Net amount
+Local time                                         
 2021-02-20 00:00:00  Earnings     USDC   1.04463150
 2021-02-21 00:00:00  Earnings     USDC   1.04490432
 2021-02-22 00:00:00  Earnings     USDC   1.04517720
@@ -507,9 +506,8 @@ TOTAL                                  729.22345326'''
 				MERGED_SHEET_HEADER_YEARLY_YIELD_RATE: '.14f'})
 
 		sbYieldRatesWithTotalDfExpectedStr = \
-'             EARNING CAP            EARNING     D YIELD RATE     Y YIELD RATE\n' + \
-'DATE                                                                         ' + \
-'''
+'''             EARNING CAP            EARNING     D YIELD RATE     Y YIELD RATE
+DATE                                                                         
 2021-02-20   4400.000000   1.04463150427136 1.00023741625097 1.09051127549110
 2021-02-21   4401.044632   1.04490431801651 1.00023742188628 1.09051351802062
 2021-02-22   4402.089536   1.04517720300873 1.00023742752039 1.09051576007555
@@ -826,7 +824,6 @@ TOTAL                                  729.22345326'''
 2021-12-30  10624.143717   2.53953671960699 1.00023903448479 1.09115542856659
 2021-12-31  10626.683253   2.54019993962174 1.00023903977178 1.09115753372388
 TOTAL       10629.223453 729.22345326297454                                  '''
-
 		if PRINT:
 			print('\nComputed Swissborg yield rates using deposit/withdrawal owner amounts ...')
 			print(sbYieldRatesWithTotalDfActualStr)

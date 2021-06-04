@@ -40,16 +40,8 @@ class TestProcessorNewStructure(unittest.TestCase):
 
 		self.yieldRateComputer = SBYieldRateComputer(sbAccountSheetFilePathName=sbAccountSheetFilePathName,
 													 sbAccountSheetFiat=sbAccountSheetFiat,
-													 depositSheetFilePathName=depositSheetFilePathName,
-													 language=self.language)
-		self.ownerDepositYieldComputer = OwnerDepositYieldComputer(sbYieldRateComputer=self.yieldRateComputer,
-																   language=self.language)
-		self.processor = Processor(sbYieldRateComputer=self.yieldRateComputer,
-								   ownerDepositYieldComputer=self.ownerDepositYieldComputer,
-								   cryptoFiatRateComputer=CryptoFiatRateComputer(PriceRequester(),
-																				 self.cryptoFiatCsvFilePathName),
-								   cryptoRateFiat=cryptoRateFiat,
-								   language=self.language)
+													 depositSheetFilePathName=depositSheetFilePathName)
+		self.ownerDepositYieldComputer = OwnerDepositYieldComputer(sbYieldRateComputer=self.yieldRateComputer)
 
 	def testAddFiatConversionInfo_ETH_1_fiat_2_owners_1_and_1_deposit_french_language(self):
 		"""
