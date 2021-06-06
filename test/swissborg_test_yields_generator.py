@@ -53,7 +53,7 @@ TOTAL_WITHDR = 'TOTAL YEARLY WITHDRAWALS'
 # 	depWithdrArray[idx] = withdrawAmount
 # 	idx += 365
 
-depWithdrArray[0] = 10000
+depWithdrArray[0] = 11000
 depWithdrArray[1] = 5000
 # depWithdrArray[59] = -1000
 # depWithdrArray[120] = -500
@@ -61,7 +61,7 @@ depWithdrArray[1] = 5000
 # depWithdrArray[181] = -1000
 #depWithdrArray[304] = -22531
 
-xlsxFilePathName = TEST_DATA_PATH + 'GENERATED_testDepositCHSB_simple_values_1_owner_1_day_diff.xlsx'
+xlsxFilePathName = TEST_DATA_PATH + 'GENERATED_testDepositCHSB_simple_values_2_owners_1_and_2_deposits_1_day_diff.xlsx'
 
 capitalArray = [0.0] * ((dayNumber * yearNumber) + 1)
 

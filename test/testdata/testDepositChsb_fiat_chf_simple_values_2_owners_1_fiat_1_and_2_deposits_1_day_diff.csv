@@ -43,13 +43,14 @@ Explanations:
 Test case info:
 
 In order to verify the Processor fiat conversion added values, this depoit
-CSV file contains simplified deposit data for 1 owner, no withdrawal, 1 fiat
-(CHF). The 2 deposits are added with a minimal interval of 1 day.
+CSV file contains simplified deposit data for 2 owners, no withdrawal, 1 fiat
+(CHF). The second owner 2 deposits are added with a minimal interval of 1 day.
 
 Data:
 
 CRYPTO-CHSB
 
 OWNER,DATE,DEP/WITHDR,CHF AMT
-JPS,2021/01/01 00:00:00,10000,5000
+Béa,2021/01/01 00:00:00,1000,500
+JPS,2021/01/01 00:00:01,10000,5000
 JPS,2021/01/02 00:00:00,5000,2500

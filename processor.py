@@ -295,7 +295,15 @@ class Processor:
 																			DEPOSIT_YIELD_HEADER_DATE_FROM[GB]: DEPOSIT_YIELD_HEADER_DATE_FROM[self.language],
 																			DEPOSIT_YIELD_HEADER_DATE_TO[GB]: DEPOSIT_YIELD_HEADER_DATE_TO[self.language]})
 		yieldOwnerWithTotalsDetailDf.set_index(DEPOSIT_SHEET_HEADER_OWNER[self.language], inplace=True)
-
+		
+		# completing GRAND TOTAL row values with missing grand total values
+		
+		additionalGrandTotalRowValues = yieldOwnerWithTotalsDetailDf.loc[yieldOwnerWithTotalsDetailDf.index == DATAFRAME_HEADER_TOTAL].sum(numeric_only=True, axis=0)[
+			fiatColNameDic.keys()]
+		
+		for index, value in additionalGrandTotalRowValues.items():
+			yieldOwnerWithTotalsDetailDf.loc[DATAFRAME_HEADER_GRAND_TOTAL, index] = value
+		
 		# defining multi level language dependent index rows
 
 		if len(fiatLst) > 1:
