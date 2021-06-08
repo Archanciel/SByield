@@ -8,6 +8,8 @@ sys.path.insert(0,parentdir)
 sys.path.insert(0,currentdir) # this instruction is necessary for successful importation of utilityfortest module when
 							  # the test is executed standalone
 
+from utilityfortest import UtilityForTest
+
 from cryptofiatratecomputer import CryptoFiatRateComputer
 from pricerequesterteststub import PriceRequesterTestStub
 from processor import *
@@ -281,22 +283,8 @@ Papa     2021-03-20  2021-05-04    4.59 1772.12  4400.00     7583.15  18351.66  
 TOTAL                              4.59                      7583.15  18351.66  256.21 18607.88 10768.51 142.01        0.06          11.21     5.42   163.27 2086.68
 G TOTAL                            4.99                      8183.15  19945.92  276.30 20222.22 11762.77               0.07
 '''
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			# removing end of line spaces
-			noEndSpaceActualDfString = ''
-
-			for line in capturedStdoutStr.getvalue().splitlines():
-				noEndSpaceActualDfString += line.rstrip() + '\n'
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(yieldOwnerWithTotalsDetailDfActualStr)
+			
 			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
 
 			depWithdrDateFrom_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][DEPOSIT_YIELD_HEADER_DATE_FROM[testLanguage]]
@@ -672,21 +660,8 @@ Papa     2021-03-20  2021-05-04   4.59  1772.12  4400.00      7583.15      18351
 TOTAL                             4.59                        7583.15      18351.66   256.21  18607.88 10768.51 142.01      0.06       11.21    5.42    163.27 2086.68
 G TOTAL                           4.99                        8183.15      19945.92   276.30  20222.22 11762.77             0.07
 '''
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			# removing end of line spaces
-			noEndSpaceActualDfString = ''
-
-			for line in capturedStdoutStr.getvalue().splitlines():
-				noEndSpaceActualDfString += line.rstrip() + '\n'
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(yieldOwnerWithTotalsDetailDfActualStr)
+			
 			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
 
 			depWithdrDateFrom_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][DEPOSIT_YIELD_HEADER_DATE_FROM[testLanguage]]
@@ -1207,21 +1182,8 @@ G TOTAL                          8900.00                        8150.00   8103.4
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			# removing end of line spaces
-			noEndSpaceActualDfString = ''
-
-			for line in capturedStdoutStr.getvalue().splitlines():
-				noEndSpaceActualDfString += line.rstrip() + '\n'
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(yieldOwnerWithTotalsDetailDfActualStr)
+			
 			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
 
 	def testAddFiatConversionInfo_USDC_2_fiats_simple_values_2_owners_2_deposits_bug_english_language_cryptoRteFiat_CHF(self):
@@ -1856,21 +1818,8 @@ G TOTAL                          8900.00                         8150.00       8
 			yearlyYieldAmountEUR_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[4][' '][PROC_IN[testLanguage] + 'EUR' + ' '][PROC_PER_YEAR[testLanguage]]
 			print('yearlyYieldAmountEUR_owner_2: ', yearlyYieldAmountEUR_owner_2)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			# removing end of line spaces
-			noEndSpaceActualDfString = ''
-
-			for line in capturedStdoutStr.getvalue().splitlines():
-				noEndSpaceActualDfString += line.rstrip() + '\n'
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(yieldOwnerWithTotalsDetailDfActualStr)
+			
 			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
 
 			depWithdrDateFrom_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][DEPOSIT_YIELD_HEADER_DATE_FROM[testLanguage]]
@@ -3015,21 +2964,8 @@ G TOTAL                         11000.00                        5780.00  18700.0
 			yearlyYieldAmount_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_IN[testLanguage] + fiat + ' '][PROC_PER_YEAR[testLanguage]]
 			print("yearlyYieldAmount_CHF: ", yearlyYieldAmount_CHF)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			# removing end of line spaces
-			noEndSpaceActualDfString = ''
-
-			for line in capturedStdoutStr.getvalue().splitlines():
-				noEndSpaceActualDfString += line.rstrip() + '\n'
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(yieldOwnerWithTotalsDetailDfActualStr)
+			
 			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
 
 			depWithdrDateFrom_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][DEPOSIT_YIELD_HEADER_DATE_FROM[testLanguage]]
@@ -3817,21 +3753,8 @@ G TOTAL                         11000.00                        5780.00  18700.0
 			yearlyYieldAmount_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_IN[testLanguage] + fiat + ' '][PROC_PER_YEAR[testLanguage]]
 			print("yearlyYieldAmount_CHF: ", yearlyYieldAmount_CHF)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			# removing end of line spaces
-			noEndSpaceActualDfString = ''
-
-			for line in capturedStdoutStr.getvalue().splitlines():
-				noEndSpaceActualDfString += line.rstrip() + '\n'
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(yieldOwnerWithTotalsDetailDfActualStr)
+			
 			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
 
 			depWithdrDateFrom_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][DEPOSIT_YIELD_HEADER_DATE_FROM[testLanguage]]
@@ -4619,21 +4542,8 @@ G TOTAL                         11000.00                        5780.00  18700.0
 			yearlyYieldAmount_CHF = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_IN[testLanguage] + fiat + ' '][PROC_PER_YEAR[testLanguage]]
 			print("yearlyYieldAmount_CHF: ", yearlyYieldAmount_CHF)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			# removing end of line spaces
-			noEndSpaceActualDfString = ''
-
-			for line in capturedStdoutStr.getvalue().splitlines():
-				noEndSpaceActualDfString += line.rstrip() + '\n'
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(yieldOwnerWithTotalsDetailDfActualStr)
+			
 			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
 
 			depWithdrDateFrom_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][DEPOSIT_YIELD_HEADER_DATE_FROM[testLanguage]]
@@ -5420,21 +5330,8 @@ G TOTAL                         11000.00                        6000.00  16500.0
 			yearlyYieldAmount_USD = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_IN[testLanguage] + 'USD '][PROC_PER_YEAR[testLanguage]]
 			print('yearlyYieldAmount_USD: ', yearlyYieldAmount_USD)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			# removing end of line spaces
-			noEndSpaceActualDfString = ''
-
-			for line in capturedStdoutStr.getvalue().splitlines():
-				noEndSpaceActualDfString += line.rstrip() + '\n'
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(yieldOwnerWithTotalsDetailDfActualStr)
+			
 			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
 
 			depWithdrDateFrom_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][DEPOSIT_YIELD_HEADER_DATE_FROM[testLanguage]]
@@ -6172,21 +6069,8 @@ G TOTAL                         11000.00                        6000.00  16500.0
 			yearlyYieldAmount = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_IN[testLanguage] + fiat + ' '][PROC_PER_YEAR[testLanguage]]
 			print("yearlyYieldAmount: ", yearlyYieldAmount)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			# removing end of line spaces
-			noEndSpaceActualDfString = ''
-
-			for line in capturedStdoutStr.getvalue().splitlines():
-				noEndSpaceActualDfString += line.rstrip() + '\n'
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(yieldOwnerWithTotalsDetailDfActualStr)
+			
 			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
 
 			depWithdrDateFrom_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][DEPOSIT_YIELD_HEADER_DATE_FROM[testLanguage]]
@@ -6703,21 +6587,8 @@ G TOTAL                         15000.00                        7500.00  22500.0
 			yearlyYieldAmount = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_IN[testLanguage] + fiat + ' '][PROC_PER_YEAR[testLanguage]]
 			print('yearlyYieldAmount: ', yearlyYieldAmount)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			# removing end of line spaces
-			noEndSpaceActualDfString = ''
-
-			for line in capturedStdoutStr.getvalue().splitlines():
-				noEndSpaceActualDfString += line.rstrip() + '\n'
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(yieldOwnerWithTotalsDetailDfActualStr)
+			
 			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
 
 			depWithdrDateFrom_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][DEPOSIT_YIELD_HEADER_DATE_FROM[testLanguage]]
@@ -7291,21 +7162,8 @@ G TOTAL                         16000.00                        8000.00  24000.0
 			yearlyYieldAmount_owner_2 = yieldOwnerWithTotalsDetailDf.iloc[4][' '][PROC_IN[testLanguage] + fiat + ' '][PROC_PER_YEAR[testLanguage]]
 			print("yearlyYieldAmount_owner_2: ", yearlyYieldAmount_owner_2)			
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			# removing end of line spaces
-			noEndSpaceActualDfString = ''
-
-			for line in capturedStdoutStr.getvalue().splitlines():
-				noEndSpaceActualDfString += line.rstrip() + '\n'
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(yieldOwnerWithTotalsDetailDfActualStr)
+			
 			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
 
 			depWithdrDateFrom_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][DEPOSIT_YIELD_HEADER_DATE_FROM[testLanguage]]

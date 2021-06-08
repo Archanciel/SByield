@@ -4085,16 +4085,15 @@ TOTAL  30,000.00 81.84117609  30081.841176'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                              ' + \
 '''
+        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 JPS      10,000.00 10,000.00  2021-01-01  2021-01-05          5 27.28039203     0.272804  22.003032
-TOTAL    10,027.28                                              27.28039203                        ''' + \
-'''
+TOTAL    10,000.00                                              27.28039203               22.003032
 Papa     20,000.00 20,000.00  2021-01-01  2021-01-05          5 54.56078406     0.272804  22.003032
-TOTAL    20,054.56                                              54.56078406                        ''' + \
+TOTAL    20,000.00                                              54.56078406               22.003032
+G TOTAL  30,000.00                                              81.84117609
 '''
-G TOTAL  30,081.84                                              81.84117609                        '''
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
