@@ -7,6 +7,8 @@ sys.path.insert(0,parentdir)
 sys.path.insert(0,currentdir) # this instruction is necessary for successful importation of utilityfortest module when
 							  # the test is executed standalone
 
+from utilityfortest import UtilityForTest
+
 from ownerdeposityieldcomputer import *
 from depositdateafterlastyieldpaymenterror import DepositDateAfterLastYieldPaymentError
 
@@ -151,8 +153,11 @@ G TOTAL   9,519.56                                             19.56000000      
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testComputeDepositsYields_2_owners_bug(self):
 		"""
 		The deposit csv file causes the deposits sorted by owner and then by deposit date
@@ -879,8 +884,11 @@ G TOTAL  10,629.22                                             729.22345326     
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testComputeDepositsYieldsLastDepositRowUniqueOwnerTwoDeposits(self):
 		"""
 		The deposit csv file causes the deposits sorted by owner and then by deposit date
@@ -972,8 +980,11 @@ G TOTAL   9,519.56                                             19.56000000      
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testComputeDepositsYieldsMiddleDepositRowUniqueOwnerTwoDeposits(self):
 		"""
 		The deposit csv file causes the deposits sorted by owner and then by deposit date
@@ -1065,8 +1076,11 @@ G TOTAL   9,519.56                                             19.56000000      
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testComputeDepositsYieldsFirstDepositRowUniqueOwnerThreeDeposits(self):
 		"""
 		The deposit csv file causes the deposits sorted by owner and then by deposit date
@@ -1163,8 +1177,11 @@ G TOTAL   9,919.56                                             19.56000000      
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testComputeDepositsYieldsLastDepositRowUniqueOwnerThreeDeposits(self):
 		"""
 		The deposit csv file causes the deposits sorted by owner and then by deposit date
@@ -1261,8 +1278,11 @@ G TOTAL  10,469.56                                             19.56000000      
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testComputeDepositsYieldsMiddleDepositRowUniqueOwnerThreeDeposits(self):
 		"""
 		The deposit csv file causes the deposits sorted by owner and then by deposit date
@@ -1358,11 +1378,18 @@ G TOTAL   9,919.56                                             19.56000000      
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testComputeDepositsYieldsFirstDepositDateFromIsMaxRowUniqueOwnerThreeDeposits(self):
 		"""
-		The deposit csv file causes the deposits sorted by owner and then by deposit date
+				self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	The deposit csv file causes the deposits sorted by owner and then by deposit date
 		to start with an owner having only one deposit. This unique deposit is done on the
 		date of the last yield payment and so will have a 1 yield day number and a small
 		yield amount. The other owners have each one three deposits.
@@ -1461,8 +1488,11 @@ G TOTAL  11,219.56                                             19.56000000      
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testComputeDepositsYieldsFirstOwner_1_only_depositBeforeFirstYieldDate(self):
 		"""
 		The deposit csv file causes the deposits sorted by owner and then by deposit date
@@ -1563,8 +1593,11 @@ G TOTAL  11,219.56                                             19.56000000      
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testComputeDepositsYieldsFirstOwner_1_depositBeforeAnd_1_aftertFirstYieldDate(self):
 		"""
 		The deposit csv file causes the deposits sorted by owner and then by deposit date
@@ -1666,8 +1699,11 @@ G TOTAL  12,219.56                                             19.56000000      
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testComputeDepositsYieldsLastDepositDateFromIsMaxRowUniqueOwnerThreeDeposits(self):
 		"""
 		The deposit csv file causes the deposits sorted by owner and then by deposit date
@@ -1764,8 +1800,11 @@ G TOTAL   9,919.56                                             19.56000000      
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testComputeDepositsYieldsMiddleDepositDateFromIsMaxRowUniqueOwnerThreeDeposits(self):
 		"""
 		The deposit csv file causes the deposits sorted by owner and then by deposit date
@@ -1861,8 +1900,11 @@ G TOTAL   9,919.56                                             19.56000000      
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testComputeDepositsYieldsFirstDepositDateFromIsMaxRowUniqueOwnerThreeDepositsDepositDateFromIsMax(self):
 		"""
 		The deposit csv file causes the deposits sorted by owner and then by deposit date
@@ -1991,8 +2033,11 @@ G TOTAL   9,919.56                                             19.56000000      
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testComputeDepositsYieldsLastDepositDateFromIsMaxRowUniqueOwnerThreeDepositsDepositDateFromIsMax(self):
 		"""
 		The deposit csv file causes the deposits sorted by owner and then by deposit date
@@ -2120,8 +2165,11 @@ G TOTAL   9,919.56                                             19.56000000      
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testComputeDepositsYieldsMiddleDepositDateFromIsMaxRowUniqueOwnerThreeDepositsDepositDateFromIsMax(self):
 		"""
 		The deposit csv file causes the deposits sorted by owner and then by deposit date
@@ -2249,8 +2297,11 @@ G TOTAL   9,919.56                                             19.56000000      
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testComputeDepositsYieldsMiddleDepositDateFromIsAfterMaxRowUniqueOwnerThreeDepositsDepositDateFromAfterMax_1(self):
 		"""
 		The deposit csv file causes the deposits sorted by owner and then by deposit date
@@ -2498,8 +2549,11 @@ G TOTAL   9,919.56                                             19.56000000      
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAndAnalyseComputeDepositsYields_dep_1(self):
 		"""
 		Only one owner with one deposit.
@@ -2568,19 +2622,23 @@ TOTAL  19,571.69 87.39209000  19659.08209'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                              ' + \
 '''
+
+        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 JPS      19,571.69 19,571.69  2020-12-22  2020-12-31         10 87.39209000     0.446523  17.658725
-TOTAL    19,659.08                                              87.39209000                        ''' + \
+TOTAL    19,571.69                                              87.39209000               17.658725
+G TOTAL  19,571.69                                              87.39209000
 '''
-G TOTAL  19,659.08                                              87.39209000                        '''
 
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAndAnalyseComputeDepositsYields_dep_2(self):
 		"""
 		Two owners with one deposit each starting at same date.
@@ -2684,23 +2742,26 @@ TOTAL  19,571.69 87.39209000  19659.082090'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                              ' + \
 '''
+
+        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 JPS       4,975.64  4,975.64  2020-12-22  2020-12-31         10 22.21737513     0.446523  17.658725
-TOTAL     4,997.86                                              22.21737513                        ''' + \
-'''
+TOTAL     4,975.64                                              22.21737513               17.658725
 Papa     14,596.05 14,596.05  2020-12-22  2020-12-31         10 65.17471487     0.446523  17.658725
-TOTAL    14,661.22                                              65.17471487                        ''' + \
+TOTAL    14,596.05                                              65.17471487               17.658725
+G TOTAL  19,571.69                                              87.39209000
 '''
-G TOTAL  19,659.08                                              87.39209000                        '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAndAnalyseComputeDepositsYields_dep_3(self):
 		"""
 		Two owners, the first with two deposits, the second with one deposit.
@@ -2819,8 +2880,11 @@ G TOTAL  19,658.01                                              86.32182439     
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAndAnalyseComputeDepositsYields(self):
 		"""
 		The deposit csv file causes the deposits sorted by owner and then by deposit date
@@ -3027,8 +3091,11 @@ G TOTAL  19,617.47                                              45.77968601     
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_on_first_yield(self):
 		"""
 		Only one owner with 1 deposit done on same date as date of the first paid
@@ -3106,8 +3173,11 @@ G TOTAL  19,617.47                                              45.77968601     
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_after_first_yield(self):
 		"""
 		Only one owner with 1 deposit done on date after the first paid yield.
@@ -3184,8 +3254,11 @@ G TOTAL  19,603.58                                              31.8946321198709
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_on_last_yield(self):
 		"""
 		Only one owner with 3 deposits.
@@ -3262,8 +3335,11 @@ G TOTAL  10,004.11                                              4.10938248077946
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAndAnalyseComputeDepositsYields_uniqueOwner_2_deposit(self):
 		"""
 		Only one owner with 2 deposits.
@@ -3319,8 +3395,11 @@ TOTAL  24,571.69 63.42440740948223  24635.114407'''
 		if PRINT:
 			print(yieldOwnerWithTotalsSummaryDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsSummaryDfExpectedStr, yieldOwnerWithTotalsSummaryDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+		
 		yieldOwnerWithTotalsDetailDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			yieldOwnerWithTotalsDetailDf,
 			{
@@ -3341,8 +3420,11 @@ G TOTAL  24,635.11                                              63.4244074094822
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAndAnalyseComputeDepositsYields_uniqueOwner_3_deposit(self):
 		"""
 		Only one owner with 3 deposits.
@@ -3425,8 +3507,11 @@ TOTAL  40,000.00 61.60570083155653  40061.605701'''
 			print('\nOwner summary deposit/withdrawal yield totals ...')
 			print(yieldOwnerWithTotalsSummaryDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsSummaryDfExpectedStr, yieldOwnerWithTotalsSummaryDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+		
 		yieldOwnerWithTotalsDetailDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			yieldOwnerWithTotalsDetailDf,
 			{
@@ -3556,8 +3641,11 @@ G TOTAL  10,039.78                                              39.78003617     
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_almost_full_withdr(self):
 		"""
 		Only one owner with 1 deposit and 1 almost full withdrawal. Since the deposit
@@ -3663,8 +3751,11 @@ G TOTAL      16.31                                                          31.3
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_partial_withdr_fixed_yield_rate(self):
 		"""
 		Only one owner with 1 deposit and 1 partial withdrawal.
@@ -3769,8 +3860,11 @@ G TOTAL  10,045.01718234                                                    45.0
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate(self):
 		"""
 		Only one owner with 1 deposit and 1 almost full withdrawal. Since the deposit
@@ -3882,8 +3976,11 @@ G TOTAL      10.00312496                                                        
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_almost_full_withdr_fixed_yield_rate_3_yield_days(self):
 		"""
 		Only one owner with 1 deposit and 1 almost full withdrawal. Since the deposit
@@ -3991,8 +4088,11 @@ G TOTAL      1.00200100                                                         
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAndAnalyseComputeDepositsYields_2_owner_1_deposit_before_first_yield(self):
 		"""
 		Two owners with 1 deposit for each done on date before the first paid yield.
@@ -4098,7 +4198,10 @@ G TOTAL  30,000.00                                              81.84117609
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
 
 	def testAndAnalyseComputeDepositsYields_3_owner_1_multi_deposit(self):
 		"""
@@ -4191,28 +4294,29 @@ TOTAL  36,000.00 110.25262326  36110.252623'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS    YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                               ' + \
 '''
+        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS    YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 Béa       2,000.00  2,000.00  2021-01-03  2021-01-05          3   4.35268089     0.217634  30.277991
-TOTAL     2,004.35                                                4.35268089                        ''' \
-'''
+TOTAL     2,000.00                                                4.35268089               30.277991
 JPS      10,000.00 10,000.00  2021-01-01  2021-01-05          5  31.57162847     0.315716  25.873825
-TOTAL    10,031.57                                               31.57162847                        ''' + \
-'''
+TOTAL    10,000.00                                               31.57162847               30.277991
 Papa     20,000.00 20,000.00  2021-01-01  2021-01-02          2  19.57384867     0.097869  19.545160
 Papa      8,000.00 28,019.57  2021-01-03  2021-01-03          1  17.34300763     0.061896  25.338848
 Papa     -4,000.00 24,036.92  2021-01-04  2021-01-05          2  37.41145760     0.155642  32.820077
-TOTAL    24,074.33                                               74.32831390                        ''' + \
+TOTAL    24,000.00                                               74.32831390               30.302162
+G TOTAL  36,000.00                                              110.25262326
 '''
-G TOTAL  36,110.25                                              110.25262326                        '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAndAnalyseComputeDepositsYields_3_owner_multi_deposit(self):
 		"""
 		Three owners with several deposits/withdrawals.
@@ -4304,30 +4408,31 @@ TOTAL  48,000.00 110.25262326  48110.252623'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS    YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                               ' + \
 '''
+        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS    YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 Béa       2,000.00  2,000.00  2021-01-03  2021-01-05          3   3.28902191     0.164451  22.130240
-TOTAL     2,003.29                                                3.28902191                        ''' \
-'''
+TOTAL     2,000.00                                                3.28902191               22.130240
 JPS      10,000.00 10,000.00  2021-01-01  2021-01-01          1   5.00787687     0.050079  20.050434
 JPS       5,000.00 15,005.01  2021-01-02  2021-01-02          1   6.14390374     0.040946  16.116194
 JPS       7,000.00 22,011.15  2021-01-03  2021-01-05          3  36.19758018     0.164451  22.130240
-TOTAL    22,047.35                                               47.34936079                        ''' + \
-'''
+TOTAL    22,000.00                                               47.34936079               21.271090
 Papa     20,000.00 20,000.00  2021-01-01  2021-01-02          2  18.20899240     0.091045  18.066928
 Papa      8,000.00 28,018.21  2021-01-03  2021-01-03          1  13.34238365     0.047620  18.978557
 Papa     -4,000.00 24,031.55  2021-01-04  2021-01-05          2  28.06286451     0.116775  23.737252
-TOTAL    24,059.61                                               59.61424056                        ''' + \
+TOTAL    24,000.00                                               59.61424056               21.535069
+G TOTAL  48,000.00                                              110.25262326
 '''
-G TOTAL  48,110.25                                              110.25262326                        '''
 		
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAndAnalyseComputeDepositsYields_CHSB_2_owner_multi_deposit_2_fiat(self):
 		"""
 		TWO owners with several deposits/withdrawals and two fiat amount columns.
