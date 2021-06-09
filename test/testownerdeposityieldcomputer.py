@@ -25,7 +25,7 @@ class TestOwnerDepositYieldComputer(unittest.TestCase):
 			depositSheetFilePathName = self.testDataPath + depositSheetFileName
 		self.yieldRateComputer = SBYieldRateComputer(sbAccountSheetFilePathName=sbAccountSheetFilePathName,
 													 sbAccountSheetFiat='USD',
-		                                             depositSheetFilePathName=depositSheetFilePathName)
+													 depositSheetFilePathName=depositSheetFilePathName)
 		self.ownerDepositYieldComputer = OwnerDepositYieldComputer(self.yieldRateComputer)
 		self.language = 0
 	
@@ -2575,8 +2575,8 @@ G TOTAL   9,919.56                                             19.56000000      
 		sbEarningsTotalDf = self.yieldRateComputer.getSBEarningSheetTotalDf(expectedYieldCrypto)
 
 		sbEarningsTotalDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(sbEarningsTotalDf,
-		                                                                                        {
-			                                                                                        DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+																								{
+																									DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		sbEarningsTotalDfExpectedStr = \
 '                         Type Currency  Net amount\n' + \
 'Local time                                        ' + \
@@ -2599,9 +2599,9 @@ TOTAL                                    87.392090'''
 			self.assertEqual(sbEarningsTotalDfExpectedStr, sbEarningsTotalDfActualStr)
 
 		yieldOwnerWithTotalsSummaryDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(yieldOwnerWithTotalsSummaryDf,
-		                                                                                        {
-			                                                                                        DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
-			                                                                                        DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
+																								{
+																									DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
+																									DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 		yieldOwnerWithTotalsSummaryDfExpectedStr = \
 '      DEP/WITHDR   YIELD AMT        TOTAL\n' + \
 'OWNER                                    ' + \
@@ -2624,7 +2624,7 @@ TOTAL  19,571.69 87.39209000  19659.08209'''
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
 
-        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+		DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
 OWNER
 JPS      19,571.69 19,571.69  2020-12-22  2020-12-31         10 87.39209000     0.446523  17.658725
 TOTAL    19,571.69                                              87.39209000               17.658725
@@ -2744,7 +2744,7 @@ TOTAL  19,571.69 87.39209000  19659.082090'''
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
 
-        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+		DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
 OWNER
 JPS       4,975.64  4,975.64  2020-12-22  2020-12-31         10 22.21737513     0.446523  17.658725
 TOTAL     4,975.64                                              22.21737513               17.658725
@@ -2864,17 +2864,17 @@ TOTAL  19,571.69 86.32182439  19658.011824'''
 				DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: '.14f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT      YIELD AMT %         Y YIELD %\n' + \
-'OWNER                                                                                                         ' + \
 '''
+
+		DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT      YIELD AMT %         Y YIELD %
+OWNER
 JPS       2,742.27  2,742.27  2020-12-22  2020-12-22          1  1.31418490 0.04792324971508 19.11008472302236
 JPS       2,233.37  4,976.95  2020-12-23  2020-12-31          9 19.82971609 0.39843075403525 17.49960131498618
-TOTAL     4,996.78                                              21.14390099                                   ''' + \
-'''
+TOTAL     4,975.64                                              21.14390099                  17.66064965578980
 Papa     14,596.05 14,596.05  2020-12-22  2020-12-31         10 65.17792340 0.44654494471553 17.65966487491983
-TOTAL    14,661.23                                              65.17792340                                   ''' + \
+TOTAL    14,596.05                                              65.17792340                  17.66064965578980
+G TOTAL  19,571.69                                              86.32182439
 '''
-G TOTAL  19,658.01                                              86.32182439                                   '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
@@ -3395,11 +3395,8 @@ TOTAL  24,571.69 63.42440740948223  24635.114407'''
 		if PRINT:
 			print(yieldOwnerWithTotalsSummaryDfActualStr)
 		else:
-			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
-				yieldOwnerWithTotalsDetailDfActualStr)
-			
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
-		
+			self.assertEqual(yieldOwnerWithTotalsSummaryDfExpectedStr, yieldOwnerWithTotalsSummaryDfActualStr)
+
 		yieldOwnerWithTotalsDetailDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			yieldOwnerWithTotalsDetailDf,
 			{
@@ -3508,9 +3505,9 @@ TOTAL  40,000.00 61.60570083155653  40061.605701'''
 			print(yieldOwnerWithTotalsSummaryDfActualStr)
 		else:
 			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
-				yieldOwnerWithTotalsDetailDfActualStr)
+				yieldOwnerWithTotalsSummaryDfActualStr)
 			
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+			self.assertEqual(yieldOwnerWithTotalsSummaryDfExpectedStr, noEndSpaceActualDfString)
 		
 		yieldOwnerWithTotalsDetailDfActualStr = self.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 			yieldOwnerWithTotalsDetailDf,
@@ -3536,8 +3533,11 @@ G TOTAL  40,061.61                                              61.6057008315565
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, yieldOwnerWithTotalsDetailDfActualStr)
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAndAnalyseComputeDepositsYields_uniqueOwner_1_deposit_1_partial_withdr(self):
 		"""
 		Only one owner with 1 deposit and 1 partial withdrawal.
@@ -4307,7 +4307,6 @@ Papa     -4,000.00 24,036.92  2021-01-04  2021-01-05          2  37.41145760    
 TOTAL    24,000.00                                               74.32831390               30.302162
 G TOTAL  36,000.00                                              110.25262326
 '''
-
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
@@ -4651,21 +4650,20 @@ TOTAL  32,197.47 255.96400000  32453.433589'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS    YIELD AMT  YIELD AMT %  Y YIELD %   USD AMT  CHF AMT\n' + \
-'OWNER                                                                                                                  ' + \
+'''        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS    YIELD AMT  YIELD AMT %  Y YIELD %   USD AMT  CHF AMT
+OWNER                                                                                                                  ''' + \
 '''
 JPS       4,422.80  4,422.80  2021-01-30  2021-02-18         20  14.74779623     0.333449   6.263664   2479.76  2212.10
 JPS         511.33  4,948.88  2021-02-19  2021-03-07         17  12.81031440     0.258853   5.707472    456.60   408.04
 JPS       2,047.89  7,009.58  2021-03-08  2021-03-10          3   2.65582429     0.037888   4.716753   2401.13  2239.89
 JPS         300.48  7,312.72  2021-03-11  2021-04-08         29  27.26248218     0.372809   4.794938    430.55   397.92
-TOTAL     7,339.98                                               57.47641711                                           ''' + \
+TOTAL     7,282.50                                               57.47641711                5.442084                   ''' + \
 '''
 Papa     15,941.63 15,941.63  2021-01-30  2021-03-06         36  92.46281423     0.580009   6.038977   8938.09  7973.32
 Papa      8,973.34 25,007.43  2021-03-07  2021-04-08         33 106.02476866     0.423973   4.790702  10421.37  9712.37
-TOTAL    25,113.45                                              198.48758289                                           ''' + \
+TOTAL    24,914.97                                              198.48758289                5.231343                   ''' + \
 '''
-G TOTAL  32,453.43                                              255.96400000                                           '''
-
+G TOTAL  32,197.47                                              255.96400000                                           '''
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
