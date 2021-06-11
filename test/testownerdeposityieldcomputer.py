@@ -133,21 +133,19 @@ TOTAL   9,500.00 19.56000000  9519.560000'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                             ' + \
 '''
+        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 Béa       1,000.00 1,000.00  2020-12-25  2020-12-30          6  2.06858041     0.206858  13.395176
-TOTAL     1,002.07                                              2.06858041                        ''' \
-'''
+TOTAL     1,000.00                                              2.06858041               13.395176
 JPS       2,000.00 2,000.00  2020-12-22  2020-12-27          6  4.28517963     0.214259  13.905782
 JPS       3,000.00 5,004.29  2020-12-28  2020-12-30          3  5.71018510     0.114106  14.883652
-TOTAL     5,010.00                                              9.99536474                        ''' + \
-'''
+TOTAL     5,000.00                                              9.99536474               13.891335
 Papa      4,000.00 4,000.00  2020-12-25  2020-12-26          2  2.04500438     0.051125   9.776850
 Papa       -500.00 3,502.05  2020-12-27  2020-12-30          4  5.45105048     0.155653  15.248820
-TOTAL     3,507.50                                              7.49605486                        ''' + \
+TOTAL     3,500.00                                              7.49605486               14.309023
+G TOTAL   9,500.00                                             19.56000000
 '''
-G TOTAL   9,519.56                                             19.56000000                        '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
@@ -869,16 +867,15 @@ TOTAL   9,900.00 729.22345326  10629.223453'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS    YIELD AMT  YIELD AMT %  Y YIELD %  CHF AMT\n' + \
-'OWNER                                                                                                       ' + \
 '''
+        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS    YIELD AMT  YIELD AMT %  Y YIELD %  CHF AMT
+OWNER
 Béa       4,400.00 4,400.00  2021-02-20  2021-12-31        315 342.80380276     7.790996   9.082305   4000.0
-TOTAL     4,742.80                                             342.80380276                                 ''' \
-'''
+TOTAL     4,400.00                                             342.80380276                9.082305
 JPS       5,500.00 5,500.00  2021-03-22  2021-12-31        285 386.41965050     7.025812   9.085245   5000.0
-TOTAL     5,886.42                                             386.41965050                                 ''' + \
+TOTAL     5,500.00                                             386.41965050                9.082305
+G TOTAL   9,900.00                                             729.22345326
 '''
-G TOTAL  10,629.22                                             729.22345326                                 '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
@@ -961,21 +958,19 @@ TOTAL   9,500.00 19.56000000  9519.560000'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                             ' + \
 '''
+        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 JPS       2,000.00 2,000.00  2020-12-22  2020-12-27          6  4.28517963     0.214259  13.905782
 JPS       3,000.00 5,004.29  2020-12-28  2020-12-30          3  5.71018510     0.114106  14.883652
-TOTAL     5,010.00                                              9.99536474                        ''' \
-'''
+TOTAL     5,000.00                                              9.99536474               14.231739
 Papa      4,000.00 4,000.00  2020-12-25  2020-12-26          2  2.04500438     0.051125   9.776850
 Papa       -500.00 3,502.05  2020-12-27  2020-12-30          4  5.45105048     0.155653  15.248820
-TOTAL     3,507.50                                              7.49605486                        ''' + \
-'''
+TOTAL     3,500.00                                              7.49605486               14.544687
 Zoé       1,000.00 1,000.00  2020-12-25  2020-12-30          6  2.06858041     0.206858  13.395176
-TOTAL     1,002.07                                              2.06858041                        ''' + \
+TOTAL     1,000.00                                              2.06858041               14.544687
+G TOTAL   9,500.00                                             19.56000000
 '''
-G TOTAL   9,519.56                                             19.56000000                        '''
 
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
@@ -1057,21 +1052,19 @@ TOTAL   9,500.00 19.56000000  9519.560000'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                             ' + \
 '''
+        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 JPS       2,000.00 2,000.00  2020-12-22  2020-12-27          6  4.28517963     0.214259  13.905782
 JPS       3,000.00 5,004.29  2020-12-28  2020-12-30          3  5.71018510     0.114106  14.883652
-TOTAL     5,010.00                                              9.99536474                        ''' \
-'''
+TOTAL     5,000.00                                              9.99536474               14.231739
 Loan      1,000.00 1,000.00  2020-12-25  2020-12-30          6  2.06858041     0.206858  13.395176
-TOTAL     1,002.07                                              2.06858041                        ''' + \
-'''
+TOTAL     1,000.00                                              2.06858041               14.231739
 Papa      4,000.00 4,000.00  2020-12-25  2020-12-26          2  2.04500438     0.051125   9.776850
 Papa       -500.00 3,502.05  2020-12-27  2020-12-30          4  5.45105048     0.155653  15.248820
-TOTAL     3,507.50                                              7.49605486                        ''' + \
+TOTAL     3,500.00                                              7.49605486               14.544687
+G TOTAL   9,500.00                                             19.56000000
 '''
-G TOTAL   9,519.56                                             19.56000000                        '''
 
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
@@ -1156,23 +1149,21 @@ TOTAL   9,900.00 19.56000000  9919.560000'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                             ' + \
 '''
+        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 Béa       1,000.00 1,000.00  2020-12-25  2020-12-30          6  2.04755022     0.204755  13.250496
-TOTAL     1,002.05                                              2.04755022                        ''' \
-'''
+TOTAL     1,000.00                                              2.04755022               13.250496
 JPS       2,000.00 2,000.00  2020-12-21  2020-12-21          0  0.00000000     0.000000   0.000000
 JPS         100.00 2,100.00  2020-12-22  2020-12-27          6  4.41225777     0.210108  13.619086
 JPS       3,000.00 5,104.41  2020-12-28  2020-12-30          3  5.63357833     0.110367  14.362793
-TOTAL     5,110.05                                             10.04583610                        ''' + \
-'''
+TOTAL     5,100.00                                             10.04583610               13.620391
 Papa      4,000.00 4,000.00  2020-12-25  2020-12-25          1  0.43928627     0.010982   4.089682
 Papa       -500.00 3,500.44  2020-12-26  2020-12-28          3  3.91827019     0.111937  14.581168
 Papa        300.00 3,804.36  2020-12-29  2020-12-30          2  3.10905721     0.081724  16.077121
-TOTAL     3,807.47                                              7.46661368                        ''' + \
+TOTAL     3,800.00                                              7.46661368               14.010181
+G TOTAL   9,900.00                                             19.56000000
 '''
-G TOTAL   9,919.56                                             19.56000000                        '''
 
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
@@ -1254,26 +1245,24 @@ TOTAL  10,450.00 19.56000000  10469.560000'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                             ' + \
 '''
+        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 JPS       2,000.00 2,000.00  2020-11-15  2020-12-21          0  0.00000000     0.000000   0.000000
 JPS         300.00 2,300.00  2020-11-17  2020-12-21          0  0.00000000     0.000000   0.000000
 JPS         200.00 2,500.00  2020-11-19  2020-12-21          0  0.00000000     0.000000   0.000000
 JPS         100.00 2,600.00  2020-12-22  2020-12-22          1  0.80000000     0.030769  11.883774
 JPS          50.00 2,650.80  2020-12-23  2020-12-27          5  3.93998101     0.148634  11.451799
 JPS       3,000.00 5,654.74  2020-12-28  2020-12-30          3  5.91024247     0.104518  13.552786
-TOTAL     5,660.65                                             10.65022348                        ''' + \
-'''
+TOTAL     5,650.00                                             10.65022348               12.200125
 Papa      4,000.00 4,000.00  2020-12-25  2020-12-25          1  0.40771363     0.010193   3.790263
 Papa       -500.00 3,500.41  2020-12-26  2020-12-28          3  3.63971477     0.103980  13.478472
 Papa        300.00 3,804.05  2020-12-29  2020-12-30          2  2.94536175     0.077427  15.171219
-TOTAL     3,806.99                                              6.99279015                        ''' + \
-'''
+TOTAL     3,800.00                                              6.99279015               12.898498
 Zoé       1,000.00 1,000.00  2020-12-25  2020-12-30          6  1.91698637     0.191699  12.356317
-TOTAL     1,001.92                                              1.91698637                        ''' \
+TOTAL     1,000.00                                              1.91698637               12.898498
+G TOTAL  10,450.00                                             19.56000000
 '''
-G TOTAL  10,469.56                                             19.56000000                        '''
 
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
@@ -1357,23 +1346,21 @@ TOTAL   9,900.00 19.56000000  9919.560000'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                             ' + \
 '''
+        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 JPS       2,000.00 2,000.00  2020-12-11  2020-12-21          0  0.00000000     0.000000   0.000000
 JPS         100.00 2,100.00  2020-12-22  2020-12-27          6  4.41225777     0.210108  13.619086
 JPS       3,000.00 5,104.41  2020-12-28  2020-12-30          3  5.63357833     0.110367  14.362793
-TOTAL     5,110.05                                             10.04583610                        ''' + \
-'''
+TOTAL     5,100.00                                             10.04583610               13.866988
 Loan      1,000.00 1,000.00  2020-12-25  2020-12-30          6  2.04755022     0.204755  13.250496
-TOTAL     1,002.05                                              2.04755022                        ''' \
-'''
+TOTAL     1,000.00                                              2.04755022               13.866988
 Papa      4,000.00 4,000.00  2020-12-25  2020-12-25          1  0.43928627     0.010982   4.089682
 Papa       -500.00 3,500.44  2020-12-26  2020-12-28          3  3.91827019     0.111937  14.581168
 Papa        300.00 3,804.36  2020-12-29  2020-12-30          2  3.10905721     0.081724  16.077121
-TOTAL     3,807.47                                              7.46661368                        ''' + \
+TOTAL     3,800.00                                              7.46661368               14.335760
+G TOTAL   9,900.00                                             19.56000000
 '''
-G TOTAL   9,919.56                                             19.56000000                        '''
 
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
@@ -1461,19 +1448,17 @@ TOTAL  11,200.00 19.56000000  11219.560000'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                             ' + \
 '''
+        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 Béa       1,000.00 1,000.00  2020-12-30  2020-12-30          1  0.36556682     0.036557  14.271557
-TOTAL     1,000.37                                              0.36556682                        ''' + \
-'''
+TOTAL     1,000.00                                              0.36556682               14.271557
 JPS       2,000.00 2,000.00  2020-11-15  2020-12-21          0  0.00000000     0.000000   0.000000
 JPS        -300.00 1,700.00  2020-11-17  2020-12-21          0  0.00000000     0.000000   0.000000
 JPS         200.00 1,900.00  2020-11-19  2020-12-21          0  0.00000000     0.000000   0.000000
 JPS         100.00 2,000.00  2020-12-22  2020-12-27          6  2.71637796     0.135819   8.607155
 JPS       3,000.00 5,002.72  2020-12-28  2020-12-30          3  5.17866485     0.103517  13.414676
-TOTAL     5,007.90                                              7.89504282                        ''' + \
-'''
+TOTAL     5,000.00                                              7.89504282               10.615851
 Papa      2,000.00 2,000.00  2020-11-15  2020-12-21          0  0.00000000     0.000000   0.000000
 Papa       -300.00 1,700.00  2020-11-16  2020-12-21          0  0.00000000     0.000000   0.000000
 Papa       -200.00 1,500.00  2020-11-19  2020-12-21          0  0.00000000     0.000000   0.000000
@@ -1481,9 +1466,9 @@ Papa       -100.00 1,400.00  2020-12-22  2020-12-22          1  0.32941176     0
 Papa      4,000.00 5,400.33  2020-12-23  2020-12-25          3  1.75856581     0.032564   4.040821
 Papa       -500.00 4,902.09  2020-12-26  2020-12-28          3  5.26722255     0.107449  13.957899
 Papa        300.00 5,207.36  2020-12-29  2020-12-30          2  3.94419024     0.075743  14.817998
-TOTAL     5,211.30                                             11.29939037                        ''' + \
+TOTAL     5,200.00                                             11.29939037               10.460915
+G TOTAL  11,200.00                                             19.56000000
 '''
-G TOTAL  11,219.56                                             19.56000000                        '''
 
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
@@ -1566,19 +1551,17 @@ TOTAL  11,200.00 19.56000000  11219.560000'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                             ' + \
 '''
+        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 Béa       1,000.00 1,000.00  2020-12-22  2020-12-30          9  2.14087863     0.214088   9.060405
-TOTAL     1,002.14                                              2.14087863                        ''' + \
-'''
+TOTAL     1,000.00                                              2.14087863                9.060405
 JPS       2,000.00 2,000.00  2020-11-15  2020-12-21          0  0.00000000     0.000000   0.000000
 JPS        -300.00 1,700.00  2020-11-17  2020-12-21          0  0.00000000     0.000000   0.000000
 JPS         200.00 1,900.00  2020-11-19  2020-12-21          0  0.00000000     0.000000   0.000000
 JPS         100.00 2,000.00  2020-12-22  2020-12-27          6  2.32998750     0.116499   7.339788
 JPS       3,000.00 5,002.33  2020-12-28  2020-12-30          3  4.87601768     0.097475  12.584823
-TOTAL     5,007.21                                              7.20600518                        ''' + \
-'''
+TOTAL     5,000.00                                              7.20600518                9.074269
 Papa      2,000.00 2,000.00  2020-11-15  2020-12-21          0  0.00000000     0.000000   0.000000
 Papa       -300.00 1,700.00  2020-11-16  2020-12-21          0  0.00000000     0.000000   0.000000
 Papa       -200.00 1,500.00  2020-11-19  2020-12-21          0  0.00000000     0.000000   0.000000
@@ -1586,9 +1569,9 @@ Papa       -100.00 1,400.00  2020-12-22  2020-12-22          1  0.25454545     0
 Papa      4,000.00 5,400.25  2020-12-23  2020-12-25          3  1.54921120     0.028688   3.551451
 Papa       -500.00 4,901.80  2020-12-26  2020-12-28          3  4.64782822     0.094819  12.221918
 Papa        300.00 5,206.45  2020-12-29  2020-12-30          2  3.76153131     0.072248  14.088478
-TOTAL     5,210.21                                             10.21311619                        ''' + \
+TOTAL     5,200.00                                             10.21311619                9.099807
+G TOTAL  11,200.00                                             19.56000000
 '''
-G TOTAL  11,219.56                                             19.56000000                        '''
 
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
@@ -1671,20 +1654,18 @@ TOTAL  12,200.00 19.56000000  12219.560000'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                             ' + \
 '''
+        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 Béa       1,000.00 1,000.00  2020-12-22  2020-12-24          3  0.37588260     0.037588   4.678524
 Béa       1,000.00 2,000.38  2020-12-25  2020-12-30          6  3.19215570     0.159578  10.185940
-TOTAL     2,003.57                                              3.56803830                        ''' + \
-'''
+TOTAL     2,000.00                                              3.56803830                8.350135
 JPS       2,000.00 2,000.00  2020-11-15  2020-12-21          0  0.00000000     0.000000   0.000000
 JPS        -300.00 1,700.00  2020-11-17  2020-12-21          0  0.00000000     0.000000   0.000000
 JPS         200.00 1,900.00  2020-11-19  2020-12-21          0  0.00000000     0.000000   0.000000
 JPS         100.00 2,000.00  2020-12-22  2020-12-27          6  2.15381850     0.107691   6.766789
 JPS       3,000.00 5,002.15  2020-12-28  2020-12-30          3  4.47386605     0.089439  11.490429
-TOTAL     5,006.63                                              6.62768455                        ''' + \
-'''
+TOTAL     5,000.00                                              6.62768455                8.345735
 Papa      2,000.00 2,000.00  2020-11-15  2020-12-21          0  0.00000000     0.000000   0.000000
 Papa       -300.00 1,700.00  2020-11-16  2020-12-21          0  0.00000000     0.000000   0.000000
 Papa       -200.00 1,500.00  2020-11-19  2020-12-21          0  0.00000000     0.000000   0.000000
@@ -1692,9 +1673,9 @@ Papa       -100.00 1,400.00  2020-12-22  2020-12-22          1  0.25454545     0
 Papa      4,000.00 5,400.25  2020-12-23  2020-12-25          3  1.49588409     0.027700   3.427149
 Papa       -500.00 4,901.75  2020-12-26  2020-12-28          3  4.16070767     0.084882  10.874572
 Papa        300.00 5,205.91  2020-12-29  2020-12-30          2  3.45313994     0.066331  12.864093
-TOTAL     5,209.36                                              9.36427715                        ''' + \
+TOTAL     5,200.00                                              9.36427715                8.359906
+G TOTAL  12,200.00                                             19.56000000
 '''
-G TOTAL  12,219.56                                             19.56000000                        '''
 
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
@@ -1779,23 +1760,21 @@ TOTAL   9,900.00 19.56000000  9919.560000'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                             ' + \
 '''
+        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 JPS       2,000.00 2,000.00  2020-12-21  2020-12-21          0  0.00000000     0.000000   0.000000
 JPS         100.00 2,100.00  2020-12-22  2020-12-27          6  4.76269570     0.226795  14.775833
 JPS       3,000.00 5,104.76  2020-12-28  2020-12-30          3  6.03516170     0.118226  15.460326
-TOTAL     5,110.80                                             10.79785741                        ''' + \
-'''
+TOTAL     5,100.00                                             10.79785741               15.003998
 Papa      4,000.00 4,000.00  2020-12-25  2020-12-25          1  0.51127174     0.012782   4.775582
 Papa       -500.00 3,500.51  2020-12-26  2020-12-28          3  4.55534719     0.130134  17.143148
 Papa        300.00 3,805.07  2020-12-29  2020-12-30          2  3.28202797     0.086254  17.040048
-TOTAL     3,808.35                                              8.34864690                        ''' + \
-'''
+TOTAL     3,800.00                                              8.34864690               15.753251
 Zoé       1,000.00 1,000.00  2020-12-30  2020-12-30          1  0.41349569     0.041350  16.287424
-TOTAL     1,000.41                                              0.41349569                        ''' \
+TOTAL     1,000.00                                              0.41349569               15.753251
+G TOTAL   9,900.00                                             19.56000000
 '''
-G TOTAL   9,919.56                                             19.56000000                        '''
 
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
@@ -1879,23 +1858,21 @@ TOTAL   9,900.00 19.56000000  9919.560000'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                             ' + \
 '''
+        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 JPS       2,000.00 2,000.00  2020-12-21  2020-12-21          0  0.00000000     0.000000   0.000000
 JPS         100.00 2,100.00  2020-12-22  2020-12-27          6  4.76269570     0.226795  14.775833
 JPS       3,000.00 5,104.76  2020-12-28  2020-12-30          3  6.03516170     0.118226  15.460326
-TOTAL     5,110.80                                             10.79785741                        ''' + \
-'''
+TOTAL     5,100.00                                             10.79785741               15.003998
 Loan      1,000.00 1,000.00  2020-12-30  2020-12-30          1  0.41349569     0.041350  16.287424
-TOTAL     1,000.41                                              0.41349569                        ''' \
-'''
+TOTAL     1,000.00                                              0.41349569               15.003998
 Papa      4,000.00 4,000.00  2020-12-25  2020-12-25          1  0.51127174     0.012782   4.775582
 Papa       -500.00 3,500.51  2020-12-26  2020-12-28          3  4.55534719     0.130134  17.143148
 Papa        300.00 3,805.07  2020-12-29  2020-12-30          2  3.28202797     0.086254  17.040048
-TOTAL     3,808.35                                              8.34864690                        ''' + \
+TOTAL     3,800.00                                              8.34864690               15.753251
+G TOTAL   9,900.00                                             19.56000000
 '''
-G TOTAL   9,919.56                                             19.56000000                        '''
 
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
@@ -2011,23 +1988,21 @@ TOTAL   9,900.00 19.56000000  9919.560000'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                             ' + \
 '''
+        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 Béa       1,000.00 1,000.00  2020-12-30  2020-12-30          1  0.41349569     0.041350  16.287424
-TOTAL     1,000.41                                              0.41349569                        ''' \
-'''
+TOTAL     1,000.00                                              0.41349569               16.287424
 JPS       2,000.00 2,000.00  2020-12-21  2020-12-21          0  0.00000000     0.000000   0.000000
 JPS       3,000.00 5,000.00  2020-12-22  2020-12-29          8 10.07071415     0.201414   9.614869
 JPS         100.00 5,110.07  2020-12-30  2020-12-30          1  2.11299223     0.041350  16.287424
-TOTAL     5,112.18                                             12.18370638                        ''' + \
-'''
+TOTAL     5,100.00                                             12.18370638               10.949380
 Papa      4,000.00 4,000.00  2020-12-25  2020-12-25          1  0.34657309     0.008664   3.212876
 Papa       -500.00 3,500.35  2020-12-26  2020-12-29          4  5.04271275     0.144063  14.038179
 Papa        300.00 3,805.39  2020-12-30  2020-12-30          1  1.57351208     0.041350  16.287424
-TOTAL     3,806.96                                              6.96279792                        ''' + \
+TOTAL     3,800.00                                              6.96279792               12.128929
+G TOTAL   9,900.00                                             19.56000000
 '''
-G TOTAL   9,919.56                                             19.56000000                        '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
@@ -2143,23 +2118,21 @@ TOTAL   9,900.00 19.56000000  9919.560000'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                             ' + \
 '''
+        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 JPS       2,000.00 2,000.00  2020-12-21  2020-12-21          0  0.00000000     0.000000   0.000000
 JPS       3,000.00 5,000.00  2020-12-22  2020-12-29          8 10.07071415     0.201414   9.614869
 JPS         100.00 5,110.07  2020-12-30  2020-12-30          1  2.11299223     0.041350  16.287424
-TOTAL     5,112.18                                             12.18370638                        ''' + \
-'''
+TOTAL     5,100.00                                             12.18370638               10.356264
 Papa      4,000.00 4,000.00  2020-12-25  2020-12-25          1  0.34657309     0.008664   3.212876
 Papa       -500.00 3,500.35  2020-12-26  2020-12-29          4  5.04271275     0.144063  14.038179
 Papa        300.00 3,805.39  2020-12-30  2020-12-30          1  1.57351208     0.041350  16.287424
-TOTAL     3,806.96                                              6.96279792                        ''' + \
-'''
+TOTAL     3,800.00                                              6.96279792               11.831894
 Zoé       1,000.00 1,000.00  2020-12-30  2020-12-30          1  0.41349569     0.041350  16.287424
-TOTAL     1,000.41                                              0.41349569                        ''' \
+TOTAL     1,000.00                                              0.41349569               11.831894
+G TOTAL   9,900.00                                             19.56000000
 '''
-G TOTAL   9,919.56                                             19.56000000                        '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
@@ -2275,23 +2248,21 @@ TOTAL   9,900.00 19.56000000  9919.560000'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                             ' + \
 '''
+        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 JPS       2,000.00 2,000.00  2020-12-21  2020-12-21          0  0.00000000     0.000000   0.000000
 JPS       3,000.00 5,000.00  2020-12-22  2020-12-29          8 10.07071415     0.201414   9.614869
 JPS         100.00 5,110.07  2020-12-30  2020-12-30          1  2.11299223     0.041350  16.287424
-TOTAL     5,112.18                                             12.18370638                        ''' + \
-'''
+TOTAL     5,100.00                                             12.18370638               10.356264
 Loan      1,000.00 1,000.00  2020-12-30  2020-12-30          1  0.41349569     0.041350  16.287424
-TOTAL     1,000.41                                              0.41349569                        ''' + \
-'''
+TOTAL     1,000.00                                              0.41349569               10.356264
 Papa      4,000.00 4,000.00  2020-12-25  2020-12-25          1  0.34657309     0.008664   3.212876
 Papa       -500.00 3,500.35  2020-12-26  2020-12-29          4  5.04271275     0.144063  14.038179
 Papa        300.00 3,805.39  2020-12-30  2020-12-30          1  1.57351208     0.041350  16.287424
-TOTAL     3,806.96                                              6.96279792                        ''' + \
+TOTAL     3,800.00                                              6.96279792               11.831894
+G TOTAL   9,900.00                                             19.56000000
 '''
-G TOTAL   9,919.56                                             19.56000000                        '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
@@ -2527,23 +2498,21 @@ TOTAL   9,900.00 19.56000000  9919.560000'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                             ' + \
 '''
+        DEP/WITHDR  CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 Béa       1,000.00 1,000.00  2020-12-30  2020-12-30          1  0.41349569     0.041350  16.287424
-TOTAL     1,000.41                                              0.41349569                        ''' + \
-'''
+TOTAL     1,000.00                                              0.41349569               16.287424
 JPS       2,000.00 2,000.00  2020-12-21  2020-12-21          0  0.00000000     0.000000   0.000000
 JPS         100.00 2,100.00  2020-12-22  2020-12-27          6  3.26625000     0.155536   9.915758
 JPS       3,000.00 5,103.27  2020-12-28  2020-12-30          3  6.03339252     0.118226  15.460326
-TOTAL     5,109.30                                              9.29964252                        ''' + \
-'''
+TOTAL     5,100.00                                              9.29964252               12.216295
 Papa      4,000.00 4,000.00  2020-12-21  2020-12-21          0  0.00000000     0.000000   0.000000
 Papa       -500.00 3,500.00  2020-12-22  2020-12-28          7  6.56354266     0.187530  10.262292
 Papa        300.00 3,806.56  2020-12-29  2020-12-30          2  3.28331913     0.086254  17.040048
-TOTAL     3,809.85                                              9.84686179                        ''' + \
+TOTAL     3,800.00                                              9.84686179               12.004163
+G TOTAL   9,900.00                                             19.56000000
 '''
-G TOTAL   9,919.56                                             19.56000000                        '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
@@ -2623,8 +2592,7 @@ TOTAL  19,571.69 87.39209000  19659.08209'''
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
-
-		DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
 OWNER
 JPS      19,571.69 19,571.69  2020-12-22  2020-12-31         10 87.39209000     0.446523  17.658725
 TOTAL    19,571.69                                              87.39209000               17.658725
@@ -2743,8 +2711,7 @@ TOTAL  19,571.69 87.39209000  19659.082090'''
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
-
-		DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
 OWNER
 JPS       4,975.64  4,975.64  2020-12-22  2020-12-31         10 22.21737513     0.446523  17.658725
 TOTAL     4,975.64                                              22.21737513               17.658725
@@ -2865,8 +2832,7 @@ TOTAL  19,571.69 86.32182439  19658.011824'''
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
-
-		DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT      YIELD AMT %         Y YIELD %
+        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT      YIELD AMT %         Y YIELD %
 OWNER
 JPS       2,742.27  2,742.27  2020-12-22  2020-12-22          1  1.31418490 0.04792324971508 19.11008472302236
 JPS       2,233.37  4,976.95  2020-12-23  2020-12-31          9 19.82971609 0.39843075403525 17.49960131498618
@@ -3080,13 +3046,13 @@ TOTAL  19,571.69 45.77968601  19617.469686'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                              ' + \
 '''
+        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 JPS      19,571.69 19,571.69  2021-01-01  2021-01-05          5 45.77968601     0.233908  18.596076
-TOTAL    19,617.47                                              45.77968601                        ''' + \
+TOTAL    19,571.69                                              45.77968601               18.596076
+G TOTAL  19,571.69                                              45.77968601
 '''
-G TOTAL  19,617.47                                              45.77968601                        '''
 
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
@@ -3162,13 +3128,13 @@ TOTAL  19,571.69 45.77968601  19617.469686'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                              ' + \
 '''
+        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 JPS      19,571.69 19,571.69  2021-01-01  2021-01-05          5 45.77968601     0.233908  18.596076
-TOTAL    19,617.47                                              45.77968601                        ''' + \
+TOTAL    19,571.69                                              45.77968601               18.596076
+G TOTAL  19,571.69                                              45.77968601
 '''
-G TOTAL  19,617.47                                              45.77968601                        '''
 
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
@@ -3243,13 +3209,13 @@ TOTAL  19,571.69 31.89463211987095  19603.584632'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS         YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                                    ' + \
 '''
+        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS         YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 JPS      19,571.69 19,571.69  2021-01-03  2021-01-05          3 31.89463211987095     0.162963  21.909696
-TOTAL    19,603.58                                              31.89463211987095                        ''' + \
+TOTAL    19,571.69                                              31.89463211987095               21.909696
+G TOTAL  19,571.69                                              31.89463211987095
 '''
-G TOTAL  19,603.58                                              31.89463211987095                        '''
 
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
@@ -3324,13 +3290,13 @@ TOTAL  10,000.00 4.10938248077946  10004.109382'''
 				DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: '.14f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS        YIELD AMT      YIELD AMT %         Y YIELD %\n' + \
-'OWNER                                                                                                              ' + \
 '''
+        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS        YIELD AMT      YIELD AMT %         Y YIELD %
+OWNER
 JPS      10,000.00 10,000.00  2021-01-05  2021-01-05          1 4.10938248077946 0.04109382480779 16.17896874362914
-TOTAL    10,004.11                                              4.10938248077946                                   ''' + \
+TOTAL    10,000.00                                              4.10938248077946                  16.17896874362914
+G TOTAL  10,000.00                                              4.10938248077946
 '''
-G TOTAL  10,004.11                                              4.10938248077946                                   '''
 
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
@@ -3405,14 +3371,14 @@ TOTAL  24,571.69 63.42440740948223  24635.114407'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS         YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                                    ' + \
 '''
+        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS         YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 JPS      19,571.69 19,571.69  2021-01-01  2021-01-01          1 10.98076808766564     0.056105  22.719019
 JPS       5,000.00 24,582.67  2021-01-02  2021-01-05          4 52.44363932181659     0.213336  21.465680
-TOTAL    24,635.11                                              63.42440740948223                        ''' + \
+TOTAL    24,571.69                                              63.42440740948223               21.716348
+G TOTAL  24,571.69                                              63.42440740948223
 '''
-G TOTAL  24,635.11                                              63.42440740948223                        '''
 
 		if PRINT:
 			print(yieldOwnerWithTotalsDetailDfActualStr)
@@ -3494,11 +3460,12 @@ TOTAL       40061.605701 61.60570083155650                                  '''
 				DATAFRAME_HEADER_DEPOSIT_WITHDRAW: '.2f',
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 		yieldOwnerWithTotalsSummaryDfExpectedStr = \
-'      DEP/WITHDR         YIELD AMT         TOTAL\n' + \
-'OWNER                                           ' + \
 '''
+      DEP/WITHDR         YIELD AMT         TOTAL
+OWNER
 JPS    40,000.00 61.60570083155653  40061.605701
-TOTAL  40,000.00 61.60570083155653  40061.605701'''
+TOTAL  40,000.00 61.60570083155653  40061.605701
+'''
 
 		if PRINT:
 			print('\nOwner summary deposit/withdrawal yield totals ...')
@@ -3519,15 +3486,15 @@ TOTAL  40,000.00 61.60570083155653  40061.605701'''
 				DEPOSIT_YIELD_HEADER_YEARLY_YIELD_PERCENT: '.14f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS         YIELD AMT      YIELD AMT %         Y YIELD %\n' + \
-'OWNER                                                                                                               ' + \
 '''
+        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS         YIELD AMT      YIELD AMT %         Y YIELD %
+OWNER
 JPS      10,000.00 10,000.00  2021-01-01  2021-01-01          1  4.36774838756355 0.04367748387564 17.27929141900555
 JPS       5,000.00 15,004.37  2021-01-02  2021-01-03          2 15.59129905444206 0.10391173634169 20.86940249219460
 JPS      25,000.00 40,019.96  2021-01-04  2021-01-05          2 41.64665338955092 0.10406470766295 20.90311557299003
-TOTAL    40,061.61                                              61.60570083155653                                   ''' + \
+TOTAL    40,000.00                                              61.60570083155653                  20.16486550987496
+G TOTAL  40,000.00                                              61.60570083155653
 '''
-G TOTAL  40,061.61                                              61.60570083155653                                   '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
@@ -3628,14 +3595,14 @@ TOTAL  10,000.00 39.78003617  10039.780036'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                              ' + \
 '''
+        DEP/WITHDR   CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 JPS      20,000.00 20,000.00  2021-01-01  2021-01-03          3 28.95921503     0.144796  19.248711
 JPS     -10,000.00 10,028.96  2021-01-04  2021-01-05          2 10.82082114     0.107896  21.750490
-TOTAL    10,039.78                                              39.78003617                        ''' + \
+TOTAL    10,000.00                                              39.78003617               20.249423
+G TOTAL  10,000.00                                              39.78003617
 '''
-G TOTAL  10,039.78                                              39.78003617                        '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
@@ -3738,14 +3705,14 @@ TOTAL     -15.00 31.30688161336618  16.306882'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'        DEP/WITHDR               CAPITAL        FROM          TO YIELD DAYS         YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                                                ' + \
 '''
+        DEP/WITHDR               CAPITAL        FROM          TO YIELD DAYS         YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 JPS      20,000.00 20,000.00000000000000  2021-01-01  2021-01-03          3 31.28762415644087     0.156438  20.947251
 JPS     -20,015.00     16.28762415644087  2021-01-04  2021-01-05          2  0.01925745692531     0.118234  24.066683
-TOTAL        16.31                                                          31.30688161336618                        ''' + \
+TOTAL       -15.00                                                          31.30688161336618               22.195024
+G TOTAL     -15.00                                                          31.30688161336618
 '''
-G TOTAL      16.31                                                          31.30688161336618                        '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
@@ -3847,14 +3814,14 @@ TOTAL 10,000.00000000 45.01718234  10045.017182'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.8f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'              DEP/WITHDR         CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                                          ' + \
 '''
-JPS      20,000.00000000 20,000.00000000  2021-01-01  2021-01-03          3 29.99313411     0.149966   20.00000
-JPS     -10,000.00000000 10,029.99313411  2021-01-04  2021-01-05          2 15.02404823     0.149791   31.41163
-TOTAL    10,045.01718234                                                    45.01718234                        ''' + \
+              DEP/WITHDR         CAPITAL        FROM          TO YIELD DAYS   YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
+JPS      20,000.00000000 20,000.00000000  2021-01-01  2021-01-03          3 29.99313411     0.149966  20.000000
+JPS     -10,000.00000000 10,029.99313411  2021-01-04  2021-01-05          2 15.02404823     0.149791  31.411630
+TOTAL    10,000.00000000                                                    45.01718234               24.564652
+G TOTAL  10,000.00000000                                                    45.01718234
 '''
-G TOTAL  10,045.01718234                                                    45.01718234                        '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
@@ -3963,14 +3930,14 @@ TOTAL -20.00000000 30.00312496076544 10.00312496'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'              DEP/WITHDR               CAPITAL        FROM          TO YIELD DAYS         YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                                                      ' + \
 '''
+              DEP/WITHDR               CAPITAL        FROM          TO YIELD DAYS         YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 JPS      20,000.00000000 20,000.00000000000000  2021-01-01  2021-01-03          3 29.99313411329422     0.149966  20.000000
 JPS     -20,020.00000000      9.99313411329422  2021-01-04  2021-01-05          2  0.00999084747122     0.099977  20.005464
-TOTAL        10.00312496                                                          30.00312496076544                        ''' + \
+TOTAL       -20.00000000                                                          30.00312496076544               20.002186
+G TOTAL     -20.00000000                                                          30.00312496076544
 '''
-G TOTAL      10.00312496                                                          30.00312496076544                        '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
@@ -4075,14 +4042,14 @@ TOTAL -1.00000000 2.00200099999975  1.002001'''
 				DEPOSIT_YIELD_HEADER_YIELD_AMOUNT: '.14f'})
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
-'             DEP/WITHDR              CAPITAL        FROM          TO YIELD DAYS        YIELD AMT  YIELD AMT %  Y YIELD %\n' + \
-'OWNER                                                                                                                   ' + \
 '''
+             DEP/WITHDR              CAPITAL        FROM          TO YIELD DAYS        YIELD AMT  YIELD AMT %  Y YIELD %
+OWNER
 JPS      1,000.00000000 1,000.00000000000000  2021-01-01  2021-01-02          2 2.00099999999975       0.2001  44.025131
 JPS     -1,001.00000000     1.00099999999975  2021-01-03  2021-01-03          1 0.00100100000000       0.1000  44.025131
-TOTAL        1.00200100                                                         2.00200099999975                        ''' + \
+TOTAL       -1.00000000                                                         2.00200099999975               44.025131
+G TOTAL     -1.00000000                                                         2.00200099999975
 '''
-G TOTAL      1.00200100                                                         2.00200099999975                        '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
