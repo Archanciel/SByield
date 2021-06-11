@@ -8,8 +8,8 @@ sys.path.insert(0,parentdir)
 sys.path.insert(0,currentdir) # this instruction is necessary for successful importation of utilityfortest module when
 							  # the test is executed standalone
 
+from utilityfortest import UtilityForTest
 from cryptofiatratecomputer import CryptoFiatRateComputer
-from pricerequester import PriceRequester
 from pricerequesterteststub import PriceRequesterTestStub
 from processor import *
 
@@ -162,35 +162,29 @@ TOTAL                                  255.96400000'''
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
-                                                              DÉPÔTS  /  RETRAITS                                                                                                                                                                                
-                                 MONTANT  DAT DÉP   DAT ACT VAL DAT DÉP   VAL ACT  VAL ACT   VAL ACT PLUS-VAL        VAL DAT DÉP  VAL ACT    VAL ACT     VAL ACT PLUS-VAL         JOURS    INT                 MONTANT INTÉRÊTS EN USD   MONTANT INTÉRÊTS EN CHF 
+                                                              DÉPÔTS  /  RETRAITS
+                                 MONTANT  DAT DÉP   DAT ACT VAL DAT DÉP   VAL ACT  VAL ACT   VAL ACT PLUS-VAL        VAL DAT DÉP  VAL ACT    VAL ACT     VAL ACT PLUS-VAL         JOURS    INT                 MONTANT INTÉRÊTS EN USD   MONTANT INTÉRÊTS EN CHF
                  DE           A     CHSB CHSB/USD  CHSB/USD         USD       USD  INT USD   TOT USD  CAP USD   EN %         CHF      CHF    INT CHF     TOT CHF  CAP CHF   EN %    INT   CHSB EN %  % ANNUEL PAR JOUR PAR MOIS  PAR AN PAR JOUR PAR MOIS  PAR AN
-PROPR                                                                                                                                                                                                                                                            
-JPS      2021-01-30  2021-02-18  4422.80     0.56      1.70     2479.76   7518.77    25.07   7543.84  5039.01 203.21     2212.10  6634.20      22.12     6656.33  4422.10 199.91     20  14.75 0.33      6.26                                                    
-JPS      2021-02-19  2021-03-07   511.33     0.89      1.70      456.60    869.26    21.78   8434.88   412.66  90.38      408.04   767.00      19.22     7442.54   358.95  87.97     17  12.81 0.26      5.71                                                    
-JPS      2021-03-08  2021-03-10  2047.89     1.17      1.70     2401.13   3481.41     4.51  11920.80  1080.28  44.99     2239.89  3071.84       3.98    10518.36   831.95  37.14      3   2.66 0.04      4.72                                                    
-JPS      2021-03-11  2021-04-08   300.48     1.43      1.70      430.55    510.82    46.35  12477.97    80.27  18.64      397.92   450.72      40.89    11009.97    52.80  13.27     29  27.26 0.37      4.79                                                    
+PROPR
+JPS      2021-01-30  2021-02-18  4422.80     0.56      1.70     2479.76   7518.77    25.07   7543.84  5039.01 203.21     2212.10  6634.20      22.12     6656.33  4422.10 199.91     20  14.75 0.33      6.26
+JPS      2021-02-19  2021-03-07   511.33     0.89      1.70      456.60    869.26    21.78   8434.88   412.66  90.38      408.04   767.00      19.22     7442.54   358.95  87.97     17  12.81 0.26      5.71
+JPS      2021-03-08  2021-03-10  2047.89     1.17      1.70     2401.13   3481.41     4.51  11920.80  1080.28  44.99     2239.89  3071.84       3.98    10518.36   831.95  37.14      3   2.66 0.04      4.72
+JPS      2021-03-11  2021-04-08   300.48     1.43      1.70      430.55    510.82    46.35  12477.97    80.27  18.64      397.92   450.72      40.89    11009.97    52.80  13.27     29  27.26 0.37      4.79
 TOTAL                            7282.50                        5768.04  12380.26    97.71  12477.97  6612.22 114.64     5257.95 10923.75      86.21    11009.97  5665.80 107.76         57.48           5.44     1.81    54.47  679.06     1.60    48.06  599.17
-Papa     2021-01-30  2021-03-06 15941.63     0.56      1.70     8938.09  27100.76   157.19  27257.95 18162.67 203.21     7973.32 23912.44     138.69    24051.13 15939.12 199.91     36  92.46 0.58      6.04                                                    
-Papa     2021-03-07  2021-04-08  8973.34     1.16      1.70    10421.37  15254.68   180.24  42692.87  4833.31  46.38     9712.37 13460.01     159.04    37670.18  3747.64  38.59     33 106.02 0.42      4.79                                                    
+Papa     2021-01-30  2021-03-06 15941.63     0.56      1.70     8938.09  27100.76   157.19  27257.95 18162.67 203.21     7973.32 23912.44     138.69    24051.13 15939.12 199.91     36  92.46 0.58      6.04
+Papa     2021-03-07  2021-04-08  8973.34     1.16      1.70    10421.37  15254.68   180.24  42692.87  4833.31  46.38     9712.37 13460.01     159.04    37670.18  3747.64  38.59     33 106.02 0.42      4.79
 TOTAL                           24914.97                       19359.46  42355.44   337.43  42692.87 22995.98 118.78    17685.69 37372.45     297.73    37670.18 19686.76 111.31        198.49           5.23     5.96   179.30 2233.41     5.26   158.21 1970.66
-G TOTAL                         32197.47                                 54735.70   435.14  55170.84                             48296.20     383.95    48680.15                        255.96                                                                   
+G TOTAL                         32197.47                       25127.50  54735.70   435.14  55170.84 29608.20           22943.64 48296.20     383.95    48680.15 25352.56               255.96
 '''
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAddFiatConversionInfo_CHSB_2_fiats_2_owners(self):
 		"""
 		Two owners, two fiats, default english language.
@@ -310,35 +304,29 @@ TOTAL                                  255.96400000'''
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
-                                                            DEPOSITS   /   WITHDRAWALS                                                                                                                                                                            
-                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE  CUR RATE   CUR RATE CAP GAIN        DEP RATE CUR RATE    CUR RATE     CUR RATE CAP GAIN        DAYS    INT              AMOUNT INTERESTS IN USD   AMOUNT INTERESTS IN CHF 
+                                                            DEPOSITS   /   WITHDRAWALS
+                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE  CUR RATE   CUR RATE CAP GAIN        DEP RATE CUR RATE    CUR RATE     CUR RATE CAP GAIN        DAYS    INT              AMOUNT INTERESTS IN USD   AMOUNT INTERESTS IN CHF
                FROM          TO     CHSB CHSB/USD  CHSB/USD          USD           USD   YLD USD    TOT USD ONLY USD   IN %      CHF      CHF     YLD CHF      TOT CHF ONLY CHF   IN %  INT   CHSB IN % YRLY % PER DAY PER MONTH  PER YR PER DAY PER MONTH  PER YR
-OWNER                                                                                                                                                                                                                                                             
-JPS      2021-01-30  2021-02-18  4422.80     0.56      1.70      2479.76       7518.77     25.07    7543.84  5039.01 203.21  2212.10  6634.20       22.12      6656.33  4422.10 199.91   20  14.75 0.33   6.26                                                    
-JPS      2021-02-19  2021-03-07   511.33     0.89      1.70       456.60        869.26     21.78    8434.88   412.66  90.38   408.04   767.00       19.22      7442.54   358.95  87.97   17  12.81 0.26   5.71                                                    
-JPS      2021-03-08  2021-03-10  2047.89     1.17      1.70      2401.13       3481.41      4.51   11920.80  1080.28  44.99  2239.89  3071.84        3.98     10518.36   831.95  37.14    3   2.66 0.04   4.72                                                    
-JPS      2021-03-11  2021-04-08   300.48     1.43      1.70       430.55        510.82     46.35   12477.97    80.27  18.64   397.92   450.72       40.89     11009.97    52.80  13.27   29  27.26 0.37   4.79                                                    
+OWNER
+JPS      2021-01-30  2021-02-18  4422.80     0.56      1.70      2479.76       7518.77     25.07    7543.84  5039.01 203.21  2212.10  6634.20       22.12      6656.33  4422.10 199.91   20  14.75 0.33   6.26
+JPS      2021-02-19  2021-03-07   511.33     0.89      1.70       456.60        869.26     21.78    8434.88   412.66  90.38   408.04   767.00       19.22      7442.54   358.95  87.97   17  12.81 0.26   5.71
+JPS      2021-03-08  2021-03-10  2047.89     1.17      1.70      2401.13       3481.41      4.51   11920.80  1080.28  44.99  2239.89  3071.84        3.98     10518.36   831.95  37.14    3   2.66 0.04   4.72
+JPS      2021-03-11  2021-04-08   300.48     1.43      1.70       430.55        510.82     46.35   12477.97    80.27  18.64   397.92   450.72       40.89     11009.97    52.80  13.27   29  27.26 0.37   4.79
 TOTAL                            7282.50                         5768.04      12380.26     97.71   12477.97  6612.22 114.64  5257.95 10923.75       86.21     11009.97  5665.80 107.76       57.48        5.44    1.81     54.47  679.06    1.60     48.06  599.17
-Papa     2021-01-30  2021-03-06 15941.63     0.56      1.70      8938.09      27100.76    157.19   27257.95 18162.67 203.21  7973.32 23912.44      138.69     24051.13 15939.12 199.91   36  92.46 0.58   6.04                                                    
-Papa     2021-03-07  2021-04-08  8973.34     1.16      1.70     10421.37      15254.68    180.24   42692.87  4833.31  46.38  9712.37 13460.01      159.04     37670.18  3747.64  38.59   33 106.02 0.42   4.79                                                    
+Papa     2021-01-30  2021-03-06 15941.63     0.56      1.70      8938.09      27100.76    157.19   27257.95 18162.67 203.21  7973.32 23912.44      138.69     24051.13 15939.12 199.91   36  92.46 0.58   6.04
+Papa     2021-03-07  2021-04-08  8973.34     1.16      1.70     10421.37      15254.68    180.24   42692.87  4833.31  46.38  9712.37 13460.01      159.04     37670.18  3747.64  38.59   33 106.02 0.42   4.79
 TOTAL                           24914.97                        19359.46      42355.44    337.43   42692.87 22995.98 118.78 17685.69 37372.45      297.73     37670.18 19686.76 111.31      198.49        5.23    5.96    179.30 2233.41    5.26    158.21 1970.66
-G TOTAL                         32197.47                                      54735.70    435.14   55170.84                          48296.20      383.95     48680.15                      255.96                                                                
+G TOTAL                         32197.47                        25127.50      54735.70    435.14   55170.84 29608.20        22943.64 48296.20      383.95     48680.15 25352.56             255.96
 '''
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAddFiatConversionInfo_USDC_1_fiat_4_owners(self):
 		"""
 		Four owners, one fiat, real Swiaaborg data, default english language.
@@ -623,37 +611,31 @@ TOTAL        4556.557443  638.137443                            '''
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
-                                                             DEPOSITS   /   WITHDRAWALS                                                                                       
-                                   AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE  CAP GAIN         DAYS    INT              AMOUNT INTERESTS IN CHF 
+                                                             DEPOSITS   /   WITHDRAWALS
+                                   AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE  CAP GAIN         DAYS    INT              AMOUNT INTERESTS IN CHF
                FROM          TO      USDC USDC/USD  USDC/USD          CHF           CHF  YLD CHF   TOT CHF  ONLY CHF    IN %  INT   USDC IN % YRLY % PER DAY PER MONTH  PER YR
-OWNER                                                                                                                                                                         
-Béa      2021-02-20  2021-02-20   4428.94     1.02      1.00      3999.10       4032.55     2.15   4034.70     33.45    0.84    1   2.36 0.05  21.51                          
-Béa      2021-02-21  2021-04-08      1.00     1.04      1.00         0.90          0.91    95.50   4131.12      0.01    0.84   47 104.89 2.37  19.92                          
+OWNER
+Béa      2021-02-20  2021-02-20   4428.94     1.02      1.00      3999.10       4032.55     2.15   4034.70     33.45    0.84    1   2.36 0.05  21.51
+Béa      2021-02-21  2021-04-08      1.00     1.04      1.00         0.90          0.91    95.50   4131.12      0.01    0.84   47 104.89 2.37  19.92
 TOTAL                             4429.94                         4000.00       4033.46    97.66   4131.12     33.46    0.84      107.26       19.95    2.06     62.23  824.22
-JPS      2020-12-22  2021-02-10   4975.64     0.99      1.00      4379.47       4530.32   122.75   4653.07    150.85    3.44   51 134.82 2.71  21.09                          
-JPS      2021-02-11  2021-04-08  -5105.68    -1.00      1.00      4563.05      -4648.72     0.13      4.48  -9211.77  201.88   57   0.14 3.00  20.85                          
+JPS      2020-12-22  2021-02-10   4975.64     0.99      1.00      4379.47       4530.32   122.75   4653.07    150.85    3.44   51 134.82 2.71  21.09
+JPS      2021-02-11  2021-04-08  -5105.68    -1.00      1.00      4563.05      -4648.72     0.13      4.48  -9211.77  201.88   57   0.14 3.00  20.85
 TOTAL                             -130.04                         8942.52       -118.40   122.88      4.48  -9060.92 -101.32      134.96       20.44    0.00      0.07    0.92
-Papa     2020-12-22  2021-02-10  14596.05     0.99      1.00     12854.78      13289.70   360.10  13649.80    434.92    3.38   51 395.50 2.71  21.09                          
-Papa     2021-02-11  2021-04-08 -14977.53    -1.00      1.00     13393.61     -13637.04     0.38     13.15 -27030.65  201.82   57   0.42 3.00  20.85                          
+Papa     2020-12-22  2021-02-10  14596.05     0.99      1.00     12854.78      13289.70   360.10  13649.80    434.92    3.38   51 395.50 2.71  21.09
+Papa     2021-02-11  2021-04-08 -14977.53    -1.00      1.00     13393.61     -13637.04     0.38     13.15 -27030.65  201.82   57   0.42 3.00  20.85
 TOTAL                             -381.48                        26248.39       -347.34   360.48     13.15 -26595.73 -101.32      395.92       20.58    0.01      0.20    2.71
-G TOTAL                           3918.42                                       3567.72   581.02   4148.75                        638.14                                      
+G TOTAL                           3918.42                        39190.91       3567.72   581.02   4148.75 -35623.19              638.14
 '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAddFiatConversionInfo_1_fiat_simple_values_2_owners(self):
 		"""
 		CHSB crypto, 2 owners, 1 with 1 withdrawal, fixed yield rate,
@@ -1067,36 +1049,30 @@ TOTAL                                  2,631.86967354'''
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
-                                                            DEPOSITS   /   WITHDRAWALS                                                                                       
-                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS     INT               AMOUNT INTERESTS IN CHF 
+                                                            DEPOSITS   /   WITHDRAWALS
+                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS     INT               AMOUNT INTERESTS IN CHF
                FROM          TO     CHSB CHSB/USD  CHSB/USD          CHF           CHF  YLD CHF   TOT CHF ONLY CHF   IN %  INT    CHSB  IN % YRLY % PER DAY PER MONTH  PER YR
-OWNER                                                                                                                                                                        
-JPS      2021-01-01  2021-01-04 10000.00     0.56      1.70      5000.00      15000.00    15.68  15015.68 10000.00 200.00    4   10.45  0.10  10.00                          
-JPS      2021-01-05  2021-01-05 10000.00     1.13      1.70     10000.00      15000.00     7.84  30023.51  5000.00  50.00    1    5.23  0.03  10.00                          
-JPS      2021-01-06  2021-01-09  1000.00     2.27      1.70      2000.00       1500.00    37.06  31560.57  -500.00 -25.00    4   24.71  0.12  11.32                          
-JPS      2021-01-10  2021-12-31  -500.00     1.12      1.70      -500.00       -750.00  3384.82  34195.39  -250.00 -50.00  356 2256.55 10.99  11.28                          
+OWNER
+JPS      2021-01-01  2021-01-04 10000.00     0.56      1.70      5000.00      15000.00    15.68  15015.68 10000.00 200.00    4   10.45  0.10  10.00
+JPS      2021-01-05  2021-01-05 10000.00     1.13      1.70     10000.00      15000.00     7.84  30023.51  5000.00  50.00    1    5.23  0.03  10.00
+JPS      2021-01-06  2021-01-09  1000.00     2.27      1.70      2000.00       1500.00    37.06  31560.57  -500.00 -25.00    4   24.71  0.12  11.32
+JPS      2021-01-10  2021-12-31  -500.00     1.12      1.70      -500.00       -750.00  3384.82  34195.39  -250.00 -50.00  356 2256.55 10.99  11.28
 TOTAL                           20500.00                        16500.00      30750.00  3445.39  34195.39 14250.00  86.36      2296.93        11.26   10.00    301.25 3850.96
-Papa     2021-01-01  2021-01-05  1000.00     0.56      1.70       500.00       1500.00     1.96   1501.96  1000.00 200.00    5    1.31  0.13  10.00                          
-Papa     2021-01-06  2021-12-31  2000.00     2.27      1.70      4000.00       3000.00   500.45   5002.41 -1000.00 -25.00  360  333.64 11.12  11.28                          
+Papa     2021-01-01  2021-01-05  1000.00     0.56      1.70       500.00       1500.00     1.96   1501.96  1000.00 200.00    5    1.31  0.13  10.00
+Papa     2021-01-06  2021-12-31  2000.00     2.27      1.70      4000.00       3000.00   500.45   5002.41 -1000.00 -25.00  360  333.64 11.12  11.28
 TOTAL                            3000.00                         4500.00       4500.00   502.41   5002.41     0.00   0.00       334.94        11.27    1.46     44.10  563.79
-G TOTAL                         23500.00                                      35250.00  3947.80  39197.80                      2631.87                                       
+G TOTAL                         23500.00                        21000.00      35250.00  3947.80  39197.80 14250.00             2631.87
 '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAddFiatConversionInfo_1_fiat_simple_values_2_owners_1_deposit(self):
 		"""
 		CHSB crypto, 2 owners with 1 deposit, fixed yield rate,
@@ -1510,32 +1486,26 @@ TOTAL                                  365.09532262'''
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
-                                                            DEPOSITS   /   WITHDRAWALS                                                                                     
-                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS    INT              AMOUNT INTERESTS IN CHF 
+                                                            DEPOSITS   /   WITHDRAWALS
+                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS    INT              AMOUNT INTERESTS IN CHF
                FROM          TO     CHSB CHSB/USD  CHSB/USD          CHF           CHF  YLD CHF   TOT CHF ONLY CHF   IN %  INT   CHSB IN % YRLY % PER DAY PER MONTH  PER YR
-OWNER                                                                                                                                                                      
-JPS      2021-01-01  2021-12-31  9000.00     0.56      1.70      4500.00      13500.00   492.88  13992.88  9000.00 200.00  365 328.59 3.65   3.65                          
+OWNER
+JPS      2021-01-01  2021-12-31  9000.00     0.56      1.70      4500.00      13500.00   492.88  13992.88  9000.00 200.00  365 328.59 3.65   3.65
 TOTAL                            9000.00                         4500.00      13500.00   492.88  13992.88  9000.00 200.00      328.59        3.65    1.37     41.30  510.87
-Papa     2021-01-01  2021-12-31  1000.00     0.56      1.70       500.00       1500.00    54.76   1554.76  1000.00 200.00  365  36.51 3.65   3.65                          
+Papa     2021-01-01  2021-12-31  1000.00     0.56      1.70       500.00       1500.00    54.76   1554.76  1000.00 200.00  365  36.51 3.65   3.65
 TOTAL                            1000.00                          500.00       1500.00    54.76   1554.76  1000.00 200.00       36.51        3.65    0.15      4.59   56.76
-G TOTAL                         10000.00                                      15000.00   547.64  15547.64                      365.10                                      
+G TOTAL                         10000.00                         5000.00      15000.00   547.64  15547.64 10000.00             365.10
 '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAddFiatConversionInfo_1_fiat_simple_values_3_owners_1_deposit(self):
 		"""
 		CHSB crypto, 3 owners with 1 deposit, fixed yield rate,
@@ -1960,29 +1930,23 @@ TOTAL                                  365.09532262
 		else:
 			yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
-                                                            DEPOSITS   /   WITHDRAWALS                                                                                     
-                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS    INT              AMOUNT INTERESTS IN CHF 
+                                                            DEPOSITS   /   WITHDRAWALS
+                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS    INT              AMOUNT INTERESTS IN CHF
                FROM          TO     CHSB CHSB/USD  CHSB/USD          CHF           CHF  YLD CHF   TOT CHF ONLY CHF   IN %  INT   CHSB IN % YRLY % PER DAY PER MONTH  PER YR
-OWNER                                                                                                                                                                      
-Béa      2021-01-01  2021-12-31   800.00     0.51      1.70       360.00       1200.00    40.57   1240.57   840.00 233.33  365  27.04 3.38   3.38                          
+OWNER
+Béa      2021-01-01  2021-12-31   800.00     0.51      1.70       360.00       1200.00    40.57   1240.57   840.00 233.33  365  27.04 3.38   3.38
 TOTAL                             800.00                          360.00       1200.00    40.57   1240.57   840.00 233.33       27.04        3.38    0.11      3.39   41.94
-JPS      2021-01-01  2021-12-31  9000.00     0.51      1.70      4100.00      13500.00   456.37  13956.37  9400.00 229.27  365 304.25 3.38   3.38                          
+JPS      2021-01-01  2021-12-31  9000.00     0.51      1.70      4100.00      13500.00   456.37  13956.37  9400.00 229.27  365 304.25 3.38   3.38
 TOTAL                            9000.00                         4100.00      13500.00   456.37  13956.37  9400.00 229.27      304.25        3.38    1.27     38.19  471.80
-Papa     2021-01-01  2021-12-31  1000.00     0.56      1.70       500.00       1500.00    50.71   1550.71  1000.00 200.00  365  33.81 3.38   3.38                          
+Papa     2021-01-01  2021-12-31  1000.00     0.56      1.70       500.00       1500.00    50.71   1550.71  1000.00 200.00  365  33.81 3.38   3.38
 TOTAL                            1000.00                          500.00       1500.00    50.71   1550.71  1000.00 200.00       33.81        3.38    0.14      4.24   52.42
-G TOTAL                         10800.00                                      16200.00   547.64  16747.64                      365.10                                      
+G TOTAL                         10800.00                         4960.00      16200.00   547.64  16747.64 11240.00             365.10
 '''
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAddFiatConversionInfo_1_fiat_simple_values_3_owners_1_and_2_deposit(self):
 		"""
 		CHSB crypto, 2 owners with 1 deposit, 1 owner with 2 deposits,
@@ -2407,30 +2371,24 @@ TOTAL                                  365.09532262
 		else:
 			yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
-                                                            DEPOSITS   /   WITHDRAWALS                                                                                     
-                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS    INT              AMOUNT INTERESTS IN CHF 
+                                                            DEPOSITS   /   WITHDRAWALS
+                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS    INT              AMOUNT INTERESTS IN CHF
                FROM          TO     CHSB CHSB/USD  CHSB/USD          CHF           CHF  YLD CHF   TOT CHF ONLY CHF   IN %  INT   CHSB IN % YRLY % PER DAY PER MONTH  PER YR
-OWNER                                                                                                                                                                      
-Béa      2021-01-01  2021-12-31   800.00     0.51      1.70       360.00       1200.00    40.58   1240.58   840.00 233.33  365  27.05 3.38   3.38                          
+OWNER
+Béa      2021-01-01  2021-12-31   800.00     0.51      1.70       360.00       1200.00    40.58   1240.58   840.00 233.33  365  27.05 3.38   3.38
 TOTAL                             800.00                          360.00       1200.00    40.58   1240.58   840.00 233.33       27.05        3.38    0.11      3.40   41.95
-JPS      2021-01-01  2021-01-01  8000.00     0.51      1.70      3650.00      12000.00     1.22  12001.22  8350.00 228.77    1   0.82 0.01   3.80                          
-JPS      2021-01-02  2021-12-31  1000.00     0.51      1.70       450.00       1500.00   455.12  13956.34  1050.00 233.33  364 303.41 3.37   3.38                          
+JPS      2021-01-01  2021-01-01  8000.00     0.51      1.70      3650.00      12000.00     1.22  12001.22  8350.00 228.77    1   0.82 0.01   3.80
+JPS      2021-01-02  2021-12-31  1000.00     0.51      1.70       450.00       1500.00   455.12  13956.34  1050.00 233.33  364 303.41 3.37   3.38
 TOTAL                            9000.00                         4100.00      13500.00   456.34  13956.34  9400.00 229.27      304.23        3.38    1.27     38.19  471.85
-Papa     2021-01-01  2021-12-31  1000.00     0.56      1.70       500.00       1500.00    50.72   1550.72  1000.00 200.00  365  33.81 3.38   3.38                          
+Papa     2021-01-01  2021-12-31  1000.00     0.56      1.70       500.00       1500.00    50.72   1550.72  1000.00 200.00  365  33.81 3.38   3.38
 TOTAL                            1000.00                          500.00       1500.00    50.72   1550.72  1000.00 200.00       33.81        3.38    0.14      4.24   52.43
-G TOTAL                         10800.00                                      16200.00   547.64  16747.64                      365.10                                      
+G TOTAL                         10800.00                         4960.00      16200.00   547.64  16747.64 11240.00             365.10
 '''
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAddFiatConversionInfo_1_fiat_simple_values_1_owner_withdrawal_gain(self):
 		"""
 		CHSB crypto, 1 owner with 1 withdrawal, fixed yield rate,
@@ -2847,31 +2805,25 @@ TOTAL                                  1,050.12284407'''
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
-                                                            DEPOSITS   /   WITHDRAWALS                                                                                      
-                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS     INT              AMOUNT INTERESTS IN CHF 
+                                                            DEPOSITS   /   WITHDRAWALS
+                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS     INT              AMOUNT INTERESTS IN CHF
                FROM          TO     CHSB CHSB/USD  CHSB/USD          CHF           CHF  YLD CHF   TOT CHF ONLY CHF   IN %  INT    CHSB IN % YRLY % PER DAY PER MONTH  PER YR
-OWNER                                                                                                                                                                       
-JPS      2021-01-01  2021-01-05 10000.00     0.56      1.70      5000.00      15000.00    19.60  15019.60 10000.00 200.00    5   13.06 0.13  10.00                          
-JPS      2021-01-06  2021-01-09  1000.00     1.13      1.70      1000.00       1500.00    17.26  16536.86   500.00  50.00    4   11.51 0.10  10.00                          
-JPS      2021-01-10  2021-12-31  -500.00     4.50      1.70     -2000.00       -750.00  1538.32  17325.18  1250.00  62.50  356 1025.55 9.74  10.00                          
+OWNER
+JPS      2021-01-01  2021-01-05 10000.00     0.56      1.70      5000.00      15000.00    19.60  15019.60 10000.00 200.00    5   13.06 0.13  10.00
+JPS      2021-01-06  2021-01-09  1000.00     1.13      1.70      1000.00       1500.00    17.26  16536.86   500.00  50.00    4   11.51 0.10  10.00
+JPS      2021-01-10  2021-12-31  -500.00     4.50      1.70     -2000.00       -750.00  1538.32  17325.18  1250.00  62.50  356 1025.55 9.74  10.00
 TOTAL                           10500.00                         4000.00      15750.00  1575.18  17325.18 11750.00 293.75      1050.12       10.00    4.53    136.29 1732.96
-G TOTAL                         10500.00                                      15750.00  1575.18  17325.18                      1050.12                                      
+G TOTAL                         10500.00                         4000.00      15750.00  1575.18  17325.18 11750.00             1050.12
 '''
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAddFiatConversionInfo_1_fiat_simple_values_1_owner_1_deposit_gain(self):
 		"""
 		CHSB crypto, 1 owner with 1 deposit, fixed yield rate, CHSB/CHF final
@@ -3298,17 +3250,11 @@ G TOTAL                         10000.00                                      15
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAddFiatConversionInfo_1_fiat_simple_values_1_owner_withdrawal_loss(self):
 		"""
 		CHSB crypto, 2 owners, 1 with 1 withdrawal, fixed yield rate,
@@ -3725,31 +3671,25 @@ TOTAL                                  1,050.12284407'''
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
-                                                            DEPOSITS   /   WITHDRAWALS                                                                                      
-                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS     INT              AMOUNT INTERESTS IN CHF 
+                                                            DEPOSITS   /   WITHDRAWALS
+                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS     INT              AMOUNT INTERESTS IN CHF
                FROM          TO     CHSB CHSB/USD  CHSB/USD          CHF           CHF  YLD CHF   TOT CHF ONLY CHF   IN %  INT    CHSB IN % YRLY % PER DAY PER MONTH  PER YR
-OWNER                                                                                                                                                                       
-JPS      2021-01-01  2021-01-05 10000.00     0.56      1.70      5000.00      15000.00    19.60  15019.60 10000.00 200.00    5   13.06 0.13  10.00                          
-JPS      2021-01-06  2021-01-09  1000.00     1.13      1.70      1000.00       1500.00    17.26  16536.86   500.00  50.00    4   11.51 0.10  10.00                          
-JPS      2021-01-10  2021-12-31  -500.00     1.35      1.70      -600.00       -750.00  1538.32  17325.18  -150.00 -25.00  356 1025.55 9.74  10.00                          
+OWNER
+JPS      2021-01-01  2021-01-05 10000.00     0.56      1.70      5000.00      15000.00    19.60  15019.60 10000.00 200.00    5   13.06 0.13  10.00
+JPS      2021-01-06  2021-01-09  1000.00     1.13      1.70      1000.00       1500.00    17.26  16536.86   500.00  50.00    4   11.51 0.10  10.00
+JPS      2021-01-10  2021-12-31  -500.00     1.35      1.70      -600.00       -750.00  1538.32  17325.18  -150.00 -25.00  356 1025.55 9.74  10.00
 TOTAL                           10500.00                         5400.00      15750.00  1575.18  17325.18 10350.00 191.67      1050.12       10.00    4.53    136.29 1732.96
-G TOTAL                         10500.00                                      15750.00  1575.18  17325.18                      1050.12                                      
+G TOTAL                         10500.00                         5400.00      15750.00  1575.18  17325.18 10350.00             1050.12
 '''
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAddFiatConversionInfo_1_fiat_simple_values_1_owner_withdrawal_loss_big(self):
 		"""
 		CHSB crypto, 2 owners, 1 with 1 withdrawal, fixed yield rate,
@@ -4166,31 +4106,25 @@ TOTAL                                  1,050.12284407'''
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
-                                                            DEPOSITS   /   WITHDRAWALS                                                                                       
-                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN         DAYS     INT              AMOUNT INTERESTS IN CHF 
+                                                            DEPOSITS   /   WITHDRAWALS
+                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN         DAYS     INT              AMOUNT INTERESTS IN CHF
                FROM          TO     CHSB CHSB/USD  CHSB/USD          CHF           CHF  YLD CHF   TOT CHF ONLY CHF    IN %  INT    CHSB IN % YRLY % PER DAY PER MONTH  PER YR
-OWNER                                                                                                                                                                        
-JPS      2021-01-01  2021-01-05 10000.00     0.56      1.70      5000.00      15000.00    19.60  15019.60 10000.00  200.00    5   13.06 0.13  10.00                          
-JPS      2021-01-06  2021-01-09  1000.00     1.13      1.70      1000.00       1500.00    17.26  16536.86   500.00   50.00    4   11.51 0.10  10.00                          
-JPS      2021-01-10  2021-12-31  -500.00     0.56      1.70      -250.00       -750.00  1538.32  17325.18  -500.00 -200.00  356 1025.55 9.74  10.00                          
+OWNER
+JPS      2021-01-01  2021-01-05 10000.00     0.56      1.70      5000.00      15000.00    19.60  15019.60 10000.00  200.00    5   13.06 0.13  10.00
+JPS      2021-01-06  2021-01-09  1000.00     1.13      1.70      1000.00       1500.00    17.26  16536.86   500.00   50.00    4   11.51 0.10  10.00
+JPS      2021-01-10  2021-12-31  -500.00     0.56      1.70      -250.00       -750.00  1538.32  17325.18  -500.00 -200.00  356 1025.55 9.74  10.00
 TOTAL                           10500.00                         5750.00      15750.00  1575.18  17325.18 10000.00  173.91      1050.12       10.00    4.53    136.29 1732.96
-G TOTAL                         10500.00                                      15750.00  1575.18  17325.18                       1050.12                                      
+G TOTAL                         10500.00                         5750.00      15750.00  1575.18  17325.18 10000.00              1050.12
 '''
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAddFiatConversionInfo_1_fiat_simple_values_1_owner_no_withdrawal(self):
 		"""
 		CHSB crypto, 2 owners, 1 with 1 withdrawal, fixed yield rate,
@@ -4605,30 +4539,24 @@ TOTAL                                  1,098.56475635'''
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
-                                                            DEPOSITS   /   WITHDRAWALS                                                                                      
-                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS     INT              AMOUNT INTERESTS IN CHF 
+                                                            DEPOSITS   /   WITHDRAWALS
+                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS     INT              AMOUNT INTERESTS IN CHF
                FROM          TO     CHSB CHSB/USD  CHSB/USD          CHF           CHF  YLD CHF   TOT CHF ONLY CHF   IN %  INT    CHSB IN % YRLY % PER DAY PER MONTH  PER YR
-OWNER                                                                                                                                                                       
-JPS      2021-01-01  2021-01-05 10000.00     0.56      1.70      5000.00      15000.00    19.60  15019.60 10000.00 200.00    5   13.06 0.13  10.00                          
-JPS      2021-01-06  2021-12-31  1000.00     1.13      1.70      1000.00       1500.00  1628.25  18147.85   500.00  50.00  360 1085.50 9.86  10.00                          
+OWNER
+JPS      2021-01-01  2021-01-05 10000.00     0.56      1.70      5000.00      15000.00    19.60  15019.60 10000.00 200.00    5   13.06 0.13  10.00
+JPS      2021-01-06  2021-12-31  1000.00     1.13      1.70      1000.00       1500.00  1628.25  18147.85   500.00  50.00  360 1085.50 9.86  10.00
 TOTAL                           11000.00                         6000.00      16500.00  1647.85  18147.85 10500.00 175.00      1098.56       10.00    4.74    142.72 1814.78
-G TOTAL                         11000.00                                      16500.00  1647.85  18147.85                      1098.56                                      
+G TOTAL                         11000.00                         6000.00      16500.00  1647.85  18147.85 10500.00             1098.56
 '''
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAddFiatConversionInfo_1_fiat_simple_values_1_owner_2_fiats_no_withdrawal(self):
 		"""
 		CHSB crypto, 2 owners, 1 with 1 withdrawal, fixed yield rate,
@@ -5043,29 +4971,23 @@ TOTAL                                  1,098.56475635'''
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
-                                                            DEPOSITS   /   WITHDRAWALS                                                                                                                                                                             
-                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE  CUR RATE   CUR RATE CAP GAIN        DEP RATE CUR RATE    CUR RATE     CUR RATE CAP GAIN        DAYS     INT              AMOUNT INTERESTS IN USD   AMOUNT INTERESTS IN CHF 
+                                                            DEPOSITS   /   WITHDRAWALS
+                                  AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE  CUR RATE   CUR RATE CAP GAIN        DEP RATE CUR RATE    CUR RATE     CUR RATE CAP GAIN        DAYS     INT              AMOUNT INTERESTS IN USD   AMOUNT INTERESTS IN CHF
                FROM          TO     CHSB CHSB/USD  CHSB/USD          USD           USD   YLD USD    TOT USD ONLY USD   IN %      CHF      CHF     YLD CHF      TOT CHF ONLY CHF   IN %  INT    CHSB IN % YRLY % PER DAY PER MONTH  PER YR PER DAY PER MONTH  PER YR
-OWNER                                                                                                                                                                                                                                                              
-JPS      2021-01-01  2021-01-05 10000.00     0.48      1.70      4800.00      17000.00     22.21   17022.21 12200.00 254.17  5000.00 15000.00       19.60     15019.60 10000.00 200.00    5   13.06 0.13  10.00                                                    
-JPS      2021-01-06  2021-12-31  1000.00     0.98      1.70       980.00       1700.00   1845.35   20567.56   720.00  73.47  1000.00  1500.00     1628.25     18147.85   500.00  50.00  360 1085.50 9.86  10.00                                                    
+OWNER
+JPS      2021-01-01  2021-01-05 10000.00     0.48      1.70      4800.00      17000.00     22.21   17022.21 12200.00 254.17  5000.00 15000.00       19.60     15019.60 10000.00 200.00    5   13.06 0.13  10.00
+JPS      2021-01-06  2021-12-31  1000.00     0.98      1.70       980.00       1700.00   1845.35   20567.56   720.00  73.47  1000.00  1500.00     1628.25     18147.85   500.00  50.00  360 1085.50 9.86  10.00
 TOTAL                           11000.00                         5780.00      18700.00   1867.56   20567.56 12920.00 223.53  6000.00 16500.00     1647.85     18147.85 10500.00 175.00      1098.56       10.00    5.37    161.75 2056.76    4.74    142.72 1814.78
-G TOTAL                         11000.00                                      18700.00   1867.56   20567.56                          16500.00     1647.85     18147.85                      1098.56                                                                
+G TOTAL                         11000.00                         5780.00      18700.00   1867.56   20567.56 12920.00         6000.00 16500.00     1647.85     18147.85 10500.00             1098.56
 '''
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
 
 	def testAddFiatConversionInfo_USDC_1_fiat_simple_values_2_owners_bug(self):
 		"""
@@ -5434,32 +5356,26 @@ TOTAL                                  729.22345326'''
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
-                                                           DEPOSITS   /   WITHDRAWALS                                                                                   
-                                 AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN      DAYS    INT              AMOUNT INTERESTS IN CHF 
+                                                           DEPOSITS   /   WITHDRAWALS
+                                 AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN      DAYS    INT              AMOUNT INTERESTS IN CHF
                FROM          TO    USDC USDC/USD  USDC/USD          CHF           CHF  YLD CHF   TOT CHF ONLY CHF IN %  INT   USDC IN % YRLY % PER DAY PER MONTH  PER YR
-OWNER                                                                                                                                                                   
-Béa      2021-02-20  2021-12-31 4400.00     1.02      1.00      4000.00       4006.20   312.12   4318.32     6.20 0.15  315 342.80 7.79   9.08                          
+OWNER
+Béa      2021-02-20  2021-12-31 4400.00     1.02      1.00      4000.00       4006.20   312.12   4318.32     6.20 0.15  315 342.80 7.79   9.08
 TOTAL                           4400.00                         4000.00       4006.20   312.12   4318.32     6.20 0.15      342.80        9.08    1.03     30.97  392.20
-JPS      2021-03-22  2021-12-31 5500.00     0.97      1.00      5000.00       5007.75   351.84   5359.59     7.75 0.15  285 386.42 7.03   9.09                          
+JPS      2021-03-22  2021-12-31 5500.00     0.97      1.00      5000.00       5007.75   351.84   5359.59     7.75 0.15  285 386.42 7.03   9.09
 TOTAL                           5500.00                         5000.00       5007.75   351.84   5359.59     7.75 0.15      386.42        9.08    1.28     38.43  486.77
-G TOTAL                         9900.00                                       9013.95   663.96   9677.91                    729.22                                      
+G TOTAL                         9900.00                         9000.00       9013.95   663.96   9677.91    13.95           729.22
 '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAddFiatConversionInfo_USDC_1_fiat_simple_values_2_owners_bug_french_language(self):
 		"""
 		USDC crypto, 2 owners with 1 deposit, fixed yield rate,
@@ -5828,32 +5744,26 @@ TOTAL                                  729.22345326'''
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
-                                                             DÉPÔTS  /  RETRAITS                                                                                      
-                                MONTANT  DAT DÉP   DAT ACT VAL DAT DÉP   VAL ACT VAL ACT  VAL ACT PLUS-VAL       JOURS    INT                 MONTANT INTÉRÊTS EN CHF 
+                                                             DÉPÔTS  /  RETRAITS
+                                MONTANT  DAT DÉP   DAT ACT VAL DAT DÉP   VAL ACT VAL ACT  VAL ACT PLUS-VAL       JOURS    INT                 MONTANT INTÉRÊTS EN CHF
                  DE           A    USDC USDC/USD  USDC/USD         CHF       CHF INT CHF  TOT CHF  CAP CHF EN %    INT   USDC EN %  % ANNUEL PAR JOUR PAR MOIS  PAR AN
-PROPR                                                                                                                                                                 
-Béa      2021-02-20  2021-12-31 4400.00     1.02      1.00     4000.00   4006.20  312.12  4318.32     6.20 0.15    315 342.80 7.79      9.08                          
+PROPR
+Béa      2021-02-20  2021-12-31 4400.00     1.02      1.00     4000.00   4006.20  312.12  4318.32     6.20 0.15    315 342.80 7.79      9.08
 TOTAL                           4400.00                        4000.00   4006.20  312.12  4318.32     6.20 0.15        342.80           9.08     1.03    30.97  392.20
-JPS      2021-03-22  2021-12-31 5500.00     0.97      1.00     5000.00   5007.75  351.84  5359.59     7.75 0.15    285 386.42 7.03      9.09                          
+JPS      2021-03-22  2021-12-31 5500.00     0.97      1.00     5000.00   5007.75  351.84  5359.59     7.75 0.15    285 386.42 7.03      9.09
 TOTAL                           5500.00                        5000.00   5007.75  351.84  5359.59     7.75 0.15        386.42           9.08     1.28    38.43  486.77
-G TOTAL                         9900.00                                  9013.95  663.96  9677.91                      729.22                                         
+G TOTAL                         9900.00                        9000.00   9013.95  663.96  9677.91    13.95             729.22
 '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAddFiatConversionInfo_USDC_1_fiat_simple_values_2_owners_2_deposits_bug_french_language(self):
 		"""
 		USDC crypto, 2 owners with 2 deposit and 1 withdrawal, fixed yield rate,
@@ -6219,33 +6129,27 @@ TOTAL                                  660.79363079'''
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
-                                                              DÉPÔTS  /  RETRAITS                                                                                       
-                                 MONTANT  DAT DÉP   DAT ACT VAL DAT DÉP   VAL ACT VAL ACT  VAL ACT PLUS-VAL        JOURS    INT                 MONTANT INTÉRÊTS EN CHF 
+                                                              DÉPÔTS  /  RETRAITS
+                                 MONTANT  DAT DÉP   DAT ACT VAL DAT DÉP   VAL ACT VAL ACT  VAL ACT PLUS-VAL        JOURS    INT                 MONTANT INTÉRÊTS EN CHF
                  DE           A     USDC USDC/USD  USDC/USD         CHF       CHF INT CHF  TOT CHF  CAP CHF  EN %    INT   USDC EN %  % ANNUEL PAR JOUR PAR MOIS  PAR AN
-PROPR                                                                                                                                                                   
-Béa      2021-02-20  2021-12-31  4400.00     1.02      1.00     4000.00   4006.20  309.40  4315.60     6.20  0.15    315 339.82 7.72      9.00                          
+PROPR
+Béa      2021-02-20  2021-12-31  4400.00     1.02      1.00     4000.00   4006.20  309.40  4315.60     6.20  0.15    315 339.82 7.72      9.00
 TOTAL                            4400.00                        4000.00   4006.20  309.40  4315.60     6.20  0.15        339.82           9.00     1.02    30.69  388.52
-JPS      2021-03-22  2021-04-21  5500.00     0.97      1.00     5000.00   5007.75   37.01  5044.76     7.75  0.15     31  40.65 0.74      9.06                          
-JPS      2021-04-22  2021-12-31 -1000.00     1.30      1.00    -1200.00   -910.50  255.24  4389.50   289.50 24.12    254 280.32 6.17      8.99                          
+JPS      2021-03-22  2021-04-21  5500.00     0.97      1.00     5000.00   5007.75   37.01  5044.76     7.75  0.15     31  40.65 0.74      9.06
+JPS      2021-04-22  2021-12-31 -1000.00     1.30      1.00    -1200.00   -910.50  255.24  4389.50   289.50 24.12    254 280.32 6.17      8.99
 TOTAL                            4500.00                        3800.00   4097.25  292.25  4389.50   297.25  7.82        320.98           9.00     1.04    31.19  394.92
-G TOTAL                          8900.00                                  8103.45  601.65  8705.10                       660.79                                         
+G TOTAL                          8900.00                        7800.00   8103.45  601.65  8705.10   303.45              660.79
 '''
 
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAddFiatConversionInfo_USDC_2_fiats_simple_values_2_owners_2_deposits_bug_french_language(self):
 		"""
 		USDC crypto, 2 owners with 2 deposit and 1 withdrawal, fixed yield rate,
@@ -6611,32 +6515,26 @@ TOTAL                                  660.79363079'''
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
-                                                              DÉPÔTS  /  RETRAITS                                                                                                                                                                             
-                                 MONTANT  DAT DÉP   DAT ACT VAL DAT DÉP   VAL ACT  VAL ACT   VAL ACT PLUS-VAL       VAL DAT DÉP VAL ACT    VAL ACT     VAL ACT PLUS-VAL        JOURS    INT                 MONTANT INTÉRÊTS EN CHF   MONTANT INTÉRÊTS EN EUR 
+                                                              DÉPÔTS  /  RETRAITS
+                                 MONTANT  DAT DÉP   DAT ACT VAL DAT DÉP   VAL ACT  VAL ACT   VAL ACT PLUS-VAL       VAL DAT DÉP VAL ACT    VAL ACT     VAL ACT PLUS-VAL        JOURS    INT                 MONTANT INTÉRÊTS EN CHF   MONTANT INTÉRÊTS EN EUR
                  DE           A     USDC USDC/USD  USDC/USD         CHF       CHF  INT CHF   TOT CHF  CAP CHF  EN %         EUR     EUR    INT EUR     TOT EUR  CAP EUR  EN %    INT   USDC EN %  % ANNUEL PAR JOUR PAR MOIS  PAR AN PAR JOUR PAR MOIS  PAR AN
-PROPR                                                                                                                                                                                                                                                         
-Béa      2021-02-20  2021-12-31  4400.00     1.02      1.00     4000.00   4006.20   309.40   4315.60     6.20  0.15     2800.00 3520.00     271.85     3791.85   720.00 25.71    315 339.82 7.72      9.00                                                    
+PROPR
+Béa      2021-02-20  2021-12-31  4400.00     1.02      1.00     4000.00   4006.20   309.40   4315.60     6.20  0.15     2800.00 3520.00     271.85     3791.85   720.00 25.71    315 339.82 7.72      9.00
 TOTAL                            4400.00                        4000.00   4006.20   309.40   4315.60     6.20  0.15     2800.00 3520.00     271.85     3791.85   720.00 25.71        339.82           9.00     1.02    30.69  388.52     0.90    26.96  341.37
-JPS      2021-03-22  2021-04-21  5500.00     0.97      1.00     5000.00   5007.75    37.01   5044.76     7.75  0.15     4500.00 4400.00      32.52     4432.52  -100.00 -2.22     31  40.65 0.74      9.06                                                    
-JPS      2021-04-22  2021-12-31 -1000.00     0.92      1.00     -850.00   -910.50   255.24   4389.50   -60.50 -7.12     -800.00 -800.00     224.26     3856.78     0.00  0.00    254 280.32 6.17      8.99                                                    
+JPS      2021-03-22  2021-04-21  5500.00     0.97      1.00     5000.00   5007.75    37.01   5044.76     7.75  0.15     4500.00 4400.00      32.52     4432.52  -100.00 -2.22     31  40.65 0.74      9.06
+JPS      2021-04-22  2021-12-31 -1000.00     0.92      1.00     -850.00   -910.50   255.24   4389.50   -60.50 -7.12     -800.00 -800.00     224.26     3856.78     0.00  0.00    254 280.32 6.17      8.99
 TOTAL                            4500.00                        4150.00   4097.25   292.25   4389.50   -52.75 -1.27     3700.00 3600.00     256.78     3856.78  -100.00 -2.70        320.98           9.00     1.04    31.19  394.92     0.91    27.41  347.00
-G TOTAL                          8900.00                                  8103.45   601.65   8705.10                            7120.00     528.63     7648.63                       660.79                                                                   
+G TOTAL                          8900.00                        8150.00   8103.45   601.65   8705.10   -46.55           6500.00 7120.00     528.63     7648.63   620.00              660.79
 '''
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testAddFiatConversionInfo_1_fiat_simple_values_1_owner_max_withdrawal_bug(self):
 		"""
 		CHSB crypto, 1 owner with 1 withdrawal whic withdraw the maximum
@@ -7051,31 +6949,25 @@ TOTAL                                  24.57418987'''
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
-                                                             DEPOSITS   /   WITHDRAWALS                                                                                    
-                                   AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS   INT              AMOUNT INTERESTS IN CHF 
+                                                             DEPOSITS   /   WITHDRAWALS
+                                   AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS   INT              AMOUNT INTERESTS IN CHF
                FROM          TO      CHSB CHSB/USD  CHSB/USD          CHF           CHF  YLD CHF   TOT CHF ONLY CHF   IN %  INT  CHSB IN % YRLY % PER DAY PER MONTH  PER YR
-OWNER                                                                                                                                                                      
-JPS      2021-01-01  2021-01-05  10000.00     0.56      1.70      5000.00      15000.00    19.60  15019.60 10000.00 200.00    5 13.06 0.13  10.00                          
-JPS      2021-01-06  2021-01-09   1000.00     1.13      1.70      1000.00       1500.00    17.26  16536.86   500.00  50.00    4 11.51 0.10  10.00                          
-JPS      2021-01-10  2021-12-31 -11024.57     2.25      1.70    -22036.85     -16536.85     0.00      0.01  5500.00  24.96  356  0.00 9.74  10.00                          
+OWNER
+JPS      2021-01-01  2021-01-05  10000.00     0.56      1.70      5000.00      15000.00    19.60  15019.60 10000.00 200.00    5 13.06 0.13  10.00
+JPS      2021-01-06  2021-01-09   1000.00     1.13      1.70      1000.00       1500.00    17.26  16536.86   500.00  50.00    4 11.51 0.10  10.00
+JPS      2021-01-10  2021-12-31 -11024.57     2.25      1.70    -22036.85     -16536.85     0.00      0.01  5500.00  24.96  356  0.00 9.74  10.00
 TOTAL                              -24.57                       -16036.85        -36.85    36.86      0.01 16000.00 -99.77      24.57       10.00    0.00      0.00    0.00
-G TOTAL                            -24.57                                        -36.85    36.86      0.01                      24.57                                      
+G TOTAL                            -24.57                       -16036.85        -36.85    36.86      0.01 16000.00             24.57
 '''
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
-
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
-
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
+	
 	def testDepositChsb_fiat_chf_pandas_avg_rate_explore(self):
 		"""
 		CHSB crypto, 1 owner with 1 withdrawal whic withdraw the maximum
@@ -7489,34 +7381,29 @@ TOTAL                                  1,532.64038002'''
 
 		yieldOwnerWithTotalsDetailDfExpectedStr = \
 '''
-                                                             DEPOSITS   /   WITHDRAWALS                                                                                       
-                                   AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS     INT               AMOUNT INTERESTS IN CHF 
+                                                             DEPOSITS   /   WITHDRAWALS
+                                   AMOUNT DEP RATE  CUR RATE     DEP RATE      CUR RATE CUR RATE  CUR RATE CAP GAIN        DAYS     INT               AMOUNT INTERESTS IN CHF
                FROM          TO      CHSB CHSB/USD  CHSB/USD          CHF           CHF  YLD CHF   TOT CHF ONLY CHF   IN %  INT    CHSB  IN % YRLY % PER DAY PER MONTH  PER YR
-OWNER                                                                                                                                                                         
-JPS      2020-01-01  2020-02-29  10000.00     0.51      1.70      5000.00      15000.00   232.88  15232.88 10000.00 200.00   60  155.26  1.55   9.83                          
-JPS      2020-03-01  2020-03-31  10000.00     1.04      1.70     10000.00      15000.00   245.72  30478.61  5000.00  50.00   31  163.82  0.81  10.00                          
-JPS      2020-04-01  2020-04-30   1000.00     2.04      1.70      2000.00       1500.00   251.50  32230.10  -500.00 -25.00   30  167.66  0.79  10.00                          
-JPS      2020-05-01  2020-05-31   -500.00     1.03      1.70      -500.00       -750.00   255.93  31736.03  -250.00 -50.00   31  170.62  0.81  10.00                          
-JPS      2020-06-01  2020-06-30   -500.00     2.10      1.70     -1000.00       -750.00   243.82  31229.84   250.00  25.00   30  162.54  0.79  10.01                          
-JPS      2020-07-01  2020-10-31   1000.00     0.84      1.70       800.00       1500.00  1068.82  33798.66   700.00  87.50  123  712.55  3.27  10.01                          
-JPS      2020-11-01  2020-12-31 -22531.55     1.45      1.70    -30000.00     -33797.32     0.30      1.64 -3797.32 -12.66   61    0.20 22.17 231.48                          
+OWNER
+JPS      2020-01-01  2020-02-29  10000.00     0.51      1.70      5000.00      15000.00   232.88  15232.88 10000.00 200.00   60  155.26  1.55   9.83
+JPS      2020-03-01  2020-03-31  10000.00     1.04      1.70     10000.00      15000.00   245.72  30478.61  5000.00  50.00   31  163.82  0.81  10.00
+JPS      2020-04-01  2020-04-30   1000.00     2.04      1.70      2000.00       1500.00   251.50  32230.10  -500.00 -25.00   30  167.66  0.79  10.00
+JPS      2020-05-01  2020-05-31   -500.00     1.03      1.70      -500.00       -750.00   255.93  31736.03  -250.00 -50.00   31  170.62  0.81  10.00
+JPS      2020-06-01  2020-06-30   -500.00     2.10      1.70     -1000.00       -750.00   243.82  31229.84   250.00  25.00   30  162.54  0.79  10.01
+JPS      2020-07-01  2020-10-31   1000.00     0.84      1.70       800.00       1500.00  1068.82  33798.66   700.00  87.50  123  712.55  3.27  10.01
+JPS      2020-11-01  2020-12-31 -22531.55     1.45      1.70    -30000.00     -33797.32     0.30      1.64 -3797.32 -12.66   61    0.20 22.17 231.48
 TOTAL                            -1531.55                       -13700.00      -2297.32  2298.96      1.64 11402.68 -83.23      1532.64        46.89    0.00      0.05    0.77
-G TOTAL                          -1531.55                                      -2297.32  2298.96      1.64                      1532.64                                       
+G TOTAL                          -1531.55                       -13700.00      -2297.32  2298.96      1.64 11402.68             1532.64
 '''
 		if PRINT:
 			print('\nOwner detailed deposit/withdrawal yield totals and percents...')
 			print(yieldOwnerWithTotalsDetailDfActualStr)
 		else:
-			stdout = sys.stdout
-			capturedStdoutStr = StringIO()
-			sys.stdout = capturedStdoutStr
+			noEndSpaceActualDfString = UtilityForTest.printDataFrameForAssertEqual(
+				yieldOwnerWithTotalsDetailDfActualStr)
+			
+			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, noEndSpaceActualDfString)
 
-			print()
-			print(yieldOwnerWithTotalsDetailDfActualStr)
-
-			sys.stdout = stdout
-
-			self.assertEqual(yieldOwnerWithTotalsDetailDfExpectedStr, capturedStdoutStr.getvalue())
 
 if __name__ == '__main__':
 	if os.name == 'posix':
