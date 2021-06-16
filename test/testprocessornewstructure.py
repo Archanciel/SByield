@@ -414,6 +414,7 @@ G TOTAL                            4.99                      8183.15  19945.92  
 			self.assertEqual(0.06405339208228966, yieldCryptoTotal_owner_2)
 			yieldCryptoGrandTotal = yieldOwnerWithTotalsDetailDf.iloc[4][' '][PROC_INTEREST][depositCrypto]
 			self.assertEqual(0.06907529999999695, yieldCryptoGrandTotal)
+			self.assertAlmostEqual(sbEarningsTotalDf.loc[DATAFRAME_HEADER_TOTAL][SB_ACCOUNT_SHEET_HEADER_EARNING], yieldCryptoGrandTotal, 7)
 			
 			yieldPercent_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
 			self.assertEqual(1.2600029098791086, yieldPercent_owner_1)
@@ -2421,6 +2422,7 @@ G TOTAL                            2.00                      3000.00   8000.00  
 			self.assertEqual(0.04755893617130358, yieldCryptoTotal)
 			yieldCryptoGrandTotal = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_INTEREST][depositCrypto]
 			self.assertEqual(0.04755893617130358, yieldCryptoGrandTotal)
+			self.assertAlmostEqual(sbEarningsTotalDf.loc[DATAFRAME_HEADER_TOTAL][SB_ACCOUNT_SHEET_HEADER_EARNING], yieldCryptoGrandTotal, 7)
 
 			yieldPercent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
 			self.assertEqual(2.377946808565179, yieldPercent_1)
@@ -3198,6 +3200,7 @@ G TOTAL                         11000.00                        5780.00  18700.0
 			self.assertEqual(1098.564756353042, yieldCryptoTotal)
 			yieldCryptoGrandTotal = yieldOwnerWithTotalsDetailDf.iloc[3][' '][PROC_INTEREST][depositCrypto]
 			self.assertEqual(1098.564756353042, yieldCryptoGrandTotal)
+			self.assertAlmostEqual(sbEarningsTotalDf.loc[DATAFRAME_HEADER_TOTAL][SB_ACCOUNT_SHEET_HEADER_EARNING], yieldCryptoGrandTotal, 7)
 
 			yieldCryptoPercent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_YIELD_AMT_PERCENT[testLanguage]][2]
 			self.assertEqual(0.13064715928432635, yieldCryptoPercent_1)
@@ -3987,6 +3990,7 @@ G TOTAL                         11000.00                        5780.00  18700.0
 			self.assertEqual(1098.564756353042, yieldCryptoTotal)
 			yieldCryptoGrandTotal = yieldOwnerWithTotalsDetailDf.iloc[3][' '][PROC_INTEREST][depositCrypto]
 			self.assertEqual(1098.564756353042, yieldCryptoGrandTotal)
+			self.assertAlmostEqual(sbEarningsTotalDf.loc[DATAFRAME_HEADER_TOTAL][SB_ACCOUNT_SHEET_HEADER_EARNING], yieldCryptoGrandTotal, 7)
 
 			yieldCryptoPercent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_YIELD_AMT_PERCENT[testLanguage]][2]
 			self.assertEqual(0.13064715928432635, yieldCryptoPercent_1)
@@ -4776,6 +4780,7 @@ G TOTAL                         11000.00                        5780.00  18700.0
 			self.assertEqual(1098.564756353042, yieldCryptoTotal)
 			yieldCryptoGrandTotal = yieldOwnerWithTotalsDetailDf.iloc[3][' '][PROC_INTEREST][depositCrypto]
 			self.assertEqual(1098.564756353042, yieldCryptoGrandTotal)
+			self.assertAlmostEqual(sbEarningsTotalDf.loc[DATAFRAME_HEADER_TOTAL][SB_ACCOUNT_SHEET_HEADER_EARNING], yieldCryptoGrandTotal, 7)
 
 			yieldCryptoPercent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_YIELD_AMT_PERCENT[testLanguage]][2]
 			self.assertEqual(0.13064715928432635, yieldCryptoPercent_1)
@@ -5563,6 +5568,7 @@ G TOTAL                         11000.00                        6000.00  16500.0
 			self.assertEqual(1098.564756353042, yieldCryptoTotal)
 			yieldCryptoGrandTotal = yieldOwnerWithTotalsDetailDf.iloc[3][' '][PROC_INTEREST][depositCrypto]
 			self.assertEqual(1098.564756353042, yieldCryptoGrandTotal)
+			self.assertAlmostEqual(sbEarningsTotalDf.loc[DATAFRAME_HEADER_TOTAL][SB_ACCOUNT_SHEET_HEADER_EARNING], yieldCryptoGrandTotal, 7)
 
 			yieldCryptoPercent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_YIELD_AMT_PERCENT[testLanguage]][2]
 			self.assertEqual(0.13064715928432635, yieldCryptoPercent_1)
@@ -6250,7 +6256,8 @@ G TOTAL                         11000.00                        6000.00  16500.0
 			self.assertEqual(1098.564756353042, yieldCryptoTotal)
 			yieldCryptoGrandTotal = yieldOwnerWithTotalsDetailDf.iloc[3][' '][PROC_INTEREST][depositCrypto]
 			self.assertEqual(1098.564756353042, yieldCryptoGrandTotal)
-			
+			self.assertAlmostEqual(sbEarningsTotalDf.loc[DATAFRAME_HEADER_TOTAL][SB_ACCOUNT_SHEET_HEADER_EARNING], yieldCryptoGrandTotal, 7)
+
 			yieldPercent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
 			self.assertEqual(0.13064715928432635, yieldPercent_1)
 			yieldPercent_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
@@ -6768,6 +6775,7 @@ G TOTAL                         15000.00                        7500.00  22500.0
 			self.assertEqual(852.4079328570042, yieldCryptoTotal)
 			yieldCryptoGrandTotal = yieldOwnerWithTotalsDetailDf.iloc[3][' '][PROC_INTEREST][depositCrypto]
 			self.assertEqual(852.4079328570042, yieldCryptoGrandTotal)
+			self.assertAlmostEqual(sbEarningsTotalDf.loc[DATAFRAME_HEADER_TOTAL][SB_ACCOUNT_SHEET_HEADER_EARNING], yieldCryptoGrandTotal, 7)
 
 			yieldPercent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
 			self.assertEqual(0.026115787606777303, yieldPercent_1)
@@ -7385,6 +7393,7 @@ G TOTAL                         16000.00                        8000.00  24000.0
 			self.assertEqual(852.4079328570042, yieldCryptoTotal)
 			yieldCryptoGrandTotal = yieldOwnerWithTotalsDetailDf.iloc[5][' '][PROC_INTEREST][depositCrypto]
 			self.assertEqual(909.3271119478995, yieldCryptoGrandTotal)
+			self.assertAlmostEqual(sbEarningsTotalDf.loc[DATAFRAME_HEADER_TOTAL][SB_ACCOUNT_SHEET_HEADER_EARNING], yieldCryptoGrandTotal, 7)
 
 			yieldPercent_owner_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
 			self.assertEqual(5.691917909089534, yieldPercent_owner_1)
@@ -7823,7 +7832,8 @@ G TOTAL                            2.00                      3000.00   8000.00  
 			self.assertEqual(0.04755893617130358, yieldCryptoTotal)
 			yieldCryptoGrandTotal = yieldOwnerWithTotalsDetailDf.iloc[2][' '][PROC_INTEREST][depositCrypto]
 			self.assertEqual(0.04755893617130358, yieldCryptoGrandTotal)
-			
+			self.assertAlmostEqual(sbEarningsTotalDf.loc[DATAFRAME_HEADER_TOTAL][SB_ACCOUNT_SHEET_HEADER_EARNING], yieldCryptoGrandTotal, 7)
+
 			yieldPercent = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_YIELD_AMT_PERCENT[testLanguage]][2]
 			self.assertEqual(2.377946808565179, yieldPercent)
 			
@@ -8310,7 +8320,8 @@ G TOTAL                           3.00                        5000.00      12000
 			self.assertEqual(0.12084308658851883, yieldCryptoTotal)
 			yieldCryptoGrandTotal = yieldOwnerWithTotalsDetailDf.iloc[3][' '][PROC_INTEREST][depositCrypto]
 			self.assertEqual(0.12084308658851883, yieldCryptoGrandTotal)
-			
+			self.assertAlmostEqual(sbEarningsTotalDf.loc[DATAFRAME_HEADER_TOTAL][SB_ACCOUNT_SHEET_HEADER_EARNING], yieldCryptoGrandTotal, 7)
+
 			yieldPercent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
 			self.assertEqual(2.377946808565179, yieldPercent_1)
 			yieldPercent_2 = yieldOwnerWithTotalsDetailDf.iloc[1][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
@@ -8884,6 +8895,7 @@ G TOTAL                            4.00                      8000.00  16000.00  
 			self.assertEqual(0.1705226025644926, yieldCryptoTotal)
 			yieldCryptoGrandTotal = yieldOwnerWithTotalsDetailDf.iloc[4][' '][PROC_INTEREST][depositCrypto]
 			self.assertEqual(0.1705226025644926, yieldCryptoGrandTotal)
+			self.assertAlmostEqual(sbEarningsTotalDf.loc[DATAFRAME_HEADER_TOTAL][SB_ACCOUNT_SHEET_HEADER_EARNING], yieldCryptoGrandTotal, 7)
 
 			yieldPercent_1 = yieldOwnerWithTotalsDetailDf.iloc[0][' '][' '][PROC_CAPITAL_GAIN_PERCENT[testLanguage]][1]
 			self.assertEqual(2.377946808565179, yieldPercent_1)
