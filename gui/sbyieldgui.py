@@ -45,7 +45,7 @@ RV_LIST_ITEM_SPACING_WINDOWS = 0.5
 STATUS_BAR_ERROR_SUFFIX = ' --> ERROR ...'
 FILE_LOADED = 0
 FILE_SAVED = 1
-CRYPTOPRICER_VERSION = 'CryptoPricer 2.1'
+SBYIELD_VERSION = 'SBYield 1.0'
 NO_INTERNET = False
 
 
@@ -384,7 +384,7 @@ class SByieldGUI(BoxLayout):
 		sizingLabel = Label(text=message)
 		sizingLabel.bind(size=lambda s, w: s.setter('text_size')(s, w))
 		
-		popup = Popup(title='CryptoPricer WARNING', content=sizingLabel,
+		popup = Popup(title='SBYield WARNING', content=sizingLabel,
 		              auto_dismiss=True, size_hint=(None, None),
 		              size=popupSize)
 		popup.open()
@@ -791,7 +791,7 @@ class SByieldGUI(BoxLayout):
 	def displayHelp(self):
 		self.dropDownMenu.dismiss()
 
-		popup = HelpPopup(title=CRYPTOPRICER_VERSION)
+		popup = HelpPopup(title=SBYIELD_VERSION)
 		popup.open()
 
 	def updateStatusBar(self, messageStr):
@@ -967,7 +967,7 @@ class SByieldGUIApp(App):
 			Config.set('graphics', 'height', '500')
 			Config.write()
 
-		self.title = 'CryptoPricer GUI'
+		self.title = 'SBYield GUI'
 		self.cryptoPricerGUI = SByieldGUI()
 
 		return self.cryptoPricerGUI
@@ -1151,7 +1151,7 @@ class SByieldGUIApp(App):
 			defaultpath = defaultpath.replace('/', sep)
 
 		return os.path.expanduser(defaultpath) % {
-			'appname': 'cryptopricer', 'appdir': self.directory}
+			'appname': 'sbyield', 'appdir': self.directory}
 
 	def on_start(self):
 		'''
