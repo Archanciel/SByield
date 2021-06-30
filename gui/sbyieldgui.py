@@ -960,7 +960,15 @@ class SByieldGUIApp(App):
 	cryptoPricerGUI = None
 	
 	def build(self): # implicitely looks for a kv file of name cryptopricergui.kv which is
-					 # class name without App, in lowercases
+		# class name without App, in lowercases
+		# Builder is a global Kivy instance used
+		# in widgets that you can use to load other
+		# kv files in addition to the default ones.
+		from kivy.lang import Builder
+		
+		# Loading Multiple .kv files
+		Builder.load_file('filechooser.kv')
+	
 		if os.name != 'posix':
 			# running app om Windows
 			Config.set('graphics', 'width', '600')
