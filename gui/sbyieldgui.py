@@ -166,6 +166,7 @@ class SelectableLabel(RecycleDataViewBehavior, Label):
 	def refresh_view_attrs(self, rv, index, data):
 		''' Catch and handle the view changes '''
 		self.rv = rv
+		self.sbYieldGUI = self.rv.rootGUI
 		self.index = index
 		
 		return super(SelectableLabel, self).refresh_view_attrs(
@@ -174,17 +175,15 @@ class SelectableLabel(RecycleDataViewBehavior, Label):
 	def on_touch_down(self, touch):
 		''' Add selection on touch down '''
 		
-		cryptoPricerGUI = self.rv.parent.parent
-		
-		if len(cryptoPricerGUI.requestListRVSelBoxLayout.selected_nodes) == 1:
+		if len(self.sbYieldGUI.requestListRVSelBoxLayout.selected_nodes) == 1:
 			# here, the user manually deselects the selected item. When
 			# on_touch_down is called, if the item is selected, the
 			# requestListRVSelBoxLayout.selected_nodes list has one element !
-			cryptoPricerGUI.requestInput.text = ''
+			self.sbYieldGUI.requestInput.text = ''
 
 			# cryptoPricerGUI.recycleViewCurrentSelIndex is used by the
 			# deleteRequest() and updateRequest() cryptoPricerGUI methods
-			cryptoPricerGUI.recycleViewCurrentSelIndex = -1
+			self.sbYieldGUI.recycleViewCurrentSelIndex = -1
 
 		if super(SelectableLabel, self).on_touch_down(touch):
 			return True
@@ -196,18 +195,16 @@ class SelectableLabel(RecycleDataViewBehavior, Label):
 		# color !
 		self.selected = is_selected
 		
-		cryptoPricerGUI = rv.parent.parent
-		
 		if is_selected:
 			selItemValue = rv.data[index]['text']
 
 			# cryptoPricerGUI.recycleViewCurrentSelIndex is used by the
 			# deleteRequest() and updateRequest() cryptoPricerGUI methods
-			cryptoPricerGUI.recycleViewCurrentSelIndex = index
-			cryptoPricerGUI.requestInput.text = selItemValue
+			self.sbYieldGUI.recycleViewCurrentSelIndex = index
+			self.sbYieldGUI.requestInput.text = selItemValue
 		
-		cryptoPricerGUI.refocusOnRequestInput()
-		cryptoPricerGUI.enableStateOfRequestListSingleItemButtons()
+		self.sbYieldGUI.refocusOnRequestInput()
+		self.sbYieldGUI.enableStateOfRequestListSingleItemButtons()
 
 
 class SettingScrollOptions(SettingOptions):
