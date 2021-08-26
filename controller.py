@@ -60,11 +60,12 @@ class Controller:
 if __name__ == '__main__':
 	formatDic = {SB_ACCOUNT_SHEET_CURRENCY_USDC: '.2f',
 				 SB_ACCOUNT_SHEET_CURRENCY_CHSB: '.8f',
-	             SB_ACCOUNT_SHEET_CURRENCY_ETH: '.8f'}
+	             SB_ACCOUNT_SHEET_CURRENCY_ETH: '.8f',
+	             SB_ACCOUNT_SHEET_CURRENCY_BNB: '.8f'}
 
-	sbAccountSheetFileName = 'Swissborg_account_statement_20201101_20210825_USD.xlsx'
-#	sbAccountSheetFileName = 'Swissborg_account_statement_20201101_20210825_CHF.xlsx'
-	sbAccountSheetFiat = 'USD' # fiat of the Swissborg_account_statement Excel file
+#	sbAccountSheetFiat = 'USD'  # fiat of the Swissborg_account_statement Excel file
+	sbAccountSheetFiat = 'CHF'  # fiat of the Swissborg_account_statement Excel file
+	sbAccountSheetFileName = 'Swissborg_account_statement_20201101_20210825_{}.xlsx'.format(sbAccountSheetFiat)
 
 #	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
 #	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
