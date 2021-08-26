@@ -31,6 +31,7 @@ SB_ACCOUNT_SHEET_TYPE_EARNING = 'Earnings'  # used to filter rows
 SB_ACCOUNT_SHEET_CURRENCY_USDC = 'USDC'     # used to filter rows
 SB_ACCOUNT_SHEET_CURRENCY_CHSB = 'CHSB'     # used to filter rows
 SB_ACCOUNT_SHEET_CURRENCY_ETH = 'ETH'       # used to filter rows
+SB_ACCOUNT_SHEET_CURRENCY_BNB = 'BNB'       # used to filter rows
 
 # Deposit/Withdrawal sheet parameters
 DEPOSIT_SHEET_PARM_CRYPTO = 'CRYPTO-'

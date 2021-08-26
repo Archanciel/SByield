@@ -7,15 +7,18 @@ from cryptofiatratecomputer import CryptoFiatRateComputer
 
 class Controller:
 	def computeYield(self,
-					 sbAccountSheetFileName,
-					 yieldCrypto,
-					 language):
+	                 sbAccountSheetFileName,
+	                 yieldCrypto,
+	                 sbAccountSheetFiat,
+	                 language):
 		if yieldCrypto == SB_ACCOUNT_SHEET_CURRENCY_USDC:
-			depositSheetFileName = 'depositUsdc_20210407.csv'
+			depositSheetFileName = 'depositUsdc.csv'
 		elif yieldCrypto == SB_ACCOUNT_SHEET_CURRENCY_CHSB:
-			depositSheetFileName = 'depositChsb_20210407.csv'
+			depositSheetFileName = 'depositChsb.csv'
 		elif yieldCrypto == SB_ACCOUNT_SHEET_CURRENCY_ETH:
-			depositSheetFileName = 'depositEth_20210407.csv'
+			depositSheetFileName = 'depositEth.csv'
+		elif yieldCrypto == SB_ACCOUNT_SHEET_CURRENCY_BNB:
+			depositSheetFileName = 'depositBnb.csv'
 		else:
 			raise ValueError('Yield crypto {} not supported. Program closed.'.format(yieldCrypto))
 
@@ -31,16 +34,17 @@ class Controller:
 			depositSheetFilePathName = dataPath + depositSheetFileName
 
 		sbYieldRateComputer = SBYieldRateComputer(sbAccountSheetFilePathName=sbAccountSheetFilePathName,
-												  sbAccountSheetFiat='CHF',
+		                                          sbAccountSheetFiat=sbAccountSheetFiat,
 		                                          depositSheetFilePathName=depositSheetFilePathName)
 		self.ownerDepositYieldComputer = OwnerDepositYieldComputer(sbYieldRateComputer)
 
 		cryptoFiatCsvFilePathName = dataPath + cryptoFiatCsvFileName
 		processor = Processor(sbYieldRateComputer,
 		                      self.ownerDepositYieldComputer,
-							  CryptoFiatRateComputer(PriceRequester(),
+		                      CryptoFiatRateComputer(PriceRequester(),
 													 cryptoFiatCsvFilePathName),
-							  language)
+		                      sbAccountSheetFiat,
+		                      language)
 
 		processor.activateHelpNumbers()
 
@@ -58,11 +62,14 @@ if __name__ == '__main__':
 				 SB_ACCOUNT_SHEET_CURRENCY_CHSB: '.8f',
 	             SB_ACCOUNT_SHEET_CURRENCY_ETH: '.8f'}
 
-	sbAccountSheetFileName = 'Swissborg_account_statement_20201101_20210523.xlsx'
+	sbAccountSheetFileName = 'Swissborg_account_statement_20201101_20210825_USD.xlsx'
+#	sbAccountSheetFileName = 'Swissborg_account_statement_20201101_20210825_CHF.xlsx'
+	sbAccountSheetFiat = 'USD' # fiat of the Swissborg_account_statement Excel file
 
 #	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
-	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
+#	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
 #	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_ETH
+	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_BNB
 	language = FR
 	ctr = Controller()
 
@@ -71,8 +78,9 @@ if __name__ == '__main__':
 	yieldOwnerWithTotalsDetailDf, \
 	yieldOwnerWithTotalsDetaiAndFiatlDfStr, \
 	depositCrypto = ctr.computeYield(sbAccountSheetFileName,
-									 yieldCrypto,
-									 language)
+	                                 yieldCrypto,
+	                                 sbAccountSheetFiat,
+	                                 language)
 	
 	sbYieldRatesWithTotalDfStr = ctr.ownerDepositYieldComputer.getDataframeStrWithFormattedColumns(
 		sbYieldRatesWithTotalDf,
