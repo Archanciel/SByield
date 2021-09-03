@@ -6,3 +6,5 @@ Python Pandas command line app whose purpose is to distribute yield farming reve
 * pandas
 * openpyxl
 * configobj
+* bs4
+* arrow

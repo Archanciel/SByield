@@ -34,7 +34,7 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 		sbEarningsDf = self.cryptoFiatRateComputer._loadCryptoFiatCsvFile(self.cryptoFiatRateComputer.cryptoFiatCsvFilePathName)
 
 		if not PRINT:
-			self.assertEqual((11, 3), sbEarningsDf.shape)
+			self.assertEqual((12, 3), sbEarningsDf.shape)
 
 		expectedStrDataframe = \
 '''   CRYPTO UNIT EXCHANGE
@@ -48,7 +48,8 @@ class TestCryptoFiatRateComputer(unittest.TestCase):
 7     USD  CHF   CCCAGG
 8     USD  EUR   CCCAGG
 9     CHF  USD   CCCAGG
-10    EUR  USD   CCCAGG'''
+10    EUR  USD   CCCAGG
+11    BNB  CHF   CCCAGG'''
 
 		if PRINT:
 			print(sbEarningsDf)
