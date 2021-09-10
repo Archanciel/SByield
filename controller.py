@@ -67,8 +67,8 @@ if __name__ == '__main__':
 	sbAccountSheetFiat = 'CHF'  # fiat of the Swissborg_account_statement Excel file
 	sbAccountSheetFileName = 'Swissborg_account_statement_20201101_20210902_{}.xlsx'.format(sbAccountSheetFiat)
 
-#	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
-	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
+	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_USDC
+#	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_CHSB
 #	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_ETH
 #	yieldCrypto = SB_ACCOUNT_SHEET_CURRENCY_BNB
 	language = FR
