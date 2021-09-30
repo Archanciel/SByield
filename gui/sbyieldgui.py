@@ -940,9 +940,12 @@ class SByieldGUIApp(App):
 			Config.set('graphics', 'width', '600')
 			Config.set('graphics', 'height', '500')
 			Config.write()
-		
-		# avoiding red dot put on Kivy screen after mouse right-click
-		Config.set('input', 'mouse', 'mouse,disable_multitouch')
+			
+			# avoiding red dot put on Kivy screen after mouse right-click
+			# WARNING: on Android, this makes impossible to open the history
+			# list as well as causing a kvy.uix.WidgetEception when trying
+			# to open the CustomDropdown menu !
+			Config.set('input', 'mouse', 'mouse,disable_multitouch')
 		
 		self.title = 'SBYield GUI'
 		self.cryptoPricerGUI = SByieldGUI()
