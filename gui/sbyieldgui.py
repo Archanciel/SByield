@@ -466,7 +466,6 @@ class SByieldGUI(BoxLayout):
 			outputResultStr = "ERROR - request '{}' could not be executed. Error info: {}.".format(requestStr, e)
 		
 		self.outputResult(outputResultStr)
-		self.clearResultOutputButton.disabled = False
 		
 		fullRequestListEntry = {'text': fullRequestStrNoOptions, 'selectable': True}
 
