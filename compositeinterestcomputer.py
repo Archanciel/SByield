@@ -20,8 +20,8 @@ class CompositeInterestComputer:
 		        yearlyYield)
 		
 if __name__ == '__main__':
-	capital = 800
-	yieldRatePercent = 10.5
+	capital = 1000
+	yieldRatePercent = 11
 	withdrawCostPercent = 0.1
 	withdrawCostMinAmount = 4.5
 	withdrawCostMaxAmount = 110
