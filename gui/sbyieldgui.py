@@ -1,5 +1,6 @@
+import logging
 import os,sys,inspect
-
+from configparser import NoOptionError
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
@@ -265,8 +266,6 @@ class SByieldGUI(BoxLayout):
 		# sentences.
 		from gui.customdropdown import CustomDropDown
 
-		self.dropDownMenu = CustomDropDown(owner=self)
-
 		if os.name == 'posix':
 			configPath = '/sdcard/sbyield.ini'
 			requestListRVSpacing = RV_LIST_ITEM_SPACING_ANDROID
@@ -282,7 +281,11 @@ class SByieldGUI(BoxLayout):
 			self.boxLayoutContainingStatusBar.height = "63dp"
 
 		self.configMgr = ConfigurationManager(configPath)
-		
+		self.dropDownMenu = CustomDropDown(owner=self)
+		self.boxLayoutContainingStatusBar.height = dp(self.configMgr.statusbarHeight)
+		self.clearResultOutputButton.width = dp(self.configMgr.clearButtonWidth)
+		self.toggleAppSizeButton.width = dp(self.configMgr.clearButtonWidth)
+
 		self.controller = Controller()
 
 		self.dataPath = self.configMgr.dataPath
@@ -990,6 +993,8 @@ class SByieldGUIApp(App):
 				ConfigurationManager.CONFIG_KEY_DATA_PATH: ConfigurationManager.DEFAULT_DATA_PATH_ANDROID})
 			config.setdefaults(ConfigurationManager.CONFIG_SECTION_LAYOUT, {
 				ConfigurationManager.CONFIG_KEY_HISTO_LIST_ITEM_HEIGHT: ConfigurationManager.DEFAULT_CONFIG_KEY_HISTO_LIST_ITEM_HEIGHT_ANDROID})
+			config.setdefaults(ConfigurationManager.CONFIG_SECTION_LAYOUT, {
+				ConfigurationManager.CONFIG_KEY_DROP_DOWN_MENU_WIDTH: ConfigurationManager.DEFAULT_CONFIG_KEY_DROP_DOWN_MENU_WIDTH_ANDROID})
 		elif platform == 'ios':
 			config.setdefaults(ConfigurationManager.CONFIG_SECTION_LAYOUT,
 							   {ConfigurationManager.CONFIG_KEY_APP_SIZE: ConfigurationManager.APP_SIZE_HALF})
@@ -997,6 +1002,8 @@ class SByieldGUIApp(App):
 				ConfigurationManager.CONFIG_KEY_DATA_PATH: ConfigurationManager.DEFAULT_DATA_PATH_IOS})
 			config.setdefaults(ConfigurationManager.CONFIG_SECTION_LAYOUT, {
 				ConfigurationManager.CONFIG_KEY_HISTO_LIST_ITEM_HEIGHT: ConfigurationManager.DEFAULT_CONFIG_KEY_HISTO_LIST_ITEM_HEIGHT_ANDROID})
+			config.setdefaults(ConfigurationManager.CONFIG_SECTION_LAYOUT, {
+				ConfigurationManager.CONFIG_KEY_DROP_DOWN_MENU_WIDTH: ConfigurationManager.DEFAULT_CONFIG_KEY_DROP_DOWN_MENU_WIDTH_IOS})
 		elif platform == 'win':
 			config.setdefaults(ConfigurationManager.CONFIG_SECTION_LAYOUT,
 							   {ConfigurationManager.CONFIG_KEY_APP_SIZE: ConfigurationManager.APP_SIZE_FULL})
@@ -1004,6 +1011,8 @@ class SByieldGUIApp(App):
 				ConfigurationManager.CONFIG_KEY_DATA_PATH: ConfigurationManager.DEFAULT_DATA_PATH_WINDOWS})
 			config.setdefaults(ConfigurationManager.CONFIG_SECTION_LAYOUT, {
 				ConfigurationManager.CONFIG_KEY_HISTO_LIST_ITEM_HEIGHT: ConfigurationManager.DEFAULT_CONFIG_KEY_HISTO_LIST_ITEM_HEIGHT_WINDOWS})
+			config.setdefaults(ConfigurationManager.CONFIG_SECTION_LAYOUT, {
+				ConfigurationManager.CONFIG_KEY_DROP_DOWN_MENU_WIDTH: ConfigurationManager.DEFAULT_CONFIG_KEY_DROP_DOWN_MENU_WIDTH_WINDOWS})
 
 		config.setdefaults(ConfigurationManager.CONFIG_SECTION_LAYOUT, {
 			ConfigurationManager.CONFIG_KEY_HISTO_LIST_VISIBLE_SIZE: ConfigurationManager.DEFAULT_CONFIG_HISTO_LIST_VISIBLE_SIZE})
@@ -1081,6 +1090,24 @@ class SByieldGUIApp(App):
 					"key": "histolistvisiblesize"
 				},
 				{"type": "numeric",
+					"title": "Drop down menu width",
+					"desc": "Set the width of the drop down menu. Effective on smartphone only !",
+					"section": "Layout",
+					"key": "dropdownmenuwidth"
+				},
+				{"type": "numeric",
+					"title": "Status bar height",
+					"desc": "Set the height of the status bar",
+					"section": "Layout",
+					"key": "statusbarheight"
+				},
+				{"type": "numeric",
+					"title": "Clear and app size buttons width",
+					"desc": "Set the width of the clear and the app size buttons",
+					"section": "Layout",
+					"key": "clearbuttonwidth"
+				},
+				{"type": "numeric",
 					"title": "Half size application proportion",
 					"desc": "Set the proportion of vertical screen size the app occupies so that the smartphone keyboard does not hide part of the application. Must be between 0 and 1",
 					"section": "Layout",
@@ -1105,6 +1132,28 @@ class SByieldGUIApp(App):
 			elif key == ConfigurationManager.CONFIG_KEY_HISTO_LIST_VISIBLE_SIZE:
 				self.root.rvListMaxVisibleItems = int(config.getdefault(ConfigurationManager.CONFIG_SECTION_LAYOUT, ConfigurationManager.CONFIG_KEY_HISTO_LIST_VISIBLE_SIZE, ConfigurationManager.DEFAULT_CONFIG_HISTO_LIST_VISIBLE_SIZE))
 				self.root.rvListSizeSettingsChanged()
+			elif key == ConfigurationManager.CONFIG_KEY_DROP_DOWN_MENU_WIDTH:
+				if os.name == 'posix':
+					if GuiUtil.onSmartPhone():
+						self.cryptoPricerGUI.dropDownMenu.auto_width = False
+						self.cryptoPricerGUI.dropDownMenu.width = \
+							dp(int(config.getdefault(ConfigurationManager.CONFIG_SECTION_LAYOUT,
+							                         ConfigurationManager.CONFIG_KEY_DROP_DOWN_MENU_WIDTH,
+							                         ConfigurationManager.DEFAULT_CONFIG_KEY_DROP_DOWN_MENU_WIDTH_ANDROID)))
+			elif key == ConfigurationManager.CONFIG_KEY_STATUS_BAR_HEIGHT:
+				self.cryptoPricerGUI.boxLayoutContainingStatusBar.height = \
+					dp(int(config.getdefault(ConfigurationManager.CONFIG_SECTION_LAYOUT,
+					                         ConfigurationManager.CONFIG_KEY_STATUS_BAR_HEIGHT,
+					                         ConfigurationManager.DEFAULT_CONFIG_KEY_STATUS_BAR_HEIGHT_WINDOWS)))
+			elif key == ConfigurationManager.CONFIG_KEY_CLEAR_BUTTON_WIDTH:
+				self.cryptoPricerGUI.clearResultOutputButton.width = \
+					dp(int(config.getdefault(ConfigurationManager.CONFIG_SECTION_LAYOUT,
+					                         ConfigurationManager.CONFIG_KEY_CLEAR_BUTTON_WIDTH,
+					                         ConfigurationManager.DEFAULT_CONFIG_KEY_CLEAR_BUTTON_WIDTH_WINDOWS)))
+				self.cryptoPricerGUI.toggleAppSizeButton.width = \
+					dp(int(config.getdefault(ConfigurationManager.CONFIG_SECTION_LAYOUT,
+					                         ConfigurationManager.CONFIG_KEY_CLEAR_BUTTON_WIDTH,
+					                         ConfigurationManager.DEFAULT_CONFIG_KEY_CLEAR_BUTTON_WIDTH_WINDOWS)))
 			elif key == ConfigurationManager.CONFIG_KEY_APP_SIZE_HALF_PROPORTION:
 				self.root.appSizeHalfProportion = float(config.getdefault(ConfigurationManager.CONFIG_SECTION_LAYOUT, ConfigurationManager.CONFIG_KEY_APP_SIZE_HALF_PROPORTION, ConfigurationManager.DEFAULT_CONFIG_KEY_APP_SIZE_HALF_PROPORTION))
 				self.root.applyAppPosAndSize()
@@ -1129,7 +1178,7 @@ class SByieldGUIApp(App):
 		:return:
 		'''
 		if platform == 'android':
-			defaultpath = '/sdcard/%(appname)s.ini'
+			defaultpath = GuiUtil.getAndroidSdCardDir() + sep + '%(appname)s.ini'
 		elif platform == 'ios':
 			defaultpath = '~/Documents/%(appname)s.ini'
 		elif platform == 'win':
@@ -1165,7 +1214,19 @@ class SByieldGUIApp(App):
 		:param largs:
 		"""
 		self.cryptoPricerGUI.dropDownMenu.dismiss()
-		super().open_settings(*largs)
+		
+		# catching NoOptionError avoids displaying the exception stack trace
+		# which happens the first time the application is executed after
+		# a new settings param has been added. In this case, thanks to the
+		# exception catch, the app is closed and when it is started again,
+		# no exception is thrown since the missing parms were added to the
+		# app ini file.
+
+		try:
+			super().open_settings(*largs)
+		except NoOptionError as e:
+			logging.info(str(e) + '. Default settings values have been set in cryptopricer.ini file')
+			self.stop()
 
 
 if __name__ == '__main__':
