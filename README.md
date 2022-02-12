@@ -3,7 +3,7 @@ Python Pandas command line app whose purpose is to distribute yield farming reve
 
 # Libraries
 * numpy
-* pandas
+* pandas 1.3.5 (1.4.1 version fails a lot of tsts due to double formatting difference)
 * openpyxl
 * configobj
 * bs4
