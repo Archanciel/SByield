@@ -8,3 +8,5 @@ Python Pandas command line app whose purpose is to distribute yield farming reve
 * configobj
 * bs4
 * arrow
+* kivy
+* pillow
