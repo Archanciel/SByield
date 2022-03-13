@@ -11,20 +11,26 @@ class CompositeInterestComputer:
 		withdrawCost = min(max(capital * withdrawCostPercent / 100, withdrawCostMinAmount), withdrawCostMaxAmount)
 		withdrawCostCompensationYieldDayNumber = math.ceil(math.log10((capital + withdrawCost) / capital) / math.log10(dailyYieldRate))
 		dailyYield = (dailyYieldRate * capital) - capital
+		weeklyYield = (pow(dailyYieldRate, 7) * capital) - capital
 		monthlyYield = (pow(dailyYieldRate, 30) * capital) - capital
 		yearlyYield = (pow(dailyYieldRate, 365) * capital) - capital
 		
 		return (withdrawCostCompensationYieldDayNumber,
 		        dailyYield,
+		        weeklyYield,
 		        monthlyYield,
 		        yearlyYield)
 		
 if __name__ == '__main__':
-	capital = 1000
-	yieldRatePercent = 11
 	withdrawCostPercent = 0.1
 	withdrawCostMinAmount = 4.5
 	withdrawCostMaxAmount = 110
+	
+	input = input('Enter capital and yearly yield % ')
+	inputLst = input.split(' ')
+	
+	capital = float(inputLst[0])
+	yieldRatePercent = float(inputLst[1])
 	
 	print("\ncapital {} CHF,yieldRate {} %,withdraw cost {} %, min {} CHF, max {} CHF".format(
 		capital,
@@ -42,10 +48,12 @@ if __name__ == '__main__':
 	                                                              withdrawCostMaxAmount)
 	                                                              
 	formattedDailyYieldStr = "{:.2f}".format(round(resultTuple[1], 2))
-	formattedMonthlyYieldStr = "{:.2f}".format(round(resultTuple[2], 2))
-	formattedYearlyYieldStr = "{:.2f}".format(round(resultTuple[3], 2))
+	formattedWeeklyYieldStr = "{:.2f}".format(round(resultTuple[2], 2))
+	formattedMonthlyYieldStr = "{:.2f}".format(round(resultTuple[3], 2))
+	formattedYearlyYieldStr = "{:.2f}".format(round(resultTuple[4], 2))
 	
-	print("min days {}, revenue daily {}, monthly {}, yearly {}".format(resultTuple[0],
+	print("min days {}, revenue daily {}, weekly {}, monthly {}, yearly {}".format(resultTuple[0],
 	                                                                   formattedDailyYieldStr,
+	                                                                   formattedWeeklyYieldStr,
 	                                                                   formattedMonthlyYieldStr,
 	                                                                   formattedYearlyYieldStr))
