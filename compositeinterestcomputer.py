@@ -15,14 +15,17 @@ class CompositeInterestComputer:
 		weeklyYield = (pow(dailyYieldRate, 7) * capital) - capital
 		monthlyYield = (pow(dailyYieldRate, 30) * capital) - capital
 		yearlyYield = (pow(dailyYieldRate, 365) * capital) - capital
-		finalCapital = (pow(dailyYieldRate, 365 * yearNb) * capital)
+		
+		finalCapitalLst = []
+		
+		for year in range(1, yearNb + 1):
+			finalCapitalLst.append(pow(dailyYieldRate, 365 * year) * capital)
 		
 		return (withdrawCostCompensationYieldDayNumber,
 		        dailyYield,
 		        weeklyYield,
 		        monthlyYield,
-		        yearlyYield,
-		        finalCapital)
+		        yearlyYield) + tuple(finalCapitalLst)
 	
 	@staticmethod
 	def calcDailyRate(yearlyRatePercent):
@@ -61,11 +64,18 @@ if __name__ == '__main__':
 	formattedWeeklyYieldStr = "{:,.2f}".format(resultTuple[2])
 	formattedMonthlyYieldStr = "{:,.2f}".format(resultTuple[3])
 	formattedYearlyYieldStr = "{:,.2f}".format(resultTuple[4])
-	formattedFinalCapitalStr = "{:,.2f}".format(resultTuple[5])
+	
+	formattedFinalCapitalStrLst = ["{:,.2f}".format(x) for x in resultTuple[5:]]
 
 	print("min days {}".format(resultTuple[0]))
 	print("\nrevenues\n  daily {}".format(formattedDailyYieldStr))
 	print("  weekly {}".format(formattedWeeklyYieldStr))
 	print("  monthly {}".format(formattedMonthlyYieldStr))
 	print("  yearly {}".format(formattedYearlyYieldStr))
-	print("\nfinal capital after {} years\n{}".format(yearNb, formattedFinalCapitalStr))
+	print("\nfinal capital and yearly revenue after year")
+	
+	year = 1
+	
+	for formattedFinalCapitalStr in formattedFinalCapitalStrLst:
+		print("  {}: {}".format(year, formattedFinalCapitalStr))
+		year += 1
