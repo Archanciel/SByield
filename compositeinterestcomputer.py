@@ -6,38 +6,47 @@ class CompositeInterestComputer:
 	                          yearlyRatePercent,
 	                          withdrawCostPercent,
 	                          withdrawCostMinAmount,
-	                          withdrawCostMaxAmount):
-		dailyYieldRate = pow(1 + yearlyRatePercent / 100, 1/365)
+	                          withdrawCostMaxAmount,
+	                          yearNb):
+		dailyYieldRate = CompositeInterestComputer.calcDailyRate(yearlyRatePercent)
 		withdrawCost = min(max(capital * withdrawCostPercent / 100, withdrawCostMinAmount), withdrawCostMaxAmount)
 		withdrawCostCompensationYieldDayNumber = math.ceil(math.log10((capital + withdrawCost) / capital) / math.log10(dailyYieldRate))
 		dailyYield = (dailyYieldRate * capital) - capital
 		weeklyYield = (pow(dailyYieldRate, 7) * capital) - capital
 		monthlyYield = (pow(dailyYieldRate, 30) * capital) - capital
 		yearlyYield = (pow(dailyYieldRate, 365) * capital) - capital
+		finalCapital = (pow(dailyYieldRate, 365 * yearNb) * capital)
 		
 		return (withdrawCostCompensationYieldDayNumber,
 		        dailyYield,
 		        weeklyYield,
 		        monthlyYield,
-		        yearlyYield)
-		
+		        yearlyYield,
+		        finalCapital)
+	
+	@staticmethod
+	def calcDailyRate(yearlyRatePercent):
+		return pow(1 + yearlyRatePercent / 100, 1 / 365)
+
+
 if __name__ == '__main__':
 	withdrawCostPercent = 0.1
 	withdrawCostMinAmount = 4.5
 	withdrawCostMaxAmount = 110
 	
-	input = input('Enter capital and yearly yield % ')
+	input = input('Enter capital, yearly yield % and year number ')
 	inputLst = input.split(' ')
 	
 	capital = float(inputLst[0])
 	yieldRatePercent = float(inputLst[1])
+	yearNb = int(inputLst[2])
+	formattedCapital = (f"{capital:,}")
 	
-	print("\ncapital {} CHF,yieldRate {} %,withdraw cost {} %, min {} CHF, max {} CHF".format(
-		capital,
+	print("\ncapital {} CHF, yieldRate {} %,\nwithdraw cost {} %, min {}/max {} CHF".format(
+		formattedCapital,
 		yieldRatePercent,
 		withdrawCostPercent,
 		withdrawCostMinAmount,
-		withdrawCostMaxAmount,
 		withdrawCostMaxAmount
 	))
 	
@@ -45,15 +54,18 @@ if __name__ == '__main__':
 	                                                              yieldRatePercent,
 	                                                              withdrawCostPercent,
 	                                                              withdrawCostMinAmount,
-	                                                              withdrawCostMaxAmount)
+	                                                              withdrawCostMaxAmount,
+	                                                              yearNb)
 	                                                              
-	formattedDailyYieldStr = "{:.2f}".format(round(resultTuple[1], 2))
-	formattedWeeklyYieldStr = "{:.2f}".format(round(resultTuple[2], 2))
-	formattedMonthlyYieldStr = "{:.2f}".format(round(resultTuple[3], 2))
-	formattedYearlyYieldStr = "{:.2f}".format(round(resultTuple[4], 2))
-	
-	print("min days {}, revenue daily {}, weekly {}, monthly {}, yearly {}".format(resultTuple[0],
-	                                                                   formattedDailyYieldStr,
-	                                                                   formattedWeeklyYieldStr,
-	                                                                   formattedMonthlyYieldStr,
-	                                                                   formattedYearlyYieldStr))
+	formattedDailyYieldStr = "{:,.2f}".format(resultTuple[1])
+	formattedWeeklyYieldStr = "{:,.2f}".format(resultTuple[2])
+	formattedMonthlyYieldStr = "{:,.2f}".format(resultTuple[3])
+	formattedYearlyYieldStr = "{:,.2f}".format(resultTuple[4])
+	formattedFinalCapitalStr = "{:,.2f}".format(resultTuple[5])
+
+	print("min days {}".format(resultTuple[0]))
+	print("\nrevenues\n  daily {}".format(formattedDailyYieldStr))
+	print("  weekly {}".format(formattedWeeklyYieldStr))
+	print("  monthly {}".format(formattedMonthlyYieldStr))
+	print("  yearly {}".format(formattedYearlyYieldStr))
+	print("\nfinal capital after {} years\n{}".format(yearNb, formattedFinalCapitalStr))
