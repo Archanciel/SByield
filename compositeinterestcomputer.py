@@ -40,9 +40,22 @@ if __name__ == '__main__':
 	input = input('Enter capital, yearly yield % and year number ')
 	inputLst = input.split(' ')
 	
-	capital = float(inputLst[0])
-	yieldRatePercent = float(inputLst[1])
-	yearNb = int(inputLst[2])
+	if len(inputLst) < 3:
+		print('Unsufficient data enterred.')
+		exit(1)
+	
+	capital = 0
+	yieldRatePercent = 0
+	yearNb = 0
+	
+	try:
+		capital = float(inputLst[0])
+		yieldRatePercent = float(inputLst[1])
+		yearNb = int(inputLst[2])
+	except ValueError as e:
+		print('Error: ' + str(e))
+		exit(1)
+		
 	formattedCapital = (f"{capital:,}")
 	
 	print("\ncapital {} CHF, yieldRate {} %,\nwithdraw cost {} %, min {}/max {} CHF".format(
@@ -72,7 +85,7 @@ if __name__ == '__main__':
 	print("  weekly {}".format(formattedWeeklyYieldStr))
 	print("  monthly {}".format(formattedMonthlyYieldStr))
 	print("  yearly {}".format(formattedYearlyYieldStr))
-	print("\nfinal capital and yearly revenue after year")
+	print("\nfinal capital + yearly revenue after year")
 	
 	year = 1
 	
