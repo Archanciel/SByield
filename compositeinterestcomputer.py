@@ -11,10 +11,10 @@ class CompositeInterestComputer:
 		dailyYieldRate = CompositeInterestComputer.calcDailyRate(yearlyRatePercent)
 		withdrawCost = min(max(capital * withdrawCostPercent / 100, withdrawCostMinAmount), withdrawCostMaxAmount)
 		withdrawCostCompensationYieldDayNumber = math.ceil(math.log10((capital + withdrawCost) / capital) / math.log10(dailyYieldRate))
-		dailyYield = (dailyYieldRate * capital) - capital
-		weeklyYield = (pow(dailyYieldRate, 7) * capital) - capital
-		monthlyYield = (pow(dailyYieldRate, 30) * capital) - capital
-		yearlyYield = (pow(dailyYieldRate, 365) * capital) - capital
+		dailyYield = CompositeInterestComputer.calcYieldForPeriod(dailyYieldRate, 1, capital)
+		weeklyYield = CompositeInterestComputer.calcYieldForPeriod(dailyYieldRate, 7, capital)
+		monthlyYield = CompositeInterestComputer.calcYieldForPeriod(dailyYieldRate, 30, capital)
+		yearlyYield = CompositeInterestComputer.calcYieldForPeriod(dailyYieldRate, 365, capital)
 		
 		finalCapitalLst = []
 		
@@ -30,6 +30,10 @@ class CompositeInterestComputer:
 	@staticmethod
 	def calcDailyRate(yearlyRatePercent):
 		return pow(1 + yearlyRatePercent / 100, 1 / 365)
+	
+	@staticmethod
+	def calcYieldForPeriod(dailyYieldRate, dayNumber, capital):
+		return (pow(dailyYieldRate, dayNumber) * capital) - capital
 
 
 if __name__ == '__main__':
